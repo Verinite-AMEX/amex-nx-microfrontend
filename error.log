@@ -1,0 +1,318 @@
+npm warn config legacy-bundling This option has been deprecated in favor of `--install-strategy=nested`
+
+[2m> [22m[2mnx run[22m shell:serve:development
+
+- Generating browser application bundles (phase: setup)...
+<i> [webpack-dev-server] Project is running at:
+<i> [webpack-dev-server] Loopback: http://localhost:4200/, http://[::1]:4200/
+<i> [webpack-dev-server] 404s will fallback to '/index.html'
+<t> [webpack.cache.PackFileCacheStrategy] restore cache container: 3989.3779 ms
+<t> [webpack.cache.PackFileCacheStrategy] check build dependencies: 345.5145 ms
+<t> [webpack.cache.PackFileCacheStrategy] restore cache content metadata: 12.7205 ms
+    [webpack.cache.PackFileCacheStrategy] starting to restore cache content 0 (133 MiB) because of request to: ProgressPlugin|counts
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'ResolverCachePlugin|normal|default|dependencyType=|esm|path=|D:\ARUNA\POC_AMEX\amex-nx-monorepo|request=|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\webpack-dev-server\client\index.js?protocol=auto%3A&username=&password=&hostname=localhost&port=4200&pathname=%2Fng-cli-ws&logging=info&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%2C%22runtimeErrors%22%3Afalse%7D&reconnect=10&hot=false&live-reload=true': 1.3493 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\mini-css-extract-plugin\dist\loader.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\css-loader\dist\cjs.js??ruleSet[1].rules[5].rules[0].oneOf[0].use[1]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\postcss-loader\dist\cjs.js??ruleSet[1].rules[5].rules[0].oneOf[0].use[2]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\styles.css?ngGlobalStyle': 2.3029 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\webpack-dev-server\client\index.js?protocol=auto%3A&username=&password=&hostname=localhost&port=4200&pathname=%2Fng-cli-ws&logging=info&overlay=%7B%22errors%22%3Atrue%2C%22warnings%22%3Afalse%2C%22runtimeErrors%22%3Afalse%7D&reconnect=10&hot=false&live-reload=true': 1.175 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\index.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app.module.ts': 1.3743 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\index.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app.component.ts': 2.4101 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\platform-browser\fesm2022\platform-browser.mjs': 2.4092 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\common\fesm2022\http.mjs': 1.0753 ms
+<i> [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\forms\fesm2022\forms.mjs': 6.5641 ms
+<i> [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\core.mjs': 11.0557 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\platform-browser\fesm2022\_dom_renderer-chunk.mjs': 1.1355 ms
+<w> [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@vn-core-ui-components\ui\fesm2022\vn-core-ui-components-ui.mjs': 59.9112 ms
+    [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\_debug_node-chunk.mjs': 4.7594 ms
+<i> [webpack.cache.PackFileCacheStrategy] Deserialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\rxjs\dist\esm\internal\Observable.js': 8.9319 ms
+<t> [webpack.cache.PackFileCacheStrategy] restore cache content 0 (133 MiB): 446.9993 ms
+    [IdleFileCachePlugin] Initial cache was generated and cache will be persisted in 5s.
+[32m✔[39m Browser application bundle generation complete.
+[37masset default-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs.js 2.22 MiB {default-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset node_modules_angular_core_fesm2022_core_mjs.js 1.16 MiB {node_modules_angular_core_fesm2022_core_mjs} [cached] [javascript module] 1 related asset
+asset default-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5.js 286 KiB {default-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5} [cached] [javascript module] (id hint: default) 1 related asset
+asset default-node_modules_angular_router_fesm2022_router_mjs.js 263 KiB {default-node_modules_angular_router_fesm2022_router_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset default-node_modules_angular_common_fesm2022_common_mjs.js 210 KiB {default-node_modules_angular_common_fesm2022_common_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset default-node_modules_angular_forms_fesm2022_forms_mjs.js 172 KiB {default-node_modules_angular_forms_fesm2022_forms_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset styles.js 164 KiB {styles} [cached] [javascript module] (name: styles) 1 related asset
+asset vendor.js 127 KiB {vendor} [cached] [javascript module] (name: vendor) (id hint: defaultVendors) 1 related asset
+asset default-node_modules_angular_common_fesm2022_http_mjs.js 106 KiB {default-node_modules_angular_common_fesm2022_http_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset node_modules_rxjs_dist_esm_index_js.js 97.9 KiB {node_modules_rxjs_dist_esm_index_js} [cached] [javascript module] 1 related asset
+asset apps_shell_src_bootstrap_ts.js 84 KiB {apps_shell_src_bootstrap_ts} [cached] [javascript module] (name: bootstrap) 1 related asset
+asset default-node_modules_angular_platform-browser_[39m[37mfesm2022_platform-browser_mjs.js 71.8 KiB {default-node_modules_angular_platform-browser_fesm2022_platform-browser_mjs} [cached] [javascript module] (id hint: default) 1 related asset
+asset main.js 39.9 KiB {main} [cached] [javascript module] (name: main) 1 related asset
+asset node_modules_rxjs_dist_esm_operators_index_js.js 34 KiB {node_modules_rxjs_dist_esm_operators_index_js} [cached] [javascript module] 1 related asset
++ 8 assets
+Entrypoint main = vendor.js main.js 2 auxiliary assets
+Entrypoint styles = styles.css styles.js 2 auxiliary assets
+chunk {apps_shell_src_app_pages_portal-error_portal-error_module_ts} (runtime: main) apps_shell_src_app_pages_portal-error_portal-error_module_ts.js (pages-portal-error-portal-error-module) 4.78 KiB
+  cached modules 4.78 KiB [cached] 2 modules
+chunk {apps_shell_src_bootstrap_ts} (runtime: main) apps_shell_src_bootstrap_ts.js (bootstrap) 51.7 KiB (javascript) 84 bytes (consume-shared)
+  cached modules 51.7 KiB (javascript) 84 bytes (consume-shared) [cached] 16 modules
+chunk {common} (runtime: main, styles) common.js (common) (id hint: common) 7.18 KiB split chunk (cache group: common) (name: common)
+  cached modules 7.18 KiB [cached] 3 modules
+chunk {default-node_modules_angular_common_fesm2022_common_mjs} (runtime: main, styles) default-node_modules_angular_common_fesm2022_common_mjs.js (id hint: default) 170 KiB split chunk (cache group: default)
+  cached modules 170 KiB [cached] 7 modules
+chunk {default-node_modules_angular_common_fesm2022_http_mjs} (runtime: main, styles) default-node_modules_angular_common_fesm2022_http_mjs.js (id hint: default) 87.8 KiB split chunk (cache group: default)
+  cached modules 87.8 KiB [cached] 5 modules
+chunk {default-node_modules_angular_core_fesm2022__untracked-chunk_mjs-node_modules_angular_core_fes-2212f0} (runtime: main, styles) default-node_modules_angular_core_fesm2022__untracked-chunk_mjs-node_modules_angular_core_fes-2212f0.js (id hint: default) 15.5 KiB split chunk (cache group: d[39m[37mefault)
+  cached modules 15.5 KiB [cached] 3 modules
+chunk {default-node_modules_angular_forms_fesm2022_forms_mjs} (runtime: main, styles) default-node_modules_angular_forms_fesm2022_forms_mjs.js (id hint: default) 146 KiB split chunk (cache group: default)
+  cached modules 146 KiB [cached] 1 module
+chunk {default-node_modules_angular_platform-browser_fesm2022_platform-browser_mjs} (runtime: main, styles) default-node_modules_angular_platform-browser_fesm2022_platform-browser_mjs.js (id hint: default) 55.8 KiB split chunk (cache group: default)
+  cached modules 55.8 KiB [cached] 3 modules
+chunk {default-node_modules_angular_router_fesm2022_router_mjs} (runtime: main, styles) default-node_modules_angular_router_fesm2022_router_mjs.js (id hint: default) 215 KiB split chunk (cache group: default)
+  cached modules 215 KiB [cached] 3 modules
+chunk {default-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5} (runtime: main, styles) default-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5.js (id hint: default) 125 KiB split chunk (cache group: default)
+  cached modules 125 KiB [cached] 187 modules
+chunk {default-node_modules_tslib_tslib_es6_js} (runtime: main, styles) default-node_modules_tslib_tslib_es6_js.js (bootstrap) (id hint: default) 11.5 KiB split chunk (cache group: default)
+  cached modules 11.5 KiB [cached] 1 module
+chunk {default-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs} (runtime: main, styles) default-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs.js (id hint: default) 1.64 MiB split chunk (cache group: default)
+  cached modules 1.64 MiB [cached] 1 module
+chunk {default-webpack_sharing_consume_default_angular_common_angular_common} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_angula[39m[37mr_common_http_angular_common_http} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_angular_core_angular_core} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_angular_forms_angular_forms} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_angular_platform-browser_angular_platform-browser} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_rxjs_operators_rxjs_operators} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {default-webpack_sharing_consume_default_rxjs_rxjs} (runtime: main, styles) (id hint: default) 42 bytes split chunk (cache group: default)
+  cached modules 42 bytes [cached] 1 module
+chunk {main} (runtime: main) main.js (main) 70 bytes (javascript) 462 bytes (share-init) 30.6 KiB (runtime) [entry]
+  cached modules 70 bytes (javascript) 462 bytes (share-init) 30.6 KiB (runtime) [cached] 30 modules
+chunk {node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd0} (runtime: main, styles) node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd0.js 628 bytes
+  cached modules 628 bytes [cached] 1 module
+chunk {node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd1} (runtime: main, styles) node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd1.js 628 bytes
+  cached modules 628 bytes [cached][39m
+[1m[33m
+Warning: D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app-routing.module.ts depends on '@angular-architects/module-federation'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.dev/tools/cli/build#configuring-commonjs-dependencies
+[39m[22m
+[1m[31m
+Error: [96mapps/shell/src/bootstrap.ts[0m:[93m1[0m:[93m40[0m - [91merror[0m[90m TS2307: [0mCannot find module '@angular/platform-browser-dynamic' or its corresponding type declarations.
+[7m1[0m import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+[7m [0m [91m                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+Error: [96mapps/shell/src/bootstrap.ts[0m:[93m6[0m:[93m10[0m - [91merror[0m[90m TS7006: [0mParameter 'err' implicitly has an 'any' type.
+[7m6[0m   .catch(err => console.error(err));
+[7m [0m [91m         ~~~[0m
+[39m[22m
+    [webpack-dev-middleware] Compilation finished
+[37m 1 module
+chunk {node_modules_angular_core_fesm2022_core_mjs} (runtime: main, styles) node_modules_angular_core_fesm2022_core_mjs.js 84 bytes (consume-shared) 945 KiB (javascript)
+  cached modules 945 KiB (javascript) 84 bytes (consume-shared) [cached] 9 modules
+chunk {node_modules_rxjs_dist_esm_index_js} (runtime: main, styles) node_modules_rxjs_dist_esm_index_js.js 32.3 KiB
+  cached modules 32.3 KiB [cached] 35 modules
+chunk {node_modules_rxjs_dist_esm_operators_index_js} (runtime: main, styles) node_modules_rxjs_dist_esm_operators_index_js.js 7.06 KiB
+  cached modules 7.06 KiB [cached] 3 modules
+chunk {styles} (runtime: styles) styles.css, styles.js (styles) 116 KiB (javascript) 5.21 KiB (css/mini-extract) 462 bytes (share-init) 28.7 KiB (runtime) [entry]
+  cached modules 116 KiB (javascript) 462 bytes (share-init) 5.21 KiB (css/mini-extract) 28.7 KiB (runtime) [cached] 42 modules
+chunk {vendor} (runtime: main) vendor.js (vendor) (id hint: defaultVendors) 116 KiB [initial] split chunk (cache group: defaultVendors) (name: vendor)
+  cached modules 116 KiB [cached] 12 modules
+  
+LOG from webpack.Compiler
+<t> make hook: 1451.9454 ms
+<t> finish make hook: 2.9775 ms
+<t> finish compilation: 302.2172 ms
+<t> seal compilation: 378.0884 ms
+<t> afterCompile hook: 0.4744 ms
+LOG from webpack.Compilation
+<t> compute affected modules: 0.5209 ms
+<t> finish modules: 275.391 ms
+<t> report dependency errors and warnings: 25.4855 ms
+<t> optimize dependencies: 11.1289 ms
+<t> create chunks: 63.5628 ms
+<t> compute affected modules with chunk graph: 0.4671 ms
+<t> optimize: 46.56 ms
+    331 modules hashed, 0 from cache (1.07 variants per module in average)
+<t> module hashing: 49.3794 ms
+    0% code generated (0 generated, 307 from cache)
+<t> code generation: 8.5519 ms
+<t> runtime requirements.modules: 3.0097 ms
+<t> runtime requirements.chunks: 1.4835 ms
+<t> runtime requirements.entries: 7.391 ms
+<t> runtime requirements: 12.6184 ms
+<t> hashing: initialize hash: 0.0082 ms
+<t> hashing: ha[39m[37msh warnings: 0.0034 ms
+<t> hashing: hash errors: 0.0015 ms
+<t> hashing: sort chunks: 0.2891 ms
+<t> hashing: hash runtime modules: 12.3923 ms
+<t> hashing: hash chunks: 4.1607 ms
+<t> hashing: hash digest: 0.0645 ms
+<t> hashing: process full hash modules: 0.4487 ms
+<t> hashing: 17.9979 ms
+    0% code generated (0 generated, 35 from cache)
+<t> module assets: 0.3886 ms
+<t> create chunk assets: 4.2433 ms
+<t> process assets: 160.4564 ms
+LOG from webpack.ResolverCachePlugin
+    0% really resolved (0 real resolves with 0 cached but invalid, 2855 cached valid, 0 concurrent)
+LOG from webpack.FlagDependencyExportsPlugin
+<t> restore cached provided exports: 5.5207 ms
+<t> figure out provided exports: 10.8365 ms
+    3% of exports of modules have been determined (30 no declared exports, 10 not cached, 0 flagged uncacheable, 268 from cache, 0 from mem cache, 0 additional calculations due to dependencies)
+<t> store provided exports into cache: 0.0614 ms
+LOG from webpack.SideEffectsFlagPlugin
+<t> update dependencies: 10.6302 ms
+LOG from webpack.buildChunkGraph
+<t> visitModules: prepare: 1.2204 ms
+<t> visitModules: visiting: 4.7212 ms
+<t> visitModules: calculating available modules: 0.7047 ms
+<t> visitModules: merging available modules: 2.024 ms
+<t> visitModules: check modules for revisit: 0.347 ms
+<t> visitModules: prepare: 22.4872 ms
+<t> visitModules: visiting: 25.9014 ms
+<t> visitModules: calculating available modules: 0.3232 ms
+<t> visitModules: merging available modules: 0.4381 ms
+<t> visitModules: check modules for revisit: 0.0037 ms
+<t> visitModules: prepare: 10.1166 ms
+<t> visitModules: visiting: 13.152 ms
+<t> visitModules: calculating available modules: 0.0484 ms
+<t> visitModules: merging available modules: 0.0824 ms
+<t> visitModules: visiting: 0.0402 ms
+    2298 queue items processed (1086 blocks)
+    72 chunk groups connected
+    30 chunk groups processed for merging (72 module sets, 18 forked, 411 + 167 modules forked, 344 + 161 modules merged into fork, 439 resulting m[39m[37modules)
+    24 chunk group info updated (0 already connected chunk groups reconnected)
+<t> visitModules: 50.5362 ms
+<t> connectChunkGroups: 0.6995 ms
+<t> cleanup: 0.0888 ms
+LOG from webpack.SplitChunksPlugin
+<t> prepare: 0.1176 ms
+<t> modules: 6.3278 ms
+<t> queue: 3.4893 ms
+<t> maxSize: 0.2836 ms
+LOG from copy-webpack-plugin
+    starting to add additional assets...
+    starting to process a pattern from '**/*' using 'D:/ARUNA/POC_AMEX/amex-nx-monorepo/apps/shell/public/' context
+    begin globbing 'D:/ARUNA/POC_AMEX/amex-nx-monorepo/apps/shell/public/**/*'...
+    finished to process a pattern from '**/*' using 'D:/ARUNA/POC_AMEX/amex-nx-monorepo/apps/shell/public/' context to './'
+    finished to adding additional assets
++ 3 hidden lines
+LOG from webpack.FileSystemInfo
+    0 new snapshots created
+    28% root snapshot uncached (888 / 3140)
+    18% children snapshot uncached (487 / 2775)
+    1640 entries tested
+    File info in cache: 140 timestamps 0 hashes 0 timestamp hash combinations
+    Directory info in cache: 0 timestamps 0 hashes 0 timestamp hash combinations
+    Managed items info in cache: 121 items
+WARNING in D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app-routing.module.ts depends on '@angular-architects/module-federation'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.dev/tools/cli/build#configuring-commonjs-dependencies
+Error: D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app-routing.module.ts depends on '@angular-architects/module-federation'. CommonJS or AMD dependencies can cause optimization bailouts.
+For more info see: https://angular.dev/tools/cli/build#configuring-commonjs-dependencies
+    at addWarning (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\utils\webpack-diagnostics.js:13:31)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\webpack\plugins\common-js-usage-warn-plugin.js:79:70
+    at _n[39m[37mext0 (eval at create (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:57:1)
+    at eval (eval at create (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:100:1)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+ERROR in [96mapps/shell/src/bootstrap.ts[0m:[93m1[0m:[93m40[0m - [91merror[0m[90m TS2307: [0mCannot find module '@angular/platform-browser-dynamic' or its corresponding type declarations.
+[7m1[0m import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+[7m [0m [91m                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+Error: [96mapps/shell/src/bootstrap.ts[0m:[93m1[0m:[93m40[0m - [91merror[0m[90m TS2307: [0mCannot find module '@angular/platform-browser-dynamic' or its corresponding type declarations.
+[7m1[0m import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+[7m [0m [91m                                       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+    at addError (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\diagnostics.js:31:29)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\diagnostics.js:19:17
+    at AngularWebpackPlugin.updateAotProgram (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:391:17)
+    at AngularWebpackPlugin.setupCompilation (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:203:20)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:130:22
+    at Hook.eval [as call] (eval at create (D:\AR[39m[37mUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:19:10), <anonymous>:20:1)
+    at Hook.CALL_DELEGATE [as _call] (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\Hook.js:16:14)
+    at Compiler.newCompilation (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\lib\Compiler.js:1125:30)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\lib\Compiler.js:1170:29
+    at eval (eval at create (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:31:1)
+ERROR in [96mapps/shell/src/bootstrap.ts[0m:[93m6[0m:[93m10[0m - [91merror[0m[90m TS7006: [0mParameter 'err' implicitly has an 'any' type.
+[7m6[0m   .catch(err => console.error(err));
+[7m [0m [91m         ~~~[0m
+Error: [96mapps/shell/src/bootstrap.ts[0m:[93m6[0m:[93m10[0m - [91merror[0m[90m TS7006: [0mParameter 'err' implicitly has an 'any' type.
+[7m6[0m   .catch(err => console.error(err));
+[7m [0m [91m         ~~~[0m
+    at addError (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\diagnostics.js:31:29)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\diagnostics.js:19:17
+    at AngularWebpackPlugin.updateAotProgram (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:391:17)
+    at AngularWebpackPlugin.setupCompilation (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:203:20)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\plugin.js:130:22
+    at Hook.eval [as call] (eval at create (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\[39m[37mHookCodeFactory.js:19:10), <anonymous>:20:1)
+    at Hook.CALL_DELEGATE [as _call] (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\Hook.js:16:14)
+    at Compiler.newCompilation (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\lib\Compiler.js:1125:30)
+    at D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\lib\Compiler.js:1170:29
+    at eval (eval at create (D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\webpack\node_modules\tapable\lib\HookCodeFactory.js:31:10), <anonymous>:31:1)
+2026-06-16 22:06:33: webpack 5.88.2 compiled in 4299 ms (5a1af4fb4e4b0bfe)[39m
+[37m
+Initial chunk files                                                                                      | Names                                  |  Raw size
+styles.css, styles.js                                                                                    | styles                                 | 173.92 kB | 
+vendor.js                                                                                                | vendor                                 | 130.02 kB | 
+main.js                                                                                                  | main                                   |  40.81 kB | 
+                                                                                                         | Initial total                          | 344.75 kB
+Lazy chunk files                                                                                         | Names                                  |  Raw size
+default-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs.js                   | -                                      |   2.33 MB | 
+node_modules_angular_core_fesm2022_core_mjs.js                                                           | -                                      |   1.21 MB | 
+default-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5.js  | -                                      | 292.54 kB | 
+default-node_modules_angular_router_fesm2022_router_mjs.js                                               | -                                      | 269.26 kB | 
+default-node_modules_angular_common_fesm2022_common_mjs.js                                               | -                                      | 214.84 kB | 
+default-node_modules_angular_forms_fesm2022_forms_mjs.js                                                 | -                                      | 176.40 kB | 
+default-node_modules_angular_common_fesm2022_http_mjs.js                  [39m[37m                               | -                                      | 108.35 kB | 
+node_modules_rxjs_dist_esm_index_js.js                                                                   | -                                      | 100.20 kB | 
+apps_shell_src_bootstrap_ts.js                                                                           | bootstrap                              |  86.02 kB | 
+default-node_modules_angular_platform-browser_fesm2022_platform-browser_mjs.js                           | -                                      |  73.50 kB | 
+node_modules_rxjs_dist_esm_operators_index_js.js                                                         | -                                      |  34.85 kB | 
+default-node_modules_angular_core_fesm2022__untracked-chunk_mjs-node_modules_angular_core_fes-2212f0.js  | -                                      |  21.40 kB | 
+common.js                                                                                                | common                                 |  15.33 kB | 
+default-node_modules_tslib_tslib_es6_js.js                                                               | bootstrap                              |  13.93 kB | 
+apps_shell_src_app_pages_portal-error_portal-error_module_ts.js                                          | pages-portal-error-portal-error-module |   9.54 kB | 
+node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd0.js | -                                      |   1.58 kB | 
+node_modules_angular-devkit_build-angular_node_modules_babel_runtime_helpers_esm_asyncToGener-574fcd1.js | -                                      |   1.58 kB | 
+                                                                                                         | -                                      |   0 bytes | 
+                                                                                                         | -                                  [39m[37m    |   0 bytes | 
+                                                                                                         | -                                      |   0 bytes | 
+                                                                                                         | -                                      |   0 bytes | 
+                                                                                                         | -                                      |   0 bytes | 
+                                                                                                         | -                                      |   0 bytes | 
+                                                                                                         | -                                      |   0 bytes | 
+Build at: 2026-06-16T16:36:33.677Z - Hash: 5a1af4fb4e4b0bfe - Time: 4343ms[39m
+[37m
+** Angular Live Development Server is listening on localhost:4200, open your browser on http://localhost:4200/ **
+[39m
+[37m
+[91m×[37m Failed to compile.[39m
+    [webpack.cache.PackFileCacheStrategy] Pack got invalid because of write to: ProgressPlugin|counts
+    [webpack.cache.PackFileCacheStrategy] Storing pack...
+    [webpack.cache.PackFileCacheStrategy] 1 fresh items in cache put into pack 1
+    [webpack.cache.PackFileCacheStrategy] Split pack 0 into pack 0 with 1577 used items and pack 2 with 42 unused items
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\index.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app.module.ts': 1.3051 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\platform-browser\fesm2022\platform-browser.mjs': 2.4491 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\platform-browser\fesm2022\_browser-chunk.mjs': 2.2531 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\platform-browser\fesm2022\_dom_renderer-chunk.mjs': 1.956 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\index.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\app.component.ts': 2.7874 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\@ngtools\webpack\src\ivy\index.js!D:\ARUNA\POC_AMEX\amex-nx-monorepo\apps\shell\src\app\pages\login\login.component.ts': 1.075 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\forms\fesm2022\forms.mjs': 3.773 ms
+<w> [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@vn-core-ui-components\ui\fesm2022\vn-core-ui-components-ui.mjs': 124.8011 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\core.mjs': 8.2225 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\common\fesm2022\_module-chunk.mjs': 2.108 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\common\fesm2022\common.mjs': 2.2188 ms
+<i> [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\_debug_node-chunk.mjs': 18.4266 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\_effect-chunk2.mjs': 1.6701 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\rxjs\dist\esm\operators\index.js': 1.8949 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\rxjs\dist\esm\index.js': 3.4035 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\common\fesm2022\_common_module-chunk.mjs': 3.4438 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\router\fesm2022\_router-chunk.mjs': 3.5754 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\router\fesm2022\_router_module-chunk.mjs': 3.6381 ms
+<i> [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/modules|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\rxjs\dist\esm\internal\operators\mergeInternals.js': 16.1687 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'FlagDependencyExportsPlugin|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\_debug_node-chunk.mjs': 1.0347 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/codeGeneration|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@vn-core-ui-components\ui\fesm2022\vn-core-ui-components-ui.mjs|main
+    styles': 2.8322 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/codeGeneration|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\core.mjs|main
+    styles': 1.2441 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/codeGeneration|javascript/esm|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular\core\fesm2022\_debug_node-chunk.mjs|main
+    styles': 2.9867 ms
+<i> [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/codeGeneration|D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\src\tools\babel\webpack-loader.js??ruleSet[1].rules[2].use[0]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\@angular-devkit\build-angular\node_modules\source-map-loader\dist\cjs.js??ruleSet[1].rules[3]!D:\ARUNA\POC_AMEX\amex-nx-monorepo\node_modules\rxjs\dist\esm\internal\operators\mergeWith.js|main
+<i> styles': 11.8278 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/assets|chunknode_modules_angular_core_fesm2022_core_mjs': 4.4171 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/assets|chunknode_modules_rxjs_dist_esm_index_js': 1.4258 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/assets|chunkdefault-node_modules_vn-core-ui-components_ui_fesm2022_vn-core-ui-components-ui_mjs': 1.7352 ms
+    [webpack.cache.PackFileCacheStrategy] Serialization of 'Compilation/assets|chunkdefault-node_modules_rxjs_dist_esm_internal_operators_auditTime_js-node_modules_rxjs_dist_esm-9f2bd5': 4.0506 ms
+<t> [webpack.cache.PackFileCacheStrategy] store pack: 884.8046 ms
+    [webpack.cache.PackFileCacheStrategy] Stored pack (1620 items, 3 files, 134 MiB)
