@@ -15,22 +15,22 @@ const routes: Routes = [
   { path: 'forgot-password', component: ForgotPasswordComponent },
   { path: '', redirectTo: 'misc/priority-pass', pathMatch: 'full' },
 
-  // ── Online Account Services (port 4201) ──────────────────────────
+  // ── Online Account Services (port 4202) ──────────────────────────
   {
     path: 'account',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4201/remoteEntry.js', exposedModule: './Module' })
-        .then(m => m.RemoteEntryModule).catch(portalFallback),
+      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4202/remoteEntry.js', exposedModule: './Routes' })
+        .then(m => m.remoteRoutes).catch(portalFallback),
   },
 
-  // ── BCRB Report Portal (port 4202) ───────────────────────────────
+  // ── BCRB Report Portal (port 4208) ───────────────────────────────
   {
     path: 'bcrb',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4202/remoteEntry.js', exposedModule: './Module' })
-        .then(m => m.RemoteEntryModule).catch(portalFallback),
+      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4208/remoteEntry.js', exposedModule: './Routes' })
+        .then(m => m.remoteRoutes).catch(portalFallback),
   },
 
   // ── BTA Portal (port 4203) ────────────────────────────────────────

@@ -4,20 +4,16 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/statement/src",
-  "tags": [
-    "type:app",
-    "scope:statement"
-  ],
+  "tags": ["type:app", "scope:statement"],
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-webpack:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/statement",
         "index": "apps/statement/src/index.html",
         "main": "apps/statement/src/main.ts",
+        "polyfills": ["apps/statement/src/polyfills.ts"],
         "tsConfig": "apps/statement/tsconfig.app.json",
         "assets": [
           {
@@ -25,9 +21,7 @@
             "input": "apps/statement/public"
           }
         ],
-        "styles": [
-          "apps/statement/src/styles.css"
-        ],
+        "styles": ["apps/statement/src/styles.css"],
         "customWebpackConfig": {
           "path": "apps/statement/webpack.config.js"
         }
@@ -74,9 +68,7 @@
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
-      "outputs": [
-        "{workspaceRoot}/coverage/apps/statement"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/apps/statement"],
       "options": {
         "main": "apps/statement/src/test.ts",
         "tsConfig": "apps/statement/tsconfig.spec.json",
