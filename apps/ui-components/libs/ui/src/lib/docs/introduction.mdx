@@ -1,0 +1,76 @@
+{/* introduction.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Introduction" />
+
+<div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '800px', lineHeight: '1.6' }}>
+
+# VN Core UI Components
+
+A design-system component library built with **Angular 21** in an **Nx 22** monorepo.
+
+---
+
+## Packages
+
+| Package | Path | Description |
+|---------|------|-------------|
+| `@vn-core-ui-components/ui` | `libs/ui` | Angular components |
+| `@vn-core-ui-components/ui-styles` | `libs/ui-styles` | SCSS design tokens & themes |
+
+## Component Categories
+
+**Atoms** — Smallest building blocks: Button, Input, Textarea, Select, Checkbox, RadioGroup, Badge, Avatar, Spinner, Toggle, Tag, Divider, ProgressBar, Alert, IconButton, Breadcrumb, Pagination
+
+**Molecules** — Composed from atoms: FormField, FormGroup, Card, Modal, Tabs, Accordion, SearchBar, DateInput, FileUpload, NotificationToast
+
+## Usage
+
+All components are standalone and tree-shakeable:
+
+```ts
+import { ButtonComponent, InputComponent } from '@vn-core-ui-components/ui';
+
+@Component({
+  standalone: true,
+  imports: [ButtonComponent, InputComponent],
+  template: `
+    <ui-button label="Submit" variant="primary"></ui-button>
+    <ui-input type="email" placeholder="you@example.com"></ui-input>
+  `
+})
+export class MyComponent {}
+```
+
+## Design Tokens
+
+Import the SCSS token system in your global styles:
+
+```scss
+@use '@vn-core-ui-components/ui-styles/src/lib/styles/index' as *;
+
+// Then use tokens directly:
+color: $color-primary;       // #1976d2
+padding: $spacing-md;        // 16px
+font-size: $font-size-lg;    // 16px
+```
+
+## Form Integration
+
+All form controls implement `ControlValueAccessor` and work with Angular Reactive Forms:
+
+```ts
+form = new FormGroup({
+  email: new FormControl(''),
+  message: new FormControl(''),
+  agreed: new FormControl(false),
+});
+```
+
+```html
+<ui-input type="email" [formControl]="form.controls.email"></ui-input>
+<ui-textarea [formControl]="form.controls.message"></ui-textarea>
+<ui-checkbox label="I agree" [formControl]="form.controls.agreed"></ui-checkbox>
+```
+
+</div>

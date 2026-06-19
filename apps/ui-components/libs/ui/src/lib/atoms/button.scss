@@ -1,0 +1,42 @@
+@use '../../../../ui-styles/src/lib/styles/index' as *;
+
+.btn {
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: $font-family-base;
+    font-weight: $font-weight-bold;
+}
+
+/* Variants */
+.btn-primary {
+    background-color: $color-primary;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: $color-secondary;
+    color: white;
+}
+
+/* Sizes */
+.btn-sm {
+    padding: $spacing-xs $spacing-sm;
+    font-size: $font-size-sm;
+}
+
+.btn-md {
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-md;
+}
+
+.btn-lg {
+    padding: $spacing-md $spacing-lg;
+    font-size: $font-size-lg;
+}
+
+/* Disabled */
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}

@@ -1,0 +1,27 @@
+[02:53:25.889] [INFO] storybook v10.3.0
+[02:53:28.640] [DEBUG] Getting package.json info for C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/package.json...
+[02:53:30.681] [INFO] Starting...
+[02:53:31.684] [DEBUG] Starting preview..
+[02:53:31.730] [INFO] Using implicit CSS loaders
+[02:53:34.786] [ERROR] Failed to build the preview
+[02:53:34.795] [ERROR] [38;2;241;97;97mSB_FRAMEWORK_ANGULAR_0001 (AngularLegacyBuildOptionsError): Your Storybook startup script uses a solution that is not supported anymore.
+You must use Angular builder to have an explicit configuration on the project used in angular.json.
+
+Please run 'npx storybook automigrate' to automatically fix your config.
+
+More info: 
+	- https://github.com/storybookjs/storybook/blob/next/MIGRATION.md#angular-drop-support-for-calling-storybook-directly
+	- https://github.com/storybookjs/storybook/tree/next/code/frameworks/angular#how-do-i-migrate-to-an-angular-storybook-builder
+[39m
+    at checkForLegacyBuildOptions (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/@storybook/angular/dist/server/framework-preset-angular-cli.js:159:11)
+    at Object.webpackFinal (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/@storybook/angular/dist/server/framework-preset-angular-cli.js:93:3)
+    at async Object.webpack (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/@storybook/builder-webpack5/dist/presets/custom-webpack-preset.js:282:28)
+    at async starter (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/@storybook/builder-webpack5/dist/index.js:753:16)
+    at async Module.start (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/@storybook/builder-webpack5/dist/index.js:857:14)
+    at async storybookDevServer (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/storybook/dist/core-server/index.js:7502:83)
+    at async buildOrThrow (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/storybook/dist/core-server/index.js:4508:12)
+    at async buildDevStandalone (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/storybook/dist/core-server/index.js:8029:41)
+    at async withTelemetry (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/storybook/dist/_node-chunks/chunk-IWP5TMKY.js:218:12)
+    at async dev (file:///C:/Users/v00773/CascadeProjects/verinite-apps/verinite-ui-story-book/vn-core-ui-components/node_modules/storybook/dist/bin/core.js:2736:3)
+[02:53:34.803] [WARN] Broken build, fix the error above.
+You may need to refresh the browser.
