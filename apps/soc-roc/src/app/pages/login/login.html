@@ -1,1 +1,83 @@
-<p>login works!</p>
+<div class="hub-root">
+
+  <!-- Top Header Bar -->
+  <div class="hub-header">
+    <div class="hub-logo">
+      <span class="hub-logo-ibm">IBM</span><span class="hub-logo-reg">®</span>
+    </div>
+    <div class="hub-header-links">
+      <a class="hub-header-link" href="#">Sign Up</a>
+      <span class="hub-header-sep">|</span>
+      <a class="hub-header-link" href="#">Log In</a>
+    </div>
+  </div>
+
+  <!-- Cyan accent line -->
+  <div class="hub-accent-line"></div>
+
+  <!-- Main Content -->
+  <div class="hub-body">
+    <div class="hub-form-wrap">
+
+      <h2 class="hub-title">
+        Log in with your <span class="hub-title-portal">Portal</span> account
+      </h2>
+
+      <div class="hub-field">
+        <label class="hub-label">User ID:</label>
+        <input
+          type="text"
+          class="hub-input"
+          [(ngModel)]="username"
+          (keydown)="onKeyDown($event)"
+          autocomplete="username" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label">Password:</label>
+        <input
+          type="password"
+          class="hub-input"
+          [(ngModel)]="password"
+          (keydown)="onKeyDown($event)"
+          autocomplete="current-password" />
+      </div>
+
+      <div *ngIf="errorMessage" class="hub-error">
+        {{ errorMessage }}
+      </div>
+
+      <div class="hub-btn-row">
+        <button class="hub-btn-primary" (click)="onLogin()" [disabled]="isLoading">
+          {{ isLoading ? 'Logging in...' : 'Log in' }}
+        </button>
+        <button class="hub-btn-cancel" (click)="onCancel()">Cancel</button>
+      </div>
+
+      <div class="hub-signup-link">
+        Not registered? <a href="#">Sign up</a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="hub-footer">
+    <div class="hub-footer-inner">
+      <div class="hub-footer-col">
+        <p class="hub-footer-heading">Help</p>
+        <a class="hub-footer-link" href="#">Product documentation</a>
+        <a class="hub-footer-link" href="#">Product wiki</a>
+        <a class="hub-footer-link" href="#">Media gallery</a>
+        <a class="hub-footer-link" href="#">WebSphere Portal Zone</a>
+      </div>
+      <div class="hub-footer-col">
+        <p class="hub-footer-heading">Support</p>
+        <a class="hub-footer-link" href="#">Support page</a>
+        <a class="hub-footer-link" href="#">Supported hardware and software</a>
+        <a class="hub-footer-link" href="#">IBM Software Support Guide</a>
+      </div>
+    </div>
+  </div>
+
+</div>
