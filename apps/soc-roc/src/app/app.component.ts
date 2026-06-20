@@ -26,20 +26,45 @@ interface MenuItem {
     AmexTabBarComponent
   ],
   template: `
-    <!-- Login page: shell இல்லாம direct router-outlet மட்டும் -->
-    @if (isLoginPage) {
+
+    @if (isPublicPage) {
       <router-outlet></router-outlet>
     }
 
-    <!-- Authenticated pages: full shell with header + nav -->
-    @if (!isLoginPage) {
+    @if (!isPublicPage && isDashboardPage) {
       <amex-page-shell
         portalStyle="onls"
         [showCustomHeader]="true"
         [showSidebar]="true">
 
         <div header>
+          <amex-top-nav-bar
+            portalStyle="onls"
+            portalTitle=""
+            [username]="loggedInUser"
+            (logout)="onLogout()">
+          </amex-top-nav-bar>
 
+          <amex-tab-bar
+            portalStyle="onls"
+            [tabs]="dashboardTabs"
+            [activeTabId]="activeDashboardTabId"
+            (tabClick)="onDashboardTabClick($event)">
+          </amex-tab-bar>
+        </div>
+
+        <router-outlet></router-outlet>
+
+      </amex-page-shell>
+    }
+
+    @if (!isPublicPage && !isDashboardPage) {
+      <amex-page-shell
+        portalStyle="onls"
+        [showCustomHeader]="true"
+        [showSidebar]="true">
+
+        <div header>
           <amex-top-nav-bar
             portalStyle="onls"
             portalTitle=""
@@ -57,53 +82,26 @@ interface MenuItem {
           @if (activeTabId === 'masters' && showSubMenu) {
             <div class="soc-submenu">
               @for (sub of mastersSubItems; track sub.id) {
-                <span class="soc-submenu-item" (click)="navigate(sub.route)">
-                  {{ sub.label }}
-                </span>
+                <span class="soc-submenu-item" (click)="navigate(sub.route)">{{ sub.label }}</span>
               }
             </div>
           }
-
-          @if (activeTabId === 'merchant-data' && showSubMenu) {
-            <div class="soc-submenu">
-              @for (sub of merchantSubItems; track sub.id) {
-                <span class="soc-submenu-item" (click)="navigate(sub.route)">
-                  {{ sub.label }}
-                </span>
-              }
-            </div>
-          }
-
-          @if (activeTabId === 'socs-rocs' && showSubMenu) {
-            <div class="soc-submenu">
-              @for (sub of socRocSubItems; track sub.id) {
-                <span class="soc-submenu-item" (click)="navigate(sub.route)">
-                  {{ sub.label }}
-                </span>
-              }
-            </div>
-          }
-
+          
+          
           @if (activeTabId === 'utilities' && showSubMenu) {
             <div class="soc-submenu">
               @for (sub of utilitiesSubItems; track sub.id) {
-                <span class="soc-submenu-item" (click)="navigate(sub.route)">
-                  {{ sub.label }}
-                </span>
+                <span class="soc-submenu-item" (click)="navigate(sub.route)">{{ sub.label }}</span>
               }
             </div>
           }
-
           @if (activeTabId === 'reports' && showSubMenu) {
             <div class="soc-submenu">
               @for (sub of reportsSubItems; track sub.id) {
-                <span class="soc-submenu-item" (click)="navigate(sub.route)">
-                  {{ sub.label }}
-                </span>
+                <span class="soc-submenu-item" (click)="navigate(sub.route)">{{ sub.label }}</span>
               }
             </div>
           }
-
         </div>
 
         <router-outlet></router-outlet>
@@ -117,7 +115,6 @@ interface MenuItem {
       border-bottom: 1px solid #d9d9d9;
       padding: 12px 24px;
     }
-
     .soc-submenu-item {
       display: inline-block;
       margin-right: 32px;
@@ -125,19 +122,23 @@ interface MenuItem {
       color: #006fcf;
       font-size: 13px;
     }
-
-    .soc-submenu-item:hover {
-      text-decoration: underline;
-    }
+    .soc-submenu-item:hover { text-decoration: underline; }
   `]
 })
 export class AppComponent implements OnInit {
 
-  isLoginPage: boolean = true;
+  isPublicPage: boolean = true;
+  isDashboardPage: boolean = false;
   loggedInUser: string = '';
 
   activeTabId = 'masters';
   showSubMenu = false;
+
+  dashboardTabs: AmexTabItem[] = [
+    { id: 'valueback', label: 'VALUEBACK' },
+    { id: 'soc-roc', label: 'SOC & ROC' }
+  ];
+  activeDashboardTabId = 'valueback';
 
   tabs: AmexTabItem[] = [
     { id: 'masters', label: 'MASTERS' },
@@ -154,19 +155,7 @@ export class AppComponent implements OnInit {
     { id: 'country-master', label: 'Country Master', route: '/masters/country-master' },
     { id: 'currency-master', label: 'Currency Master', route: '/masters/currency-master' }
   ];
-
-  merchantSubItems: MenuItem[] = [
-    { id: 'merchant-add', label: 'Add New', route: '/merchant-data/add' },
-    { id: 'merchant-modify', label: 'Modify', route: '/merchant-data/modify' }
-  ];
-
-  socRocSubItems: MenuItem[] = [
-    { id: 'soc-modify', label: 'Modify', route: '/soc-roc/modify' },
-    { id: 'soc-delete', label: 'Delete', route: '/soc-roc/delete' },
-    { id: 'print-soc', label: 'Print SOC', route: '/soc-roc/print-soc' },
-    { id: 'list-roc', label: 'List ROCs based on reference number', route: '/soc-roc/list-roc' }
-  ];
-
+ 
   utilitiesSubItems: MenuItem[] = [
     { id: 'file-upload', label: 'File Formation and Upload the Data', route: '/utilities/file-formation-upload' },
     { id: 'extract-rejected', label: 'Extract Rejected Items', route: '/utilities/extract-rejected-items' },
@@ -175,7 +164,6 @@ export class AppComponent implements OnInit {
     { id: 'download-multiple-se', label: "Download Multiple SE's", route: '/utilities/download-multiple-se' },
     { id: 'capture-multiple-se', label: "Capture Multiple SE's", route: '/utilities/capture-multiple-se' }
   ];
-
   reportsSubItems: MenuItem[] = [
     { id: 'currency-report', label: 'Details by Currency', route: '/reports/details-by-currency' },
     { id: 'soc-control', label: 'SOC/Control Report', route: '/reports/soc-control-report' },
@@ -187,10 +175,7 @@ export class AppComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    // Check initial route
     this.checkRoute(this.router.url);
-
-    // Listen to every route change
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
@@ -199,9 +184,19 @@ export class AppComponent implements OnInit {
   }
 
   private checkRoute(url: string): void {
-    this.isLoginPage = url === '/login' || url === '/';
-    if (!this.isLoginPage) {
+    this.isPublicPage = url === '/login' || url === '/' || url === '/signup';
+    this.isDashboardPage = url === '/dashboard';
+    if (!this.isPublicPage) {
       this.loggedInUser = localStorage.getItem('soc_roc_user') || 'User';
+    }
+  }
+
+  onDashboardTabClick(tabId: string): void {
+    this.activeDashboardTabId = tabId;
+    if (tabId === 'soc-roc') {
+      this.activeTabId = 'masters';
+      this.showSubMenu = false;
+      this.router.navigateByUrl('/masters/country-master');
     }
   }
 
@@ -210,13 +205,7 @@ export class AppComponent implements OnInit {
   }
 
   onTabClick(tabId: string): void {
-    if (
-      tabId === 'masters' ||
-      tabId === 'merchant-data' ||
-      tabId === 'socs-rocs' ||
-      tabId === 'utilities' ||
-      tabId === 'reports'
-    ) {
+    if (['masters', 'merchant-data', 'socs-rocs', 'utilities', 'reports'].includes(tabId)) {
       if (this.activeTabId === tabId) {
         this.showSubMenu = !this.showSubMenu;
       } else {
@@ -225,19 +214,14 @@ export class AppComponent implements OnInit {
       }
       return;
     }
-
     this.showSubMenu = false;
     this.activeTabId = tabId;
-
     const routeMap: Record<string, string> = {
       'retrieval': '/retrieval',
       'algeria-payment': '/algeria-payment',
       'payment-register': '/payment-register'
     };
-
-    if (routeMap[tabId]) {
-      this.router.navigateByUrl(routeMap[tabId]);
-    }
+    if (routeMap[tabId]) this.router.navigateByUrl(routeMap[tabId]);
   }
 
   onLogout(): void {

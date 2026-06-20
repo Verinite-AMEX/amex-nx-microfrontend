@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { socRocAuthGuard } from './core/guards/soc-roc-auth.guard';
 
 import { Login } from './pages/login/login';
+import { Signup } from './pages/signup/signup';
 
 import { FileFormationUpload } from './pages/utilities/file-formation-upload/file-formation-upload';
 import { CountryMaster } from './pages/masters/country-master/country-master.component';
@@ -24,8 +25,9 @@ import { AlgeriaPayment } from './pages/algeria-payment/algeria-payment';
 import { PaymentRegister } from './pages/payment-register/payment-register';
 
 export const routes: Routes = [
-    // Public route - no guard
+    // Public routes - no guard
     { path: 'login', component: Login },
+    { path: 'signup', component: Signup },
 
     // Default redirect
     { path: '', redirectTo: 'login', pathMatch: 'full' },

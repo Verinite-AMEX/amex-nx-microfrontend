@@ -25,7 +25,6 @@ export class Login {
       return;
     }
     this.isLoading = true;
-    // TODO: Replace with actual API call
     setTimeout(() => {
       if (this.username === 'admin' && this.password === 'admin123') {
         localStorage.setItem('soc_roc_token', 'mock-auth-token');
@@ -48,5 +47,9 @@ export class Login {
     if (event.key === 'Enter') {
       this.onLogin();
     }
+  }
+
+  goToSignUp(): void {
+    this.router.navigateByUrl('/signup');
   }
 }
