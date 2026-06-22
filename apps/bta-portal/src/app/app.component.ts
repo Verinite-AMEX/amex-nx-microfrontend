@@ -7,6 +7,7 @@ import {
   AmexPageShellComponent,
   AmexTabItem,
 } from '@vn-core-ui-components/ui';
+import { SecureFormService } from './core/services/secure-form.service'; 
 import { BtaAuthService } from './core/services/auth.service';
 
 interface NavItem { id: string; label: string; }
@@ -65,10 +66,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private auth: BtaAuthService,
+    private secureForm: SecureFormService,
     private router: Router,
   ) {}
 
   ngOnInit(): void {
+    this.secureForm.enable(); 
     this.updateNav(this.router.url);
 
     this.routeSub = this.router.events.pipe(
