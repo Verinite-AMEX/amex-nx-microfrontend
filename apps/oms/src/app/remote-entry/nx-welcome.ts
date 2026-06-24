@@ -61,10 +61,11 @@ import { OmsNewOutletApplicationFormComponent } from '../pages/new-outlet-applic
 import {
   OmsUserManagementService
 } from '../services/oms-user-management.service';
+
 import { MrmUserManagementService } from '../services/mrm-user-management.service';
 import { SubUserManagementService } from '../services/sub-user-management.service';
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
-
+import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
 
 
@@ -283,7 +284,7 @@ export class NxWelcome
 
 
   constructor(
-
+    private secureForm: SecureFormService,
     // eslint-disable-next-line @angular-eslint/prefer-inject
     private omsUserService: OmsUserManagementService,
     // eslint-disable-next-line @angular-eslint/prefer-inject
@@ -300,7 +301,7 @@ export class NxWelcome
 
   // INIT
   ngOnInit() {
-
+    this.secureForm.enable(); 
     this.loadOmsUsers();
     this.loadMrmUsers();
     this.loadSubUsers();

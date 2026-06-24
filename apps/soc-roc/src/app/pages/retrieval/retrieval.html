@@ -1,0 +1,129 @@
+<div class="ret-container">
+
+  <div class="ret-panels">
+
+    <!-- Left Panel: ROC / SOC Fields -->
+    <div class="ret-panel ret-panel--left">
+
+      <!-- ROC Fields -->
+      <div class="ret-field-group">
+        <div class="ret-row" *ngFor="let field of rocFields">
+          <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" />
+          <label class="ret-field-label">{{ field.label }}</label>
+          <ng-container [ngSwitch]="field.type">
+            <select *ngSwitchCase="'select'" class="ret-select" [(ngModel)]="field.value" [disabled]="!field.enabled">
+              <option *ngFor="let opt of field.options" [value]="opt">{{ opt }}</option>
+            </select>
+            <input *ngSwitchDefault type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" />
+          </ng-container>
+        </div>
+      </div>
+
+      <!-- SOC Fields -->
+      <div class="ret-field-group ret-field-group--soc">
+        <div class="ret-row" *ngFor="let field of socFields">
+          <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" />
+          <label class="ret-field-label">{{ field.label }}</label>
+          <input type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" />
+        </div>
+      </div>
+
+      <!-- Buttons -->
+      <div class="ret-btn-row">
+        <button class="ret-btn ret-btn--action" (click)="onRetrieve()">Retrieve</button>
+        <button class="ret-btn ret-btn--action" (click)="onPrint()">Print</button>
+      </div>
+
+    </div>
+
+    <!-- Right Panel: ROC/SOC toggle + Date filters -->
+    <div class="ret-panel ret-panel--right">
+
+      <div class="ret-radio-row">
+        <label class="ret-radio-label">
+          <input type="radio" name="type" value="ROC" [(ngModel)]="selectedType" /> ROC
+        </label>
+        <label class="ret-radio-label">
+          <input type="radio" name="type" value="SOC" [(ngModel)]="selectedType" /> SOC
+        </label>
+      </div>
+
+      <div class="ret-row" *ngFor="let df of dateFilters">
+        <input type="checkbox" class="ret-checkbox" [(ngModel)]="df.enabled" />
+        <label class="ret-field-label">{{ df.label }}</label>
+        <input type="text" class="ret-input ret-input--date" [(ngModel)]="df.value" [disabled]="!df.enabled" [placeholder]="df.placeholder || ''" />
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Status -->
+  <div *ngIf="statusMessage" class="ret-status" [class.ret-status--error]="status === 'error'">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Print Modal -->
+  <div class="ret-modal-overlay" *ngIf="showModal" (click)="onCancel()">
+    <div class="ret-modal" (click)="$event.stopPropagation()">
+      <div class="ret-modal-header">
+        <span>Retrieval Report</span>
+        <button class="ret-modal-close" (click)="onCancel()">&#x2715;</button>
+      </div>
+      <div class="ret-modal-body">
+        <button class="ret-btn ret-btn--action ret-btn--sm" (click)="onPrintReport()">Print</button>
+
+        <div class="ret-report-header">
+          <div class="ret-report-brand">
+            <div class="ret-brand-logo">AMEX</div>
+            <div>
+              <div class="ret-brand-title">American Express</div>
+              <div class="ret-brand-sub">Middle East &amp; North Africa</div>
+            </div>
+          </div>
+          <div class="ret-report-title">Retrieval Report</div>
+        </div>
+        <hr class="ret-divider" />
+
+        <table class="ret-report-table">
+          <thead>
+            <tr>
+              <th>Julian Day</th>
+              <th>Batch No.</th>
+              <th>Soc Ref. No.</th>
+              <th>Country</th>
+              <th>Currency</th>
+              <th>SE No.</th>
+              <th>Card No.</th>
+              <th>Roc Ref.</th>
+              <th>Date</th>
+              <th>Amount</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of reportRecords; let i = index" [class.ret-row-alt]="i % 2 !== 0">
+              <td>{{ r.julianDay }}</td>
+              <td>{{ r.batchNo }}</td>
+              <td>{{ r.socRefNo }}</td>
+              <td>{{ r.country }}</td>
+              <td>{{ r.currency }}</td>
+              <td>{{ r.seNo }}</td>
+              <td>{{ r.cardNo }}</td>
+              <td>{{ r.rocRef }}</td>
+              <td>{{ r.date }}</td>
+              <td class="ret-num">{{ r.amount | number:'1.2-2' }}</td>
+            </tr>
+            <tr *ngIf="reportRecords.length === 0">
+              <td colspan="10" class="ret-empty">No records found.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ret-modal-footer">
+        <button class="ret-btn ret-btn--action ret-btn--sm" (click)="onCancel()">OK</button>
+        <button class="ret-btn ret-btn--sm" (click)="onCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -2,6 +2,7 @@ package StepDefinitions.api;
 
 import Helper.Api.ApiHelper;
 import Context.TestContext;
+import Utils.LoggerUtils;
 import io.cucumber.datatable.DataTable;
 import io.cucumber.java.en.*;
 import io.restassured.response.Response;
@@ -127,7 +128,7 @@ public class AmexAPISteps {
             String varName = row.get("varname");
             String storedValue = context.getDataStore().get(varName);
             if (storedValue != null && !storedValue.isEmpty()) {
-                System.out.println("✓ Variable '" + varName + "' successfully stored with value: " + storedValue);
+                LoggerUtils.logInfo("✓ Variable '" + varName + "' successfully stored with value: " + storedValue);
             } else {
                 throw new AssertionError("Variable '" + varName + "' was not stored in datastore!");
             }

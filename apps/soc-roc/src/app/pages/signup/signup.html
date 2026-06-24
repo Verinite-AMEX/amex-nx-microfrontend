@@ -1,0 +1,71 @@
+<div class="hub-root">
+
+  <!-- Top Header Bar -->
+  <div class="hub-header">
+    <div class="hub-logo">
+      <span class="hub-logo-ibm">IBM</span><span class="hub-logo-reg">®</span>
+    </div>
+    <div class="hub-header-links">
+      <a class="hub-header-link" (click)="goToSignUp()">Sign Up</a>
+      <span class="hub-header-sep">|</span>
+      <a class="hub-header-link" (click)="goToLogin()">Log In</a>
+    </div>
+  </div>
+
+  <!-- Cyan accent line -->
+  <div class="hub-accent-line"></div>
+
+  <!-- Main Content -->
+  <div class="hub-body">
+    <div class="hub-form-wrap">
+
+      <div class="hub-field">
+        <label class="hub-label hub-required">* Password:</label>
+        <input type="password" class="hub-input" [(ngModel)]="password" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label hub-required">* Confirm Password:</label>
+        <input type="password" class="hub-input" [(ngModel)]="confirmPassword" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label hub-required">* Last Name:</label>
+        <input type="text" class="hub-input" [(ngModel)]="lastName" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label">accountLockedTime:</label>
+        <input type="text" class="hub-input" [(ngModel)]="accountLockedTime" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label">accountStatus:</label>
+        <input type="text" class="hub-input" [(ngModel)]="accountStatus" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label">accountLocked:</label>
+        <input type="text" class="hub-input" [(ngModel)]="accountLocked" />
+      </div>
+
+      <div class="hub-field">
+        <label class="hub-label">accountLockOutTime:</label>
+        <input type="text" class="hub-input" [(ngModel)]="accountLockOutTime" />
+      </div>
+
+      <div class="hub-required-note">* Required Field</div>
+
+      <hr class="hub-divider" />
+
+      <div *ngIf="errorMessage" class="hub-error">{{ errorMessage }}</div>
+
+      <div class="hub-btn-row">
+        <button class="hub-btn-secondary" (click)="onOk()">OK</button>
+        <button class="hub-btn-secondary" (click)="onCancel()">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+
+</div>

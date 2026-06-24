@@ -1,0 +1,7 @@
+@use '../tokens/colors' as *;
+@use '../tokens/typography' as *;
+
+body {
+    font-family: $font-family-base;
+    color: $color-text;
+}

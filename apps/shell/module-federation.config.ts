@@ -1,7 +1,5 @@
 import { ModuleFederationConfig } from '@nx/module-federation';
 
-// OMS and online-account are NX-native remotes (expose Routes)
-// Legacy remotes are loaded via dynamic import in app.routes.ts
 const config: ModuleFederationConfig = {
   name: 'shell',
   remotes: [
@@ -10,6 +8,7 @@ const config: ModuleFederationConfig = {
     ['bcrb',           'http://localhost:4208/'],
     ['statement',      'http://localhost:4212/'],
     ['vat_invoice',    'http://localhost:4213/'],
+    ['soc-roc',        'http://localhost:4214/'],
   ],
 };
 

@@ -7,4 +7,5 @@ export const routes: Routes = [
       import('./wearables/wearables-shell-wrapper.component')
         .then(m => m.WearablesShellWrapperComponent),
   },
+  { path: '**', redirectTo: '' },
 ];

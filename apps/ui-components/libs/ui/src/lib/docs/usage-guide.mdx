@@ -1,0 +1,355 @@
+{/* usage-guide.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Usage Guide" />
+
+<div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '860px', lineHeight: '1.7', color: '#333' }}>
+
+# 🚀 Usage Guide
+
+This guide explains how to install and use **VN Core UI Components** in your Angular project.
+
+---
+
+# 📦 Prerequisites
+
+Before installing, make sure you have:
+
+- Node.js (v18+ recommended)
+- npm or yarn
+- Angular CLI installed (standalone components)
+- Typescript (v5.0)
+
+```bash
+npm install -g @angular/cli
+```
+
+---
+
+# ⚡ Quick Start
+
+Get up and running in 3 simple steps:
+
+```bash
+# 1. Install the library
+npm install @vn-core-ui-components/source
+
+# 2. Import in your app module
+import { UiComponentsModule } from '@vn-core-ui-components/source';
+
+# 3. Use components in your templates
+<vn-button label="Hello World"></vn-button>
+```
+
+---
+
+# 📥 Installation
+
+## Step 1: Install the library
+
+```bash
+npm install @vn-core-ui-components/source
+```
+
+## Step 2: Install peer dependencies
+
+Make sure your project has:
+
+```bash
+npm install @angular/core @angular/common rxjs
+```
+
+---
+
+# ⚙️ Setup
+
+## Import Module
+
+Import the required module into your Angular module:
+
+```typescript
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
+import { UiComponentsModule } from '@vn-core-ui-components/source';
+
+@NgModule({
+  imports: [
+    BrowserModule,
+    UiComponentsModule
+  ],
+})
+export class AppModule {}
+```
+
+## For Standalone Components (Angular 14+)
+
+If using standalone components, import directly:
+
+```typescript
+import { Component } from '@angular/core';
+import { UiComponentsModule } from '@vn-core-ui-components/source';
+
+@Component({
+  selector: 'app-root',
+  standalone: true,
+  imports: [UiComponentsModule],
+  template: `
+    <vn-button label="Click me"></vn-button>
+  `
+})
+export class AppComponent {}
+```
+
+---
+
+# 🧩 Using Components
+
+## Example: Button Component
+
+```html
+<vn-button label="Click Me"></vn-button>
+<vn-button label="Primary" variant="primary"></vn-button>
+<vn-button label="Disabled" [disabled]="true"></vn-button>
+```
+
+## Example: Input Component
+
+```html
+<vn-input placeholder="Enter your name"></vn-input>
+<vn-input type="email" placeholder="Enter email"></vn-input>
+<vn-input [disabled]="true" placeholder="Disabled input"></vn-input>
+```
+
+## Example: Form with Validation
+
+```html
+<form>
+  <vn-input
+    label="Email"
+    type="email"
+    placeholder="Enter your email"
+    required>
+  </vn-input>
+  <vn-button label="Submit" variant="primary" type="submit"></vn-button>
+</form>
+```
+
+---
+
+# 📋 Available Components
+
+| Component | Description | Example |
+|-----------|-------------|---------|
+| `vn-button` | Action buttons with variants | `<vn-button label="Click" variant="primary"></vn-button>` |
+| `vn-input` | Text input fields | `<vn-input placeholder="Type here"></vn-input>` |
+| `vn-card` | Content containers | `<vn-card title="Card Title">Content</vn-card>` |
+| `vn-modal` | Dialog overlays | `<vn-modal [isOpen]="showModal">Content</vn-modal>` |
+| `vn-badge` | Status indicators | `<vn-badge label="New" variant="success"></vn-badge>` |
+| `vn-tabs` | Tabbed navigation | `<vn-tabs [tabs]="tabData"></vn-tabs>` |
+| `vn-alert` | Notification messages | `<vn-alert message="Success!" variant="success"></vn-alert>` |
+
+---
+
+# 🎨 Styling
+
+## Global Styles
+
+If your library provides global styles, add to your `angular.json`:
+
+```json
+{
+  "styles": [
+    "node_modules/@vn-core-ui-components/source/styles.css"
+  ]
+}
+```
+
+## Custom Styling
+
+Override component styles using CSS variables:
+
+```css
+:root {
+  --vn-primary-color: #007bff;
+  --vn-border-radius: 8px;
+  --vn-font-family: 'Roboto', sans-serif;
+}
+```
+
+## Dark Theme
+
+Apply dark theme globally:
+
+```html
+<body data-theme="dark">
+  <app-root></app-root>
+</body>
+```
+
+---
+
+# 🔧 Configuration
+
+## Angular.json Setup
+
+Make sure your `angular.json` includes:
+
+```json
+{
+  "projects": {
+    "your-app": {
+      "architect": {
+        "build": {
+          "options": {
+            "styles": [
+              "src/styles.scss",
+              "node_modules/@vn-core-ui-components/source/styles.css"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+## TypeScript Configuration
+
+Add to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "skipLibCheck": true,
+    "esModuleInterop": true
+  }
+}
+```
+
+---
+
+# 🚨 Troubleshooting
+
+## Common Issues
+
+### Module not found error
+```
+Error: Module '@vn-core-ui-components/source' not found
+```
+
+**Solution:** Make sure the package is installed:
+```bash
+npm install @vn-core-ui-components/source
+```
+
+### Styles not loading
+**Solution:** Check that styles are included in `angular.json`:
+```json
+"styles": ["node_modules/@vn-core-ui-components/source/styles.css"]
+```
+
+### Component not rendering
+**Solution:** Verify the module is imported:
+```typescript
+imports: [UiComponentsModule]
+```
+
+### TypeScript errors
+**Solution:** Add to `tsconfig.json`:
+```json
+"skipLibCheck": true
+```
+
+---
+
+# 📚 Advanced Usage
+
+## Reactive Forms Integration
+
+```typescript
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+
+@Component({
+  imports: [ReactiveFormsModule, UiComponentsModule],
+  template: `
+    <form [formGroup]="form">
+      <vn-input formControlName="email" type="email"></vn-input>
+      <vn-button label="Submit" type="submit"></vn-button>
+    </form>
+  `
+})
+export class ContactFormComponent {
+  form = this.fb.group({
+    email: ['']
+  });
+
+  constructor(private fb: FormBuilder) {}
+}
+```
+
+## Component Events
+
+```typescript
+@Component({
+  template: `
+    <vn-button
+      label="Click me"
+      (click)="handleClick($event)">
+    </vn-button>
+  `
+})
+export class MyComponent {
+  handleClick(event: any) {
+    console.log('Button clicked!', event);
+  }
+}
+```
+
+---
+
+# 📞 Support & Contributing
+
+## Getting Help
+
+- 📖 **Documentation**: Check this usage guide
+- 🐛 **Bug Reports**: Open issues on GitHub
+- 💬 **Discussions**: Join our community forum
+- 📧 **Email**: support@vn-core-ui.com
+
+## Contributing
+
+We welcome contributions! Please:
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+## Version Compatibility
+
+| VN Core UI | Angular | Node.js | TypeScript |
+|------------|---------|---------|------------|
+| v1.x | 14+ | 16+ | 4.8+ |
+| v2.x | 15+ | 18+ | 5.0+ |
+
+---
+
+# 📝 Migration Guide
+
+## Upgrading from v1.x to v2.x
+
+### Breaking Changes
+- Module import path changed from `@vn-core-ui` to `@vn-core-ui-components/source`
+- Some component APIs have been updated
+
+### Migration Steps
+1. Update package name in `package.json`
+2. Update import statements in your code
+3. Check component APIs for any breaking changes
+4. Update your styles configuration
+
+---
+
+Happy coding with VN Core UI Components! 🎉
+
+</div>

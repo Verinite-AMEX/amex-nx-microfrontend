@@ -26,16 +26,16 @@ public class BtaCaseManagement {
     }
     @Then("User create new case in case management section")
     public void createNewCase() {
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[1]/input"), "CASE101");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[1]/button[1]"));
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/table/tbody/tr/td[8]/a"));
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[2]/textarea"), "Transaction dispute resolved From Backend System");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[3]/button[2]"));
+        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[1]/input"), "CASE101");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[1]/button[1]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/table/tbody/tr/td[8]/a"));
+        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[2]/textarea"), "Transaction dispute resolved From Backend System");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[3]/button[2]"));
     }
 
 
      @Then("User Verify the created case is displayed in the Case Management Section")
     public void verifyCreatedCase() {
-        uiHelper.assertSuccessMessage(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[4]"), "Comment submitted successfully.");
+        uiHelper.assertSuccessMessage(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-case-management/div/div/div[2]/div[4]"), "Comment submitted successfully.");
     }
 }

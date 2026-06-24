@@ -25,9 +25,9 @@ public class BtaTMCTransactions {
 
     @Then("User fetch the TMC Transaction details in TMC Transaction Section")
     public void fetchTMCTransactionDetails() {
-        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/div[1]/input"), "02-02-2026");
-        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/div[2]/select"), "Live Transaction");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/button"));
+        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/div[1]/input"), "02-02-2026");
+        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/div[2]/select"), "Live Transaction");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-tmc-transactions/div/div/div[2]/div[1]/button"));
 
        }
 

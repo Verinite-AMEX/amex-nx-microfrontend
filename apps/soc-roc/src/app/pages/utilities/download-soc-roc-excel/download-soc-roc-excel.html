@@ -1,0 +1,56 @@
+<div class="ffu-container">
+
+  <!-- Upload Excel File -->
+  <div class="ffu-row">
+    <label class="ffu-label">Upload Excel File <span class="ffu-required">*</span></label>
+    <div class="dse-file-row">
+      <input
+        type="text"
+        class="ffu-text-input dse-file-name"
+        [value]="fileName"
+        readonly
+        placeholder="No file chosen" />
+      <label class="ffu-today-btn dse-browse-btn">
+        Browse
+        <input type="file" accept=".xls,.xlsx" (change)="onFileSelected($event)" style="display:none" />
+      </label>
+    </div>
+  </div>
+
+  <!-- Refresh Data button -->
+  <div class="ffu-row">
+    <label class="ffu-label"></label>
+    <button class="ffu-today-btn" (click)="onRefreshData()" [disabled]="isRefreshing">
+      {{ isRefreshing ? 'Refreshing...' : 'Refresh Data from XL' }}
+    </button>
+  </div>
+
+  <!-- Data Table -->
+  <div *ngIf="tableData.length > 0" class="dse-table-wrapper">
+    <table class="dse-table">
+      <thead>
+        <tr>
+          <th *ngFor="let h of tableHeaders">{{ h }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of tableData">
+          <td *ngFor="let h of tableHeaders">{{ row[h] }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Status -->
+  <div *ngIf="status !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + status">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Upload to Server -->
+  <div class="ffu-row">
+    <button class="ffu-submit-btn" (click)="onUploadToServer()" [disabled]="isUploading">
+      {{ isUploading ? 'Uploading...' : 'Upload to Server' }}
+    </button>
+  </div>
+
+</div>

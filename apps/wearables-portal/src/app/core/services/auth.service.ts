@@ -1,14 +1,12 @@
 import { Injectable } from '@angular/core';
+import { AmexPortalAuthUtil } from '@vn-core-ui-components/ui';
 
 @Injectable({ providedIn: 'root' })
-export class WearablesAuthService {
-  static readonly TOKEN_KEY = 'mfe_access_token';
-  static readonly USER_KEY  = 'mfe_user';
+export class WearablesAuthService extends AmexPortalAuthUtil {
+  // Cross-tab logout sync is already handled — AmexPageComponent.ngOnInit()
+  // calls this.authAdapter.listenToStorageEvents(this.destroyRef) on the
+  // AMEX_PORTAL_AUTH_ADAPTER (= this service via useExisting), which is
+  // inherited from AmexPortalAuthUtil. No need to duplicate it here.
 
-  getToken(): string | null { return localStorage.getItem(WearablesAuthService.TOKEN_KEY); }
-  isLoggedIn(): boolean     { return !!this.getToken(); }
-  getUser(): { username: string; role: string } | null {
-    const raw = localStorage.getItem(WearablesAuthService.USER_KEY);
-    return raw ? JSON.parse(raw) : null;
-  }
+  isLoggedIn(): boolean { return this.isAuthenticated(); }
 }

@@ -1,0 +1,73 @@
+<div class="ffu-container">
+
+  <!-- Julian Day -->
+  <div class="ffu-row">
+    <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
+    <input
+      type="text"
+      class="ffu-text-input"
+      [(ngModel)]="julianDay"
+      (ngModelChange)="onJulianDayInput()"
+      maxlength="3" />
+  </div>
+
+  <!-- Today button -->
+  <div class="ffu-row ffu-row-inline">
+    <label class="ffu-label">or Select the capture date</label>
+    <button class="ffu-today-btn" (click)="setToday()">Today</button>
+  </div>
+
+  <!-- Calendar -->
+  <div class="ffu-calendar">
+    <div class="ffu-cal-header">
+      <button class="ffu-cal-nav" (click)="prevMonth()">&#9664;</button>
+      <span class="ffu-cal-title">{{ calendarMonthYear }}</span>
+      <button class="ffu-cal-nav" (click)="nextMonth()">&#9654;</button>
+    </div>
+    <div class="ffu-cal-grid">
+      <div class="ffu-cal-day-name" *ngFor="let d of ['Su','Mo','Tu','We','Th','Fr','Sa']">{{ d }}</div>
+      <div
+        *ngFor="let day of calendarDays"
+        class="ffu-cal-day"
+        [class.ffu-cal-day--other]="!day.currentMonth"
+        [class.ffu-cal-day--today]="isToday(day.date)"
+        [class.ffu-cal-day--selected]="isSelected(day.date)"
+        (click)="selectDate(day)">
+        {{ day.date.getDate() }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Record Type -->
+  <div class="ffu-row">
+    <label class="ffu-label">Record Type <span class="ffu-required">*</span></label>
+    <select class="ffu-select" [(ngModel)]="recordType">
+      <option value="SOC">SOC</option>
+      <option value="ROC">ROC</option>
+      <option value="BOTH">Both</option>
+    </select>
+  </div>
+
+  <!-- SE Number -->
+  <div class="ffu-row">
+    <label class="ffu-label">SE Number</label>
+    <input
+      type="text"
+      class="ffu-text-input"
+      [(ngModel)]="seNumber"
+      placeholder="Optional" />
+  </div>
+
+  <!-- Status -->
+  <div *ngIf="status !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + status">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Submit -->
+  <div class="ffu-row">
+    <button class="ffu-submit-btn" (click)="onRetrieve()" [disabled]="isLoading">
+      {{ isLoading ? 'Retrieving...' : 'Retrieve Old Records' }}
+    </button>
+  </div>
+
+</div>

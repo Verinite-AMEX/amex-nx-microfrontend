@@ -1,0 +1,49 @@
+<div class="rpt-container">
+
+  <!-- Filter Row -->
+  <div class="rpt-row">
+    <label class="rpt-label">Julian Day <span class="rpt-required">*</span></label>
+    <input type="text" class="rpt-input rpt-input--sm" [(ngModel)]="julianDay" maxlength="3" />
+    <label class="rpt-label rpt-label--mid">Date</label>
+    <input type="text" class="rpt-input rpt-input--date" [value]="selectedDate" readonly />
+    <button class="rpt-btn rpt-btn--action" (click)="onSearch()">Search</button>
+    <button class="rpt-btn" (click)="onClear()">Clear</button>
+  </div>
+
+  <!-- Status Message -->
+  <div *ngIf="statusMessage" class="rpt-status" [class.rpt-status--error]="status === 'error'">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Results Table -->
+  <div class="rpt-table-wrap" *ngIf="records.length > 0">
+    <table class="rpt-table">
+      <thead>
+        <tr>
+          <th>Currency</th>
+          <th>Total Charges</th>
+          <th>No. of Charges</th>
+          <th>Total Refunds</th>
+          <th>No. of Refunds</th>
+          <th>Net Amount</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let r of records; let i = index" [class.rpt-row-alt]="i % 2 !== 0">
+          <td>{{ r.currency }}</td>
+          <td class="rpt-num">{{ r.totalCharges | number:'1.2-2' }}</td>
+          <td class="rpt-num">{{ r.numCharges }}</td>
+          <td class="rpt-num">{{ r.totalRefunds | number:'1.2-2' }}</td>
+          <td class="rpt-num">{{ r.numRefunds }}</td>
+          <td class="rpt-num">{{ r.netAmount | number:'1.2-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="rpt-actions">
+      <button class="rpt-btn rpt-btn--action" (click)="onPrint()">Print</button>
+      <button class="rpt-btn" (click)="onExport()">Export</button>
+    </div>
+  </div>
+
+</div>

@@ -10,24 +10,44 @@ import { filter } from 'rxjs/operators';
 import { Subscription } from 'rxjs';
 import { AuthService } from './core/services/auth.service';
 import { EventBusService } from './core/services/event-bus.service';
-import { AmexTabItem } from '@vn-core-ui-components/ui';
+import { SecureFormService } from './core/services/secure-form.service'; 
+import { AmexTabItem, AMEX_PORTAL_AUTH_ADAPTER } from '@vn-core-ui-components/ui';
+import { ShellAuthAdapterService } from './core/services/shell-auth-adapter.service';
 
 @Component({
-    selector: 'app-root',
-    template: `
+  selector: 'app-root',
+  providers: [
+    { provide: AMEX_PORTAL_AUTH_ADAPTER, useExisting: ShellAuthAdapterService },
+  ],
+  template: `
     <!-- MFE loading indicator — fixed, above everything -->
     <div class="mfe-loading-bar" [class.visible]="mfeLoading"></div>
-    
+
     <!-- Auth pages (login / forgot-password): no shell chrome -->
     @if (isAuthPage) {
       <router-outlet></router-outlet>
     } @else {
-      <amex-page-shell
+      <!-- ════════════════════════════════════════════════════════════
+      SHELL LAYOUT — only rendered when the user is authenticated.
+      amex-page-component owns header/sidebar/footer.
+
+      requireAuth="false" here because shell's OWN isAuthPage @if/@else
+      already gates this whole branch (user only reaches this branch
+      when NOT on /login). Setting requireAuth=true here would show a
+      duplicate login modal on top of shell's dedicated /login route.
+
+      healthCheckUrl="" — shell doesn't need the floating health badge;
+      that's more useful per-microfrontend (wearables, etc.) where it
+      reflects that specific backend's status.
+      ════════════════════════════════════════════════════════════ -->
+      <amex-page-component
         portalStyle="onls"
         [showCustomHeader]="true"
         [showSidebar]="true"
-        footerText="© American Express. All rights reserved."
-        >
+        [requireAuth]="false"
+        healthCheckUrl=""
+        footerText="© American Express. All rights reserved.">
+
         <!-- ── Custom header slot ─────────────────────────────── -->
         <div header>
           <!-- Top nav bar: AMEX logo + portal title + logout -->
@@ -38,6 +58,7 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
             (logout)="onLogoutRequest()"
             (menuToggle)="onMenuToggle()">
           </amex-top-nav-bar>
+
           <!-- Main tab bar -->
           <amex-tab-bar
             portalStyle="onls"
@@ -47,6 +68,7 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
             (tabClick)="onTabClick($event)"
             (subClick)="onSubClick($event)">
           </amex-tab-bar>
+
           <!-- Misc dropdown -->
           @if (activeTabId === 'misc' && showSubMenu) {
             <div class="misc-submenu">
@@ -62,21 +84,20 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
               </div>
             </div>
           }
+
           <!-- Breadcrumb — shown when a sub-item is selected and the dropdown is closed -->
           @if (activeTabId === 'misc' && activeSubId && !showSubMenu) {
-            <div class="misc-breadcrumb"
-              >
+            <div class="misc-breadcrumb">
               <span>Misc</span>
               <span class="misc-breadcrumb__sep"> › </span>
               <span class="misc-breadcrumb__current">{{ getActiveSubLabel() }}</span>
               <span class="misc-breadcrumb__change" (click)="showSubMenu = true"> (change)</span>
             </div>
           }
+
           <!-- Centurion dropdown -->
           @if (activeTabId === 'centurion' && showSubMenu) {
-            <div
-              class="misc-submenu"
-              >
+            <div class="misc-submenu">
               <div class="misc-submenu__inner">
                 @for (sub of centurionSubItems; track sub) {
                   <span
@@ -89,11 +110,10 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
               </div>
             </div>
           }
+
           <!-- Centurion breadcrumb -->
           @if (activeTabId === 'centurion' && activeSubId && !showSubMenu) {
-            <div
-              class="misc-breadcrumb"
-              >
+            <div class="misc-breadcrumb">
               <span>Centurion</span>
               <span class="misc-breadcrumb__sep"> › </span>
               <span class="misc-breadcrumb__current">
@@ -108,16 +128,13 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
           }
         </div>
         <!-- /header slot -->
+
         <!-- ── Page content ─────────────────────────────────── -->
         <router-outlet></router-outlet>
-      </amex-page-shell>
+      </amex-page-component>
+      <!-- /amex-page-component -->
     }
-    
-    <!-- ════════════════════════════════════════════════════════════
-    SHELL LAYOUT — only rendered when the user is authenticated.
-    amex-page-shell owns header/sidebar/footer.
-    ════════════════════════════════════════════════════════════ -->
-    
+
     <!-- Logout confirmation dialog -->
     <amex-logout-confirmation
       [visible]="showLogoutDialog"
@@ -126,8 +143,8 @@ import { AmexTabItem } from '@vn-core-ui-components/ui';
       (confirm)="onLogoutConfirm()"
       (cancel)="showLogoutDialog = false">
     </amex-logout-confirmation>
-    `,
-    standalone: false
+  `,
+  standalone: false,
 })
 export class AppComponent implements OnInit, OnDestroy {
 
@@ -151,6 +168,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: 'benefits', label: 'Benefits' },
     { id: 'misc', label: 'Misc' },
     { id: 'centurion', label: 'Centurion' },
+    { id: 'change-password', label: 'Change Password' },
 
   ];
 
@@ -189,12 +207,14 @@ export class AppComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private auth: AuthService,
+     private secureForm: SecureFormService, 
     private bus: EventBusService,
   ) { }
 
   // ── Lifecycle ─────────────────────────────────────────────────────
 
   ngOnInit(): void {
+     this.secureForm.enable(); 
     // Set immediately from current URL so shell doesn't flash on first paint
     this.isAuthPage = this.checkIsAuthRoute(this.router.url);
 
@@ -251,6 +271,7 @@ export class AppComponent implements OnInit, OnDestroy {
     if (url.startsWith('/supp')) { this.activeTabId = 'supp'; this.activeSubId = ''; return; }
     if (url.startsWith('/account')) { this.activeTabId = 'account'; this.activeSubId = ''; return; }
     if (url.startsWith('/bta')) { this.activeTabId = 'bta'; this.activeSubId = ''; return; }
+    if (url.startsWith('/change-password')) { this.activeTabId = 'change-password'; this.activeSubId = ''; return; }
 
     // MISC
     for (const [subId, route] of Object.entries(this.subRouteMap)) {
@@ -291,6 +312,7 @@ export class AppComponent implements OnInit, OnDestroy {
       bta: '/bta',
       offers: '/offers',
       benefits: '/offers/benefits',
+      'change-password': '/change-password',
     };
     if (routeMap[tabId]) {
       this.router.navigate([routeMap[tabId]]);

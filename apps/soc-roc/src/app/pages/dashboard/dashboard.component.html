@@ -1,0 +1,45 @@
+<!-- Sub Tab Bar -->
+<div class="dash-tab-bar">
+  <span class="dash-tab" [class.active]="activeTab === 'main'" (click)="setTab('main')">Main Menu</span>
+  <span class="dash-tab" [class.active]="activeTab === 'winner'" (click)="setTab('winner')">Select Winner</span>
+  <span class="dash-tab" [class.active]="activeTab === 'upload'" (click)="setTab('upload')">Upload File</span>
+  <span class="dash-tab" [class.active]="activeTab === 'products'" (click)="setTab('products')">Products</span>
+</div>
+
+<!-- Content Area -->
+<div class="dash-content">
+
+  @if (activeTab === 'main') {
+    <div class="dash-container">
+      <button class="dash-tile" (click)="onSelectWinners()">
+        Select Winners
+      </button>
+      <button class="dash-tile" (click)="onUploadFile()">
+        Upload File
+      </button>
+    </div>
+  }
+
+  @if (activeTab === 'winner') {
+    <div class="dash-container">
+      <button class="dash-tile" (click)="onSelectWinners()">
+        Select Winners
+      </button>
+    </div>
+  }
+
+  @if (activeTab === 'upload') {
+    <div class="dash-container">
+      <button class="dash-tile" (click)="onUploadFile()">
+        Upload File
+      </button>
+    </div>
+  }
+
+  @if (activeTab === 'products') {
+    <div class="dash-container">
+      <p class="dash-placeholder">Products</p>
+    </div>
+  }
+
+</div>

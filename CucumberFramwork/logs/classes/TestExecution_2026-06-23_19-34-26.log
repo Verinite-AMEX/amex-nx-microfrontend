@@ -1,0 +1,2118 @@
+2026-06-23 19:34:27 [main] INFO  Utils - [TestNG] Running:
+  C:\Users\V00450\AppData\Local\JetBrains\IdeaIC2025.2\temp-testng-customsuite.xml
+
+2026-06-23 19:34:28 [main] INFO  Hooks - ========== API Test Started: User Create BTA Change Password with Blank Current Password CurrentPassword Field ==========
+2026-06-23 19:34:28 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:28 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Change Password with Blank Current Password CurrentPassword Field
+2026-06-23 19:34:28 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:28 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:28 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:28 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:28 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User5378",
+  "email": "User0718@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:31 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:31 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:31 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User0718@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "9f8df7ce-d9e1-44cf-93b8-ca7ae012839d",
+        "username": "User5378"
+    }
+}
+2026-06-23 19:34:32 [main] INFO  ResponseUtils - #UserName : User5378
+2026-06-23 19:34:32 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User5378
+2026-06-23 19:34:32 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:32 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:32 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User5378",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:33 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:33 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:33 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTM3OCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzMsImV4cCI6MTc4MjIyMzQ5MX0.jhyVNGk0mqGyKT08amYvrIRrK4tEhAsQNSq28xaSAd2aU73J-R9cEJ-bpV6SwJUH",
+        "avatarInitials": "NU",
+        "email": "User0718@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTM3OCIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDczLCJleHAiOjE3ODIyMjM2ODl9.ejRUh1IKjerAqE1w5hxfCQ9bERhhvtkt3RpGXcve8BPhbF6dvM0h11TeBdXjcS1c",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "9f8df7ce-d9e1-44cf-93b8-ca7ae012839d",
+        "username": "User5378"
+    }
+}
+2026-06-23 19:34:33 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTM3OCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzMsImV4cCI6MTc4MjIyMzQ5MX0.jhyVNGk0mqGyKT08amYvrIRrK4tEhAsQNSq28xaSAd2aU73J-R9cEJ-bpV6SwJUH
+2026-06-23 19:34:33 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTM3OCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzMsImV4cCI6MTc4MjIyMzQ5MX0.jhyVNGk0mqGyKT08amYvrIRrK4tEhAsQNSq28xaSAd2aU73J-R9cEJ-bpV6SwJUH
+2026-06-23 19:34:33 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:33 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:33 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : "",
+  "newPassword" : "Test@12345"
+}
+2026-06-23 19:34:33 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:33 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTM3OCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzMsImV4cCI6MTc4MjIyMzQ5MX0.jhyVNGk0mqGyKT08amYvrIRrK4tEhAsQNSq28xaSAd2aU73J-R9cEJ-bpV6SwJUH
+2026-06-23 19:34:33 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:33 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:33 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:33 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Change Password with Blank Current Password CurrentPassword Field ==========
+2026-06-23 19:34:33 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:33 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "",
+  "newPassword" : "Test@12345"
+}</pre>
+2026-06-23 19:34:33 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:33 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:33 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Change Password with Blank Current Password CurrentPassword Field
+2026-06-23 19:34:33 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:34 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:34 [main] INFO  Hooks - ========== API Test Started: User Create BTA Change Password with Invalid Current Password CurrentPassword Field ==========
+2026-06-23 19:34:34 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Change Password with Invalid Current Password CurrentPassword Field
+2026-06-23 19:34:34 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:34 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:34 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:34 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:34 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User7333",
+  "email": "User1856@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:34 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:34 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:34 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User1856@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "59bed47b-479a-4977-82f6-6414436e3614",
+        "username": "User7333"
+    }
+}
+2026-06-23 19:34:34 [main] INFO  ResponseUtils - #UserName : User7333
+2026-06-23 19:34:34 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User7333
+2026-06-23 19:34:34 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:34 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:34 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User7333",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:35 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:35 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:35 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNzMzMyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzUsImV4cCI6MTc4MjIyMzQ5M30.YoEyXyBOz2X6pEK3axydXxb8t_2V1cBCeZIQe6ZSijp9f9PeWbaBQ2koA5GHrMD7",
+        "avatarInitials": "NU",
+        "email": "User1856@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNzMzMyIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDc1LCJleHAiOjE3ODIyMjM2OTF9.Mqu1syA_Nt_Ni3XZDmUrWHlEMomsu-wXo8NvljNZ9EltmmH1guAVA0K4CyBQwkOH",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "59bed47b-479a-4977-82f6-6414436e3614",
+        "username": "User7333"
+    }
+}
+2026-06-23 19:34:35 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNzMzMyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzUsImV4cCI6MTc4MjIyMzQ5M30.YoEyXyBOz2X6pEK3axydXxb8t_2V1cBCeZIQe6ZSijp9f9PeWbaBQ2koA5GHrMD7
+2026-06-23 19:34:35 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNzMzMyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzUsImV4cCI6MTc4MjIyMzQ5M30.YoEyXyBOz2X6pEK3axydXxb8t_2V1cBCeZIQe6ZSijp9f9PeWbaBQ2koA5GHrMD7
+2026-06-23 19:34:35 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:35 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:35 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : "Invalid@123",
+  "newPassword" : "Test@12345"
+}
+2026-06-23 19:34:35 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:35 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNzMzMyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzUsImV4cCI6MTc4MjIyMzQ5M30.YoEyXyBOz2X6pEK3axydXxb8t_2V1cBCeZIQe6ZSijp9f9PeWbaBQ2koA5GHrMD7
+2026-06-23 19:34:35 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:35 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:35 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Current password is incorrect",
+    "data": null
+}
+2026-06-23 19:34:35 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Change Password with Invalid Current Password CurrentPassword Field ==========
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Invalid@123",
+  "newPassword" : "Test@12345"
+}</pre>
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Current password is incorrect",
+    "data": null
+}</pre>
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Change Password with Invalid Current Password CurrentPassword Field
+2026-06-23 19:34:35 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:35 [main] INFO  Hooks - ========== API Test Started: User Create BTA Change Password with Null Current Password CurrentPassword Field ==========
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Change Password with Null Current Password CurrentPassword Field
+2026-06-23 19:34:35 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:35 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:35 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:35 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:35 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User6452",
+  "email": "User4410@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:36 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User4410@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "b4bb5775-e7fc-4877-8f26-ad660550aedc",
+        "username": "User6452"
+    }
+}
+2026-06-23 19:34:36 [main] INFO  ResponseUtils - #UserName : User6452
+2026-06-23 19:34:36 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User6452
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:36 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User6452",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:36 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzYsImV4cCI6MTc4MjIyMzQ5NH0.SjMWsMJp9r42mSPRYW_6kW14sX9L23mdR2rYG5AwkB5PJOJ4VsciheAyo2BsV61Z",
+        "avatarInitials": "NU",
+        "email": "User4410@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNjQ1MiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDc2LCJleHAiOjE3ODIyMjM2OTJ9.0OxUy-EyFQ9iqIyVZ2Vqq_PKa9dfdqxXSNtYFYBxEthbAoKiH46NZJCTJ_H5eyJP",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "b4bb5775-e7fc-4877-8f26-ad660550aedc",
+        "username": "User6452"
+    }
+}
+2026-06-23 19:34:36 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzYsImV4cCI6MTc4MjIyMzQ5NH0.SjMWsMJp9r42mSPRYW_6kW14sX9L23mdR2rYG5AwkB5PJOJ4VsciheAyo2BsV61Z
+2026-06-23 19:34:36 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzYsImV4cCI6MTc4MjIyMzQ5NH0.SjMWsMJp9r42mSPRYW_6kW14sX9L23mdR2rYG5AwkB5PJOJ4VsciheAyo2BsV61Z
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:36 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : null,
+  "newPassword" : "Test@12345"
+}
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzYsImV4cCI6MTc4MjIyMzQ5NH0.SjMWsMJp9r42mSPRYW_6kW14sX9L23mdR2rYG5AwkB5PJOJ4VsciheAyo2BsV61Z
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:36 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:36 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Change Password with Null Current Password CurrentPassword Field ==========
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : null,
+  "newPassword" : "Test@12345"
+}</pre>
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Change Password with Null Current Password CurrentPassword Field
+2026-06-23 19:34:36 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:36 [main] INFO  Hooks - ========== API Test Started: User Create BTA Change Password with Blank New Password newPassword Field ==========
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Change Password with Blank New Password newPassword Field
+2026-06-23 19:34:36 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:36 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:36 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:36 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:36 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User9240",
+  "email": "User8302@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:37 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:37 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:37 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User8302@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "b2ae9ebd-3b24-4627-ab69-7810bc75a645",
+        "username": "User9240"
+    }
+}
+2026-06-23 19:34:37 [main] INFO  ResponseUtils - #UserName : User9240
+2026-06-23 19:34:37 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User9240
+2026-06-23 19:34:37 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:37 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:37 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User9240",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:37 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:37 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:37 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyOTI0MCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzcsImV4cCI6MTc4MjIyMzQ5NX0.hK1KpzQeiy4aDyYDLggeDZCCJc5Aw7lmAZrmUOz4VCWaXgE-PmXnO-Cj2adCt9A-",
+        "avatarInitials": "NU",
+        "email": "User8302@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyOTI0MCIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDc3LCJleHAiOjE3ODIyMjM2OTN9.4Sjt2ZlzVQLRwbToY7VI9XiMuGX3qZxqQ6KB_MvHzM_iwubaIGMfjd5Wv4sTvn_L",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "b2ae9ebd-3b24-4627-ab69-7810bc75a645",
+        "username": "User9240"
+    }
+}
+2026-06-23 19:34:37 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyOTI0MCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzcsImV4cCI6MTc4MjIyMzQ5NX0.hK1KpzQeiy4aDyYDLggeDZCCJc5Aw7lmAZrmUOz4VCWaXgE-PmXnO-Cj2adCt9A-
+2026-06-23 19:34:37 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyOTI0MCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzcsImV4cCI6MTc4MjIyMzQ5NX0.hK1KpzQeiy4aDyYDLggeDZCCJc5Aw7lmAZrmUOz4VCWaXgE-PmXnO-Cj2adCt9A-
+2026-06-23 19:34:37 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:37 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:37 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : "Test@1234",
+  "newPassword" : ""
+}
+2026-06-23 19:34:37 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:37 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyOTI0MCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzcsImV4cCI6MTc4MjIyMzQ5NX0.hK1KpzQeiy4aDyYDLggeDZCCJc5Aw7lmAZrmUOz4VCWaXgE-PmXnO-Cj2adCt9A-
+2026-06-23 19:34:38 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:38 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:38 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {newPassword=size must be between 8 and 100}",
+    "data": null
+}
+2026-06-23 19:34:38 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Change Password with Blank New Password newPassword Field ==========
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : ""
+}</pre>
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {newPassword=size must be between 8 and 100}",
+    "data": null
+}</pre>
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Change Password with Blank New Password newPassword Field
+2026-06-23 19:34:38 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:38 [main] INFO  Hooks - ========== API Test Started: User Create BTA Change Password with Null New Password newPassword Field ==========
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Change Password with Null New Password newPassword Field
+2026-06-23 19:34:38 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:38 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:38 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:38 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:38 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User1977",
+  "email": "User3530@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:38 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:38 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:38 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User3530@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "a122e0d3-95bc-43e0-b235-b78e6a4e88f1",
+        "username": "User1977"
+    }
+}
+2026-06-23 19:34:38 [main] INFO  ResponseUtils - #UserName : User1977
+2026-06-23 19:34:38 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User1977
+2026-06-23 19:34:38 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:38 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:38 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User1977",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMTk3NyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzksImV4cCI6MTc4MjIyMzQ5N30.sXFWRsnF95-eeBuTez1aD_rgJbd-IW1EXUyh-NDe6SjYTRuVtH767sSuRwuRMnlH",
+        "avatarInitials": "NU",
+        "email": "User3530@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMTk3NyIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDc5LCJleHAiOjE3ODIyMjM2OTV9.qBd1OahZlPETAdR7Dpc_kEWbTm2rqqCSA6InOJXNlinUIPP6F2eZD3JV9URYnuZ6",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "a122e0d3-95bc-43e0-b235-b78e6a4e88f1",
+        "username": "User1977"
+    }
+}
+2026-06-23 19:34:39 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMTk3NyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzksImV4cCI6MTc4MjIyMzQ5N30.sXFWRsnF95-eeBuTez1aD_rgJbd-IW1EXUyh-NDe6SjYTRuVtH767sSuRwuRMnlH
+2026-06-23 19:34:39 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMTk3NyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzksImV4cCI6MTc4MjIyMzQ5N30.sXFWRsnF95-eeBuTez1aD_rgJbd-IW1EXUyh-NDe6SjYTRuVtH767sSuRwuRMnlH
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : "Test@1234",
+  "newPassword" : null
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMTk3NyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0NzksImV4cCI6MTc4MjIyMzQ5N30.sXFWRsnF95-eeBuTez1aD_rgJbd-IW1EXUyh-NDe6SjYTRuVtH767sSuRwuRMnlH
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {newPassword=must not be null}",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Change Password with Null New Password newPassword Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {newPassword=must not be null}",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Change Password with Null New Password newPassword Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "abc",
+  "email" : "csa@aeme.com"
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "No account found with that username and email",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "abc",
+  "email" : "csa@aeme.com"
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "No account found with that username and email",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : null,
+  "email" : "csa@aeme.com"
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "email" : "csa@aeme.com"
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "",
+  "email" : "csa@aeme.com"
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Username Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "email" : "csa@aeme.com"
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Username Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "csa.agent",
+  "email" : "abc"
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {email=must be a well-formed email address}",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : "abc"
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must be a well-formed email address}",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "csa.agent",
+  "email" : null
+}
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:39 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:39 [main] INFO  Hooks - ========== API Test Started: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:39 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:39 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:39 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:39 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:39 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "csa.agent",
+  "email" : ""
+}
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:40 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Finished: Create BTA Forgot Password with <Case> Email Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : ""
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create BTA Forgot Password with <Case> Email Field
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing Invalid value in Username Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing Invalid value in Username Field
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:40 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "abc",
+  "password" : "Corp@1234"
+}
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - STATUS CODE : 401
+2026-06-23 19:34:40 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing Invalid value in Username Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "abc",
+  "password" : "Corp@1234"
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 401
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing Invalid value in Username Field
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing null value in Username Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing null value in Username Field
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:40 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : null,
+  "password" : "Corp@1234"
+}
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:40 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing null value in Username Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "password" : "Corp@1234"
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing null value in Username Field
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:40 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing Blank value in Username Field ==========
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing Blank value in Username Field
+2026-06-23 19:34:40 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:40 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:40 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:40 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:40 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "",
+  "password" : "Corp@1234"
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing Blank value in Username Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "password" : "Corp@1234"
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing Blank value in Username Field
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing Invalid value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing Invalid value in Password Field
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "corp.sub.admin",
+  "password" : "abc"
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 401
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing Invalid value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : "abc"
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 401
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing Invalid value in Password Field
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing null value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing null value in Password Field
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "corp.sub.admin",
+  "password" : null
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing null value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing null value in Password Field
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User Login to BTA Portal by passing Blank value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Login to BTA Portal by passing Blank value in Password Field
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "corp.sub.admin",
+  "password" : ""
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User Login to BTA Portal by passing Blank value in Password Field ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : ""
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Login to BTA Portal by passing Blank value in Password Field
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User passes empty values in Username Request body to perform BTA Registration ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes empty values in Username Request body to perform BTA Registration
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "",
+  "email" : "User8806@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=size must be between 3 and 50}",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User passes empty values in Username Request body to perform BTA Registration ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "email" : "User8806@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=size must be between 3 and 50}",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes empty values in Username Request body to perform BTA Registration
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User passes null values in Username Request body to perform BTA Registration ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes null values in Username Request body to perform BTA Registration
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : null,
+  "email" : "User3782@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:41 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {username=must not be null}",
+    "data": null
+}
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Finished: User passes null values in Username Request body to perform BTA Registration ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "email" : "User3782@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be null}",
+    "data": null
+}</pre>
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes null values in Username Request body to perform BTA Registration
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:41 [main] INFO  Hooks - ========== API Test Started: User passes duplicate username in Request body to perform BTA Registration ==========
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes duplicate username in Request body to perform BTA Registration
+2026-06-23 19:34:41 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:41 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:41 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:41 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:41 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User9062",
+  "email": "User0755@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:42 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User0755@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "03fc5fb1-1cca-4461-a1f4-2b5a56a7e93a",
+        "username": "User9062"
+    }
+}
+2026-06-23 19:34:42 [main] INFO  ResponseUtils - #UserName : User9062
+2026-06-23 19:34:42 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User9062
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:42 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User9062",
+  "email" : "User1923@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:42 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Username already taken: User9062",
+    "data": null
+}
+2026-06-23 19:34:42 [main] INFO  Hooks - ========== API Test Finished: User passes duplicate username in Request body to perform BTA Registration ==========
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User9062",
+  "email" : "User1923@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Username already taken: User9062",
+    "data": null
+}</pre>
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes duplicate username in Request body to perform BTA Registration
+2026-06-23 19:34:42 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:42 [main] INFO  Hooks - ========== API Test Started: User passes empty values in Email Request body to perform BTA Registration ==========
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes empty values in Email Request body to perform BTA Registration
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:42 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:42 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User7547",
+  "email" : "",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:42 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:42 [main] INFO  Hooks - ========== API Test Finished: User passes empty values in Email Request body to perform BTA Registration ==========
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User7547",
+  "email" : "",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes empty values in Email Request body to perform BTA Registration
+2026-06-23 19:34:42 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:42 [main] INFO  Hooks - ========== API Test Started: User passes Null values in Email Request body to perform BTA Registration ==========
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes Null values in Email Request body to perform BTA Registration
+2026-06-23 19:34:42 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:42 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:42 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User7428",
+  "email" : null,
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:42 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:42 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:42 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User passes Null values in Email Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User7428",
+  "email" : null,
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes Null values in Email Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User passes empty values in password Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes empty values in password Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User5667",
+  "email" : "User3211@gmail.com",
+  "password" : "",
+  "fullName" : "New User"
+}
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:43 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {password=size must be between 8 and 100}",
+    "data": null
+}
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User passes empty values in password Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User5667",
+  "email" : "User3211@gmail.com",
+  "password" : "",
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=size must be between 8 and 100}",
+    "data": null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes empty values in password Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User passes Null values in Password Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes Null values in Password Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User7061",
+  "email" : "User6565@gmail.com",
+  "password" : null,
+  "fullName" : "New User"
+}
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:43 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {password=must not be null}",
+    "data": null
+}
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User passes Null values in Password Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User7061",
+  "email" : "User6565@gmail.com",
+  "password" : null,
+  "fullName" : "New User"
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be null}",
+    "data": null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes Null values in Password Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User passes empty values in firstname Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes empty values in firstname Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User1894",
+  "email" : "User6821@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : ""
+}
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:43 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User passes empty values in firstname Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User1894",
+  "email" : "User6821@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : ""
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes empty values in firstname Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User passes Null values in firstname Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User passes Null values in firstname Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User6284",
+  "email" : "User5483@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : null
+}
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - STATUS CODE : 400
+2026-06-23 19:34:43 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User passes Null values in firstname Request body to perform BTA Registration ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User6284",
+  "email" : "User5483@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 400
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}</pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User passes Null values in firstname Request body to perform BTA Registration
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User Create Logout with Invalid Access Token ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create Logout with Invalid Access Token
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/logout
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - Authorization : Bearer null
+2026-06-23 19:34:43 [main] INFO  ApiHelper - Authorization : Bearer null
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - STATUS CODE : 403
+2026-06-23 19:34:43 [main] INFO  ApiHelper - RESPONSE BODY : 
+
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Finished: User Create Logout with Invalid Access Token ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/logout
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 403
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre></pre>
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create Logout with Invalid Access Token
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:43 [main] INFO  Hooks - ========== API Test Started: User Create Registration and perform Login & Change Password ==========
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create Registration and perform Login & Change Password
+2026-06-23 19:34:43 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:43 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:43 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:43 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:43 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User2452",
+  "email": "User2704@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:44 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:44 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:44 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User2704@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "29387b00-5cf5-48de-944c-0d6b52b0c001",
+        "username": "User2452"
+    }
+}
+2026-06-23 19:34:44 [main] INFO  ResponseUtils - #UserName : User2452
+2026-06-23 19:34:44 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User2452
+2026-06-23 19:34:44 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:44 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:44 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User2452",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:44 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:44 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:44 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODQsImV4cCI6MTc4MjIyMzUwMn0.PQWTqvkCOXCnDbunKN9SUPXYsQk2clNMJAmU-2XTzh6iBE5ci1GFzrVC0UXZ4C4A",
+        "avatarInitials": "NU",
+        "email": "User2704@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjQ1MiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDg0LCJleHAiOjE3ODIyMjM3MDB9.YHwqiTwI5n9upqWG0s9r1uXQ8jrf9K_9w1IX_UB4T5aBukPhTkZChwviPJWoe1fR",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "29387b00-5cf5-48de-944c-0d6b52b0c001",
+        "username": "User2452"
+    }
+}
+2026-06-23 19:34:44 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODQsImV4cCI6MTc4MjIyMzUwMn0.PQWTqvkCOXCnDbunKN9SUPXYsQk2clNMJAmU-2XTzh6iBE5ci1GFzrVC0UXZ4C4A
+2026-06-23 19:34:44 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODQsImV4cCI6MTc4MjIyMzUwMn0.PQWTqvkCOXCnDbunKN9SUPXYsQk2clNMJAmU-2XTzh6iBE5ci1GFzrVC0UXZ4C4A
+2026-06-23 19:34:44 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:44 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:44 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "currentPassword" : "Test@1234",
+  "newPassword" : "Test@12345"
+}
+2026-06-23 19:34:44 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:44 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjQ1MiIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODQsImV4cCI6MTc4MjIyMzUwMn0.PQWTqvkCOXCnDbunKN9SUPXYsQk2clNMJAmU-2XTzh6iBE5ci1GFzrVC0UXZ4C4A
+2026-06-23 19:34:45 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:45 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:45 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Password changed successfully",
+    "data": null
+}
+2026-06-23 19:34:45 [main] INFO  Hooks - ========== API Test Finished: User Create Registration and perform Login & Change Password ==========
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : "Test@12345"
+}</pre>
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Password changed successfully",
+    "data": null
+}</pre>
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create Registration and perform Login & Change Password
+2026-06-23 19:34:45 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:45 [main] INFO  Hooks - ========== API Test Started: Create Amex BTA Corporate Master Admin Login ==========
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create Amex BTA Corporate Master Admin Login
+2026-06-23 19:34:45 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:45 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:45 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:45 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:45 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "corp.admin",
+  "password" : "Corp@1234"
+}
+2026-06-23 19:34:46 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:46 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:46 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwicm9sZXMiOlsiUk9MRV9DT1JQX01BU1RFUl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyMjIzNDg2LCJleHAiOjE3ODIyMjM1MDR9.IroR5SNOrpLX9Q5Q5Hob0NYhWlJYQw2_d9e17ZanMa-M9dSV55wkSNlejgIuDFXy",
+        "avatarInitials": "SF",
+        "email": "corp.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Sam Frost",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODYsImV4cCI6MTc4MjIyMzcwMn0.sV1QqIihRt1U1UbvNswaQhPa67JOVmilWMwk3knb1ymNjtY6DzzeqzoNYaEyBA3_",
+        "roles": [
+            "ROLE_CORP_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "b9b4ca3e-53fd-450b-a478-26cf129bd254",
+        "username": "corp.admin"
+    }
+}
+2026-06-23 19:34:46 [main] INFO  Hooks - ========== API Test Finished: Create Amex BTA Corporate Master Admin Login ==========
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.admin",
+  "password" : "Corp@1234"
+}</pre>
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwicm9sZXMiOlsiUk9MRV9DT1JQX01BU1RFUl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyMjIzNDg2LCJleHAiOjE3ODIyMjM1MDR9.IroR5SNOrpLX9Q5Q5Hob0NYhWlJYQw2_d9e17ZanMa-M9dSV55wkSNlejgIuDFXy",
+        "avatarInitials": "SF",
+        "email": "corp.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Sam Frost",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODYsImV4cCI6MTc4MjIyMzcwMn0.sV1QqIihRt1U1UbvNswaQhPa67JOVmilWMwk3knb1ymNjtY6DzzeqzoNYaEyBA3_",
+        "roles": [
+            "ROLE_CORP_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "b9b4ca3e-53fd-450b-a478-26cf129bd254",
+        "username": "corp.admin"
+    }
+}</pre>
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create Amex BTA Corporate Master Admin Login
+2026-06-23 19:34:46 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:46 [main] INFO  Hooks - ========== API Test Started: Create Amex BTA Corporate Sub Admin Login ==========
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create Amex BTA Corporate Sub Admin Login
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:46 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:46 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:46 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:46 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "corp.sub.admin",
+  "password" : "Corp@1234"
+}
+2026-06-23 19:34:46 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:46 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:46 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInJvbGVzIjpbIlJPTEVfQ09SUF9TVUJfQURNSU4iXSwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc4MjIyMzQ4NiwiZXhwIjoxNzgyMjIzNTA0fQ.UwJW9WP36bR0tVspzZTK96pjN9Aq9iqHBEFMgK6CBHCj5AcBBO5xLZwKiTXenBom",
+        "avatarInitials": "NAF",
+        "email": "copsubadmin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Nadia Al Farsi",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDg2LCJleHAiOjE3ODIyMjM3MDJ9.9N9MeacAyVSp_3l6LX9Og8CP2HnIWOBagFhxOO_XMjXHyiEPAIZ4sZFMHNN9jAjv",
+        "roles": [
+            "ROLE_CORP_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "a96ba0f3-8622-43ed-a343-fd1be24cd594",
+        "username": "corp.sub.admin"
+    }
+}
+2026-06-23 19:34:46 [main] INFO  Hooks - ========== API Test Finished: Create Amex BTA Corporate Sub Admin Login ==========
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : "Corp@1234"
+}</pre>
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInJvbGVzIjpbIlJPTEVfQ09SUF9TVUJfQURNSU4iXSwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc4MjIyMzQ4NiwiZXhwIjoxNzgyMjIzNTA0fQ.UwJW9WP36bR0tVspzZTK96pjN9Aq9iqHBEFMgK6CBHCj5AcBBO5xLZwKiTXenBom",
+        "avatarInitials": "NAF",
+        "email": "copsubadmin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Nadia Al Farsi",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDg2LCJleHAiOjE3ODIyMjM3MDJ9.9N9MeacAyVSp_3l6LX9Og8CP2HnIWOBagFhxOO_XMjXHyiEPAIZ4sZFMHNN9jAjv",
+        "roles": [
+            "ROLE_CORP_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "a96ba0f3-8622-43ed-a343-fd1be24cd594",
+        "username": "corp.sub.admin"
+    }
+}</pre>
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create Amex BTA Corporate Sub Admin Login
+2026-06-23 19:34:46 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:46 [main] INFO  Hooks - ========== API Test Started: Create Amex BTA Travel Agent Master Admin  Login ==========
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create Amex BTA Travel Agent Master Admin  Login
+2026-06-23 19:34:46 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:46 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:46 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:46 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:46 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "ta.admin",
+  "password" : "Travel@1234"
+}
+2026-06-23 19:34:47 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:47 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:47 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInJvbGVzIjpbIlJPTEVfVEFfTUFTVEVSX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODcsImV4cCI6MTc4MjIyMzUwNX0.pQiW3FKM3PWTI-I2BboRbdnwrpTK6p9GfDHxDNDVxFcu4rNjMY0JB-sJBBaepKQl",
+        "avatarInitials": "LH",
+        "email": "ta.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Layla Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDg3LCJleHAiOjE3ODIyMjM3MDN9.Evq363v4HRg2OiVAafAVvvzR79E_PNGFoudGp3pFXWxHgEiD6YOyHgHLLLJSviBy",
+        "roles": [
+            "ROLE_TA_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "6e3b36b9-9faf-46b5-8da3-93ff5b031d0f",
+        "username": "ta.admin"
+    }
+}
+2026-06-23 19:34:47 [main] INFO  Hooks - ========== API Test Finished: Create Amex BTA Travel Agent Master Admin  Login ==========
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.admin",
+  "password" : "Travel@1234"
+}</pre>
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInJvbGVzIjpbIlJPTEVfVEFfTUFTVEVSX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODcsImV4cCI6MTc4MjIyMzUwNX0.pQiW3FKM3PWTI-I2BboRbdnwrpTK6p9GfDHxDNDVxFcu4rNjMY0JB-sJBBaepKQl",
+        "avatarInitials": "LH",
+        "email": "ta.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Layla Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDg3LCJleHAiOjE3ODIyMjM3MDN9.Evq363v4HRg2OiVAafAVvvzR79E_PNGFoudGp3pFXWxHgEiD6YOyHgHLLLJSviBy",
+        "roles": [
+            "ROLE_TA_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "6e3b36b9-9faf-46b5-8da3-93ff5b031d0f",
+        "username": "ta.admin"
+    }
+}</pre>
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create Amex BTA Travel Agent Master Admin  Login
+2026-06-23 19:34:47 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:47 [main] INFO  Hooks - ========== API Test Started: Create Amex BTA Travel Agent Sub Admin Login ==========
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create Amex BTA Travel Agent Sub Admin Login
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:47 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:47 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:47 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:47 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "ta.sub.admin",
+  "password" : "Travel@1234"
+}
+2026-06-23 19:34:47 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:47 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:47 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJyb2xlcyI6WyJST0xFX1RBX1NVQl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyMjIzNDg3LCJleHAiOjE3ODIyMjM1MDV9.PJYbIYy7jRt89QYtta3T9L2eQRt1zeEFDG2-jyMzLtDkg-VF3Amr7cGUPfYgTv9j",
+        "avatarInitials": "JH",
+        "email": "ta.sub.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Jack Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc4MjIyMzQ4NywiZXhwIjoxNzgyMjIzNzAzfQ.-e85O6orxH83vM_QJQdB6EH28ThYHrUBA6PrYKiSVD5VQ2wmDM6LJnwaYsDXAh1M",
+        "roles": [
+            "ROLE_TA_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "5653ad89-b716-44b4-815f-6fde7bd1d481",
+        "username": "ta.sub.admin"
+    }
+}
+2026-06-23 19:34:47 [main] INFO  Hooks - ========== API Test Finished: Create Amex BTA Travel Agent Sub Admin Login ==========
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.sub.admin",
+  "password" : "Travel@1234"
+}</pre>
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJyb2xlcyI6WyJST0xFX1RBX1NVQl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyMjIzNDg3LCJleHAiOjE3ODIyMjM1MDV9.PJYbIYy7jRt89QYtta3T9L2eQRt1zeEFDG2-jyMzLtDkg-VF3Amr7cGUPfYgTv9j",
+        "avatarInitials": "JH",
+        "email": "ta.sub.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Jack Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc4MjIyMzQ4NywiZXhwIjoxNzgyMjIzNzAzfQ.-e85O6orxH83vM_QJQdB6EH28ThYHrUBA6PrYKiSVD5VQ2wmDM6LJnwaYsDXAh1M",
+        "roles": [
+            "ROLE_TA_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "5653ad89-b716-44b4-815f-6fde7bd1d481",
+        "username": "ta.sub.admin"
+    }
+}</pre>
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create Amex BTA Travel Agent Sub Admin Login
+2026-06-23 19:34:47 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:47 [main] INFO  Hooks - ========== API Test Started: Create Amex BTA Travel User Login ==========
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - Test created in ExtentReport: Create Amex BTA Travel User Login
+2026-06-23 19:34:47 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:47 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:47 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:47 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:47 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "ta.user",
+  "password" : "Travel@1234"
+}
+2026-06-23 19:34:48 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:48 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:48 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwicm9sZXMiOlsiUk9MRV9UQV9VU0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzUwNn0.kBAv9-JR6aMwNncxoz_G5GpW_zRmocbaDWexH-FxNSxaCM71Rrsai54DVUz4e9Ad",
+        "avatarInitials": "TU",
+        "email": "ta.user@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Travel User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzcwNH0.hVZLSqzNTvk9DjTGwaJUKayTkEon9GUJAgaatwXEPJ4HxE_UEj2ErDb9_OaVtwJe",
+        "roles": [
+            "ROLE_TA_USER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "f2b8c7ab-311d-4d8f-a288-470a1eb6c3ac",
+        "username": "ta.user"
+    }
+}
+2026-06-23 19:34:48 [main] INFO  Hooks - ========== API Test Finished: Create Amex BTA Travel User Login ==========
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.user",
+  "password" : "Travel@1234"
+}</pre>
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwicm9sZXMiOlsiUk9MRV9UQV9VU0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzUwNn0.kBAv9-JR6aMwNncxoz_G5GpW_zRmocbaDWexH-FxNSxaCM71Rrsai54DVUz4e9Ad",
+        "avatarInitials": "TU",
+        "email": "ta.user@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Travel User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzcwNH0.hVZLSqzNTvk9DjTGwaJUKayTkEon9GUJAgaatwXEPJ4HxE_UEj2ErDb9_OaVtwJe",
+        "roles": [
+            "ROLE_TA_USER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "f2b8c7ab-311d-4d8f-a288-470a1eb6c3ac",
+        "username": "ta.user"
+    }
+}</pre>
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - ✓ Test PASSED: Create Amex BTA Travel User Login
+2026-06-23 19:34:48 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:48 [main] INFO  Hooks - ========== API Test Started: CreateAmex Internal Admin Login ==========
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - Test created in ExtentReport: CreateAmex Internal Admin Login
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:48 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:48 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:48 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:48 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "Amex.internal.admin",
+  "password" : "Internal@1234"
+}
+2026-06-23 19:34:48 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:48 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:48 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwicm9sZXMiOlsiUk9MRV9BRU1FX0lOVEVSTkFMX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzUwNn0.L5WrBGfpryI0wR0g9tUbQZzCCxX8AS1IRd3hTeSEJzp7syD9ZaGIKMhDL_51jyx8",
+        "avatarInitials": "AIA",
+        "email": "Amex.internal.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Amex Internal Admin",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzcwNH0.yJx_7fFTh2ZXWLWlVQUMEICUObNZ3kIMNfjIbjVCpEbhOkZpFIn53giKFWioKOMy",
+        "roles": [
+            "ROLE_AEME_INTERNAL_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "bff2a91b-606f-4613-a30e-98a0ef95c97f",
+        "username": "Amex.internal.admin"
+    }
+}
+2026-06-23 19:34:48 [main] INFO  Hooks - ========== API Test Finished: CreateAmex Internal Admin Login ==========
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "Amex.internal.admin",
+  "password" : "Internal@1234"
+}</pre>
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwicm9sZXMiOlsiUk9MRV9BRU1FX0lOVEVSTkFMX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzUwNn0.L5WrBGfpryI0wR0g9tUbQZzCCxX8AS1IRd3hTeSEJzp7syD9ZaGIKMhDL_51jyx8",
+        "avatarInitials": "AIA",
+        "email": "Amex.internal.admin@aeme.com",
+        "expiresIn": 18,
+        "fullName": "Amex Internal Admin",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODIyMjM0ODgsImV4cCI6MTc4MjIyMzcwNH0.yJx_7fFTh2ZXWLWlVQUMEICUObNZ3kIMNfjIbjVCpEbhOkZpFIn53giKFWioKOMy",
+        "roles": [
+            "ROLE_AEME_INTERNAL_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "bff2a91b-606f-4613-a30e-98a0ef95c97f",
+        "username": "Amex.internal.admin"
+    }
+}</pre>
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - ✓ Test PASSED: CreateAmex Internal Admin Login
+2026-06-23 19:34:48 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:48 [main] INFO  Hooks - ========== API Test Started: User Create Registration ==========
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create Registration
+2026-06-23 19:34:48 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:48 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:48 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:48 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:48 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User3454",
+  "email": "User7537@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:49 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:49 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:49 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User7537@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "7dd95344-a764-4cfa-980b-963b4bb66272",
+        "username": "User3454"
+    }
+}
+2026-06-23 19:34:49 [main] INFO  Hooks - ========== API Test Finished: User Create Registration ==========
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username": "User3454",
+  "email": "User7537@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}</pre>
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 201
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User7537@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "7dd95344-a764-4cfa-980b-963b4bb66272",
+        "username": "User3454"
+    }
+}</pre>
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create Registration
+2026-06-23 19:34:49 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:49 [main] INFO  Hooks - ========== API Test Started: User Create Registration and perform Login & Logout ==========
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create Registration and perform Login & Logout
+2026-06-23 19:34:49 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:49 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:49 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:49 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:49 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User8549",
+  "email": "User8307@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:49 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:49 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:49 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User8307@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "9aa198f0-b138-4fce-bc3e-11e828d2fa0f",
+        "username": "User8549"
+    }
+}
+2026-06-23 19:34:49 [main] INFO  ResponseUtils - #UserName : User8549
+2026-06-23 19:34:49 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User8549
+2026-06-23 19:34:49 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:49 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:49 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User8549",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:50 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:50 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:50 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyODU0OSIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTAsImV4cCI6MTc4MjIyMzUwOH0.m4Y4Vbjyf3le2aa36llaqhlE0cW5IdjIXSiOojMgra3-u0HtfJ_gZfFy-TnOF-Pd",
+        "avatarInitials": "NU",
+        "email": "User8307@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyODU0OSIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDkwLCJleHAiOjE3ODIyMjM3MDZ9.qCP7yVP5PRpdO2_t_aIt0iRO3NYN-4P43nN1DvVJE-SAz6Yp4wB5S4Lt44B73zZj",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "9aa198f0-b138-4fce-bc3e-11e828d2fa0f",
+        "username": "User8549"
+    }
+}
+2026-06-23 19:34:50 [main] INFO  Hooks - ========== API Test Finished: User Create Registration and perform Login & Logout ==========
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User8549",
+  "password" : "Test@1234"
+}</pre>
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyODU0OSIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTAsImV4cCI6MTc4MjIyMzUwOH0.m4Y4Vbjyf3le2aa36llaqhlE0cW5IdjIXSiOojMgra3-u0HtfJ_gZfFy-TnOF-Pd",
+        "avatarInitials": "NU",
+        "email": "User8307@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyODU0OSIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDkwLCJleHAiOjE3ODIyMjM3MDZ9.qCP7yVP5PRpdO2_t_aIt0iRO3NYN-4P43nN1DvVJE-SAz6Yp4wB5S4Lt44B73zZj",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "9aa198f0-b138-4fce-bc3e-11e828d2fa0f",
+        "username": "User8549"
+    }
+}</pre>
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create Registration and perform Login & Logout
+2026-06-23 19:34:50 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html
+2026-06-23 19:34:50 [main] INFO  Hooks - ========== API Test Started: User Create BTA Logout with Valid Access Token ==========
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - Test created in ExtentReport: User Create BTA Logout with Valid Access Token
+2026-06-23 19:34:50 [main] INFO  ExtentReportManager - API Test Started
+2026-06-23 19:34:50 [main] INFO  Hooks - API Test initialized
+2026-06-23 19:34:50 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:50 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/register
+2026-06-23 19:34:50 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username": "User5704",
+  "email": "User4889@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}
+2026-06-23 19:34:50 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:50 [main] INFO  ApiHelper - STATUS CODE : 201
+2026-06-23 19:34:50 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User4889@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "40d881ba-a7a0-4552-acc0-adc6c0d022aa",
+        "username": "User5704"
+    }
+}
+2026-06-23 19:34:51 [main] INFO  ResponseUtils - #UserName : User5704
+2026-06-23 19:34:51 [main] INFO  AmexAPISteps - ✓ Variable '#UserName' successfully stored with value: User5704
+2026-06-23 19:34:51 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:51 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/login
+2026-06-23 19:34:51 [main] INFO  ApiHelper - REQUEST BODY : 
+{
+  "username" : "User5704",
+  "password" : "Test@1234"
+}
+2026-06-23 19:34:51 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:51 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:51 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTEsImV4cCI6MTc4MjIyMzUwOX0.MBq_GRdHIeUVgBctdZB9IxJGY1dDQHcIGQGKFBMsp4J5d3hN8DLK0MT8h7eYAvnZ",
+        "avatarInitials": "NU",
+        "email": "User4889@gmail.com",
+        "expiresIn": 18,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyMjIzNDkxLCJleHAiOjE3ODIyMjM3MDd9.Ae0rl2WIsM7KHlpDI5okMwHsu_79r_DH2sgLC8STtpQ7ZkNe-gW-6dGzKy6RDR8_",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "40d881ba-a7a0-4552-acc0-adc6c0d022aa",
+        "username": "User5704"
+    }
+}
+2026-06-23 19:34:51 [main] INFO  ResponseUtils - #AccessToken : eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTEsImV4cCI6MTc4MjIyMzUwOX0.MBq_GRdHIeUVgBctdZB9IxJGY1dDQHcIGQGKFBMsp4J5d3hN8DLK0MT8h7eYAvnZ
+2026-06-23 19:34:51 [main] INFO  AmexAPISteps - ✓ Variable '#AccessToken' successfully stored with value: eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTEsImV4cCI6MTc4MjIyMzUwOX0.MBq_GRdHIeUVgBctdZB9IxJGY1dDQHcIGQGKFBMsp4J5d3hN8DLK0MT8h7eYAvnZ
+2026-06-23 19:34:51 [main] INFO  ApiHelper - 
+========== API REQUEST ==========
+2026-06-23 19:34:51 [main] INFO  ApiHelper - URL : http://localhost:8081/api/auth/logout
+2026-06-23 19:34:51 [main] INFO  ApiHelper - 
+========== REQUEST HEADERS ==========
+2026-06-23 19:34:51 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTEsImV4cCI6MTc4MjIyMzUwOX0.MBq_GRdHIeUVgBctdZB9IxJGY1dDQHcIGQGKFBMsp4J5d3hN8DLK0MT8h7eYAvnZ
+2026-06-23 19:34:51 [main] INFO  ApiHelper - Authorization : Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyNTcwNCIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODIyMjM0OTEsImV4cCI6MTc4MjIyMzUwOX0.MBq_GRdHIeUVgBctdZB9IxJGY1dDQHcIGQGKFBMsp4J5d3hN8DLK0MT8h7eYAvnZ
+2026-06-23 19:34:51 [main] INFO  ApiHelper - 
+========== API RESPONSE ==========
+2026-06-23 19:34:51 [main] INFO  ApiHelper - STATUS CODE : 200
+2026-06-23 19:34:51 [main] INFO  ApiHelper - RESPONSE BODY : 
+{
+    "success": true,
+    "message": "Logged out successfully",
+    "data": null
+}
+2026-06-23 19:34:51 [main] INFO  Hooks - ========== API Test Finished: User Create BTA Logout with Valid Access Token ==========
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - <b>REQUEST URL:</b> http://localhost:8081/api/auth/logout
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - <b>REQUEST BODY:</b> <pre>{
+  "username" : "User5704",
+  "password" : "Test@1234"
+}</pre>
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - <b>RESPONSE STATUS CODE:</b> 200
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Logged out successfully",
+    "data": null
+}</pre>
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - ✓ Test PASSED: User Create BTA Logout with Valid Access Token
+2026-06-23 19:34:51 [main] INFO  Hooks - API Test cleanup completed
+2026-06-23 19:34:51 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_23-06-2026_19-34-28.html

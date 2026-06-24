@@ -1,0 +1,80 @@
+{
+  "name": "change-password-portal",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/change-password-portal/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-builders/custom-webpack:browser",
+      "options": {
+        "outputPath": "dist/apps/change-password-portal",
+        "index": "apps/change-password-portal/src/index.html",
+        "main": "apps/change-password-portal/src/main.ts",
+        "polyfills": [
+          "zone.js"
+        ],
+        "tsConfig": "apps/change-password-portal/tsconfig.app.json",
+        "assets": [
+          "apps/change-password-portal/src/assets"
+        ],
+        "styles": [
+          "apps/change-password-portal/src/styles.scss"
+        ],
+        "scripts": [],
+        "commonChunk": false,
+        "customWebpackConfig": {
+          "path": "apps/change-password-portal/webpack.config.js"
+        }
+      },
+      "configurations": {
+        "production": {
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "serve": {
+      "executor": "@angular-builders/custom-webpack:dev-server",
+      "options": {
+        "port": 4215,
+        "publicHost": "http://localhost:4214",
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        }
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "change-password-portal:build:production"
+        },
+        "development": {
+          "buildTarget": "change-password-portal:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "options": {
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
+        "tsConfig": "apps/change-password-portal/tsconfig.spec.json",
+        "assets": [
+          "apps/change-password-portal/src/assets"
+        ],
+        "styles": [
+          "apps/change-password-portal/src/styles.scss"
+        ],
+        "scripts": []
+      }
+    }
+  },
+  "tags": []
+}

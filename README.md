@@ -49,10 +49,10 @@ amex-ui-monorepo/
 
 ## Two tiers of remotes
 
-| Tier | Apps | MF Library | Config file |
-|------|------|-----------|-------------|
-| **NX-native** | shell, oms, online-account, bcrb, statement, vat_invoice | `@nx/module-federation` | `module-federation.config.ts` + `webpack.config.ts` |
-| **Legacy** | bta-portal, offers-portal, supplementary-portal, wearables-portal, pay-with-points-portal, lounge, cen-lcy-exc, centurion-portal | `@angular-architects/module-federation` | `webpack.config.js` |
+| Tier          | Apps                                                                                                                             | MF Library                              | Config file                                         |
+| ------------- | -------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------- | --------------------------------------------------- |
+| **NX-native** | shell, oms, online-account, bcrb, statement, vat_invoice                                                                         | `@nx/module-federation`                 | `module-federation.config.ts` + `webpack.config.ts` |
+| **Legacy**    | bta-portal, offers-portal, supplementary-portal, wearables-portal, pay-with-points-portal, lounge, cen-lcy-exc, centurion-portal | `@angular-architects/module-federation` | `webpack.config.js`                                 |
 
 Both tiers coexist. The shell's `module-federation.config.ts` declares NX remotes; legacy remotes are loaded dynamically via `loadRemoteModule` in the shell's routing.
 
@@ -79,6 +79,9 @@ npm run build:affected
 
 # View the dependency graph
 npm run graph
+
+#Run verdaccio
+npx verdaccio
 ```
 
 ---
@@ -86,16 +89,21 @@ npm run graph
 ## Shared libraries
 
 ### `@amex/shared-ui` (`libs/shared-ui`)
+
 Angular components, directives, and pipes used by 2+ apps. Import in any app:
+
 ```ts
-import { SharedUiModule } from '@amex/shared-ui';
+import { SharedUiModule } from "@amex/shared-ui";
 ```
 
 ### `@amex/shared-utils` (`libs/shared-utils`)
+
 Services, guards, interceptors, and tokens shared across apps.
+
 ```ts
-import { AuthTokenInterceptor, SHELL_TOKEN } from '@amex/shared-utils';
+import { AuthTokenInterceptor, SHELL_TOKEN } from "@amex/shared-utils";
 ```
+
 Path aliases are pre-configured in `tsconfig.base.json`.
 
 ---
@@ -128,19 +136,20 @@ npx nx g @nx/angular:library my-new-lib --directory=libs/my-new-lib
 
 ## Port reference
 
-| App | Port |
-|-----|------|
-| shell | 4200 |
-| oms | 4201 |
-| online-account | 4202 |
-| bcrb | 4201 |
-| statement | 4203 |
-| vat_invoice | 4202 |
-| bta-portal | 4203 |
-| offers-portal | 4204 |
-| supplementary-portal | 4205 |
-| wearables-portal | 4206 |
+| App                    | Port |
+| ---------------------- | ---- |
+| shell                  | 4200 |
+| oms                    | 4201 |
+| online-account         | 4202 |
+| bcrb                   | 4201 |
+| statement              | 4203 |
+| vat_invoice            | 4202 |
+| bta-portal             | 4203 |
+| offers-portal          | 4204 |
+| supplementary-portal   | 4205 |
+| wearables-portal       | 4206 |
 | pay-with-points-portal | 4207 |
-| lounge | 4209 |
-| cen-lcy-exc | 4210 |
-| centurion-portal | 4211 |
+| lounge                 | 4209 |
+| cen-lcy-exc            | 4210 |
+| centurion-portal       | 4211 |
+| ui-components          | 4214 |

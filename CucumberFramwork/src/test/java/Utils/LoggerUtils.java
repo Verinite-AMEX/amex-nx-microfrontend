@@ -42,6 +42,11 @@ public class LoggerUtils {
         Logger logger = getCallingClassLogger();
         logger.info(message);
     }
+    public static void loggerInfo(String message,String message2) {
+        Logger logger = getCallingClassLogger();
+        logger.info(message);
+        logger.info(message2);
+    }
 
     public static void logDebug(String message) {
         Logger logger = getCallingClassLogger();

@@ -1,0 +1,74 @@
+<div class="ffu-container">
+
+  <!-- Julian Day Input -->
+  <div class="ffu-row">
+    <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
+    <input
+      type="text"
+      class="ffu-text-input"
+      [(ngModel)]="julianDay"
+      (ngModelChange)="onJulianDayInput()"
+      maxlength="3"
+    />
+  </div>
+
+  <!-- Or Select Date / Today -->
+  <div class="ffu-row ffu-row-inline">
+    <label class="ffu-label">or Select the capture date</label>
+    <button class="ffu-today-btn" (click)="setToday()">Today</button>
+  </div>
+
+  <!-- Custom Calendar -->
+  <div class="ffu-calendar">
+    <div class="ffu-cal-header">
+      <button class="ffu-cal-nav" (click)="prevMonth()">&#9664;</button>
+      <span class="ffu-cal-title">{{ calendarMonthYear }}</span>
+      <button class="ffu-cal-nav" (click)="nextMonth()">&#9654;</button>
+    </div>
+
+    <div class="ffu-cal-grid">
+      <div class="ffu-cal-day-name" *ngFor="let d of ['Su','Mo','Tu','We','Th','Fr','Sa']">{{ d }}</div>
+      <div
+        *ngFor="let day of calendarDays"
+        class="ffu-cal-day"
+        [class.ffu-cal-day--other]="!day.currentMonth"
+        [class.ffu-cal-day--today]="isToday(day.date)"
+        [class.ffu-cal-day--selected]="isSelected(day.date)"
+        (click)="selectDate(day)"
+      >
+        {{ day.date.getDate() }}
+      </div>
+    </div>
+  </div>
+
+  <!-- Country -->
+  <div class="ffu-row">
+    <label class="ffu-label">Country <span class="ffu-required">*</span></label>
+    <select class="ffu-select" [(ngModel)]="country">
+      <option value=""></option>
+      <option *ngFor="let c of countries" [value]="c">{{ c }}</option>
+    </select>
+  </div>
+
+  <!-- Currency -->
+  <div class="ffu-row">
+    <label class="ffu-label">Currency <span class="ffu-required">*</span></label>
+    <select class="ffu-select" [(ngModel)]="currency">
+      <option value=""></option>
+      <option *ngFor="let c of currencies" [value]="c">{{ c }}</option>
+    </select>
+  </div>
+
+  <!-- Status -->
+  <div *ngIf="uploadStatus !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + uploadStatus">
+    {{ statusMessage }}
+  </div>
+
+  <!-- Submit Button -->
+  <div class="ffu-row">
+    <button class="ffu-submit-btn" (click)="onDoFileFormation()" [disabled]="isLoading">
+      {{ isLoading ? 'Processing...' : 'Do File Formation' }}
+    </button>
+  </div>
+
+</div>

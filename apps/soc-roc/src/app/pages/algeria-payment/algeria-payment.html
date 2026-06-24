@@ -1,0 +1,45 @@
+<div class="alg-container">
+
+  <!-- Tab Buttons
+  <div class="alg-tabs">
+    <button class="alg-tab alg-tab--active">Payment</button>
+    <button class="alg-tab" (click)="onViewReportTab()">View Report</button>
+  </div> -->
+
+  <!-- Payment Fieldset -->
+  <div class="alg-fieldset">
+    <span class="alg-legend">View Report</span>
+
+    <div class="alg-row">
+      <label class="alg-label">Julian Day <span class="alg-required">*</span></label>
+      <input type="text" class="alg-input" [(ngModel)]="julianDay" maxlength="3" />
+    </div>
+    <div class="alg-row">
+      <label class="alg-label">Year <span class="alg-required">*</span></label>
+      <select class="alg-select" [(ngModel)]="year">
+        <option *ngFor="let y of yearList" [value]="y">{{ y }}</option>
+      </select>
+    </div>
+    <div class="alg-row">
+      <label class="alg-label">Exchange Rate</label>
+      <input type="text" class="alg-input" [(ngModel)]="exchangeRate" />
+    </div>
+    <div class="alg-row">
+      <label class="alg-label">Reference No.</label>
+      <input type="text" class="alg-input" [(ngModel)]="referenceNo" />
+    </div>
+    <div class="alg-row">
+      <label class="alg-label">SE Type <span class="alg-required">*</span></label>
+      <input type="text" class="alg-input" [(ngModel)]="seType" />
+    </div>
+
+    <div *ngIf="statusMessage" class="alg-status" [class.alg-status--error]="status === 'error'">
+      {{ statusMessage }}
+    </div>
+
+    <div class="alg-btn-row">
+      <button class="alg-btn alg-btn--action" (click)="onViewReport()">View Report</button>
+    </div>
+  </div>
+
+</div>

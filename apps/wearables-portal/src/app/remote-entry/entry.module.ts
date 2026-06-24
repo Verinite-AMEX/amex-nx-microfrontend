@@ -21,8 +21,14 @@ const routes: Routes = [
         path: '',
         loadComponent: () =>
           import('../wearables/wearables-shell-wrapper.component').then(
-            (m) => m.WearablesShellWrapperComponent
+            m => m.WearablesShellWrapperComponent
           ),
+        /**
+         * SHELL_HOSTED = true tells WearablesShellWrapperComponent:
+         *  → use config that hides header/footer/sidebar (shell owns chrome)
+         *  → skip requireAuth (shell's AuthGuard already blocked unauthenticated users)
+         *  → skip health check (shell manages it)
+         */
         providers: [{ provide: SHELL_HOSTED, useValue: true }],
       },
     ],
@@ -38,9 +44,9 @@ const routes: Routes = [
   ],
   providers: [
     {
-      provide: HTTP_INTERCEPTORS,
+      provide:  HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true,
+      multi:    true,
     },
   ],
 })
