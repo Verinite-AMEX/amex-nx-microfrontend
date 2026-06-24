@@ -68,6 +68,17 @@
     },
     "lint": {
       "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@angular-devkit/build-angular:karma",
+      "outputs": [
+        "{workspaceRoot}/coverage/apps/bta-portal"
+      ],
+      "options": {
+        "main": "apps/bta-portal/src/test.ts",
+        "tsConfig": "apps/bta-portal/tsconfig.spec.json",
+        "karmaConfig": "apps/bta-portal/karma.conf.js"
+      }
     }
   }
 }
