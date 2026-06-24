@@ -42,7 +42,7 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "port": 4215,
+        "port": 4214,
         "publicHost": "http://localhost:4214",
         "headers": {
           "Access-Control-Allow-Origin": "*"

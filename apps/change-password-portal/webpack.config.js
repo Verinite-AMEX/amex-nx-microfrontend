@@ -26,7 +26,7 @@ const mfConfig = withModuleFederationPlugin({
 
 mfConfig.output = {
   ...mfConfig.output,
-  publicPath: 'http://localhost:4215/',
+  publicPath: 'http://localhost:4214/',
   scriptType:  'text/javascript',
   uniqueName:  'changePasswordPortal',
 };
