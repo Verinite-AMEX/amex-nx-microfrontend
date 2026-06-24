@@ -1,10 +1,10 @@
 package Helper.Api;
 
 import Context.TestContext;
+import Utils.LoggerUtils;
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import Utils.ConfigReader;
-import Utils.LoggerUtils;
 
 import java.util.Map;
 
@@ -12,10 +12,6 @@ public class ApiHelper {
 
     String baseUrl = ConfigReader.getProperty("ApiBaseUrl");
     private TestContext context;
-
-    public ApiHelper() {
-    }
-
 
     public ApiHelper(TestContext context) {
         this.context = context;
@@ -42,23 +38,18 @@ public class ApiHelper {
             context.lastResponseStatusCode = response.getStatusCode();
             context.lastResponseBody = response.asPrettyString();
         }
-
         LoggerUtils.logResponse(response.getStatusCode(), response.asPrettyString());
-
         return response;
     }
 
-    public Response postAPIWithAccessToken(String endpoint,
-                            Map<String, String> headers) {
-
+    public Response postAPIWithAccessToken(String endpoint,Map<String, String> headers) {
         String url = baseUrl + endpoint;
         if (context != null) {
             context.lastRequestUrl = url;
         }
         LoggerUtils.logRequest(url);
-        System.out.println("\n========== REQUEST HEADERS ==========");
-        headers.forEach((key, value) ->
-                System.out.println(key + " : " + value));
+        LoggerUtils.logInfo("\n========== REQUEST HEADERS ==========");
+        headers.forEach((key, value) -> LoggerUtils.loggerInfo(key + " : " + value, key + " : " + value));
         Response response = RestAssured
                 .given()
                 .contentType("application/json")
@@ -70,15 +61,12 @@ public class ApiHelper {
             context.lastResponseStatusCode = response.getStatusCode();
             context.lastResponseBody = response.asPrettyString();
         }
-
         LoggerUtils.logResponse(
                 response.getStatusCode(),
                 response.asPrettyString());
-
-        return response;
+                return response;
     }
-    public Response postAPIWithReqBodyAndAccessToken(String endpoint,
-                                           Map<String, String> headers, String body) {
+    public Response postAPIWithReqBodyAndAccessToken(String endpoint, Map<String, String> headers, String body) {
 
         String url = baseUrl + endpoint;
         if (context != null) {
@@ -86,9 +74,9 @@ public class ApiHelper {
             context.lastRequestBody = body;
         }
         LoggerUtils.logRequestwithbody(url, body);
-        System.out.println("\n========== REQUEST HEADERS ==========");
+        LoggerUtils.logInfo("\n========== REQUEST HEADERS ==========");
         headers.forEach((key, value) ->
-                System.out.println(key + " : " + value));
+                LoggerUtils.logInfo(key + " : " + value));
         Response response = RestAssured
                 .given()
                 .contentType("application/json")
@@ -96,12 +84,10 @@ public class ApiHelper {
                 .body(body)
                 .when()
                 .post(url);
-
         if (context != null) {
             context.lastResponseStatusCode = response.getStatusCode();
             context.lastResponseBody = response.asPrettyString();
         }
-
         LoggerUtils.logResponse(
                 response.getStatusCode(),
                 response.asPrettyString());
@@ -110,8 +96,6 @@ public class ApiHelper {
     }
     public Response getAPI(String endpoint) {
         String url = baseUrl + endpoint;
-
-        // Store in TestContext for reporting
         if (context != null) {
             context.lastRequestUrl = url;
             context.lastRequestBody = "GET REQUEST";
@@ -121,27 +105,21 @@ public class ApiHelper {
                 .given()
                 .when()
                 .get(url);
-
-        // Store response details in TestContext
         if (context != null) {
             context.lastResponseStatusCode = response.getStatusCode();
             context.lastResponseBody = response.asPrettyString();
         }
-
         LoggerUtils.logResponse(response.getStatusCode(), response.asPrettyString());
-
         return response;
     }
 
     public Response putAPI(String endpoint, String body, String token) {
         String url = baseUrl + endpoint;
 
-        // Store in TestContext for reporting
         if (context != null) {
             context.lastRequestUrl = url;
             context.lastRequestBody = body;
         }
-
         LoggerUtils.logRequest(url);
         Response response = RestAssured
                 .given()
@@ -150,15 +128,11 @@ public class ApiHelper {
                 .body(body)
                 .when()
                 .put(url);
-
-        // Store response details in TestContext
         if (context != null) {
             context.lastResponseStatusCode = response.getStatusCode();
             context.lastResponseBody = response.asPrettyString();
         }
-
         LoggerUtils.logResponse(response.getStatusCode(), response.asPrettyString());
-
         return response;
     }
 }

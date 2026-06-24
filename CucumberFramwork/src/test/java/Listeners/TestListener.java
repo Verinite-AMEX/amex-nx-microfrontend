@@ -6,14 +6,6 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 import Utils.LoggerUtils;
 
-/**
- * TestListener — kept for compatibility but flush is now handled
- * directly in Cucumber @After hooks (the correct place for Cucumber+TestNG).
- *
- * NOTE: TestNG lifecycle methods (onTestStart, onTestSuccess etc.) are NOT
- * triggered per Cucumber scenario — they fire per Runner class execution.
- * So onFinish here acts as a final safety-net flush only.
- */
 public class TestListener implements ITestListener {
 
     @Override

@@ -44,20 +44,20 @@ public class BTALoginSteps {
 
     @When("I enter username {string} and password {string}")
     public void iEnterUsernameAndPassword(String username, String password) {
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[2]/input"), username);
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[3]/input"), password);
+        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-login/div/div[2]/div[2]/input"), username);
+        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-login/div/div[2]/div[3]/input"), password);
         LoggerUtils.logInfo("Entered username and password");
     }
 
     @When("I click the login button")
     public void iClickTheLoginButton() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[5]/button"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-login/div/div[2]/div[5]/button"));
         LoggerUtils.logInfo("Clicked login button");
     }
 
     @Then("I should see the MY BTA Home Page")
     public void iShouldSeeTheWelcomeMessage() {
-        WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/amex-page-shell/div/header/amex-top-nav-bar/div[2]/span")));
+        WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/amex-page-component/div/header/amex-top-nav-bar/div[2]/span")));
         assertTrue(welcomeMessage.isDisplayed(), "Home page is not displayed");
         LoggerUtils.logInfo("Home page landed successfully");
     }

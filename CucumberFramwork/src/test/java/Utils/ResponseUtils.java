@@ -40,7 +40,7 @@ public class ResponseUtils {
             String variableName = row.get("varname");
             String value = context.previousResponse.jsonPath().getString(locator);
             context.setDataStore(variableName, value);
-            System.out.println(variableName + " : " + value);
+            LoggerUtils.logInfo( variableName + " : " + value);
         }
     }
 }

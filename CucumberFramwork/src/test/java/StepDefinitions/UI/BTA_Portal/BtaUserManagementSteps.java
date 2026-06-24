@@ -35,7 +35,7 @@ public class BtaUserManagementSteps {
         String UniqueUserID = "User" + System.currentTimeMillis();
         String ConfirmEmail = uniqueEmail;
         String PhoneNumber = generatePhoneNumber();
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div/button[2]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div/button[2]"));
         uiHelper.selectDropdownByText(By.xpath("//select[contains(@class,'corp-select-sm')]"), "Mr");
         uiHelper.enterText(By.xpath("//input[@placeholder='Enter full name']"), "John Doe");
         uiHelper.enterText(By.xpath("//input[@placeholder='Enter job title']"), "IT Manager");
@@ -65,7 +65,7 @@ public class BtaUserManagementSteps {
         String UniqueUserID = "User" + System.currentTimeMillis();
         String ConfirmEmail = uniqueEmail;
         String PhoneNumber = generatePhoneNumber();
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div[2]/button[2]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div[2]/button[2]"));
         uiHelper.selectDropdownByText(By.xpath("//select[contains(@class,'corp-select-sm')]"), "Mr");
         uiHelper.enterText(By.xpath("//input[@placeholder='Enter full name']"), "John Doe");
         uiHelper.enterText(By.xpath("//input[@placeholder='Enter job title']"), "IT Manager");
@@ -84,19 +84,19 @@ public class BtaUserManagementSteps {
 
     @Then("User Click on Corporate User Management")
     public void clickCorporateUserManagement() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-user-management/div[1]/button[1]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-user-management/div[1]/button[1]"));
         LoggerUtils.logInfo("Clicked on Corporate User Management ");
     }
 
     @Then("User Click on TMC User Management")
     public void clickTMCUserManagement() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-user-management/div[1]/button[2]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-user-management/div[1]/button[2]"));
         LoggerUtils.logInfo("Clicked on TMC User Management ");
     }
 
     @Then("User create new corporate user in user management by passing empty fields")
     public void SubmitCorporateUserRequestwithBlankValues() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div/button[2]"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-user-management/div[2]/div/div[2]/div/button[2]"));
         uiHelper.click(By.xpath("//button[contains(@class,'bta-btn-primary')]"));
     }
 

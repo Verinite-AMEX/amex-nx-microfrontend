@@ -28,46 +28,39 @@ public class UiHelper {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    // ...existing code...
     public void click(By locator) {
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(locator));
         element.click();
     }
-
-    // ...existing code...
     public void enterText(By locator, String value) {
         WebElement element = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
         element.clear();
         element.sendKeys(value);
     }
-//Multi selction dropdown
-public void selectMultipleValues(By locator, String... values) {
+
+    public void selectMultipleValues(By locator, String... values) {
         Select select = new Select(
             wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
         for (String value : values) {
         select.selectByVisibleText(value);
-    }
-}
-    // ...existing code...
+    }}
+
     public String getText(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).getText();
     }
 
-    // ...existing code...
     public void selectDropdownByText(By locator, String value) {
         Select select = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
 
         select.selectByVisibleText(value);
     }
 
-    // ...existing code...
     public void selectDropdownByValue(By locator, String value) {
         Select select = new Select(wait.until(ExpectedConditions.visibilityOfElementLocated(locator)));
 
         select.selectByValue(value);
     }
 
-    // ...existing code...
     public void selectRadioButton(By locator) {
         WebElement radio = wait.until(ExpectedConditions.elementToBeClickable(locator));
 
@@ -76,7 +69,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    // ...existing code...
     public void selectCheckbox(By locator) {
         WebElement checkbox = wait.until(ExpectedConditions.elementToBeClickable(locator));
 
@@ -85,7 +77,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    // ...existing code...
     public void selectDate(By locator, String date) {
         WebElement dateField = wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
 
@@ -93,24 +84,19 @@ public void selectMultipleValues(By locator, String... values) {
         dateField.sendKeys(date);
     }
 
-    // ...existing code...
     public void hover(By locator) {
         Actions actions = new Actions(driver);
-
         actions.moveToElement(wait.until(ExpectedConditions.visibilityOfElementLocated(locator))).perform();
     }
 
-    // ...existing code...
     public WebElement waitForVisible(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
-    // ...existing code...
     public boolean isDisplayed(By locator) {
         return wait.until(ExpectedConditions.visibilityOfElementLocated(locator)).isDisplayed();
     }
 
-    // ...existing code...
     public void waitInSeconds(int seconds) {
         try {
             Thread.sleep(seconds * 1000L);
@@ -121,31 +107,24 @@ public void selectMultipleValues(By locator, String... values) {
 
     public void handleDownloadPopup() {
         try {
-            // Try to handle JavaScript alert/confirm dialog
             try {
-                Thread.sleep(1000); // Wait for popup to appear
+                Thread.sleep(1000);
                 driver.switchTo().alert().accept();
                 LoggerUtils.logInfo("Accepted alert popup");
                 return;
             } catch (Exception e) {
-                // No alert, continue to check for element-based popup
             }
-
-            // Try to handle confirmation popup button
             By confirmButton = By.xpath("//button[contains(text(), 'OK') or contains(text(), 'Confirm') or contains(text(), 'Yes')]");
             if (isPopupElementPresent(confirmButton)) {
                 click(confirmButton);
                 LoggerUtils.logInfo("Clicked confirmation button on popup");
                 return;
             }
-
-            // Try to handle download dialog by waiting for it to complete
-            Thread.sleep(2000);
+            Thread.sleep(1000);
             LoggerUtils.logInfo("Download popup handled - proceeding");
 
         } catch (Exception e) {
             LoggerUtils.logInfo("Error handling popup: " + e.getMessage());
-            // Continue execution, popup might have auto-closed or not appeared
         }
     }
 
@@ -158,9 +137,6 @@ public void selectMultipleValues(By locator, String... values) {
             return false;
         }
     }
-
-    // ========== SCREENSHOT HELPER METHOD ==========
-
     /**
      * Captures screenshot and attaches it to ExtentReport
      * Called automatically when assertions fail
@@ -172,17 +148,14 @@ public void selectMultipleValues(By locator, String... values) {
 
             if (ExtentReportManager.getTest() != null) {
                 String base64 = Base64.getEncoder().encodeToString(screenshot);
-                ExtentReportManager.getTest()
-                        .addScreenCaptureFromBase64String(base64, "Failure Screenshot - " + failureContext);
+                ExtentReportManager.getTest().addScreenCaptureFromBase64String(base64, "Failure Screenshot - " + failureContext);
                 LoggerUtils.logInfo("Screenshot captured for failure: " + failureContext);
             }
         } catch (Exception e) {
             LoggerUtils.logInfo("Failed to capture screenshot: " + e.getMessage());
         }
     }
-
     // ========== ASSERTION HELPER METHODS ==========
-
     /**
      * Assert that an element is displayed on the page
      */
@@ -201,7 +174,6 @@ public void selectMultipleValues(By locator, String... values) {
             fail(errorMessage);
         }
     }
-
     /**
      * Assert that an element's text equals the expected value
      */
@@ -221,9 +193,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert that an element's text contains the expected substring
-     */
     public void assertElementTextContains(By locator, String expectedText, String elementName) {
         try {
             String actualText = getText(locator);
@@ -240,9 +209,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert that a success message is displayed (useful for success/confirmation messages)
-     */
     public void assertSuccessMessage(By locator, String expectedMessage) {
         try {
             WebElement element = waitForVisible(locator);
@@ -261,9 +227,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert that multiple elements are displayed
-     */
     public void assertMultipleElementsDisplayed(By[] locators, String[] elementNames) {
         try {
             assertEquals(locators.length, elementNames.length, "Locators and element names count must match");
@@ -284,16 +247,12 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert that element is not displayed
-     */
     public void assertElementNotDisplayed(By locator, String elementName) {
         try {
             boolean isDisplayed = false;
             try {
                 isDisplayed = isDisplayed(locator);
             } catch (Exception e) {
-                // Element not found, which is expected
                 isDisplayed = false;
             }
             assertFalse(isDisplayed, elementName + " should not be displayed");
@@ -309,11 +268,7 @@ public void selectMultipleValues(By locator, String... values) {
         }
 
     }
-// ...existing code...
 
-    /**
-     * Assert that a popup/modal is displayed with expected message
-     */
     public void assertPopupDisplayed(By popupLocator, String elementName) {
         try {
             WebElement popup = waitForVisible(popupLocator);
@@ -330,9 +285,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert popup message text equals expected value
-     */
     public void assertPopupMessage(By popupLocator, String expectedMessage, String elementName) {
         try {
             String actualMessage = getText(popupLocator).trim();
@@ -349,9 +301,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert popup message contains expected substring
-     */
     public void assertPopupMessageContains(By popupLocator, String expectedText, String elementName) {
         try {
             String actualMessage = getText(popupLocator).trim();
@@ -368,30 +317,21 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert JavaScript alert popup text and accept it
-     * Uses EXACT MATCH for strict validation
-     */
     public void assertAndAcceptAlertPopup(String expectedMessage) {
 
         try {
-
             wait.until(ExpectedConditions.alertIsPresent());
-
             Alert alert = driver.switchTo().alert();
             String actualMessage = alert.getText().trim();
-
             assertEquals(actualMessage, expectedMessage, "Alert message DOES NOT MATCH. Expected: '" + expectedMessage + "' Actual: '" + actualMessage + "'");
             alert.accept();
             String message = "✓ Alert popup verified and accepted. Message: '" + actualMessage + "'";
             ExtentReportManager.logPass(message);
-
         } catch (AssertionError e) {
             String errorMessage = "✗ Alert assertion failed - " + e.getMessage();
             captureScreenshotOnFailure("Alert Popup - Text Mismatch");
             ExtentReportManager.logFail(errorMessage);
             fail(errorMessage);
-
         } catch (Exception e) {
             String errorMessage = "✗ Alert handling failed - " + e.getMessage();
             LoggerUtils.logInfo(errorMessage);
@@ -400,65 +340,38 @@ public void selectMultipleValues(By locator, String... values) {
             fail(errorMessage);
         }
     }
-
-    /**
-     * Assert JavaScript alert popup text CONTAINS expected substring and accept it
-     * Uses SUBSTRING MATCH for flexible validation
-     */
     public void assertAndAcceptAlertPopupContains(String expectedMessage) {
 
         try {
-
             wait.until(ExpectedConditions.alertIsPresent());
-
             Alert alert = driver.switchTo().alert();
             String actualMessage = alert.getText().trim();
-
-            // FLEXIBLE ASSERTION - CONTAINS SUBSTRING
             assertTrue(actualMessage.contains(expectedMessage), "Alert message DOES NOT CONTAIN expected text. Expected substring: '" + expectedMessage + "' Actual: '" + actualMessage + "'");
-
             alert.accept();
-
             String message = "✓ Alert popup verified (contains '" + expectedMessage + "') and accepted. Full message: '" + actualMessage + "'";
-
             LoggerUtils.logInfo(message);
             ExtentReportManager.logPass(message);
-
         } catch (AssertionError e) {
-
             String errorMessage = "✗ Alert assertion failed - " + e.getMessage();
-
             LoggerUtils.logInfo(errorMessage);
             captureScreenshotOnFailure("Alert Popup - Text Not Found");
             ExtentReportManager.logFail(errorMessage);
-
             fail(errorMessage);
-
         } catch (Exception e) {
-
             String errorMessage = "✗ Alert handling failed - " + e.getMessage();
-
             LoggerUtils.logInfo(errorMessage);
             captureScreenshotOnFailure("Alert Popup - Error");
             ExtentReportManager.logFail(errorMessage);
-
             fail(errorMessage);
         }
     }
 
-    /**
-     * Assert JavaScript alert popup text and dismiss it
-     * Uses EXACT MATCH for strict validation
-     */
     public void assertAndDismissAlertPopup(String expectedMessage) {
         try {
             wait.until(ExpectedConditions.alertIsPresent());
             Alert alert = driver.switchTo().alert();
             String actualMessage = alert.getText().trim();
-
-            // STRICT ASSERTION - EXACT MATCH
             assertEquals(actualMessage, expectedMessage, "Alert message DOES NOT MATCH. Expected: '" + expectedMessage + "' Actual: '" + actualMessage + "'");
-
             alert.dismiss();
             String message = "✓ Alert popup verified and dismissed. Message: '" + actualMessage + "'";
             ExtentReportManager.logPass(message);
@@ -476,20 +389,12 @@ public void selectMultipleValues(By locator, String... values) {
             fail(errorMessage);
         }
     }
-
-    /**
-     * Assert JavaScript alert popup text CONTAINS expected substring and dismiss it
-     * Uses SUBSTRING MATCH for flexible validation
-     */
     public void assertAndDismissAlertPopupContains(String expectedMessage) {
         try {
             wait.until(ExpectedConditions.alertIsPresent());
             Alert alert = driver.switchTo().alert();
             String actualMessage = alert.getText().trim();
-
-            // FLEXIBLE ASSERTION - CONTAINS SUBSTRING
             assertTrue(actualMessage.contains(expectedMessage) || actualMessage.equals(expectedMessage), "Alert message DOES NOT CONTAIN expected text. Expected substring: '" + expectedMessage + "' Actual: '" + actualMessage + "'");
-
             alert.dismiss();
             String message = "✓ Alert popup verified (contains '" + expectedMessage + "') and dismissed. Full message: '" + actualMessage + "'";
             LoggerUtils.logInfo(message);
@@ -508,10 +413,6 @@ public void selectMultipleValues(By locator, String... values) {
             fail(errorMessage);
         }
     }
-
-    /**
-     * Assert popup is displayed, verify message, then close it via a close button
-     */
     public void assertPopupAndClose(By popupLocator, String expectedMessage, By closeButtonLocator, String elementName) {
         try {
             String actualMessage = getText(popupLocator).trim();
@@ -529,9 +430,6 @@ public void selectMultipleValues(By locator, String... values) {
         }
     }
 
-    /**
-     * Assert popup disappears after a given timeout (e.g. toast/auto-close popups)
-     */
     public void assertPopupDisappears(By popupLocator, String elementName) {
         try {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(popupLocator));

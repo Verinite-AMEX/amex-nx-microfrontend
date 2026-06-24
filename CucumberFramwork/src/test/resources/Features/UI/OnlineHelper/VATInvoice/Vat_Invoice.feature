@@ -8,7 +8,7 @@ Feature: Verify that the User is able to access the online account service in ON
 #    And I click the Online Helper login button
 #    Then I should see the MY BTA Home Page
 
-  @OnlineAccountServices_001 @Sanity
+  @OnlineAccountServices_001 @Sanity @WIP
   Scenario: Verify Online Account Service functionality for ONSL Helper Portal
     Given Navigate to the Online Helper Portal
 

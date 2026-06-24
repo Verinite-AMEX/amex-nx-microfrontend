@@ -6,7 +6,7 @@ import io.cucumber.testng.CucumberOptions;
 @CucumberOptions(
         features = "src/test/resources/Features/UI",
         glue = "StepDefinitions.UI",
-        tags = "@OnlineHelper and not @WIP",
+        tags = "@UI and not @WIP",
         objectFactory = io.cucumber.picocontainer.PicoFactory.class,
         plugin = {
                 "pretty",
@@ -15,5 +15,5 @@ import io.cucumber.testng.CucumberOptions;
                 "junit:target/ui-cucumber.xml"
         }
 )
-public class UITestRunner extends AbstractTestNGCucumberTests {
+public class UiTestRunner extends AbstractTestNGCucumberTests {
 }

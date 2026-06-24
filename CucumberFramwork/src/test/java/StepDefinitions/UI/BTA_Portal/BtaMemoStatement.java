@@ -24,20 +24,20 @@ public class BtaMemoStatement {
     }
     @Then("User Select the BTA Number and click the View Statement")
     public void selectBtaNumberFromDropdown() {
-        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div/div/select"), "BTACLIENTBAH002-3744XXXXXXX6130");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div/button"));
+        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div/div/select"), "BTACLIENTBAH002-3744XXXXXXX6130");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div/button"));
        }
 
        @Then("User Download the Memo Statement PDF")
        public void downloadPDFMemoStatement() {
-           uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
+           uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
            LoggerUtils.logInfo("Clicked PDF download button");
        }
 
     @Then("User Download the Memo Statement Excel")
     public void downloadExcelMemoStatement() {
-       uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/select"), "Excel");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
+       uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/select"), "Excel");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
         LoggerUtils.logInfo("Clicked Excel download button");
     }
 

@@ -25,22 +25,22 @@ public class BtaAuditTrail {
 
     @Then("User Select the audit range and generate the Detailed report")
     public void selectAuditRangeAndGenerateReport() {
-        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/select[1]"), "2024");
-        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/select[2]"), "October");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/button"));
-       uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div[3]/select"), "Excel");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div[3]/button"));
+        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/select[1]"), "2024");
+        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/select[2]"), "October");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/button"));
+       uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div[3]/select"), "Excel");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div[3]/button"));
     }
 @Then("User Select the audit range and generate the Summary report")
     public void selectAuditRangeAndGenerateSummaryReport() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[1]/button[2]"));
-        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/input[1]"),"09-04-2026");
-        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/input[2]"),"09-10-2026");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div/label[1]/input"));
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div/label[4]/input"));
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[3]/button"));
-        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[4]/div[2]/select"), "Excel");
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[4]/div[2]/button"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[1]/button[2]"));
+        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/input[1]"),"09-04-2026");
+        uiHelper.selectDate(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[1]/input[2]"),"09-10-2026");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div/label[1]/input"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[2]/div/label[4]/input"));
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[3]/button"));
+        uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[4]/div[2]/select"), "Excel");
+        uiHelper.click(By.xpath("/html/body/app-root/amex-page-component/div/div[2]/div/div/app-bta-audit-trail/div/div/div[2]/div[2]/div[4]/div[2]/button"));
            }
 
     @Then("User Verify the generated report is displayed in the Audit Trail Section")
