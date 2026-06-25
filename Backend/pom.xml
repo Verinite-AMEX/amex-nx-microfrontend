@@ -32,6 +32,7 @@
         <module>apigateway</module>
         <module>auth-service</module>
         <module>eureka</module>
+          <module>onlinehelper</module>
     </modules>
 
     <dependencyManagement>
