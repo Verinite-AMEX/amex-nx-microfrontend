@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 type Step = 'search' | 'cards' | 'issue' | 'done';
 type IssueView = 'select' | 'review' | 'success';
@@ -15,7 +16,7 @@ interface WearableProduct {
   icon: string;
 }
 
-const API_BASE = 'http://localhost:8080/api';
+const API_BASE = `${environment.apiGatewayUrl}/api`;
 
 // ── Mock data matching V2__seed_data.sql exactly ─────────────────────────────
 const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {

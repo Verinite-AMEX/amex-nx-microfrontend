@@ -10,6 +10,7 @@ import {
 import { WearablesComponent } from './wearables.component';
 import { WearablesAuthService } from '../core/services/auth.service';
 import { SHELL_HOSTED } from '../core/tokens/shell.token';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-wearables-shell-wrapper',
@@ -61,7 +62,9 @@ ngOnInit(): void {
 }
 
   get healthCheckUrl(): string {
-    return this.isShellHosted ? '' : 'http://localhost:8080/actuator/health';
+    return this.isShellHosted
+      ? ''
+      : `${environment.apiGatewayUrl}/actuator/health`;
   }
 
   get shellConfig(): AmexPortalLayoutConfig {
@@ -131,6 +134,7 @@ ngOnInit(): void {
 // import { WearablesComponent } from './wearables.component';
 // import { WearablesAuthService } from '../core/services/auth.service';
 // import { SHELL_HOSTED } from '../core/tokens/shell.token';
+// import { environment } from '../../environments/environment';
 
 // @Component({
 //   selector: 'app-wearables-shell-wrapper',
@@ -146,6 +150,7 @@ ngOnInit(): void {
 //       [config]="shellConfig"
 //       [requireAuth]="true"
 //       loginRedirectUrl=""
+//       [loginUrl]="loginUrl"
 //       [healthCheckUrl]="healthCheckUrl"
 //       [showHealthStatus]="!isShellHosted"
 //       (tabClick)="onTabClick($event)"
@@ -197,8 +202,14 @@ ngOnInit(): void {
 //     }, { injector: this.injector });
 //   }
 
-//   get healthCheckUrl(): string {
-//     return this.isShellHosted ? '' : 'http://localhost:8080/actuator/health';
+//    get healthCheckUrl(): string {
+//      return this.isShellHosted
+//        ? ''
+//        : `${environment.apiGatewayUrl}/actuator/health`;
+//    }
+
+//    get loginUrl(): string {
+//     return `${environment.apiGatewayUrl}/api/auth/login`;
 //   }
 
 //   get shellConfig(): AmexPortalLayoutConfig {

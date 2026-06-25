@@ -37,7 +37,13 @@
       },
       "configurations": {
         "production": {
-          "outputHashing": "all"
+          "outputHashing": "all",
+          "fileReplacements": [
+            {
+              "replace": "apps/wearables-portal/src/environments/environment.ts",
+              "with":    "apps/wearables-portal/src/environments/environment.prod.ts"
+            }
+          ]
         },
         "development": {
           "buildOptimizer": false,
