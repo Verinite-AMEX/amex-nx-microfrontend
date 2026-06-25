@@ -68,6 +68,8 @@ public class AmexAPISteps {
                 break;
             case "CreateChangePasswordEndpoint": response = apiHelper.postAPIWithReqBodyAndAccessToken(ConfigReader.getProperty("CreateChangePasswordEndpoint"), Map.of("Authorization", "Bearer " + context.getDataStore().get("#AccessToken")), requestJson);
                 break;
+            case "NEWapiENDPOINTS": response = apiHelper.postAPIWithReqBodyAndAccessToken(ConfigReader.getProperty("CreateChangePasswordEndpoint"), Map.of("Authorization", "Bearer " + context.getDataStore().get("#AccessToken")), requestJson);
+                break;
             default:
                 throw new RuntimeException("POST API NOT FOUND");
         }
