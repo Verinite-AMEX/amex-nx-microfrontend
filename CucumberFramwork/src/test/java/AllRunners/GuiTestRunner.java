@@ -4,8 +4,8 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
 @CucumberOptions(
-        features = "src/test/resources/Features/UI",
-        glue = "StepDefinitions.UI",
+        features = "src/test/resources/Features/GUI",
+        glue = "StepDefinitions.GUI",
         tags = "@UI and not @WIP",
         objectFactory = io.cucumber.picocontainer.PicoFactory.class,
         plugin = {

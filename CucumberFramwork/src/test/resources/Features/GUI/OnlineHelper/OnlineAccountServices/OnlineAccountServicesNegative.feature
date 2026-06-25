@@ -1,4 +1,4 @@
-@UI @BTA @OnlineHelper @OnlineAccountServices
+@UI @ONLS @Negative @OnlineAccountServices
 
 Feature: Verify that the User is able to access the online account service in ONSL portal and validate their functionality.
 
