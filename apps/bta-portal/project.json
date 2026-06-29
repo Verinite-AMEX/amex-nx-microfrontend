@@ -4,23 +4,16 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/bta-portal/src",
-  "tags": [
-    "type:app",
-    "scope:bta"
-  ],
+  "tags": ["type:app", "scope:bta"],
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-webpack:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/bta-portal",
         "index": "apps/bta-portal/src/index.html",
         "main": "apps/bta-portal/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/bta-portal/tsconfig.app.json",
         "assets": [
           {
@@ -28,9 +21,7 @@
             "input": "apps/bta-portal/public"
           }
         ],
-        "styles": [
-          "apps/bta-portal/src/styles.css"
-        ],
+        "styles": ["apps/bta-portal/src/styles.css"],
         "customWebpackConfig": {
           "path": "apps/bta-portal/webpack.config.js"
         }
@@ -76,13 +67,12 @@
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
-      "outputs": [
-        "{workspaceRoot}/coverage/apps/bta-portal"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/apps/shell"],
       "options": {
-        "main": "apps/bta-portal/src/test.ts",
-        "tsConfig": "apps/bta-portal/tsconfig.spec.json",
-        "karmaConfig": "apps/bta-portal/karma.conf.js"
+        "main": "apps/shell/src/test.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/shell/tsconfig.spec.json",
+        "karmaConfig": "apps/shell/karma.conf.js"
       }
     }
   }

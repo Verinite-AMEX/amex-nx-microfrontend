@@ -4,23 +4,16 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/oms/src",
-  "tags": [
-    "type:app",
-    "scope:oms"
-  ],
+  "tags": ["type:app", "scope:oms"],
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-webpack:browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/oms",
         "index": "apps/oms/src/index.html",
         "main": "apps/oms/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
+        "polyfills": ["zone.js"],
         "tsConfig": "apps/oms/tsconfig.app.json",
         "assets": [
           {
@@ -28,9 +21,7 @@
             "input": "apps/oms/public"
           }
         ],
-        "styles": [
-          "apps/oms/src/styles.css"
-        ],
+        "styles": ["apps/oms/src/styles.css"],
         "customWebpackConfig": {
           "path": "apps/oms/webpack.config.js"
         }
@@ -82,13 +73,12 @@
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
-      "outputs": [
-        "{workspaceRoot}/coverage/apps/oms"
-      ],
+      "outputs": ["{workspaceRoot}/coverage/apps/shell"],
       "options": {
-        "main": "apps/oms/src/test.ts",
-        "tsConfig": "apps/oms/tsconfig.spec.json",
-        "karmaConfig": "apps/oms/karma.conf.js"
+        "main": "apps/shell/src/test.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/shell/tsconfig.spec.json",
+        "karmaConfig": "apps/shell/karma.conf.js"
       }
     }
   }
