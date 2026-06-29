@@ -1,58 +1,42 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
-  AmexRejectionReportTableComponent,
-  RejectionReportRow,
-  AmexSuccessToastComponent,
-  AmexErrorToastComponent
+  AmexSortableFilterableTableComponent,
+  AmexTableColumn
 } from '@vn-core-ui-components/ui';
 
 @Component({
   selector: 'app-rejection-letter',
   standalone: true,
   imports: [
-    AmexRejectionReportTableComponent,
-    AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    CommonModule,
+    AmexSortableFilterableTableComponent
   ],
-  template: `
-    <amex-rejection-report-table
-      [rows]="records"
-      (exportClick)="onExport()"
-      (printClick)="onPrint()">
-    </amex-rejection-report-table>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './rejection-letter.html',
+  styleUrl: './rejection-letter.css'
 })
-export class RejectionLetter implements OnInit {
-  // Interface: { seNo, rejectionReason, date, amount }
-  records: RejectionReportRow[] = [];
-  status: 'idle' | 'success' | 'error' = 'idle';
-  statusMessage: string = '';
+export class RejectionLetter {
+  showTable = false;
 
-  ngOnInit(): void {
+  columns: AmexTableColumn[] = [
+    { key: 'seNo',             label: 'SE No.' },
+    { key: 'rejectionReason',  label: 'Rejection Reason' },
+    { key: 'date',             label: 'Date' },
+    { key: 'amount',           label: 'Amount' },
+  ];
+
+  records: Record<string, any>[] = [];
+
+  onSearch(): void {
     // TODO: Replace with ReportService API call
     this.records = [];
+    this.showTable = true;
   }
 
-  onExport(): void {}
+  onPrint(): void { window.print(); }
+  onExport(): void { /* TODO: export logic */ }
 
-  onPrint(): void {
-    window.print();
+  onSortChange(event: { key: string; dir: any }): void {
+    console.log('Sort:', event);
   }
 }

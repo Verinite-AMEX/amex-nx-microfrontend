@@ -1,45 +1,18 @@
-.pr-container {
+.alg-container {
   padding: 20px 30px;
   font-family: Arial, sans-serif;
   font-size: 13px;
   color: #333;
 }
 
-/* Tab buttons */
-.pr-tabs {
-  display: flex;
-  margin-bottom: 0;
-}
-
-.pr-tab {
-  padding: 5px 18px;
-  font-size: 13px;
-  border: 1px solid #aaa;
-  background: #e8e8e8;
-  cursor: pointer;
-  color: #333;
-  border-bottom: none;
-}
-
-.pr-tab + .pr-tab {
-  border-left: none;
-}
-
-.pr-tab--active {
-  background: #336699;
-  color: #fff;
-  border-color: #225588;
-}
-
-/* Fieldset box */
-.pr-fieldset {
+.alg-fieldset {
   border: 1px solid #aaa;
   padding: 20px 20px 16px;
   position: relative;
   max-width: 480px;
 }
 
-.pr-legend {
+.alg-legend {
   position: absolute;
   top: -9px;
   left: 10px;
@@ -49,34 +22,35 @@
   color: #555;
 }
 
-/* Rows */
-.pr-row {
+.alg-row {
   display: flex;
   align-items: center;
   margin-bottom: 12px;
-  gap: 10px;
 }
 
-.pr-label {
-  min-width: 120px;
+/* FIXED width label - not min-width, so all labels same size */
+.alg-label {
+  width: 110px;
+  flex-shrink: 0;
   font-size: 13px;
   color: #333;
 }
 
-.pr-input {
+.alg-input {
   height: 24px;
   padding: 2px 6px;
   border: 1px solid #aaa;
   font-size: 13px;
   color: #333;
   width: 200px;
+  box-sizing: border-box;
 }
 
-.pr-input:focus {
+.alg-input:focus {
   outline: 1px solid #336699;
 }
 
-.pr-select {
+.alg-select {
   height: 26px;
   padding: 2px 4px;
   border: 1px solid #aaa;
@@ -84,14 +58,14 @@
   color: #333;
   background: #fff;
   width: 210px;
+  box-sizing: border-box;
 }
 
-/* Button */
-.pr-btn-row {
+.alg-btn-row {
   margin-top: 6px;
 }
 
-.pr-btn {
+.alg-btn {
   padding: 4px 16px;
   font-size: 13px;
   background: #e8e8e8;
@@ -100,29 +74,17 @@
   color: #333;
 }
 
-.pr-btn--action {
+.alg-btn--action {
   background: #336699;
   color: #fff;
   border-color: #225588;
 }
 
-.pr-btn--action:hover {
+.alg-btn--action:hover {
   background: #225588;
 }
 
-/* Status */
-.pr-status {
-  margin: 8px 0 4px;
-  padding: 4px 10px;
-  font-size: 13px;
-  color: #006600;
-  background: #eeffee;
-  border: 1px solid #aaddaa;
-  display: inline-block;
-}
-
-.pr-status--error {
-  color: #cc0000;
-  background: #ffeeee;
-  border-color: #ffaaaa;
+.alg-btn--action:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

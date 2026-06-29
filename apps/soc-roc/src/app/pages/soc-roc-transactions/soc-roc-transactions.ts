@@ -28,7 +28,7 @@ import {
     </amex-socroc-records-table>
   `
 })
-export class SocRocTransactions {
+export class SocRocTransactionsComponent {
   rejectionCodes: string[] = [
     '001 - Invalid Card Number',
     '002 - Duplicate Transaction',

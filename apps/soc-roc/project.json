@@ -8,16 +8,11 @@
   "targets": {
     "build": {
       "executor": "@nx/angular:webpack-browser",
-      "outputs": [
-        "{options.outputPath}"
-      ],
+      "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/apps/soc-roc",
         "index": "apps/soc-roc/src/index.html",
         "main": "apps/soc-roc/src/main.ts",
-        "polyfills": [
-          "zone.js"
-        ],
         "tsConfig": "apps/soc-roc/tsconfig.app.json",
         "assets": [
           {
@@ -25,9 +20,7 @@
             "input": "apps/soc-roc/public"
           }
         ],
-        "styles": [
-          "apps/soc-roc/src/styles.css"
-        ],
+        "styles": ["apps/soc-roc/src/styles.css"],
         "customWebpackConfig": {
           "path": "apps/soc-roc/webpack.config.js"
         }
@@ -66,13 +59,8 @@
       "continuous": true,
       "executor": "@nx/angular:dev-server",
       "options": {
-        "port": 4214,
-        "publicHost": "http://localhost:4214",
-        "headers": {
-          "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
-          "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
-        }
+        "port": 4215,
+        "publicHost": "http://localhost:4215"
       },
       "configurations": {
         "production": {
@@ -83,6 +71,7 @@
         }
       },
       "defaultConfiguration": "development"
+      
     },
     "extract-i18n": {
       "executor": "@angular-devkit/build-angular:extract-i18n",
@@ -95,9 +84,7 @@
     },
     "test": {
       "executor": "@nx/vitest:test",
-      "outputs": [
-        "{options.reportsDirectory}"
-      ],
+      "outputs": ["{options.reportsDirectory}"],
       "options": {
         "reportsDirectory": "coverage/apps/soc-roc"
       }
@@ -108,7 +95,7 @@
       "defaultConfiguration": "production",
       "options": {
         "buildTarget": "soc-roc:build",
-        "port": 4214,
+        "port": 4215,
         "watch": false
       },
       "configurations": {

@@ -205,7 +205,7 @@ export class AppComponent implements OnInit {
   }
 
   onTabClick(tabId: string): void {
-    if (['masters', 'merchant-data', 'socs-rocs', 'utilities', 'reports'].includes(tabId)) {
+    if (['masters', 'utilities', 'reports'].includes(tabId)) {
       if (this.activeTabId === tabId) {
         this.showSubMenu = !this.showSubMenu;
       } else {

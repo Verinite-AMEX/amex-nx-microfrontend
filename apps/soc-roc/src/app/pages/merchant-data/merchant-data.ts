@@ -16,7 +16,7 @@ import { AmexMerchantDataFormComponent } from '@vn-core-ui-components/ui';
     </amex-merchant-data-form>
   `
 })
-export class MerchantData {
+export class MerchantDataComponent {
   countryOptions: string[] = ['Algeria', 'Bahrain', 'Kuwait', 'Oman', 'Qatar', 'Saudi Arabia', 'UAE'];
   cityOptions: string[] = ['Algiers', 'Manama', 'Kuwait City', 'Muscat', 'Doha', 'Riyadh', 'Dubai', 'Abu Dhabi'];
   legalOptions: string[] = [

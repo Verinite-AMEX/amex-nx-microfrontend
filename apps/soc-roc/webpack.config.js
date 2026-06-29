@@ -19,7 +19,7 @@ const mfConfig = withModuleFederationPlugin({
 
 mfConfig.output = {
   ...mfConfig.output,
-  publicPath: 'http://localhost:4214/',
+  publicPath: 'http://localhost:4215/',
   scriptType: 'text/javascript',
 };
 

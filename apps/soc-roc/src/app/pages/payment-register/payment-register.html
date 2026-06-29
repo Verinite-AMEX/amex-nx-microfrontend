@@ -1,51 +1,71 @@
-<div class="pr-container">
+<div class="alg-container">
 
-  <!-- Tab Buttons
-  <div class="pr-tabs">
-    <button class="pr-tab" (click)="onPaymentTab()">Payment</button>
-    <button class="pr-tab pr-tab--active">View Report</button>
-  </div> -->
+  <div class="alg-fieldset">
+    <span class="alg-legend">View Report</span>
 
-  <!-- View Report Fieldset -->
-  <div class="pr-fieldset">
-    <span class="pr-legend">View Report</span>
-
-    <div class="pr-row">
-      <label class="pr-label">Julian Day</label>
-      <input type="text" class="pr-input" [(ngModel)]="julianDay" maxlength="3" />
+    <div class="alg-row">
+      <label class="alg-label">Julian Day</label>
+      <input type="text" class="alg-input" [(ngModel)]="julianDay" maxlength="3" />
     </div>
-    <div class="pr-row">
-      <label class="pr-label">Year</label>
-      <select class="pr-select" [(ngModel)]="year">
-        <option *ngFor="let y of yearList" [value]="y">{{ y }}</option>
+
+    <div class="alg-row">
+      <label class="alg-label">Year</label>
+      <select class="alg-select" [(ngModel)]="year">
+        @for (y of yearList; track y) {
+          <option [value]="y">{{ y }}</option>
+        }
       </select>
     </div>
-    <div class="pr-row">
-      <label class="pr-label">Country</label>
-      <select class="pr-select" [(ngModel)]="country">
+
+    <div class="alg-row">
+      <label class="alg-label">Country</label>
+      <select class="alg-select" [(ngModel)]="country">
         <option value="">-- Select --</option>
-        <option *ngFor="let c of countryList" [value]="c">{{ c }}</option>
+        @for (c of countryList; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
       </select>
     </div>
-    <div class="pr-row">
-      <label class="pr-label">Currency</label>
-      <select class="pr-select" [(ngModel)]="currency">
+
+    <div class="alg-row">
+      <label class="alg-label">Currency</label>
+      <select class="alg-select" [(ngModel)]="currency">
         <option value="">-- Select --</option>
-        <option *ngFor="let c of currencyList" [value]="c">{{ c }}</option>
+        @for (c of currencyList; track c) {
+          <option [value]="c">{{ c }}</option>
+        }
       </select>
     </div>
-    <div class="pr-row">
-      <label class="pr-label">Reference Number</label>
-      <input type="text" class="pr-input" [(ngModel)]="referenceNumber" />
+
+    <div class="alg-row">
+      <label class="alg-label">Reference Number</label>
+      <input type="text" class="alg-input" [(ngModel)]="referenceNumber" />
     </div>
 
-    <div *ngIf="statusMessage" class="pr-status" [class.pr-status--error]="status === 'error'">
-      {{ statusMessage }}
-    </div>
+    @if (status === 'success') {
+      <amex-success-toast [message]="statusMessage" [autoDismiss]="true" [duration]="4000"
+        [dismissible]="true" (dismissed)="status = 'idle'">
+      </amex-success-toast>
+    }
+    @if (status === 'error') {
+      <amex-error-toast [message]="statusMessage" [dismissible]="true"
+        (dismissed)="status = 'idle'">
+      </amex-error-toast>
+    }
 
-    <div class="pr-btn-row">
-      <button class="pr-btn pr-btn--action" (click)="onViewReport()">View Report</button>
+    <div class="alg-btn-row">
+      <button class="alg-btn alg-btn--action" (click)="onViewReport()" [disabled]="isLoading">
+        {{ isLoading ? 'Loading...' : 'View Report' }}
+      </button>
     </div>
   </div>
+
+  @if (records.length > 0) {
+    <amex-payment-register-table
+      title="Payment Register"
+      [rows]="records"
+      (printClick)="onPrint()">
+    </amex-payment-register-table>
+  }
 
 </div>

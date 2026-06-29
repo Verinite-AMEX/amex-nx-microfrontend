@@ -129,8 +129,3 @@
   display: flex;
   gap: 8px;
 }
-
-.rpt-btn--sm {
-  padding: 2px 8px;
-  font-size: 11px;
-}

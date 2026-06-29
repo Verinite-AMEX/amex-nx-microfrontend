@@ -32,7 +32,7 @@ export class Dashboard {
     const routeMap: Record<string, string> = {
       'soc-roc-transactions':  '/soc-roc-transactions/soc-roc-transactions',
       'file-formation-upload': '/utilities/file-formation-upload',
-      'merchant-data':         '/merchant-data',
+      'merchant-data':         '/merchant-data/merchant-data',   // ← இது மட்டும் மாறுது
       'retrieval':             '/retrieval',
       'algeria-payment':       '/algeria-payment',
       'payment-register':      '/payment-register',

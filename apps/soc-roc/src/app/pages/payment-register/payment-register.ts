@@ -1,35 +1,65 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { AmexPaymentRegisterTableComponent, PaymentRegisterRow } from '@vn-core-ui-components/ui';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import {
+  AmexPaymentRegisterTableComponent,
+  AmexSuccessToastComponent,
+  AmexErrorToastComponent,
+  PaymentRegisterRow
+} from '@vn-core-ui-components/ui';
 
 @Component({
   selector: 'app-payment-register',
   standalone: true,
-  imports: [AmexPaymentRegisterTableComponent],
-  template: `
-    <amex-payment-register-table
-      title="Payment Register"
-      [rows]="records"
-      (printClick)="onPrint()">
-    </amex-payment-register-table>
-  `
+  imports: [
+    CommonModule,
+    FormsModule,
+    AmexPaymentRegisterTableComponent,
+    AmexSuccessToastComponent,
+    AmexErrorToastComponent
+  ],
+  templateUrl: './payment-register.html',
+  styleUrl: './payment-register.css'
 })
 export class PaymentRegister implements OnInit {
-  // Interface: { date, location, currency, amount, reference }
-  records: PaymentRegisterRow[] = [];
 
-  constructor(private router: Router) {}
+  julianDay: string = '';
+  year: string = new Date().getFullYear().toString();
+  country: string = '';
+  currency: string = '';
+  referenceNumber: string = '';
+
+  yearList: string[] = [];
+  countryList: string[] = ['US', 'AE', 'EG', 'SA', 'BH', 'KW', 'OM', 'QA'];
+  currencyList: string[] = ['USD', 'AED', 'EGP', 'SAR', 'BHD', 'KWD', 'OMR', 'QAR'];
+
+  records: PaymentRegisterRow[] = [];
+  isLoading = false;
+  status: 'idle' | 'success' | 'error' = 'idle';
+  statusMessage = '';
 
   ngOnInit(): void {
-    // TODO: Replace with PaymentRegisterService API call
-    this.records = [];
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear; y >= currentYear - 10; y--) {
+      this.yearList.push(y.toString());
+    }
+  }
+
+  onViewReport(): void {
+    this.isLoading = true;
+    this.status = 'idle';
+    // TODO: Replace with actual API call
+    setTimeout(() => {
+      this.isLoading = false;
+      this.records = [];
+      if (this.records.length === 0) {
+        this.status = 'error';
+        this.statusMessage = 'No records found for the selected criteria.';
+      }
+    }, 800);
   }
 
   onPrint(): void {
     window.print();
-  }
-
-  onBack(): void {
-    this.router.navigate(['algeria-payment']);
   }
 }

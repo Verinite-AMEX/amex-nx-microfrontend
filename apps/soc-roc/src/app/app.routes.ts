@@ -7,8 +7,8 @@ import { Signup } from './pages/signup/signup';
 import { FileFormationUpload } from './pages/utilities/file-formation-upload/file-formation-upload';
 import { CountryMaster } from './pages/masters/country-master/country-master.component';
 import { CurrencyMaster } from './pages/masters/currency-master/currency-master.component';
-import { MerchantData } from './pages/merchant-data/merchant-data';
-import { SocRocTransactions } from './pages/soc-roc-transactions/soc-roc-transactions';
+import { MerchantDataComponent } from './pages/merchant-data/merchant-data';
+import { SocRocTransactionsComponent } from './pages/soc-roc-transactions/soc-roc-transactions';
 import { Dashboard } from './pages/dashboard/dashboard.component';
 import { ExtractRejectedItems } from './pages/utilities/extract-rejected-items/extract-rejected-items';
 import { RetrievalOldRecords } from './pages/utilities/retrieval-old-records/retrieval-old-records';
@@ -38,9 +38,9 @@ export const routes: Routes = [
     { path: 'masters/country-master', component: CountryMaster, canActivate: [socRocAuthGuard] },
     { path: 'masters/currency-master', component: CurrencyMaster, canActivate: [socRocAuthGuard] },
 
-    { path: 'merchant-data/merchant-data', component: MerchantData, canActivate: [socRocAuthGuard] },
+    { path: 'merchant-data', component: MerchantDataComponent, canActivate: [socRocAuthGuard] },
 
-    { path: 'soc-roc-transactions/soc-roc-transactions', component: SocRocTransactions, canActivate: [socRocAuthGuard] },
+    { path: 'soc-roc-transactions', component: SocRocTransactionsComponent, canActivate: [socRocAuthGuard] },
 
     { path: 'reports/details-by-currency', component: DetailsByCurrency, canActivate: [socRocAuthGuard] },
     { path: 'reports/soc-control-report', component: SocControlReport, canActivate: [socRocAuthGuard] },
