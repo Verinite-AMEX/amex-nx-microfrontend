@@ -1,7 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { AmexPageComponent } from '@vn-core-ui-components/ui';
 
 import { CentHomeComponent }        from '../pages/home/cent-home.component';
 import { CentLoadClientComponent }  from '../pages/load-client/cent-load-client.component';
@@ -12,12 +12,12 @@ import { CentConfirmComponent }     from '../pages/confirm/cent-confirm.componen
   selector: 'cent-entry',
   standalone: false,
   template: `
-    <amex-page-shell
+    <amex-page-component
       portalStyle="onls"
       [showSidebar]="false"
       [config]="shellConfig">
       <router-outlet></router-outlet>
-    </amex-page-shell>
+    </amex-page-component>
   `,
 })
 export class CentEntryComponent {
@@ -46,7 +46,7 @@ const routes: Routes = [
   declarations: [CentEntryComponent],
   imports: [
     CommonModule,
-    AmexPageShellComponent,
+    AmexPageComponent,
     RouterModule.forChild(routes),
   ],
 })
