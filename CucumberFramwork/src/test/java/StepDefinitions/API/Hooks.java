@@ -1,4 +1,4 @@
-package StepDefinitions.api;
+package StepDefinitions.API;
 
 import Context.TestContext;
 import Utils.ExtentReportManager;
