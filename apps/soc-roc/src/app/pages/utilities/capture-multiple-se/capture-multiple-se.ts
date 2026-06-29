@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexSOCROCEntryFormComponent,
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
@@ -9,71 +10,57 @@ import {
   selector: 'app-capture-multiple-se',
   standalone: true,
   imports: [
-    AmexSOCROCEntryFormComponent,
+    CommonModule,
+    FormsModule,
     AmexSuccessToastComponent,
     AmexErrorToastComponent
   ],
-  template: `
-    <amex-socroc-entry-form
-      [showSOC]="captureType === 'SOC'"
-      [showROC]="captureType === 'ROC'"
-      [rejectionCodes]="rejectionCodes"
-      (socAction)="onSocAction($event)"
-      (rocAction)="onRocAction($event)">
-    </amex-socroc-entry-form>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './capture-multiple-se.html',
+  styleUrl: './capture-multiple-se.css'
 })
-export class CaptureMultipleSe implements OnInit {
-  captureType: 'SOC' | 'ROC' = 'SOC';
+export class CaptureMultipleSe {
+  fileName: string = '';
+  sheetNo: string = '1';
+  refund: boolean = false;
+  selectedFile: File | null = null;
 
-  rejectionCodes: string[] = [
-    '001 - Invalid Card Number',
-    '002 - Duplicate Transaction',
-    '003 - Expired Card',
-    '004 - Insufficient Funds',
-    '005 - Invalid Merchant'
-  ];
-
-  isLoading: boolean = false;
+  isRefreshing = false;
+  isUploading = false;
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage: string = '';
 
-  ngOnInit(): void {}
-
-  onSocAction(event: { action: string; soc: any }): void {
-    this.isLoading = true;
-    // TODO: Replace with SocRocService API call
-    setTimeout(() => {
-      this.isLoading = false;
-      this.status = 'success';
-      this.statusMessage = 'Multiple SE data captured successfully.';
-    }, 600);
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.fileName = input.files[0].name;
+    }
   }
 
-  onRocAction(event: { action: string; roc: any }): void {
-    this.isLoading = true;
-    // TODO: Replace with SocRocService API call
+  onRefreshData(): void {
+    if (!this.selectedFile) {
+      this.status = 'error';
+      this.statusMessage = 'Please choose an Excel file first.';
+      return;
+    }
+    this.isRefreshing = true;
+    this.status = 'idle';
+    // TODO: Replace with actual API call
     setTimeout(() => {
-      this.isLoading = false;
+      this.isRefreshing = false;
       this.status = 'success';
-      this.statusMessage = 'Multiple SE data captured successfully.';
-    }, 600);
+      this.statusMessage = 'Data refreshed from Excel successfully.';
+    }, 800);
+  }
+
+  onUploadToServer(): void {
+    this.isUploading = true;
+    this.status = 'idle';
+    // TODO: Replace with actual API call
+    setTimeout(() => {
+      this.isUploading = false;
+      this.status = 'success';
+      this.statusMessage = "Multiple SE's captured and uploaded successfully.";
+    }, 800);
   }
 }

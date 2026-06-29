@@ -25,7 +25,6 @@
       <span class="ffu-cal-title">{{ calendarMonthYear }}</span>
       <button class="ffu-cal-nav" (click)="nextMonth()">&#9654;</button>
     </div>
-
     <div class="ffu-cal-grid">
       <div class="ffu-cal-day-name" *ngFor="let d of ['Su','Mo','Tu','We','Th','Fr','Sa']">{{ d }}</div>
       <div
@@ -59,10 +58,24 @@
     </select>
   </div>
 
-  <!-- Status -->
-  <div *ngIf="uploadStatus !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + uploadStatus">
-    {{ statusMessage }}
-  </div>
+  <!-- vn-core Toast Messages -->
+  @if (uploadStatus === 'success') {
+    <amex-success-toast
+      [message]="statusMessage"
+      [autoDismiss]="true"
+      [duration]="4000"
+      [dismissible]="true"
+      (dismissed)="onDismissSuccess()">
+    </amex-success-toast>
+  }
+
+  @if (uploadStatus === 'error') {
+    <amex-error-toast
+      [message]="statusMessage"
+      [dismissible]="true"
+      (dismissed)="onDismissError()">
+    </amex-error-toast>
+  }
 
   <!-- Submit Button -->
   <div class="ffu-row">

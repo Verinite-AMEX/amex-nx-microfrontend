@@ -1,1 +1,163 @@
-<p>soc-roc-transactions works!</p>
+<div class="sr-page">
+
+  <div *ngIf="msg" class="sr-msg"
+    [class.sr-msg--ok]="msgType==='ok'"
+    [class.sr-msg--err]="msgType==='err'">{{ msg }}</div>
+
+  <!-- ======== SOC SECTION ======== -->
+  <div class="sr-section">
+    <div class="sr-section-legend">SOC's</div>
+    <div class="sr-section-body">
+      <div class="sr-two-col">
+
+        <!-- SOC LEFT -->
+        <div class="sr-col">
+          <div class="sr-field-row">
+            <label class="sr-label">SE Number <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="soc.seNumber" maxlength="20" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Date <span class="sr-req">*</span></label>
+            <div class="sr-date-wrap">
+              <input type="text" class="sr-date-dd" [(ngModel)]="soc.dateDD"   maxlength="2" placeholder="DD" />
+              <input type="text" class="sr-date-mm" [(ngModel)]="soc.dateMM"   maxlength="2" placeholder="MM" />
+              <input type="text" class="sr-date-yy" [(ngModel)]="soc.dateYYYY" maxlength="4" placeholder="YYYY" />
+            </div>
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Grand Total <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="soc.grandTotal" maxlength="20" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">No. of Charges <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="soc.noOfCharges" maxlength="10" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">SOC Ref. No. <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="soc.socRefNo" maxlength="30" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Refund</label>
+            <input type="checkbox" class="sr-checkbox" [(ngModel)]="soc.refund" />
+          </div>
+        </div>
+
+        <!-- SOC RIGHT -->
+        <div class="sr-col sr-col--right">
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">SE Name</label>
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.seName" readonly />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">Currency</label>
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.currency" readonly />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">Country</label>
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.country" readonly />
+          </div>
+        </div>
+
+      </div>
+
+      <!-- SOC Buttons -->
+      <div class="sr-action-btns">
+        <button class="sr-btn sr-btn--blue"   (click)="onSocModify()">Modify</button>
+        <button class="sr-btn sr-btn--red"    (click)="onSocDelete()">Delete</button>
+        <button class="sr-btn sr-btn--blue"   (click)="onSocPrint()">Print SOC</button>
+        <button class="sr-btn sr-btn--cancel" (click)="onSocCancel()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ======== ROC SECTION ======== -->
+  <div class="sr-section sr-section--mt">
+    <div class="sr-section-legend">ROC's</div>
+    <div class="sr-section-body">
+      <div class="sr-two-col">
+
+        <!-- ROC LEFT -->
+        <div class="sr-col">
+          <div class="sr-field-row">
+            <label class="sr-label">Card Account No. <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="roc.cardAccountNo" maxlength="20" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Date of Change <span class="sr-req">*</span></label>
+            <div class="sr-date-wrap">
+              <input type="text" class="sr-date-dd" [(ngModel)]="roc.dateDD"   maxlength="2" placeholder="DD" />
+              <input type="text" class="sr-date-mm" [(ngModel)]="roc.dateMM"   maxlength="2" placeholder="MM" />
+              <input type="text" class="sr-date-yy" [(ngModel)]="roc.dateYYYY" maxlength="4" placeholder="YYYY" />
+            </div>
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Approval Code</label>
+            <input type="text" class="sr-input" [(ngModel)]="roc.approvalCode" maxlength="20" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">Total Amount <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="roc.totalAmount" maxlength="20" />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label">ROC Ref. No. <span class="sr-req">*</span></label>
+            <input type="text" class="sr-input" [(ngModel)]="roc.rocRefNo" maxlength="30" />
+          </div>
+        </div>
+
+        <!-- ROC RIGHT -->
+        <div class="sr-col sr-col--right">
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">#</label>
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="roc.hash" readonly />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">Balance SOC Amt.</label>
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="roc.balanceSocAmt" readonly />
+          </div>
+          <div class="sr-field-row">
+            <label class="sr-label sr-label--sm">Rejection Code</label>
+            <select class="sr-input sr-select sr-input--ro" [(ngModel)]="roc.rejectionCode" disabled>
+              <option value=""></option>
+              <option *ngFor="let r of rejectionCodes" [value]="r">{{ r }}</option>
+            </select>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- ROC Buttons -->
+      <div class="sr-action-btns">
+        <button class="sr-btn sr-btn--blue"   (click)="onRocModify()">Modify</button>
+        <button class="sr-btn sr-btn--blue"   (click)="onListRocs()">List ROCs</button>
+        <button class="sr-btn sr-btn--cancel" (click)="onRocCancel()">Cancel</button>
+      </div>
+
+      <!-- ROC List result -->
+      <div *ngIf="showRocList" class="sr-roc-list">
+        <div *ngIf="rocList.length === 0" class="sr-no-data">No ROC's found for this reference.</div>
+        <table class="sr-table" *ngIf="rocList.length > 0">
+          <thead>
+            <tr>
+              <th>ROC Ref</th>
+              <th>Card Account No.</th>
+              <th>Approval Code</th>
+              <th>Amount</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let r of rocList">
+              <td>{{ r.rocRefNo }}</td>
+              <td>{{ r.cardAccountNo }}</td>
+              <td>{{ r.approvalCode }}</td>
+              <td>{{ r.totalAmount }}</td>
+              <td>{{ r.dateDD }}/{{ r.dateMM }}/{{ r.dateYYYY }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+
+</div>

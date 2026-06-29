@@ -205,7 +205,7 @@ export class AppComponent implements OnInit {
   }
 
   onTabClick(tabId: string): void {
-    if (['masters', 'merchant-data', 'socs-rocs', 'utilities', 'reports'].includes(tabId)) {
+    if (['masters', 'utilities', 'reports'].includes(tabId)) {
       if (this.activeTabId === tabId) {
         this.showSubMenu = !this.showSubMenu;
       } else {
@@ -217,6 +217,8 @@ export class AppComponent implements OnInit {
     this.showSubMenu = false;
     this.activeTabId = tabId;
     const routeMap: Record<string, string> = {
+      'merchant-data': '/merchant-data',      
+      'socs-rocs': '/soc-roc-transactions', 
       'retrieval': '/retrieval',
       'algeria-payment': '/algeria-payment',
       'payment-register': '/payment-register'

@@ -1,0 +1,149 @@
+.cm-page {
+  padding: 20px 30px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
+}
+
+.cm-form {
+  display: inline-block;
+  min-width: 380px;
+}
+
+.cm-field-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+  position: relative;
+}
+
+.cm-label {
+  min-width: 120px;
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+
+.cm-req {
+  color: red;
+}
+
+.cm-input {
+  height: 24px;
+  padding: 2px 6px;
+  border: 1px solid #aaa;
+  font-size: 13px;
+  color: #333;
+  width: 200px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.cm-input:focus {
+  outline: 1px solid #336699;
+  border-color: #336699;
+}
+
+/* Dropdown wrap */
+.cm-select-wrap {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.cm-input--select {
+  width: 200px;
+  padding-right: 22px;
+  cursor: pointer;
+}
+
+.cm-arrow {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  color: #555;
+  cursor: pointer;
+  user-select: none;
+}
+
+.cm-dropdown {
+  position: absolute;
+  top: 26px;
+  left: 0;
+  width: 200px;
+  background: #fff;
+  border: 1px solid #aaa;
+  z-index: 500;
+  max-height: 200px;
+  overflow-y: auto;
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.cm-drop-item {
+  padding: 5px 8px;
+  font-size: 13px;
+  cursor: pointer;
+  color: #003087;
+}
+
+.cm-drop-item:hover {
+  background: #cce0f5;
+}
+
+/* Buttons */
+.cm-action-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.cm-btn {
+  padding: 5px 22px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+.cm-btn--blue {
+  background: #1a5276;
+  color: #fff;
+}
+
+.cm-btn--blue:hover {
+  background: #154360;
+}
+
+.cm-btn--cancel {
+  background: #5d8aa8;
+  color: #fff;
+  border: none;
+}
+
+.cm-btn--cancel:hover {
+  background: #4a7a96;
+}
+
+/* Message */
+.cm-msg {
+  margin: 6px 0 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.cm-msg--ok {
+  color: #006600;
+  background: #eeffee;
+  border: 1px solid #aaddaa;
+}
+
+.cm-msg--err {
+  color: #cc0000;
+  background: #ffeeee;
+  border: 1px solid #ffaaaa;
+}

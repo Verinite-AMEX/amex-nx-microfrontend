@@ -1,68 +1,36 @@
 <div class="rpt-container">
 
-  <!-- Filters -->
   <div class="rpt-row">
-    <label class="rpt-label">From Julian Day <span class="rpt-required">*</span></label>
-    <input type="text" class="rpt-input rpt-input--sm" [(ngModel)]="fromJulianDay" maxlength="3" />
-    <label class="rpt-label rpt-label--mid">To</label>
-    <input type="text" class="rpt-input rpt-input--sm" [(ngModel)]="toJulianDay" maxlength="3" />
+    <label class="rpt-label">From Date <span class="rpt-required">*</span></label>
+    <input type="date" class="rpt-input rpt-input--date" [(ngModel)]="fromDate" />
   </div>
   <div class="rpt-row">
-    <label class="rpt-label">Sales Entity</label>
-    <input type="text" class="rpt-input rpt-input--md" [(ngModel)]="salesEntity" maxlength="10" />
-    <label class="rpt-label rpt-label--mid">Currency</label>
-    <select class="rpt-select" [(ngModel)]="currency">
-      <option value="">-- All --</option>
-      <option *ngFor="let c of currencyList" [value]="c">{{ c }}</option>
-    </select>
-    <button class="rpt-btn rpt-btn--action" (click)="onSearch()">Search</button>
-    <button class="rpt-btn" (click)="onClear()">Clear</button>
+    <label class="rpt-label">To Date <span class="rpt-required">*</span></label>
+    <input type="date" class="rpt-input rpt-input--date" [(ngModel)]="toDate" />
+  </div>
+
+  <div class="rpt-btn-row">
+    <button class="rpt-btn rpt-btn--action" (click)="onSearch()">View Report</button>
   </div>
 
   <div *ngIf="statusMessage" class="rpt-status" [class.rpt-status--error]="status === 'error'">
     {{ statusMessage }}
   </div>
 
-  <!-- Results Table -->
-  <div class="rpt-table-wrap" *ngIf="records.length > 0">
-    <table class="rpt-table">
-      <thead>
-        <tr>
-          <th>Julian Day</th>
-          <th>SOC Ref No.</th>
-          <th>ROC Ref No.</th>
-          <th>Sales Entity</th>
-          <th>Card Number</th>
-          <th>Amount</th>
-          <th>Currency</th>
-          <th>Rejection Code</th>
-          <th>Rejection Reason</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let r of records; let i = index" [class.rpt-row-alt]="i % 2 !== 0">
-          <td>{{ r.julianDay }}</td>
-          <td>{{ r.socRefNo }}</td>
-          <td>{{ r.rocRefNo }}</td>
-          <td>{{ r.salesEntity }}</td>
-          <td>{{ r.cardNumber }}</td>
-          <td class="rpt-num">{{ r.amount | number:'1.2-2' }}</td>
-          <td>{{ r.currency }}</td>
-          <td>{{ r.rejectionCode }}</td>
-          <td>{{ r.rejectionReason }}</td>
-        </tr>
-      </tbody>
-    </table>
-
-    <!-- Summary -->
-    <div class="rpt-summary">
-      <span>Total Records: <strong>{{ records.length }}</strong></span>
-    </div>
+  @if (showTable) {
 
     <div class="rpt-actions">
       <button class="rpt-btn rpt-btn--action" (click)="onPrint()">Print</button>
       <button class="rpt-btn" (click)="onExport()">Export</button>
     </div>
-  </div>
+
+    <amex-sortable-filterable-table
+      title="Consolidated Rejection Report"
+      [columns]="columns"
+      [rows]="records"
+      (sortChange)="onSortChange($event)">
+    </amex-sortable-filterable-table>
+
+  }
 
 </div>

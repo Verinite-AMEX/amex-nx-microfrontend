@@ -1,50 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
   AmexSortableFilterableTableComponent,
-  AmexTableColumn,
-  AmexSuccessToastComponent,
-  AmexErrorToastComponent
+  AmexTableColumn
 } from '@vn-core-ui-components/ui';
 
 @Component({
   selector: 'app-details-by-currency',
   standalone: true,
   imports: [
-    AmexSortableFilterableTableComponent,
-    AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    CommonModule,
+    AmexSortableFilterableTableComponent
   ],
-  template: `
-    <amex-sortable-filterable-table
-      title="Details by Currency"
-      ctaLabel="Search"
-      [columns]="columns"
-      [rows]="records"
-      [actions]="tableActions"
-      (ctaClick)="onSearch()"
-      (actionClick)="onActionClick($event)"
-      (sortChange)="onSortChange($event)">
-    </amex-sortable-filterable-table>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './details-by-currency.html',
+  styleUrl: './details-by-currency.css'
 })
-export class DetailsByCurrency implements OnInit {
+export class DetailsByCurrency {
+  showTable = false;
+
   columns: AmexTableColumn[] = [
     { key: 'currency',     label: 'Currency' },
     { key: 'totalCharges', label: 'Total Charges' },
@@ -54,29 +27,16 @@ export class DetailsByCurrency implements OnInit {
     { key: 'netAmount',    label: 'Net Amount' },
   ];
 
-  tableActions = [
-    { id: 'print', label: 'Print', type: 'secondary' },
-  ];
-
   records: Record<string, any>[] = [];
-  status: 'idle' | 'success' | 'error' = 'idle';
-  statusMessage: string = '';
-
-  ngOnInit(): void {
-    this.onSearch();
-  }
 
   onSearch(): void {
-    this.status = 'idle';
     // TODO: Replace with ReportService API call
     this.records = [];
+    this.showTable = true;
   }
 
-  onActionClick(event: { action: string; row: any }): void {
-    if (event.action === 'print') {
-      window.print();
-    }
-  }
+  onPrint(): void { window.print(); }
+  onExport(): void { /* TODO: export logic */ }
 
   onSortChange(event: { key: string; dir: any }): void {
     console.log('Sort:', event);

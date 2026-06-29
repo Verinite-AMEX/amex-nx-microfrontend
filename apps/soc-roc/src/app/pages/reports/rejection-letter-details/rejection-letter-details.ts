@@ -1,58 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import {
-  AmexRejectionReportTableComponent,
-  RejectionReportRow,
-  AmexSuccessToastComponent,
-  AmexErrorToastComponent
+  AmexSortableFilterableTableComponent,
+  AmexTableColumn
 } from '@vn-core-ui-components/ui';
 
 @Component({
   selector: 'app-rejection-letter-details',
   standalone: true,
   imports: [
-    AmexRejectionReportTableComponent,
-    AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    CommonModule,
+    AmexSortableFilterableTableComponent
   ],
-  template: `
-    <amex-rejection-report-table
-      [rows]="records"
-      (exportClick)="onExport()"
-      (printClick)="onPrint()">
-    </amex-rejection-report-table>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './rejection-letter-details.html',
+  styleUrl: './rejection-letter-details.css'
 })
-export class RejectionLetterDetails implements OnInit {
-  // Interface: { seNo, rejectionReason, date, amount }
-  records: RejectionReportRow[] = [];
-  status: 'idle' | 'success' | 'error' = 'idle';
-  statusMessage: string = '';
+export class RejectionLetterDetails {
+  showTable = false;
 
-  ngOnInit(): void {
+  columns: AmexTableColumn[] = [
+    { key: 'socRefNo',        label: 'SOC Ref No.' },
+    { key: 'rocRefNo',        label: 'ROC Ref No.' },
+    { key: 'salesEntity',     label: 'Sales Entity' },
+    { key: 'cardNumber',      label: 'Card Number' },
+    { key: 'approvalCode',    label: 'Approval Code' },
+    { key: 'amount',          label: 'Amount' },
+    { key: 'currency',        label: 'Currency' },
+    { key: 'rejectionCode',   label: 'Rejection Code' },
+    { key: 'rejectionReason', label: 'Rejection Reason' },
+  ];
+
+  records: Record<string, any>[] = [];
+
+  onSearch(): void {
     // TODO: Replace with ReportService API call
     this.records = [];
+    this.showTable = true;
   }
 
-  onExport(): void {}
+  onPrint(): void { window.print(); }
+  onExport(): void { /* TODO: export logic */ }
 
-  onPrint(): void {
-    window.print();
+  onSortChange(event: { key: string; dir: any }): void {
+    console.log('Sort:', event);
   }
 }

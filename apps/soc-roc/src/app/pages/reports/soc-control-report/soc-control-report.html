@@ -1,56 +1,23 @@
 <div class="rpt-container">
 
-  <!-- Filters -->
-  <div class="rpt-row">
-    <label class="rpt-label">Julian Day <span class="rpt-required">*</span></label>
-    <input type="text" class="rpt-input rpt-input--sm" [(ngModel)]="julianDay" maxlength="3" />
-    <label class="rpt-label rpt-label--mid">Date</label>
-    <input type="text" class="rpt-input rpt-input--date" [value]="selectedDate" readonly />
-  </div>
-  <div class="rpt-row">
-    <label class="rpt-label">Sales Entity <span class="rpt-required">*</span></label>
-    <input type="text" class="rpt-input rpt-input--md" [(ngModel)]="salesEntity" maxlength="10" />
-    <button class="rpt-btn rpt-btn--action" (click)="onSearch()">Search</button>
-    <button class="rpt-btn" (click)="onClear()">Clear</button>
+  <div class="rpt-btn-row">
+    <button class="rpt-btn rpt-btn--action" (click)="onSearch()">View Report</button>
   </div>
 
-  <div *ngIf="statusMessage" class="rpt-status" [class.rpt-status--error]="status === 'error'">
-    {{ statusMessage }}
-  </div>
-
-  <!-- Results Table -->
-  <div class="rpt-table-wrap" *ngIf="records.length > 0">
-    <table class="rpt-table">
-      <thead>
-        <tr>
-          <th>SOC Ref No.</th>
-          <th>Sales Entity</th>
-          <th>Julian Day</th>
-          <th>Total Charges</th>
-          <th>No. of Charges</th>
-          <th>Total Refunds</th>
-          <th>No. of Refunds</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let r of records; let i = index" [class.rpt-row-alt]="i % 2 !== 0">
-          <td>{{ r.socRefNo }}</td>
-          <td>{{ r.salesEntity }}</td>
-          <td>{{ r.julianDay }}</td>
-          <td class="rpt-num">{{ r.totalCharges | number:'1.2-2' }}</td>
-          <td class="rpt-num">{{ r.numCharges }}</td>
-          <td class="rpt-num">{{ r.totalRefunds | number:'1.2-2' }}</td>
-          <td class="rpt-num">{{ r.numRefunds }}</td>
-          <td>{{ r.status }}</td>
-        </tr>
-      </tbody>
-    </table>
+  @if (showTable) {
 
     <div class="rpt-actions">
       <button class="rpt-btn rpt-btn--action" (click)="onPrint()">Print</button>
       <button class="rpt-btn" (click)="onExport()">Export</button>
     </div>
-  </div>
+
+    <amex-sortable-filterable-table
+      title="SOC / Control Report"
+      [columns]="columns"
+      [rows]="records"
+      (sortChange)="onSortChange($event)">
+    </amex-sortable-filterable-table>
+
+  }
 
 </div>

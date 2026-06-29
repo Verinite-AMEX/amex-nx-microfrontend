@@ -4,7 +4,7 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {
-  AmexPageShellComponent,
+  AmexPageComponent,
   AmexTabItem,
 } from '@vn-core-ui-components/ui';
 import { SecureFormService } from './core/services/secure-form.service'; 
@@ -18,10 +18,10 @@ interface NavItem { id: string; label: string; }
   imports: [
     CommonModule,
     RouterModule,
-    AmexPageShellComponent,
+    AmexPageComponent,
   ],
   template: `
-    <amex-page-shell
+    <amex-page-component
       portalStyle="onls"
       portalTitle="MY BTA"
       [tabs]="tabs"
@@ -46,7 +46,7 @@ interface NavItem { id: string; label: string; }
       <!-- default slot: page content -->
       <router-outlet></router-outlet>
 
-    </amex-page-shell>
+    </amex-page-component>
   `,
   styles: [`
     .bta-nav-hd   { background:#1e3a6e; color:#fff; font-size:11px; font-weight:bold; padding:6px 10px; text-align:center; letter-spacing:.04em; }
