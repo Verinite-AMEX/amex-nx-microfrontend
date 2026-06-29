@@ -12,7 +12,7 @@ import { SHELL_HOSTED } from '../../core/tokens/shell.token';
   standalone: true,
   imports: [CommonModule, AmexPageShellComponent, CenLcyExcComponent],
   template: `
-    <amex-page-shell
+    <amex-page-component
       portalStyle="onls"
       portalTitle="ONLS Helper Tool"
       [config]="shellConfig"
@@ -22,7 +22,7 @@ import { SHELL_HOSTED } from '../../core/tokens/shell.token';
       (logout)="onLogout()"
     >
       <app-cen-lcy-exc></app-cen-lcy-exc>
-    </amex-page-shell>
+    </amex-page-component>
   `,
 })
 export class CenLcyExcShellWrapperComponent {
