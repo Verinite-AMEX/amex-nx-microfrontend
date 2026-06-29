@@ -67,12 +67,12 @@
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
-      "outputs": ["{workspaceRoot}/coverage/apps/shell"],
+      "outputs": ["{workspaceRoot}/coverage/apps/bta-portal"],
       "options": {
-        "main": "apps/shell/src/test.ts",
+        "main": "apps/bta-portal/src/test.ts",
         "polyfills": ["zone.js"],
-        "tsConfig": "apps/shell/tsconfig.spec.json",
-        "karmaConfig": "apps/shell/karma.conf.js"
+        "tsConfig": "apps/bta-portal/tsconfig.spec.json",
+        "karmaConfig": "apps/bta-portal/karma.conf.js"
       }
     }
   }
