@@ -14,31 +14,31 @@
         <div class="sr-col">
           <div class="sr-field-row">
             <label class="sr-label">SE Number <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="soc.seNumber" maxlength="20" />
+            <input type="text" class="sr-input" [(ngModel)]="soc.seNumber" maxlength="20" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Date <span class="sr-req">*</span></label>
             <div class="sr-date-wrap">
-              <input type="text" class="sr-date-dd" [(ngModel)]="soc.dateDD"   maxlength="2" placeholder="DD" />
-              <input type="text" class="sr-date-mm" [(ngModel)]="soc.dateMM"   maxlength="2" placeholder="MM" />
-              <input type="text" class="sr-date-yy" [(ngModel)]="soc.dateYYYY" maxlength="4" placeholder="YYYY" />
+              <input type="text" class="sr-date-dd" [(ngModel)]="soc.dateDD"   maxlength="2" placeholder="DD" appNumbersOnly/>
+              <input type="text" class="sr-date-mm" [(ngModel)]="soc.dateMM"   maxlength="2" placeholder="MM" appNumbersOnly/>
+              <input type="text" class="sr-date-yy" [(ngModel)]="soc.dateYYYY" maxlength="4" placeholder="YYYY" appNumbersOnly/>
             </div>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Grand Total <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="soc.grandTotal" maxlength="20" />
+            <input type="text" class="sr-input" [(ngModel)]="soc.grandTotal" maxlength="20" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">No. of Charges <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="soc.noOfCharges" maxlength="10" />
+            <input type="text" class="sr-input" [(ngModel)]="soc.noOfCharges" maxlength="10" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">SOC Ref. No. <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="soc.socRefNo" maxlength="30" />
+            <input type="text" class="sr-input" [(ngModel)]="soc.socRefNo" maxlength="30" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Refund</label>
-            <input type="checkbox" class="sr-checkbox" [(ngModel)]="soc.refund" />
+            <input type="checkbox" class="sr-checkbox" [(ngModel)]="soc.refund" appNumbersOnly/>
           </div>
         </div>
 
@@ -50,7 +50,7 @@
           </div>
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">Currency</label>
-            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.currency" readonly />
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.currency" readonly appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">Country</label>
@@ -80,27 +80,27 @@
         <div class="sr-col">
           <div class="sr-field-row">
             <label class="sr-label">Card Account No. <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="roc.cardAccountNo" maxlength="20" />
+            <input type="text" class="sr-input" [(ngModel)]="roc.cardAccountNo" maxlength="20" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Date of Change <span class="sr-req">*</span></label>
             <div class="sr-date-wrap">
-              <input type="text" class="sr-date-dd" [(ngModel)]="roc.dateDD"   maxlength="2" placeholder="DD" />
-              <input type="text" class="sr-date-mm" [(ngModel)]="roc.dateMM"   maxlength="2" placeholder="MM" />
-              <input type="text" class="sr-date-yy" [(ngModel)]="roc.dateYYYY" maxlength="4" placeholder="YYYY" />
+              <input type="text" class="sr-date-dd" [(ngModel)]="roc.dateDD"   maxlength="2" placeholder="DD" appNumbersOnly/>
+              <input type="text" class="sr-date-mm" [(ngModel)]="roc.dateMM"   maxlength="2" placeholder="MM" appNumbersOnly/>
+              <input type="text" class="sr-date-yy" [(ngModel)]="roc.dateYYYY" maxlength="4" placeholder="YYYY" appNumbersOnly/>
             </div>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Approval Code</label>
-            <input type="text" class="sr-input" [(ngModel)]="roc.approvalCode" maxlength="20" />
+            <input type="text" class="sr-input" [(ngModel)]="roc.approvalCode" maxlength="20" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">Total Amount <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="roc.totalAmount" maxlength="20" />
+            <input type="text" class="sr-input" [(ngModel)]="roc.totalAmount" maxlength="20" appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label">ROC Ref. No. <span class="sr-req">*</span></label>
-            <input type="text" class="sr-input" [(ngModel)]="roc.rocRefNo" maxlength="30" />
+            <input type="text" class="sr-input" [(ngModel)]="roc.rocRefNo" maxlength="30" appNumbersOnly/>
           </div>
         </div>
 
@@ -112,7 +112,7 @@
           </div>
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">Balance SOC Amt.</label>
-            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="roc.balanceSocAmt" readonly />
+            <input type="text" class="sr-input sr-input--ro" [(ngModel)]="roc.balanceSocAmt" readonly appNumbersOnly/>
           </div>
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">Rejection Code</label>

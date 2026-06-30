@@ -11,28 +11,20 @@
 
   @if (activeTab === 'main') {
     <div class="dash-container">
-      <button class="dash-tile" (click)="onSelectWinners()">
-        Select Winners
-      </button>
-      <button class="dash-tile" (click)="onUploadFile()">
-        Upload File
-      </button>
+      <button class="dash-btn" (click)="onSelectWinners()">Select Winners</button>
+      <button class="dash-btn" (click)="onUploadFile()">Upload File</button>
     </div>
   }
 
   @if (activeTab === 'winner') {
     <div class="dash-container">
-      <button class="dash-tile" (click)="onSelectWinners()">
-        Select Winners
-      </button>
+      <button class="dash-btn" (click)="onSelectWinners()">Select Winners</button>
     </div>
   }
 
   @if (activeTab === 'upload') {
     <div class="dash-container">
-      <button class="dash-tile" (click)="onUploadFile()">
-        Upload File
-      </button>
+      <button class="dash-btn" (click)="onUploadFile()">Upload File</button>
     </div>
   }
 

@@ -5,6 +5,8 @@ import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
+
 
 @Component({
   selector: 'app-download-multiple-se',
@@ -13,7 +15,8 @@ import {
     CommonModule,
     FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
   templateUrl: './download-multiple-se.html',
   styleUrl: './download-multiple-se.css'

@@ -4,6 +4,7 @@
   <div class="ffu-row">
     <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
     <input type="text" class="ffu-text-input" [(ngModel)]="julianDay"
+      appNumbersOnly
       (ngModelChange)="onJulianDayInput()" maxlength="3">
   </div>
 
@@ -32,26 +33,12 @@
     </div>
   </div>
 
-  <!-- SE Numbers list -->
-  <div class="ffu-row" style="align-items: flex-start;">
-    <label class="ffu-label" style="padding-top:4px;">SE Numbers <span class="ffu-required">*</span></label>
-    <div>
-      <select multiple size="6" class="eri-se-list"
-        (change)="selectedIndex = +$any($event.target).selectedIndex">
-        <option *ngFor="let se of seNumbers" [value]="se">{{ se }}</option>
-      </select>
-      <div style="margin-top:6px;">
-        <button class="ffu-today-btn" (click)="removeSelected()">Remove Selected</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Add SE input -->
+  <!-- SE Number input -->
   <div class="ffu-row">
-    <label class="ffu-label"></label>
+    <label class="ffu-label">SE Numbers <span class="ffu-required">*</span></label>
     <input type="text" class="ffu-text-input" [(ngModel)]="seNumber"
-      (keyup.enter)="addSeNumber()" placeholder="Enter SE Number">
-    <button class="ffu-today-btn" (click)="addSeNumber()">Add To List</button>
+      appNumbersOnly
+      placeholder="Enter SE Number">
   </div>
 
   <!-- SOC Header radio -->
