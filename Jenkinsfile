@@ -30,9 +30,8 @@ pipeline {
                 echo '==========================='
                 echo 'npm install (monorepo root)'
                 echo '==========================='
-                // legacy-bundling already removed from the global .npmrc (see earlier fix);
+                // legacy-bundling already removed from the global .npmrc;
                 // npm refuses to accept this setting via 'npm config set' so it must not be re-added here.
-                // Ensure Verdaccio registry is reachable before install
                 bat '''
                 echo Checking Verdaccio registry...
                 curl -s -o nul -w "%%{http_code}" http://localhost:4873/ | findstr "200" >nul
@@ -85,6 +84,7 @@ pipeline {
                 }
             }
         }
+
         stage('Start Backend') {
             steps {
                 echo '==========================='
@@ -175,6 +175,7 @@ pipeline {
                 '''
             }
         }
+
         stage('ZAP Security Scan') {
             steps {
                 script {
@@ -186,7 +187,7 @@ pipeline {
                         def zapReport = "${WORKSPACE}\\zap-reports\\${app}-zap-report.html"
 
                         echo "--- Serving ${app} on port ${port} for ZAP scan ---"
-                        bat "start /B \"\" npx nx serve ${app} --port=${port} --configuration=production"
+                        bat "start \"${app}-zap-serve\" /B npx nx serve ${app} --port=${port} --configuration=production"
                         sleep(time: 30, unit: 'SECONDS')
 
                         echo "--- Running ZAP Scan for ${app} ---"
@@ -200,8 +201,13 @@ pipeline {
                           -silent || exit 0
                         """
 
-                        echo "--- Stopping NX serve for ${app} ---"
-                        bat 'taskkill /F /IM node.exe /T 2>nul || exit 0'
+                        echo "--- Stopping NX serve for ${app} on port ${port} ---"
+                        bat """
+                        for /f \"tokens=5\" %%a in ('netstat -aon ^| findstr \":${port}\" ^| findstr \"LISTENING\"') do (
+                            taskkill /F /PID %%a 2>nul
+                        )
+                        exit 0
+                        """
                         sleep(time: 5, unit: 'SECONDS')
                     }
                 }
@@ -243,6 +249,50 @@ pipeline {
             }
         }
 
+        stage('Serve Apps for Automation Testing') {
+            steps {
+                echo '==========================='
+                echo 'Starting frontend apps for Cucumber/Selenium GUI tests'
+                echo '==========================='
+                script {
+                    env.PROJECTS.split(' ').each { proj ->
+                        def parts = proj.split(':')
+                        def app   = parts[0]
+                        def port  = parts[2]
+                        echo "--- Serving ${app} on port ${port} ---"
+                        bat "start \"${app}-serve\" /B npx nx serve ${app} --port=${port} --configuration=production > ${app}-serve.log 2>&1"
+                    }
+                }
+                echo 'Waiting for all apps to come up...'
+                script {
+                    env.PROJECTS.split(' ').each { proj ->
+                        def parts = proj.split(':')
+                        def app   = parts[0]
+                        def port  = parts[2]
+                        bat """
+                        setlocal enabledelayedexpansion
+                        set RETRIES=20
+                        :WAIT_${app}
+                        curl -s -o nul -w "%%{http_code}" http://localhost:${port} > ${app}_status.txt
+                        set /p STATUS=<${app}_status.txt
+                        if "!STATUS!"=="200" goto READY_${app}
+                        set /a RETRIES-=1
+                        if !RETRIES! EQU 0 (
+                            echo ${app} did not come up on port ${port} in time.
+                            type ${app}-serve.log 2>nul
+                            exit /b 1
+                        )
+                        ping -n 4 127.0.0.1 >nul
+                        goto WAIT_${app}
+                        :READY_${app}
+                        echo ${app} is serving on ${port}.
+                        endlocal
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Automation Testing') {
             steps {
                 echo '==========================='
@@ -266,9 +316,9 @@ pipeline {
 
     post {
         always {
-            echo '--- Stopping backend if still running ---'
+            echo '--- Stopping backend and frontend servers if still running ---'
             bat '''
-            for %%P in (8761 8081 8082 8080) do (
+            for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
                 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
                     taskkill /F /PID %%a 2>nul
                 )
