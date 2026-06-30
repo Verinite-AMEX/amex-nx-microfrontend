@@ -30,9 +30,8 @@ pipeline {
                 echo '==========================='
                 echo 'npm install (monorepo root)'
                 echo '==========================='
-                // Remove legacy-bundling to prevent deep nested paths + EPERM on Windows
-                bat 'npm config delete legacy-bundling --location=project 2>nul || exit 0'
-                bat 'npm config set legacy-bundling false'
+                // legacy-bundling already removed from the global .npmrc (see earlier fix);
+                // npm refuses to accept this setting via 'npm config set' so it must not be re-added here.
                 // Ensure Verdaccio registry is reachable before install
                 bat '''
                 echo Checking Verdaccio registry...
