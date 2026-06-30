@@ -85,7 +85,6 @@ pipeline {
                 }
             }
         }
-
         stage('Start Backend') {
             steps {
                 echo '==========================='
@@ -98,44 +97,65 @@ pipeline {
                 echo '==========================='
                 echo 'Starting Eureka (8761)...'
                 echo '==========================='
-                dir('Backend\\eureka') {
-                    bat 'start /B "" mvn spring-boot:run > ..\\..\\eureka-server.log 2>&1'
+                dir('Backend\\eureka\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\eureka-server.log 2>&1
+                    )
+                    '''
                 }
                 sleep(time: 25, unit: 'SECONDS')
 
                 echo '==========================='
                 echo 'Starting Auth Service (8081)...'
                 echo '==========================='
-                dir('Backend\\auth-service') {
-                    bat 'start /B "" mvn spring-boot:run > ..\\..\\auth-service.log 2>&1'
+                dir('Backend\\auth-service\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\auth-service.log 2>&1
+                    )
+                    '''
                 }
                 sleep(time: 20, unit: 'SECONDS')
 
                 echo '==========================='
                 echo 'Starting Wearables Backend (8082)...'
                 echo '==========================='
-                dir('Backend\\wearables-springboot-backend') {
-                    bat 'start /B "" mvn spring-boot:run > ..\\..\\wearables-backend.log 2>&1'
+                dir('Backend\\wearables-springboot-backend\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\wearables-backend.log 2>&1
+                    )
+                    '''
                 }
                 sleep(time: 20, unit: 'SECONDS')
 
                 echo '==========================='
                 echo 'Starting API Gateway (8080)...'
                 echo '==========================='
-                dir('Backend\\apigateway') {
-                    bat 'start /B "" mvn spring-boot:run > ..\\..\\apigateway.log 2>&1'
+                dir('Backend\\apigateway\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\apigateway.log 2>&1
+                    )
+                    '''
                 }
                 sleep(time: 25, unit: 'SECONDS')
 
                 echo 'All backend services started — checking gateway health...'
                 bat '''
+                setlocal enabledelayedexpansion
                 set RETRIES=10
                 :WAIT
                 curl -s -o nul -w "%%{http_code}" http://localhost:8080/actuator/health > health_status.txt
                 set /p STATUS=<health_status.txt
-                if "%%STATUS%%"=="200" goto READY
+                if "!STATUS!"=="200" goto READY
                 set /a RETRIES-=1
-                if %%RETRIES%% EQU 0 (
+                if !RETRIES! EQU 0 (
                     echo Backend health check timed out.
                     echo --- eureka-server.log ---
                     type eureka-server.log 2>nul
@@ -147,14 +167,14 @@ pipeline {
                     type apigateway.log 2>nul
                     exit /b 1
                 )
-                timeout /t 5 /nobreak >nul
+                ping -n 6 127.0.0.1 >nul
                 goto WAIT
                 :READY
                 echo Backend gateway is healthy.
+                endlocal
                 '''
             }
         }
-
         stage('ZAP Security Scan') {
             steps {
                 script {
