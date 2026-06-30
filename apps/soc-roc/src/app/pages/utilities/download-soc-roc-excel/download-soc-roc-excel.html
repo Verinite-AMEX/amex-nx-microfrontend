@@ -2,8 +2,8 @@
 
   <!-- Row 1: S.E. No | S.E. Name -->
   <div class="dse-row">
-    <label class="dse-label">S.E. No.</label>
-    <input type="text" class="dse-input" [(ngModel)]="seNo" />
+    <label class="dse-label" >S.E. No.</label>
+    <input type="text" class="dse-input" [(ngModel)]="seNo" appNumbersOnly />
     <label class="dse-label">S.E. Name</label>
     <input type="text" class="dse-input" [(ngModel)]="seName" />
   </div>
@@ -11,7 +11,7 @@
   <!-- Row 2: Date | Country | Currency -->
   <div class="dse-row">
     <label class="dse-label">Date</label>
-    <input type="text" class="dse-input" [(ngModel)]="date" />
+    <input type="text" class="dse-input" [(ngModel)]="date" appNumbersOnly/>
     <label class="dse-label">Country</label>
     <input type="text" class="dse-input" [(ngModel)]="country" />
     <label class="dse-label">Currency</label>
@@ -21,15 +21,15 @@
   <!-- Row 3: Grand Total | Refund -->
   <div class="dse-row">
     <label class="dse-label">Grand Total</label>
-    <input type="text" class="dse-input" [(ngModel)]="grandTotal" />
+    <input type="text" class="dse-input" [(ngModel)]="grandTotal" appNumbersOnly/>
     <label class="dse-label">Refund</label>
-    <input type="checkbox" class="dse-checkbox" [(ngModel)]="refund" />
+    <input type="checkbox" class="dse-checkbox" [(ngModel)]="refund" appNumbersOnly/>
   </div>
 
   <!-- Row 4: No. of Charges | File Name -->
   <div class="dse-row">
     <label class="dse-label">No. of Charges</label>
-    <input type="text" class="dse-input" [(ngModel)]="noOfCharges" />
+    <input type="text" class="dse-input" [(ngModel)]="noOfCharges" appNumbersOnly/>
     <label class="dse-label">File Name</label>
     <label class="dse-choose-btn">
       Choose File
@@ -41,9 +41,9 @@
   <!-- Row 5: Soc. Ref. No. | Sheet No. -->
   <div class="dse-row">
     <label class="dse-label">Soc. Ref. No.</label>
-    <input type="text" class="dse-input" [(ngModel)]="socRefNo" />
+    <input type="text" class="dse-input" [(ngModel)]="socRefNo" appNumbersOnly/>
     <label class="dse-label">Sheet No.</label>
-    <input type="text" class="dse-input dse-input-sm" [(ngModel)]="sheetNo" />
+    <input type="text" class="dse-input dse-input-sm" [(ngModel)]="sheetNo" appNumbersOnly/>
   </div>
 
   <!-- vn-core Toasts -->

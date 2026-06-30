@@ -2,11 +2,13 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../core/directives/numbers-only.directive';
+
 
 @Component({
   selector: 'app-soc-roc-transactions',
   standalone: true,
-  imports: [CommonModule, FormsModule, AmexPageShellComponent],
+  imports: [CommonModule, FormsModule, AmexPageShellComponent, NumbersOnlyDirective],
   templateUrl: './soc-roc-transactions.html',
   styleUrls: ['./soc-roc-transactions.css']
 })

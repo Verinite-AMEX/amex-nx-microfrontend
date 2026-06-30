@@ -49,13 +49,6 @@ const routes: Routes = [
         .then((m: any) => m.remoteRoutes).catch(portalFallback),
   },
 
-  {
-    path: 'soc-roc',
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4214/remoteEntry.js', exposedModule: './Routes' })
-        .then((m: any) => m.remoteRoutes).catch(portalFallback),
-  },
 
   // ── Legacy remotes (expose ./Module → named NgModule class) ──────
 
@@ -143,7 +136,7 @@ const routes: Routes = [
     path: 'change-password',
     canActivate: [AuthGuard],
     loadChildren: () =>
-      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4215/remoteEntry.js', exposedModule: './Module' })
+      loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4214/remoteEntry.js', exposedModule: './Module' })
         .then((m: any) => m.ChangePasswordRemoteEntryModule).catch(portalFallback),
   },
 

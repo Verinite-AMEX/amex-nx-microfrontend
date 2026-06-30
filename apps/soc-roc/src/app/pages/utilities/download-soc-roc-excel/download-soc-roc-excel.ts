@@ -5,6 +5,7 @@ import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
 
 @Component({
   selector: 'app-download-soc-roc-excel',
@@ -13,7 +14,8 @@ import {
     CommonModule,
     FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
   templateUrl: './download-soc-roc-excel.html',
   styleUrl: './download-soc-roc-excel.css'

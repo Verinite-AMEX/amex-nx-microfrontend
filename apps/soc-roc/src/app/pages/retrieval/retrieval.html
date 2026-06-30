@@ -9,7 +9,7 @@
       <div class="ret-field-group">
         @for (field of rocFields; track field.label) {
           <div class="ret-row">
-            <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" />
+            <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" appNumbersOnly/>
             <label class="ret-field-label">{{ field.label }}</label>
             @if (field.type === 'select') {
               <select class="ret-select" [(ngModel)]="field.value" [disabled]="!field.enabled">
@@ -18,7 +18,7 @@
                 }
               </select>
             } @else {
-              <input type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" />
+              <input type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" appNumbersOnly/>
             }
           </div>
         }
@@ -28,9 +28,9 @@
       <div class="ret-field-group ret-field-group--soc">
         @for (field of socFields; track field.label) {
           <div class="ret-row">
-            <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" />
+            <input type="checkbox" class="ret-checkbox" [(ngModel)]="field.enabled" appNumbersOnly/>
             <label class="ret-field-label">{{ field.label }}</label>
-            <input type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" />
+            <input type="text" class="ret-input" [(ngModel)]="field.value" [disabled]="!field.enabled" appNumbersOnly/>
           </div>
         }
       </div>

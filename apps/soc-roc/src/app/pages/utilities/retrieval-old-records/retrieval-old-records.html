@@ -7,6 +7,7 @@
       type="text"
       class="ffu-text-input"
       [(ngModel)]="julianDay"
+      appNumbersOnly
       (ngModelChange)="onJulianDayInput()"
       maxlength="3"
     />
@@ -55,7 +56,7 @@
   <!-- SE Number (optional) -->
   <div class="ffu-row">
     <label class="ffu-label">SE Number</label>
-    <input type="text" class="ffu-text-input" [(ngModel)]="seNumber" placeholder="Optional" />
+    <input type="text" class="ffu-text-input" appNumbersOnly [(ngModel)]="seNumber" placeholder="Optional" />
   </div>
 
   <!-- vn-core Toast Messages -->

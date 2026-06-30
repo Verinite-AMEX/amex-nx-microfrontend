@@ -5,6 +5,7 @@ import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
 
 interface CalendarDay {
   date: Date;
@@ -18,7 +19,8 @@ interface CalendarDay {
     CommonModule,
     FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
   templateUrl: './extract-rejected-items.html',
   styleUrl: './extract-rejected-items.css'

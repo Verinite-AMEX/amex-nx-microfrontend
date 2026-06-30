@@ -5,6 +5,8 @@ import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../core/directives/numbers-only.directive';
+
 
 interface RetField {
   label: string;
@@ -41,7 +43,8 @@ interface ReportRecord {
     CommonModule,
     FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
   templateUrl: './retrieval.html',
   styleUrl: './retrieval.css'

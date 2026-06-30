@@ -5,7 +5,7 @@
 
     <div class="md-field-row">
       <label class="md-label">SE Number <span class="md-req">*</span></label>
-      <input type="text" class="md-input" [(ngModel)]="form.seNumber" maxlength="20" />
+      <input type="text" class="md-input" [(ngModel)]="form.seNumber" maxlength="20" appNumbersOnly/>
     </div>
 
     <div class="md-field-row">
@@ -57,7 +57,7 @@
 
     <div class="md-field-row">
       <label class="md-label">Discount Rate</label>
-      <input type="text" class="md-input" [(ngModel)]="form.discountRate" maxlength="10" />
+      <input type="text" class="md-input" [(ngModel)]="form.discountRate" maxlength="10" appNumbersOnly/>
     </div>
 
     <div *ngIf="msg" class="md-msg"

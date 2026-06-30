@@ -15,7 +15,7 @@
   <!-- Sheet No + Refund on same row -->
   <div class="ffu-row">
     <label class="ffu-label">Sheet No.</label>
-    <input type="text" class="ffu-text-input dms-sheet-input" [(ngModel)]="sheetNo" />
+    <input type="text" class="ffu-text-input dms-sheet-input" [(ngModel)]="sheetNo" appNumbersOnly/>
     <label class="ffu-label dms-refund-label">Refund</label>
     <input type="checkbox" [(ngModel)]="refund" />
   </div>
