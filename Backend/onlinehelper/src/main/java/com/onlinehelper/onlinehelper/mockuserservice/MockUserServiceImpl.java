@@ -1,8 +1,12 @@
 package com.onlinehelper.onlinehelper.mockuserservice;
 
-
 import com.onlinehelper.onlinehelper.entity.UserDetails;
+import com.onlinehelper.onlinehelper.exception.UserNotFoundException;
+
+import jakarta.annotation.PostConstruct;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDateTime;
 import java.util.Map;
@@ -11,52 +15,126 @@ import java.util.concurrent.ConcurrentHashMap;
 @Service
 public class MockUserServiceImpl implements MockUserService {
 
+    // Store lock status
+    private final Map<String, Boolean> lockMap = new ConcurrentHashMap<>();
 
-    // STORE LOCK STATUS
-    private final Map<String, Boolean> lockMap =
-            new ConcurrentHashMap<>();
+    // Mock database
+    private final Map<String, UserDetails> userIdMap = new ConcurrentHashMap<>();
+    private final Map<String, UserDetails> cardNoMap = new ConcurrentHashMap<>();
 
-    @Override
-    public UserDetails getMockUserByUserId(
-            String userId) {
+    @PostConstruct
+    public void init() {
 
-        return buildMockUser(
-                userId,
-                "374245455400126"
-        );
-    }
-
-    @Override
-    public UserDetails getMockUserByCardNo(
-            String cardNo) {
-
-        return buildMockUser(
+        UserDetails user1 = buildMockUser(
                 "MOCKUSER001",
-                cardNo
+                "374245455400126"
+        );
+
+        UserDetails user2 = buildMockUser(
+                "SACHIN001",
+                "374512345678901"
+        );
+
+        userIdMap.put(user1.getUserId(), user1);
+        userIdMap.put(user2.getUserId(), user2);
+
+        cardNoMap.put(user1.getCardNo(), user1);
+        cardNoMap.put(user2.getCardNo(), user2);
+    }
+
+   @Override
+public UserDetails getMockUserByUserId(String userId) {
+
+    if (userId == null || userId.isBlank()) {
+        throw new IllegalArgumentException(
+                "User ID cannot be empty"
         );
     }
 
-    @Override
-    public UserDetails lockUser(
-            String userId) {
+    UserDetails user = userIdMap.get(userId);
 
-        lockMap.put(userId, true);
-
-        return buildMockUser(
-                userId,
-                "374245455400126"
+    if (user == null) {
+        throw new UserNotFoundException(
+                "User not found: " + userId
         );
     }
 
+    applyLockStatus(user);
+
+    return user;
+}
+
+   @Override
+public UserDetails getMockUserByCardNo(String cardNo) {
+
+    if (cardNo == null || cardNo.isBlank()) {
+        throw new IllegalArgumentException(
+                "Card number cannot be empty"
+        );
+    }
+
+    UserDetails user = cardNoMap.get(cardNo);
+
+    if (user == null) {
+        throw new UserNotFoundException(
+                "Card not found: " + cardNo
+        );
+    }
+
+    applyLockStatus(user);
+
+    return user;
+}
+
+   @Override
+public UserDetails lockUser(String userId) {
+
+    UserDetails user = userIdMap.get(userId);
+
+    if (user == null) {
+        throw new UserNotFoundException(
+                "User not found: " + userId
+        );
+    }
+
+    lockMap.put(userId, true);
+
+    applyLockStatus(user);
+
+    return user;
+}
+
     @Override
-    public UserDetails unlockUser(
-            String userId) {
+public UserDetails unlockUser(String userId) {
 
-        lockMap.put(userId, false);
+    UserDetails user = userIdMap.get(userId);
 
-        return buildMockUser(
-                userId,
-                "374245455400126"
+    if (user == null) {
+        throw new UserNotFoundException(
+                "User not found: " + userId
+        );
+    }
+
+    lockMap.put(userId, false);
+
+    applyLockStatus(user);
+
+    return user;
+}
+
+    private void applyLockStatus(UserDetails user) {
+
+        boolean locked = lockMap.getOrDefault(
+                user.getUserId(),
+                false
+        );
+
+        user.setUserStatus(
+                locked ? "Locked" : "Active"
+        );
+
+        user.setAccountStatus(
+                locked ? "Locked" : "Unlocked"
         );
     }
 
@@ -64,14 +142,7 @@ public class MockUserServiceImpl implements MockUserService {
             String userId,
             String cardNo) {
 
-        boolean isLocked =
-                lockMap.getOrDefault(
-                        userId,
-                        false
-                );
-
-        UserDetails user =
-                new UserDetails();
+        UserDetails user = new UserDetails();
 
         user.setId(1L);
 
@@ -79,68 +150,34 @@ public class MockUserServiceImpl implements MockUserService {
 
         user.setCardNo(cardNo);
 
-        // STATUS
-        user.setUserStatus(
-                isLocked
-                        ? "Locked"
-                        : "Active"
-        );
+        user.setUserStatus("Active");
 
-        user.setAccountStatus(
-                isLocked
-                        ? "Locked"
-                        : "Unlocked"
-        );
+        user.setAccountStatus("Unlocked");
 
-        user.setEmail(
-                "john.doe@test.com"
-        );
+        user.setEmail("john.doe@test.com");
 
-        user.setMobileNo(
-                "9876543210"
-        );
+        user.setMobileNo("9876543210");
 
-        user.setPowerCardId(
-                "PWR12345"
-        );
+        user.setPowerCardId("PWR12345");
 
         user.setRegistrationDate(
-                LocalDateTime.now()
-                        .minusMonths(6)
+                LocalDateTime.now().minusMonths(6)
         );
 
         user.setLastLogin(
                 LocalDateTime.now()
         );
 
-        user.setSiteSeal(
-                "Blue Dolphin"
-        );
+        user.setSiteSeal("Blue Dolphin");
 
-        // SECRET QUESTIONS
-        user.setSecretQuestion1(
-                "What is your pet name?"
-        );
+        user.setSecretQuestion1("What is your pet name?");
+        user.setSecretAnswer1("Tommy");
 
-        user.setSecretAnswer1(
-                "Tommy"
-        );
+        user.setSecretQuestion2("What is your birthplace?");
+        user.setSecretAnswer2("Mumbai");
 
-        user.setSecretQuestion2(
-                "What is your birthplace?"
-        );
-
-        user.setSecretAnswer2(
-                "Mumbai"
-        );
-
-        user.setSecretQuestion3(
-                "What is your favorite color?"
-        );
-
-        user.setSecretAnswer3(
-                "Black"
-        );
+        user.setSecretQuestion3("What is your favorite color?");
+        user.setSecretAnswer3("Black");
 
         return user;
     }
