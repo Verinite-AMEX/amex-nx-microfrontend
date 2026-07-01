@@ -8,6 +8,7 @@ import {
   AmexTabBarComponent,
   AmexTabItem
 } from '@vn-core-ui-components/ui';
+import { SecureFormService } from './core/services/secure-form.service'; 
 
 interface MenuItem {
   id: string;
@@ -172,9 +173,12 @@ export class AppComponent implements OnInit {
     { id: 'consolidated', label: 'Consolidated Rejection Report', route: '/reports/consolidated-rejection-report' }
   ];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+  private secureForm: SecureFormService) {}
 
   ngOnInit(): void {
+    this.secureForm.enable();
     this.checkRoute(this.router.url);
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
