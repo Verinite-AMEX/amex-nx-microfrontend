@@ -6,14 +6,15 @@ Feature: Verify that the User is able to access the online account service in ON
     Given Navigate to the Online Helper Portal
     When  I enter username "sys.admin" and password "Admin@1234" in Online Helper Portal
     And   I click the Online Helper login button
-    Then  I should see the MY BTA Home Page
+    And  I click the popup button
+    Then  I should see the Online Helper Home Page
 
-  @OnlineAccountServices_001 @WIP
-  Scenario: Verify that user is able to retrieve details by entering valid card number in Online Account Service
-    Given Navigate to online Account Services
-    When  i enter invalid card number "1234" in Online Account Service section
-    And   i click the submit button
-    Then  i should see the error message "Invalid card number."
+  @OnlineAccountServices_001
+  Scenario: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+    Given  Navigate to online Account Services
+    When  I enter invalid valid user Id "abcd" in Online Account Service section
+    And   I click the search button
+    Then  i should see the error message displayed in Online Account Service section
 
     
 

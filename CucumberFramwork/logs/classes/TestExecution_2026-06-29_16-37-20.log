@@ -1,0 +1,26 @@
+2026-06-29 16:37:20 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering valid card number in Online Account Service ==========
+2026-06-29 16:37:20 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_16-37-20.html
+2026-06-29 16:37:20 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering valid card number in Online Account Service
+2026-06-29 16:37:20 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 16:37:20 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 16:37:20 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 16:37:22 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 16:37:22 [main] INFO  Hooks - Browser initialized
+2026-06-29 16:37:22 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 16:37:24 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 16:37:24 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 16:37:25 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 16:37:25 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 16:37:36 [main] INFO  UiHelper - Popup handled - proceeding
+2026-06-29 16:37:36 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-29 16:37:37 [main] INFO  OnlineAccountServicesSteps - Navigated to Online Account Services
+2026-06-29 16:37:37 [main] INFO  OnlineAccountServicesSteps - Entered valid card number
+2026-06-29 16:37:37 [main] INFO  OnlineAccountServicesSteps - Clicked login button
+2026-06-29 16:37:37 [main] INFO  UiHelper - ✓ supp15 is registered. is successfully displayed
+2026-06-29 16:37:37 [main] INFO  ExtentReportManager - ✓ ✓ supp15 is registered. is successfully displayed
+2026-06-29 16:37:41 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-29 16:37:41 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering valid card number in Online Account Service ==========
+2026-06-29 16:37:41 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify that user is able to retrieve details by entering valid card number in Online Account Service
+2026-06-29 16:37:41 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 16:37:41 [main] INFO  Hooks - Browser closed
+2026-06-29 16:37:42 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_16-37-20.html

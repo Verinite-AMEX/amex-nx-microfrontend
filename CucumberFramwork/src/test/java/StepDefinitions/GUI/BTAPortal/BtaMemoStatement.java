@@ -46,7 +46,7 @@ public class BtaMemoStatement {
         uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/div[2]/div/div/bta-entry/div/div[2]/app-bta-memo-statement/div/div/div[2]/div[7]/div/select"), "RTF");
         uiHelper.click(By.xpath("/html/body/app-root/div[2]/div/div/bta-entry/div/div[2]/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
         LoggerUtils.logInfo("Clicked RTF download button");
-       uiHelper.handleDownloadPopup();
+       uiHelper.handlePopup();
     }
 
     @Then("User Download the Memo Statement CSV")
@@ -54,6 +54,6 @@ public class BtaMemoStatement {
         uiHelper.selectDropdownByText(By.xpath("/html/body/app-root/div[2]/div/div/bta-entry/div/div[2]/app-bta-memo-statement/div/div/div[2]/div[7]/div/select"), "CSV");
         uiHelper.click(By.xpath("/html/body/app-root/div[2]/div/div/bta-entry/div/div[2]/app-bta-memo-statement/div/div/div[2]/div[7]/div/button"));
         LoggerUtils.logInfo("Clicked CSV download button");
-        uiHelper.handleDownloadPopup();
+        uiHelper.handlePopup();
     }
 }

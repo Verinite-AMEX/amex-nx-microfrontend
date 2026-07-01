@@ -1,0 +1,35 @@
+2026-06-29 17:06:38 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:06:38 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_17-06-38.html
+2026-06-29 17:06:38 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+2026-06-29 17:06:38 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 17:06:38 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 17:06:38 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 17:06:40 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 17:06:40 [main] INFO  Hooks - Browser initialized
+2026-06-29 17:06:40 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 17:06:42 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 17:06:42 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 17:06:43 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 17:06:43 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 17:06:55 [main] INFO  UiHelper - Popup handled - proceeding
+2026-06-29 17:06:55 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-29 17:06:55 [main] INFO  OnlineAccountServicesSteps - Navigated to Online Account Services
+2026-06-29 17:06:55 [main] INFO  OnlineAccountServicesSteps - Entered invalid user id
+2026-06-29 17:06:55 [main] INFO  OnlineAccountServicesSteps - Clicked login button
+2026-06-29 17:07:16 [main] INFO  UiHelper - ✗ SUCCESS MESSAGE NOT FOUND - Expected condition failed: waiting for visibility of element located by By.xpath: /html/body/app-root/amex-page-component/div/div/div/div/supp-entry/amex-page-component/div/div/div/div[2]/app-supp-search/div/div/div[2]/div[2]/span (tried for 20 second(s) with 500 milliseconds interval)
+Build info: version: '4.34.0', revision: '707dcb4246*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.11'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 149.0.7827.104, chrome: {chromedriverVersion: 149.0.7827.155 (07b52360cc1..., userDataDir: C:\Users\V00450\AppData\Loc...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53238}, goog:processID: 29632, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53238/devtoo..., se:cdpVersion: 149.0.7827.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: c6aa42153fbb55e6f0dfc0717a98d141
+2026-06-29 17:07:16 [main] INFO  UiHelper - Screenshot captured for failure: Success Message Not Found
+2026-06-29 17:07:16 [main] INFO  ExtentReportManager - ✗ ✗ SUCCESS MESSAGE NOT FOUND - Expected condition failed: waiting for visibility of element located by By.xpath: /html/body/app-root/amex-page-component/div/div/div/div/supp-entry/amex-page-component/div/div/div/div[2]/app-supp-search/div/div/div[2]/div[2]/span (tried for 20 second(s) with 500 milliseconds interval)
+Build info: version: '4.34.0', revision: '707dcb4246*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.11'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 149.0.7827.104, chrome: {chromedriverVersion: 149.0.7827.155 (07b52360cc1..., userDataDir: C:\Users\V00450\AppData\Loc...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:53238}, goog:processID: 29632, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:53238/devtoo..., se:cdpVersion: 149.0.7827.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: c6aa42153fbb55e6f0dfc0717a98d141
+2026-06-29 17:07:16 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:07:16 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 17:07:16 [main] INFO  Hooks - Browser closed
+2026-06-29 17:07:17 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_17-06-38.html

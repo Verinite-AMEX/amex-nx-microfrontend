@@ -1,0 +1,6 @@
+2026-06-29 16:36:28 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering valid card number in Online Account Service ==========
+2026-06-29 16:36:28 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_16-36-28.html
+2026-06-29 16:36:28 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering valid card number in Online Account Service
+2026-06-29 16:36:28 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 16:36:29 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 16:36:29 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe

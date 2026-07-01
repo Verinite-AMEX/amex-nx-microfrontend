@@ -1,0 +1,4 @@
+2026-06-29 17:06:23 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:06:23 [main] INFO  ExtentReportManager - ✗ Test FAILED: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+2026-06-29 17:06:23 [main] INFO  Hooks - Browser closed
+2026-06-29 17:06:23 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_17-06-22.html

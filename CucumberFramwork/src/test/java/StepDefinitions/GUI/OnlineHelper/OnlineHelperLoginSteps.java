@@ -43,22 +43,25 @@ public class OnlineHelperLoginSteps {
 
     @When("I enter username {string} and password {string} in Online Helper Portal")
     public void iEnterUsernameAndPassword(String username, String password) {
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[2]/input"), username);
-        uiHelper.enterText(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[3]/input"), password);
+        uiHelper.enterText(By.xpath("//input[@id='username']"), username);
+        uiHelper.enterText(By.xpath("//input[@id='password']"), password);
         LoggerUtils.logInfo("Entered username and password");
     }
 
     @When("I click the Online Helper login button")
     public void iClickTheLoginButton() {
-        uiHelper.click(By.xpath("/html/body/app-root/amex-page-shell/div/div[2]/div/div/app-bta-login/div/div[2]/div[5]/button"));
+        uiHelper.click(By.xpath("/html/body/app-root/app-login/amex-login-form/div/div[4]/div[2]/div/div[4]/button"));
         LoggerUtils.logInfo("Clicked login button");
+    }
+    @Then("I click the popup button")
+    public void popup(){
+        uiHelper.PasswordAlertHandle();
     }
 
     @Then("I should see the Online Helper Home Page")
     public void iShouldSeeTheWelcomeMessage() {
-        WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/amex-page-shell/div/header/amex-top-nav-bar/div[2]/span")));
+        WebElement welcomeMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("/html/body/app-root/amex-page-component/div/header/div/amex-top-nav-bar/div[2]/span")));
         assertTrue(welcomeMessage.isDisplayed(), "Home page is not displayed");
-        LoggerUtils.logInfo("Home page landed successfully");
     }
 
 }

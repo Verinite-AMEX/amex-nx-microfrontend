@@ -1,0 +1,3408 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Test Automation Report</title>
+<link rel="apple-touch-icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link rel="shortcut icon" href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png">
+<link href="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@d6562a79075e061305ccfdb82f01e5e195e2d307/spark/css/spark-style.css" rel="stylesheet" />
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@7cc78ce/spark/js/jsontree.js"></script>
+<style type="text/css"></style></head><body class="spa -report dark">
+  <div class="app">
+    <div class="layout">
+<div class="header navbar">
+<div class="vheader">
+<div class="nav-logo">
+<a href="#">
+<div class="logo" style="background-image: url('https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@b00a2d0486596e73dd7326beacf352c639623a0e/commons/img/logo.png')"></div>
+</a>
+</div>
+<ul class="nav-left">
+<li class="search-box">
+<a class="search-toggle" href="#">
+<i class="search-icon fa fa-search"></i>
+<i class="search-icon-close fa fa-close"></i>
+</a>
+</li>
+<li class="search-input"><input id="search-tests" class="form-control" type="text" placeholder="Search..."></li>
+</ul>
+<ul class="nav-right">
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">Cucumber BDD Test Report</span></a>
+</li>
+<li class="m-r-10">
+<a href="#"><span class="badge badge-primary">2026-06-29 15:53:44</span></a>
+</li>
+</ul>
+</div>
+</div><div class="side-nav">
+<div class="side-nav-inner">
+<ul class="side-nav-menu">
+<li class="nav-item dropdown" onclick="toggleView('test-view')">
+<a id="nav-test" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-list"></i></span>
+</a>
+</li>
+<li class="nav-item dropdown" onclick="toggleView('dashboard-view')">
+<a id="nav-dashboard" class="dropdown-toggle" href="#">
+<span class="ico"><i class="fa fa-bar-chart"></i></span>
+</a>
+</li>
+</ul>
+</div>
+</div>      <div class="vcontainer">
+        <div class="main-content">
+<div class="test-wrapper row view test-view">
+  <div class="test-list">
+    <div class="test-list-tools">
+<ul class="tools pull-left">
+<li><a href="#"><span class="font-size-14">Tests</span></a></li>
+</ul>
+<ul class="tools text-right">
+<li class="dropdown">
+<a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-exclamation-circle"></i></a>
+<ul id="status-toggle" class="dropdown-menu dropdown-md p-v-0">
+<a class="dropdown-item" status="pass" href="#"><span>Pass</span><span class="status success"></span></a>
+<div class="dropdown-divider"></div>
+<a status="clear" class="dropdown-item" href="#"><span>Clear</span><span class="pull-right"><i class="fa fa-close"></i></span></a>
+</ul>
+</li>
+</ul>
+</div>    <div class="test-list-wrapper scrollable">
+      <ul class="test-list-item">
+        <li class="test-item"  status="pass" test-id="1"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Change Password with Blank Current Password CurrentPassword Field</p>
+            <p class="text-sm">
+              <span>3:53:44 pm</span> / <span>00:00:04:214</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Change Password with Blank Current Password CurrentPassword Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:44 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:49 pm</span>
+<span class='badge badge-default'>00:00:04:214</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=1</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Negative, @BTAChangePassword]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:44 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "",
+  "newPassword" : "Test@12345"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          Test PASSED: User Create BTA Change Password with Blank Current Password CurrentPassword Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="2"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Change Password with Invalid Current Password CurrentPassword Field</p>
+            <p class="text-sm">
+              <span>3:53:49 pm</span> / <span>00:00:01:388</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Change Password with Invalid Current Password CurrentPassword Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:49 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:51 pm</span>
+<span class='badge badge-default'>00:00:01:388</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=2</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Negative, @BTAChangePassword]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:49 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Invalid@123",
+  "newPassword" : "Test@12345"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Current password is incorrect",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          Test PASSED: User Create BTA Change Password with Invalid Current Password CurrentPassword Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="3"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Change Password with Null Current Password CurrentPassword Field</p>
+            <p class="text-sm">
+              <span>3:53:51 pm</span> / <span>00:00:00:884</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Change Password with Null Current Password CurrentPassword Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:51 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:51 pm</span>
+<span class='badge badge-default'>00:00:00:884</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=3</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Negative, @BTAChangePassword]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : null,
+  "newPassword" : "Test@12345"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {currentPassword=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          Test PASSED: User Create BTA Change Password with Null Current Password CurrentPassword Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="4"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Change Password with Blank New Password newPassword Field</p>
+            <p class="text-sm">
+              <span>3:53:51 pm</span> / <span>00:00:00:989</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Change Password with Blank New Password newPassword Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:51 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:52 pm</span>
+<span class='badge badge-default'>00:00:00:989</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=4</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Negative, @BTAChangePassword]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:51 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : ""
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {newPassword=size must be between 8 and 100}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          Test PASSED: User Create BTA Change Password with Blank New Password newPassword Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="5"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Change Password with Null New Password newPassword Field</p>
+            <p class="text-sm">
+              <span>3:53:52 pm</span> / <span>00:00:01:072</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Change Password with Null New Password newPassword Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:52 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:01:072</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=5</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Negative, @BTAChangePassword]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:52 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {newPassword=must not be null}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: User Create BTA Change Password with Null New Password newPassword Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="6"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Username Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:099</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:099</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=6</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_001, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "abc",
+  "email" : "csa@aeme.com"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "No account found with that username and email",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="7"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Username Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:077</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:077</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=7</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_001, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "email" : "csa@aeme.com"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="8"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Username Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:060</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:060</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=8</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_001, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "email" : "csa@aeme.com"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="9"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Email Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:055</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Email Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:055</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=9</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_002, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : "abc"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must be a well-formed email address}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Email Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="10"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Email Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:084</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Email Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:084</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=10</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_002, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Email Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="11"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create BTA Forgot Password with <Case> Email Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:080</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create BTA Forgot Password with <Case> Email Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-default'>00:00:00:080</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=11</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTAForgotPasswordNegative_002, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/forgot-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "csa.agent",
+  "email" : ""
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          Test PASSED: Create BTA Forgot Password with <Case> Email Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="12"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing Invalid value in Username Field</p>
+            <p class="text-sm">
+              <span>3:53:54 pm</span> / <span>00:00:00:587</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing Invalid value in Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:54 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-default'>00:00:00:587</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=12</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_001, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:54 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "abc",
+  "password" : "Corp@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 401
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing Invalid value in Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="13"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing null value in Username Field</p>
+            <p class="text-sm">
+              <span>3:53:55 pm</span> / <span>00:00:00:050</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing null value in Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-default'>00:00:00:050</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=13</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_002, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "password" : "Corp@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing null value in Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="14"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing Blank value in Username Field</p>
+            <p class="text-sm">
+              <span>3:53:55 pm</span> / <span>00:00:00:057</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing Blank value in Username Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-default'>00:00:00:057</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=14</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_003, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "password" : "Corp@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing Blank value in Username Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="15"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing Invalid value in Password Field</p>
+            <p class="text-sm">
+              <span>3:53:55 pm</span> / <span>00:00:00:455</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing Invalid value in Password Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-default'>00:00:00:455</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=15</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_001, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : "abc"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 401
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Invalid username or password",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing Invalid value in Password Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="16"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing null value in Password Field</p>
+            <p class="text-sm">
+              <span>3:53:55 pm</span> / <span>00:00:00:042</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing null value in Password Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-default'>00:00:00:042</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=16</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_002, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing null value in Password Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="17"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Login to BTA Portal by passing Blank value in Password Field</p>
+            <p class="text-sm">
+              <span>3:53:55 pm</span> / <span>00:00:00:057</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Login to BTA Portal by passing Blank value in Password Field</h5>
+<span class='badge badge-success'>06.29.2026 3:53:55 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:057</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=17</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsLogin, @API, @Negative, @CreateBTALoginNegative_003, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:55 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : ""
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User Login to BTA Portal by passing Blank value in Password Field
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="18"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes empty values in Username Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:046</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes empty values in Username Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:046</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=18</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "",
+  "email" : "User5447@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=size must be between 3 and 50}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes empty values in Username Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="19"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes null values in Username Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:056</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes null values in Username Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:056</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=19</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : null,
+  "email" : "User1799@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {username=must not be null}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes null values in Username Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="20"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes duplicate username in Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:491</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes duplicate username in Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:491</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=20</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User3777",
+  "email" : "User1920@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Username already taken: User3777",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes duplicate username in Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="21"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes empty values in Email Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:050</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes empty values in Email Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:050</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=21</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User1838",
+  "email" : "",
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes empty values in Email Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="22"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes Null values in Email Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:050</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes Null values in Email Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:050</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=22</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User0704",
+  "email" : null,
+  "password" : "Test@1234",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {email=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes Null values in Email Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="23"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes empty values in password Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:050</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes empty values in password Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:050</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=23</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User8113",
+  "email" : "User8526@gmail.com",
+  "password" : "",
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=size must be between 8 and 100}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes empty values in password Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="24"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes Null values in Password Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:056</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes Null values in Password Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-default'>00:00:00:056</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=24</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User1120",
+  "email" : "User7728@gmail.com",
+  "password" : null,
+  "fullName" : "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {password=must not be null}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          Test PASSED: User passes Null values in Password Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="25"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes empty values in firstname Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:56 pm</span> / <span>00:00:00:045</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes empty values in firstname Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:56 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-default'>00:00:00:045</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=25</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:56 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User3255",
+  "email" : "User5997@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : ""
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          Test PASSED: User passes empty values in firstname Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="26"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User passes Null values in firstname Request body to perform BTA Registration</p>
+            <p class="text-sm">
+              <span>3:53:57 pm</span> / <span>00:00:00:044</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User passes Null values in firstname Request body to perform BTA Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-default'>00:00:00:044</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=26</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Negative, @CreateBTARegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User3369",
+  "email" : "User0662@gmail.com",
+  "password" : "Test@1234",
+  "fullName" : null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 400
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": false,
+    "message": "Validation failed: {fullName=must not be blank}",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          Test PASSED: User passes Null values in firstname Request body to perform BTA Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="27"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create Logout with Invalid Access Token</p>
+            <p class="text-sm">
+              <span>3:53:57 pm</span> / <span>00:00:00:036</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create Logout with Invalid Access Token</h5>
+<span class='badge badge-success'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-default'>00:00:00:036</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=27</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@OnlsRegistration, @API, @Positive, @CreateOnlsRegistration, @Negative]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/logout
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 403
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre></pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          Test PASSED: User Create Logout with Invalid Access Token
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="28"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create Registration and perform Login & Change Password</p>
+            <p class="text-sm">
+              <span>3:53:57 pm</span> / <span>00:00:01:999</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create Registration and perform Login & Change Password</h5>
+<span class='badge badge-success'>06.29.2026 3:53:57 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-default'>00:00:01:999</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=28</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTAChangePassword, @API, @Positive, @BTAChangePassword, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:57 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/change-password
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "currentPassword" : "Test@1234",
+  "newPassword" : "Test@12345"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Password changed successfully",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          Test PASSED: User Create Registration and perform Login & Change Password
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="29"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create Amex BTA Corporate Master Admin Login</p>
+            <p class="text-sm">
+              <span>3:53:59 pm</span> / <span>00:00:00:362</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create Amex BTA Corporate Master Admin Login</h5>
+<span class='badge badge-success'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-default'>00:00:00:362</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=29</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.admin",
+  "password" : "Corp@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwicm9sZXMiOlsiUk9MRV9DT1JQX01BU1RFUl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyNzI4NjM5LCJleHAiOjE3ODI4MTUwMzl9.n0LrcU1V5mw_0IoUsedeF2kY2cLIOr5ZV78xvuHHCIhXUEbBJKUgThhE21Nm89o5",
+        "avatarInitials": "SF",
+        "email": "corp.admin@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Sam Frost",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODI3Mjg2MzksImV4cCI6MTc4MzMzMzQzOX0.VVYktWRLkJjVVIvcLfs4hUpI3M51_cZKzOz947KQr0Lv3nWRZ9HN6rNa_fKLqWtf",
+        "roles": [
+            "ROLE_CORP_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "b9b4ca3e-53fd-450b-a478-26cf129bd254",
+        "username": "corp.admin"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          Test PASSED: Create Amex BTA Corporate Master Admin Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="30"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create Amex BTA Corporate Sub Admin Login</p>
+            <p class="text-sm">
+              <span>3:53:59 pm</span> / <span>00:00:00:410</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create Amex BTA Corporate Sub Admin Login</h5>
+<span class='badge badge-success'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-default'>00:00:00:410</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=30</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "corp.sub.admin",
+  "password" : "Corp@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInJvbGVzIjpbIlJPTEVfQ09SUF9TVUJfQURNSU4iXSwidHlwZSI6ImFjY2VzcyIsImlhdCI6MTc4MjcyODYzOSwiZXhwIjoxNzgyODE1MDM5fQ.MX4Mx1WDDdwNCQMfq0T4K0xK96Y5e1ntaMpLq6KurkGGVEolqingQfhWT_9eeP54",
+        "avatarInitials": "NAF",
+        "email": "copsubadmin@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Nadia Al Farsi",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJjb3JwLnN1Yi5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyNzI4NjM5LCJleHAiOjE3ODMzMzM0Mzl9.AuWyKIYByJSoyshcLfR5QnED4f687Ighhw9Mz6ZYW-faNhnTrr085xQFLXC2rTqn",
+        "roles": [
+            "ROLE_CORP_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "a96ba0f3-8622-43ed-a343-fd1be24cd594",
+        "username": "corp.sub.admin"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          Test PASSED: Create Amex BTA Corporate Sub Admin Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="31"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create Amex BTA Travel Agent Master Admin  Login</p>
+            <p class="text-sm">
+              <span>3:53:59 pm</span> / <span>00:00:00:389</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create Amex BTA Travel Agent Master Admin Login</h5>
+<span class='badge badge-success'>06.29.2026 3:53:59 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:00 pm</span>
+<span class='badge badge-default'>00:00:00:389</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=31</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:53:59 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.admin",
+  "password" : "Travel@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInJvbGVzIjpbIlJPTEVfVEFfTUFTVEVSX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODI3Mjg2NDAsImV4cCI6MTc4MjgxNTA0MH0.R0X-XsqSCeeB77_gO9zWWD-B5Jsf5xaHMZi4TupsRKkjin-YOfP6ljATiTwNxVjJ",
+        "avatarInitials": "LH",
+        "email": "ta.admin@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Layla Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5hZG1pbiIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyNzI4NjQwLCJleHAiOjE3ODMzMzM0NDB9.GWItvJMsWK7emTY3qGHcS5B7br2xngTZyMbeUKJRxg9zhlFj1_I9UuPpPtIX6CZ1",
+        "roles": [
+            "ROLE_TA_MASTER_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "6e3b36b9-9faf-46b5-8da3-93ff5b031d0f",
+        "username": "ta.admin"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          Test PASSED: Create Amex BTA Travel Agent Master Admin  Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="32"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create Amex BTA Travel Agent Sub Admin Login</p>
+            <p class="text-sm">
+              <span>3:54:00 pm</span> / <span>00:00:00:409</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create Amex BTA Travel Agent Sub Admin Login</h5>
+<span class='badge badge-success'>06.29.2026 3:54:00 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:00 pm</span>
+<span class='badge badge-default'>00:00:00:409</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=32</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.sub.admin",
+  "password" : "Travel@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJyb2xlcyI6WyJST0xFX1RBX1NVQl9BRE1JTiJdLCJ0eXBlIjoiYWNjZXNzIiwiaWF0IjoxNzgyNzI4NjQwLCJleHAiOjE3ODI4MTUwNDB9.2AB2Ol9vFJVpAKekwNKcI3kb7Foiu1SUzX24iUw_S3O5tPqS8-yloj08dSlZ0nug",
+        "avatarInitials": "JH",
+        "email": "ta.sub.admin@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Jack Hassan",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS5zdWIuYWRtaW4iLCJ0eXBlIjoicmVmcmVzaCIsImlhdCI6MTc4MjcyODY0MCwiZXhwIjoxNzgzMzMzNDQwfQ.IUygSzVRt1TN234X_IW5FGXl9a-68ucQLAP6hTO-mFKKnKM-tj5a1NlvLHwewjUp",
+        "roles": [
+            "ROLE_TA_SUB_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "5653ad89-b716-44b4-815f-6fde7bd1d481",
+        "username": "ta.sub.admin"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          Test PASSED: Create Amex BTA Travel Agent Sub Admin Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="33"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">Create Amex BTA Travel User Login</p>
+            <p class="text-sm">
+              <span>3:54:00 pm</span> / <span>00:00:00:407</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">Create Amex BTA Travel User Login</h5>
+<span class='badge badge-success'>06.29.2026 3:54:00 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-default'>00:00:00:407</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=33</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:00 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "ta.user",
+  "password" : "Travel@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwicm9sZXMiOlsiUk9MRV9UQV9VU0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODI3Mjg2NDEsImV4cCI6MTc4MjgxNTA0MX0.xWh72aWnRBi2-q0nlSKVEwinjcYnbWiHWEU1zdhX07DD_MBE9geWpRzaqMZ6rnXW",
+        "avatarInitials": "TU",
+        "email": "ta.user@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Travel User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJ0YS51c2VyIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODI3Mjg2NDEsImV4cCI6MTc4MzMzMzQ0MX0.c-bB0xda_6F-SrXDz-2a3o3CQ8qOkLdEv5DHH30aHwTnBF_DApWtLpKkT4lKEtDx",
+        "roles": [
+            "ROLE_TA_USER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "f2b8c7ab-311d-4d8f-a288-470a1eb6c3ac",
+        "username": "ta.user"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          Test PASSED: Create Amex BTA Travel User Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="34"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">CreateAmex Internal Admin Login</p>
+            <p class="text-sm">
+              <span>3:54:01 pm</span> / <span>00:00:00:355</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">CreateAmex Internal Admin Login</h5>
+<span class='badge badge-success'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-default'>00:00:00:355</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=34</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogin, @API, @Positive, @CreateBTALogin, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "Amex.internal.admin",
+  "password" : "Internal@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwicm9sZXMiOlsiUk9MRV9BRU1FX0lOVEVSTkFMX0FETUlOIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODI3Mjg2NDEsImV4cCI6MTc4MjgxNTA0MX0.lU4_2ruNyyxz1W-ztoLHw0GQ1Zl0GR7I17Y0CKIFpuGWYVdwjHRv8b7eNL1_8xQd",
+        "avatarInitials": "AIA",
+        "email": "Amex.internal.admin@aeme.com",
+        "expiresIn": 86400,
+        "fullName": "Amex Internal Admin",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJBbWV4LmludGVybmFsLmFkbWluIiwidHlwZSI6InJlZnJlc2giLCJpYXQiOjE3ODI3Mjg2NDEsImV4cCI6MTc4MzMzMzQ0MX0._G-7HVNWbk2P6RGvoEBoeIwfL6uy9EhzVkiuc3gqR2vNre0INvfdYnW-S02tnOlf",
+        "roles": [
+            "ROLE_AEME_INTERNAL_ADMIN"
+        ],
+        "tokenType": "Bearer",
+        "userId": "bff2a91b-606f-4613-a30e-98a0ef95c97f",
+        "username": "Amex.internal.admin"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          Test PASSED: CreateAmex Internal Admin Login
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="35"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create Registration</p>
+            <p class="text-sm">
+              <span>3:54:01 pm</span> / <span>00:00:00:379</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create Registration</h5>
+<span class='badge badge-success'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-default'>00:00:00:379</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=35</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Positive, @CreateBTARegistration, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/register
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username": "User6772",
+  "email": "User5167@gmail.com",
+  "password": "Test@1234",
+  "fullName": "New User"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 201
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Registration successful",
+    "data": {
+        "accessToken": null,
+        "avatarInitials": "NU",
+        "email": "User5167@gmail.com",
+        "expiresIn": 0,
+        "fullName": "New User",
+        "refreshToken": null,
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": null,
+        "userId": "79a35d7b-2712-4665-8830-39372a343cf1",
+        "username": "User6772"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          Test PASSED: User Create Registration
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="36"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create Registration and perform Login & Logout</p>
+            <p class="text-sm">
+              <span>3:54:01 pm</span> / <span>00:00:00:766</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create Registration and perform Login & Logout</h5>
+<span class='badge badge-success'>06.29.2026 3:54:01 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:02 pm</span>
+<span class='badge badge-default'>00:00:00:766</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=36</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTARegistration, @API, @Positive, @CreateBTARegistration, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:01 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/login
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User2327",
+  "password" : "Test@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Login successful",
+    "data": {
+        "accessToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjMyNyIsInJvbGVzIjpbIlJPTEVfVklFV0VSIl0sInR5cGUiOiJhY2Nlc3MiLCJpYXQiOjE3ODI3Mjg2NDIsImV4cCI6MTc4MjgxNTA0Mn0.4WhtQRt_cfxQ5hjf1LzDYItM-q_UcytkyZaA-Su6F_AqZPbH0bRZTufS8Qj2hHaS",
+        "avatarInitials": "NU",
+        "email": "User1650@gmail.com",
+        "expiresIn": 86400,
+        "fullName": "New User",
+        "refreshToken": "eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiJVc2VyMjMyNyIsInR5cGUiOiJyZWZyZXNoIiwiaWF0IjoxNzgyNzI4NjQyLCJleHAiOjE3ODMzMzM0NDJ9.xckanCkusiQ5YopdmAySxcwOBzfjFSP5gVGEiBl3EVGv4yN9vQHvoU1nYjy_XNuF",
+        "roles": [
+            "ROLE_VIEWER"
+        ],
+        "tokenType": "Bearer",
+        "userId": "ba2e70d4-75b7-49ef-a284-9790c9a004fe",
+        "username": "User2327"
+    }
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          Test PASSED: User Create Registration and perform Login & Logout
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+        <li class="test-item"  status="pass" test-id="37"
+          author=""
+          tag=""
+          device="">
+          <div class="test-detail">
+            <p class="name">User Create BTA Logout with Valid Access Token</p>
+            <p class="text-sm">
+              <span>3:54:02 pm</span> / <span>00:00:00:896</span>
+              <span class="badge pass-bg log float-right">Pass</span>
+            </p>
+          </div>
+          <div class="test-contents d-none">
+<div class="detail-head">
+<div class="p-v-10">
+<div class="info">
+<h5 class="test-status text-pass">User Create BTA Logout with Valid Access Token</h5>
+<span class='badge badge-success'>06.29.2026 3:54:02 pm</span>
+<span class='badge badge-danger'>06.29.2026 3:54:03 pm</span>
+<span class='badge badge-default'>00:00:00:896</span>
+&middot; <span class='uri-anchor badge badge-default'>#test-id=37</span>
+<span class='badge badge-default pointer float-right ml-1 et'><i class="fa fa-chevron-down"></i></span>
+<span class='badge badge-default pointer float-right ct'><i class="fa fa-chevron-up"></i></span>
+</div>
+<div class="m-t-10 m-l-5">Tags: [@BTALogout, @API, @Positive, @CreateBTARegistration, @Sanity]</div>
+</div>
+</div><div class="detail-body mt-4">
+<table class="table table-sm">
+  <thead><tr><th class="status-col">Status</th><th class="timestamp-col">Timestamp</th><th class="details-col">Details</th></tr></thead>
+  <tbody>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:02 pm</td>
+        <td>
+          API Test Started
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:03 pm</td>
+        <td>
+          <b>REQUEST URL:</b> http://localhost:8081/api/auth/logout
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:03 pm</td>
+        <td>
+          <b>REQUEST BODY:</b> <pre>{
+  "username" : "User6148",
+  "password" : "Test@1234"
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:03 pm</td>
+        <td>
+          <b>RESPONSE STATUS CODE:</b> 200
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log info-bg">Info</span></td>
+        <td>3:54:03 pm</td>
+        <td>
+          <b>RESPONSE BODY:</b> <pre>{
+    "success": true,
+    "message": "Logged out successfully",
+    "data": null
+}</pre>
+        </td>
+      </tr>
+      <tr class="event-row">
+        <td><span class="badge log pass-bg">Pass</span></td>
+        <td>3:54:03 pm</td>
+        <td>
+          Test PASSED: User Create BTA Logout with Valid Access Token
+        </td>
+      </tr>
+  </tbody>
+</table>
+</div>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+<div class="test-content scrollable">
+<div class="test-content-tools">
+<ul><li><a class="back-to-test" href="#"><i class="fa fa-arrow-left"></i></a></li></ul>
+</div>
+<div class="test-content-detail"><div class="detail-body"></div></div>
+</div></div>
+<div class="container-fluid p-4 view dashboard-view">
+<div class="row">
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Started</p>
+<h3>2026-06-29 15:53:44</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0">Ended</p>
+<h3>2026-06-29 15:54:03</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-pass">Tests Passed</p>
+<h3>37</h3>
+</div></div>
+</div>
+<div class="col-md-3">
+<div class="card"><div class="card-body">
+<p class="m-b-0 text-fail">Tests Failed</p>
+<h3>0</h3>
+</div></div>
+</div>
+</div>
+<div class="row">
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Tests</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='parent-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='100%'>
+<b>37</b> tests passed
+</small>
+</div>
+<div>
+<small data-tooltip='0%'><b>0</b> tests failed,
+<b>0</b> skipped, <b data-tooltip='0%'>0</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+<div class="col-md-6">
+<div class="card">
+<div class="card-header">
+<h6 class="card-title">Log events</h6>
+</div>
+<div class="card-body">
+<div class="">
+<canvas id='events-analysis' width='115' height='90'></canvas>
+</div>
+</div>
+<div class="card-footer">
+<div><small data-tooltip='16%'><b>37</b> events passed</small></div>
+<div>
+<small data-tooltip='0%'><b>0</b> events failed,
+<b data-tooltip='%'>184</b> others
+</small>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row"><div class="col-md-12">
+<div class="card"><div class="card-header"><p>Timeline</p></div>
+<div class="card-body pt-0"><div>
+<canvas id="timeline" height="120"></canvas>
+</div></div>
+</div>
+</div></div>
+<script>
+var timeline = {
+"User Create BTA Change Password with Blank Current Password CurrentPassword Field":4.214,"User Create BTA Change Password with Invalid Current Password CurrentPassword Field":1.388,"User Create BTA Change Password with Null Current Password CurrentPassword Field":0.884,"User Create BTA Change Password with Blank New Password newPassword Field":0.989,"User Create BTA Change Password with Null New Password newPassword Field":1.072,"Create BTA Forgot Password with <Case> Username Field":0.099,"Create BTA Forgot Password with <Case> Username Field":0.077,"Create BTA Forgot Password with <Case> Username Field":0.06,"Create BTA Forgot Password with <Case> Email Field":0.055,"Create BTA Forgot Password with <Case> Email Field":0.084,"Create BTA Forgot Password with <Case> Email Field":0.08,"User Login to BTA Portal by passing Invalid value in Username Field":0.587,"User Login to BTA Portal by passing null value in Username Field":0.05,"User Login to BTA Portal by passing Blank value in Username Field":0.057,"User Login to BTA Portal by passing Invalid value in Password Field":0.455,"User Login to BTA Portal by passing null value in Password Field":0.042,"User Login to BTA Portal by passing Blank value in Password Field":0.057,"User passes empty values in Username Request body to perform BTA Registration":0.046,"User passes null values in Username Request body to perform BTA Registration":0.056,"User passes duplicate username in Request body to perform BTA Registration":0.491,"User passes empty values in Email Request body to perform BTA Registration":0.05,"User passes Null values in Email Request body to perform BTA Registration":0.05,"User passes empty values in password Request body to perform BTA Registration":0.05,"User passes Null values in Password Request body to perform BTA Registration":0.056,"User passes empty values in firstname Request body to perform BTA Registration":0.045,"User passes Null values in firstname Request body to perform BTA Registration":0.044,"User Create Logout with Invalid Access Token":0.036,"User Create Registration and perform Login & Change Password":1.999,"Create Amex BTA Corporate Master Admin Login":0.362,"Create Amex BTA Corporate Sub Admin Login":0.41,"Create Amex BTA Travel Agent Master Admin Login":0.389,"Create Amex BTA Travel Agent Sub Admin Login":0.409,"Create Amex BTA Travel User Login":0.407,"CreateAmex Internal Admin Login":0.355,"User Create Registration":0.379,"User Create Registration and perform Login & Logout":0.766,"User Create BTA Logout with Valid Access Token":0.896
+};
+</script>
+<div class="row">
+<div class="col-lg-6 col-md-12 sysenv-container">
+<div class="card">
+<div class="card-header"><p>System/Environment</p></div>
+<div class="card-body pb-0 pt-0"><table class="table table-sm table-bordered">
+<thead><tr class="bg-gray"><th>Name</th><th>Value</th></tr></thead>
+<tbody>
+<tr>
+<td>OS</td>
+<td>Windows 11</td>
+</tr>
+<tr>
+<td>Java Version</td>
+<td>17.0.11</td>
+</tr>
+<tr>
+<td>User Name</td>
+<td>V00450</td>
+</tr>
+</tbody>
+</table></div>
+</div>
+</div>
+</div>
+</div>
+<script>
+var statusGroup = {
+parentCount: 5,
+passParent: 37,
+failParent: 0,
+warningParent: 0,
+skipParent: 0,
+childCount: 5,
+passChild: 0,
+failChild: 0,
+warningChild: 0,
+skipChild: 0,
+infoChild: 0,
+grandChildCount: 5,
+passGrandChild: 0,
+failGrandChild: 0,
+warningGrandChild: 0,
+skipGrandChild: 0,
+infoGrandChild: 0,
+eventsCount: 5,
+passEvents: 37,
+failEvents: 0,
+warningEvents: 0,
+skipEvents: 0,
+infoEvents: 184
+};
+</script>        </div>
+      </div>
+    </div>
+  </div>
+<script src="https://cdn.jsdelivr.net/gh/extent-framework/extent-github-cdn@d6562a79075e061305ccfdb82f01e5e195e2d307/spark/js/spark-script.js"></script>
+<script type="text/javascript"></script></body>
+</html>

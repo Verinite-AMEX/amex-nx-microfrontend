@@ -6,7 +6,7 @@ Feature: Verify that the User is able to access the Statement and Central Statem
     Given Navigate to the Online Helper Portal
     When I enter username "sys.admin" and password "Admin@1234" in Online Helper Portal
     And  I click the Online Helper login button
-    Then I should see the MY BTA Home Page
+    Then I should see the Online Helper Home Page
 
   @Statement_001 @WIP
   Scenario: Verify that user is able to retrieve the Latest statement details by entering invalid card number in Statement section
