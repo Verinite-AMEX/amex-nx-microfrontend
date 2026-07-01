@@ -134,6 +134,115 @@ export class OmsContactInformationComponent
       event
     );
 
+    // VALIDATION
+    for (const contact of event) {
+
+      // NAME
+      if (
+        !contact.name?.trim()
+      ) {
+
+        alert(
+          'Name is required'
+        );
+
+        return;
+      }
+
+      // EMAIL
+      if (
+        !contact.email?.trim()
+      ) {
+
+        alert(
+          'Email is required'
+        );
+
+        return;
+      }
+
+      if (
+        !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+          contact.email
+        )
+      ) {
+
+        alert(
+          'Please enter a valid email address'
+        );
+
+        return;
+      }
+
+      // PHONE / MOBILE VALIDATION
+
+      const contactNumber =
+
+        contact.mobile ||
+
+        contact.landline ||
+
+        contact.phone ||
+
+        '';
+
+      if (
+        !String(contactNumber).trim()
+      ) {
+
+        alert(
+          'Mobile number is required'
+        );
+
+        return;
+      }
+
+      if (
+        !/^\d{7,15}$/.test(
+          String(contactNumber)
+        )
+      ) {
+
+        alert(
+          'Mobile number must contain 7 to 15 digits only'
+        );
+
+        return;
+      }
+
+      // COUNTRY CODE
+      if (
+        !contact.countryCode
+      ) {
+
+        alert(
+          'Country code is required'
+        );
+
+        return;
+      }
+
+      // DESIGNATION
+      const designation =
+
+        contact.jobTitle ||
+
+        contact.designation ||
+
+        '';
+
+      if (
+        !designation.trim()
+      ) {
+
+        alert(
+          'Designation is required'
+        );
+
+        return;
+      }
+    }
+
     this.isSubmitting = true;
 
     // MOCK API DELAY

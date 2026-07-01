@@ -34,16 +34,16 @@ import {
 })
 export class OmsChangePasswordComponent {
 
-  @Input()
-  portalStyle: 'onls' | 'oms' = 'oms';
+  // @Input()
+  // portalStyle: 'onls' | 'oms' = 'oms';
 
-  @Input()
-  portalTitle =
-    'Online Merchant Services';
+  // @Input()
+  // portalTitle =
+  //   'Online Merchant Services';
 
-  @Input()
-  errorMessage = '';
+  // @Input()
+  // errorMessage = '';
 
-  @Input()
-  successMessage = '';
+  // @Input()
+  // successMessage = '';
 }

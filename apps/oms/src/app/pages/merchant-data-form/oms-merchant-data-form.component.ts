@@ -84,9 +84,205 @@ export class OmsMerchantDataFormComponent {
       event
     );
 
+    // MERCHANT NAME
+    if (
+      !event.merchantName?.trim()
+    ) {
+
+      alert(
+        'Merchant Name is required'
+      );
+
+      return;
+    }
+
+    // MERCHANT NUMBER
+    if (
+      !event.merchantNumber?.trim()
+    ) {
+
+      alert(
+        'Merchant Number is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^\d+$/.test(
+        event.merchantNumber
+      )
+    ) {
+
+      alert(
+        'Merchant Number must contain only digits'
+      );
+
+      return;
+    }
+
+    // IBAN LAST 5 DIGITS
+    if (
+      !event.lastFiveIban?.trim()
+    ) {
+
+      alert(
+        'Last 5 IBAN digits are required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^\d{5}$/.test(
+        event.lastFiveIban
+      )
+    ) {
+
+      alert(
+        'Please enter exactly 5 numeric IBAN digits'
+      );
+
+      return;
+    }
+
+    // TRADE LICENSE
+    if (
+      !event.tradeLicense?.trim()
+    ) {
+
+      alert(
+        'Trade License Number is required'
+      );
+
+      return;
+    }
+
+    // COUNTRY
+    if (
+      !event.country
+    ) {
+
+      alert(
+        'Country is required'
+      );
+
+      return;
+    }
+
+    // CITY
+    if (
+      !event.city
+    ) {
+
+      alert(
+        'City is required'
+      );
+
+      return;
+    }
+
+    // LEGAL STRUCTURE
+    if (
+      !event.legalStructure
+    ) {
+
+      alert(
+        'Business Legal Structure is required'
+      );
+
+      return;
+    }
+
+    // REPRESENTATIVE NAME
+    if (
+      !event.repName?.trim()
+    ) {
+
+      alert(
+        'Representative Name is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^[a-zA-Z\s]+$/.test(
+        event.repName
+      )
+    ) {
+
+      alert(
+        'Representative Name should contain only letters'
+      );
+
+      return;
+    }
+
+    // EMAIL
+    if (
+      !event.repEmail?.trim()
+    ) {
+
+      alert(
+        'Email is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        event.repEmail
+      )
+    ) {
+
+      alert(
+        'Please enter a valid email address'
+      );
+
+      return;
+    }
+
+    // PHONE
+    if (
+      !event.repPhone?.trim()
+    ) {
+
+      alert(
+        'Phone Number is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^\d{7,15}$/.test(
+        event.repPhone
+      )
+    ) {
+
+      alert(
+        'Phone Number must contain 7 to 15 digits only'
+      );
+
+      return;
+    }
+
+    // TERMS
+    if (
+      !event.termsAccepted
+    ) {
+
+      alert(
+        'Please accept Terms & Conditions'
+      );
+
+      return;
+    }
+
     this.isSubmitting = true;
 
-    // MOCK API DELAY
     setTimeout(() => {
 
       const isAdded =
