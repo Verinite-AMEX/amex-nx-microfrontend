@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { SecureFormService } from './core/services/secure-form.service';
 
 @Component({
   selector: 'app-root',
@@ -8,4 +9,10 @@ import { CommonModule } from '@angular/common';
   imports: [RouterModule, CommonModule],
   template: `<router-outlet></router-outlet>`,
 })
-export class AppComponent {}
+export class AppComponent implements OnInit {
+  constructor(private secureForm: SecureFormService) {}
+
+  ngOnInit(): void {
+    this.secureForm.enable();
+  }
+}

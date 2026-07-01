@@ -1,0 +1,17 @@
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\config\CorsConfig.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\config\WearablesSecurityConfig.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\controller\WearablesController.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\entity\Card.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\entity\Member.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\entity\WearableDeviceEntity.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\filter\HeaderAuthFilter.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\model\ApiResponse.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\model\ClientWearableData.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\model\WearableActionRequest.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\model\WearableDevice.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\model\WearableIssuanceRequest.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\repository\CardRepository.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\repository\MemberRepository.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\repository\WearableDeviceRepository.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\service\WearablesService.java
+D:\Verinite-Amex\amex-nx-microfrontend\Backend\wearables-springboot-backend\src\main\java\com\amex\wearables\WearablesApplication.java
