@@ -41,21 +41,24 @@ public class OMSLoginSteps {
         LoggerUtils.logInfo("Navigated to OMS Portal");
     }
 
-    @When("I enter username {string} and password {string} in OMS Portal")
-    public void iEnterUsernameAndPassword(String username, String password) {
+    @When("I enter username and password in OMS Portal")
+    public void iEnterUsernameAndPassword() {
+        uiHelper.enterText(By.xpath(""), ConfigReader.getProperty("OMSUsername"));
+        uiHelper.enterText(By.xpath(""), ConfigReader.getProperty("OMSPassword"));
+        LoggerUtils.logInfo("Entered username and password");
+    }
+
+    @When("I enter invalid username {string} and password {string} in OMS Portal")
+    public void iEnterInvalidUsernameAndPassword(String username, String password) {
         uiHelper.enterText(By.xpath(""), username);
         uiHelper.enterText(By.xpath(""), password);
-        LoggerUtils.logInfo("Entered username and password");
+        LoggerUtils.logInfo("Entered invalid username and password");
     }
 
     @When("I click the OMS login button")
     public void iClickTheLoginButton() {
         uiHelper.click(By.xpath(""));
         LoggerUtils.logInfo("Clicked login button");
-    }
-    @Then("I click the popup button")
-    public void popup(){
-        uiHelper.PasswordAlertHandle();
     }
 
     @Then("I should see the OMS Home Page")
