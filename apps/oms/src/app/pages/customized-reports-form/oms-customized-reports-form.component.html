@@ -118,7 +118,7 @@
       <tr
 
         *ngIf="
-          generatedReports.length === 0
+          paginatedReports.length === 0
         ">
 
         <td
@@ -136,7 +136,7 @@
       <tr
 
         *ngFor="
-          let report of generatedReports
+          let report of paginatedReports
         ">
 
         <td>
@@ -170,5 +170,17 @@
     </tbody>
 
   </table>
+
+  <oms-pagination
+
+  [rows]="generatedReports"
+
+  [pageSize]="10"
+
+  (pageData)="
+    onPageChanged($event)
+  ">
+
+</oms-pagination>
 
 </div>

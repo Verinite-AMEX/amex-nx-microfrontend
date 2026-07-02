@@ -2,24 +2,38 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
 import {
   AmexSubUserAdminTableComponent
 } from '@vn-core-ui-components/ui';
 
+// Change path if required
+import {
+  OmsPaginationComponent
+} from '../../shared/pagination/oms-pagination.component';
+
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'oms-sub-user-admin-table',
 
   standalone: true,
 
   imports: [
+
     CommonModule,
-    AmexSubUserAdminTableComponent
+
+    AmexSubUserAdminTableComponent,
+
+    OmsPaginationComponent
+
   ],
 
   templateUrl:
@@ -30,11 +44,15 @@ import {
     :host {
 
       width: 100%;
+
+      display: block;
+
     }
 
   `]
 })
-export class OmsSubUserAdminTableComponent {
+export class OmsSubUserAdminTableComponent
+implements OnChanges {
 
   @Input()
   title =
@@ -48,20 +66,21 @@ export class OmsSubUserAdminTableComponent {
     'Create Sub User';
 
   @Output()
-  createUserClicked = new EventEmitter<void>();
+  createUserClicked =
+    new EventEmitter<void>();
 
   @Output()
-editUserClicked =
-  new EventEmitter<any>();
+  editUserClicked =
+    new EventEmitter<any>();
 
-@Output()
-deleteUserClicked =
-  new EventEmitter<any>();
+  @Output()
+  deleteUserClicked =
+    new EventEmitter<any>();
 
-selectedRow: any = null;
+  selectedRow: any = null;
 
   @Input()
-  rows = [
+  rows: any[] = [
 
     {
       name:
@@ -104,34 +123,70 @@ selectedRow: any = null;
       status:
         'Inactive'
     }
+
   ];
 
-handleAction(event: any) {
+  // CURRENT PAGE DATA
+  paginatedRows: any[] = [];
 
-  console.log(
-    'TABLE ACTION:',
-    event
-  );
-
-  // EDIT
-  if (
-    event?.action === 'edit'
+  ngOnChanges(
+    changes: SimpleChanges
   ) {
 
-    this.editUserClicked.emit(
-      event.row
-    );
+    if (
+      changes['rows']
+    ) {
+
+      this.paginatedRows = [
+        ...this.rows
+      ];
+
+    }
+
   }
 
-  // DELETE
-  if (
-    event?.action === 'delete'
+  // PAGINATION CALLBACK
+  onPageChanged(
+    rows: any[]
   ) {
 
-    this.deleteUserClicked.emit(
-      event.row
-    );
+    this.paginatedRows =
+      rows;
+
   }
-}
+
+  // TABLE ACTION
+  handleAction(
+    event: any
+  ) {
+
+    console.log(
+      'TABLE ACTION:',
+      event
+    );
+
+    // EDIT
+    if (
+      event?.action === 'edit'
+    ) {
+
+      this.editUserClicked.emit(
+        event.row
+      );
+
+    }
+
+    // DELETE
+    if (
+      event?.action === 'delete'
+    ) {
+
+      this.deleteUserClicked.emit(
+        event.row
+      );
+
+    }
+
+  }
 
 }
