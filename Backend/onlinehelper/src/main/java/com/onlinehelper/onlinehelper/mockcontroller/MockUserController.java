@@ -7,7 +7,7 @@ import com.onlinehelper.onlinehelper.mockuserservice.MockUserService;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/mock/accounts")
+@RequestMapping("/api/onlinehelper/accounts")
 @CrossOrigin(origins = "*")
 public class MockUserController {
 
