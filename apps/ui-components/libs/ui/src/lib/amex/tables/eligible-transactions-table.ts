@@ -106,8 +106,8 @@ export interface PointsHistoryRow {
 
       <!-- History tab -->
       <div *ngIf="activeTab === 'history'" class="ett__content">
+        <div class="ett__history-title">History Summary</div>
         <div class="ett__history-summary">
-          <div class="ett__history-title">History Summary</div>
           <div class="ett__history-stats">
             <div><strong>Total Statement Credit:</strong>
               <span [class.ett__null]="!totalCredit">{{ totalCredit || 'null' }}</span>
@@ -122,18 +122,18 @@ export interface PointsHistoryRow {
 
         <table class="ett__table ett__table--history">
           <thead>
-            <tr class="ett__head-row">
-              <th class="ett__th">Transaction Date</th>
-              <th class="ett__th">Description</th>
-              <th class="ett__th ett__th--num">Transaction Amount</th>
-              <th class="ett__th">Redemption Date</th>
-            </tr>
+          <tr class="ett__head-row">
+              <th class="ett__th" style="width: 20%;">Transaction Date</th>
+              <th class="ett__th" style="width: 35%;">Description</th>
+              <th class="ett__th" style="width: 22%;">Transaction Amount</th>
+              <th class="ett__th" style="width: 23%;">Redemption Date</th>
+          </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of historyRows" class="ett__row">
               <td class="ett__td">{{ row.transactionDate }}</td>
               <td class="ett__td">{{ row.description }}</td>
-              <td class="ett__td ett__td--num">{{ row.amountOffset }}</td>
+              <td class="ett__td">{{ row.amountOffset }}</td>
               <td class="ett__td">{{ row.redemptionDate }}</td>
             </tr>
             <tr *ngIf="!historyRows.length">
@@ -206,7 +206,7 @@ export interface PointsHistoryRow {
     .ett__points-aed   { color: #888; }
 
     /* Table */
-    .ett__table { width: 100%; border-collapse: collapse; font-size: 13px; }
+    .ett__table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
     .ett__table--history { margin-top: 12px; }
 
     .ett__head-row { border-bottom: 2px solid #1a3a6b; }
@@ -242,14 +242,16 @@ export interface PointsHistoryRow {
     .ett__redeem-btn:hover:not([disabled]) { background: #16304f; }
 
     /* History tab */
-    .ett__history-summary {
-      padding: 12px 0; border-bottom: 2px solid #1a3a6b; margin-bottom: 16px;
+    .ett__history-title {
+      font-size: 13px; font-weight: normal; color: #1a3a6b;
+      padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 10px;
     }
-    .ett__history-title { font-size: 14px; font-weight: bold; color: #333; margin-bottom: 10px; }
-    .ett__history-stats { font-size: 14px; color: #333; line-height: 2; }
+    .ett__history-summary { padding: 4px 0 14px; text-align: center; }
+    .ett__history-stats { font-size: 13px; color: #333; }
+    .ett__history-stats div { margin-bottom: 4px; }
     .ett__null { color: #666; margin-left: 4px; }
     .ett__history-detail-title {
-      font-size: 13px; font-weight: bold; color: #333;
+      font-size: 13px; font-weight: normal; color: #1a3a6b;
       padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 4px;
     }
     .ett__empty-history {

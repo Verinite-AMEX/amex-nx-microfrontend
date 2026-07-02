@@ -1,0 +1,31 @@
+{
+  "name": "Login-Logout-auth-app",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+ "sourceRoot": "apps/Login-Logout-auth-app/src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-architects/module-federation:build",
+      "options": {
+        "outputPath": "dist/Login-Logout-auth-app",
+        "index": "apps/Login-Logout-auth-app/src/index.html",
+        "main": "apps/Login-Logout-auth-app/src/main.ts",
+        "tsConfig": "apps/Login-Logout-auth-app/tsconfig.app.json"
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "outputHashing": "all"
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nx/angular:dev-server",
+      "options": {
+        "buildTarget": "Login-Logout-auth-app:build",
+        "port": 4216
+      }
+    }
+  }
+}
