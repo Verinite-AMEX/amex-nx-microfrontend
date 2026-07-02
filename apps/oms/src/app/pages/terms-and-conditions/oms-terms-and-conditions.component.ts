@@ -12,7 +12,7 @@ import {
 } from '@vn-core-ui-components/ui';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'oms-terms-and-conditions',
 
   standalone: true,
@@ -76,23 +76,63 @@ Merchants are solely responsible for VAT compliance.
   cancelClicked =
     new EventEmitter<any>();
 
-  agree(event: any) {
+  agree(
+  event: any
+) {
 
-    console.log(
-      'Agree Clicked',
-      event
+  if (
+    !this.accepted
+  ) {
+
+    alert(
+      'Please accept the Terms & Conditions.'
     );
 
-    this.agreeClicked.emit(event);
+    return;
+
   }
 
-  cancel(event: any) {
+  console.log(
+    'Terms Accepted'
+  );
 
-    console.log(
-      'Cancel Clicked',
-      event
-    );
+  alert(
+    'Terms & Conditions Accepted Successfully'
+  );
 
-    this.cancelClicked.emit(event);
-  }
+  this.agreeClicked.emit(
+    event
+  );
+
+}
+
+  cancel(
+  event: any
+) {
+
+  this.accepted = false;
+
+  console.log(
+    'Cancel Clicked'
+  );
+
+  this.cancelClicked.emit(
+    event
+  );
+
+}
+
+  onAcceptedChange(
+  value: boolean
+) {
+
+  console.log(
+    'Checkbox Changed:',
+    value
+  );
+
+  this.accepted =
+    value;
+
+}
 }

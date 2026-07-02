@@ -1,0 +1,70 @@
+<div
+  class="pagination-container"
+  *ngIf="rows.length > pageSize">
+
+  <div class="record-info">
+
+    Showing
+
+    {{ startRecord }}
+
+    -
+
+    {{ endRecord }}
+
+    of
+
+    {{ rows.length }}
+
+    records
+
+  </div>
+
+  <div class="pagination-buttons">
+
+    <button
+
+      (click)="previousPage()"
+
+      [disabled]="
+        currentPage === 1
+      ">
+
+      Previous
+
+    </button>
+
+    <button
+
+      *ngFor="
+        let page
+        of pages
+      "
+
+      (click)="
+        goToPage(page)
+      "
+
+      [class.active]="
+        currentPage === page
+      ">
+
+      {{ page }}
+
+    </button>
+
+    <button
+
+      (click)="nextPage()"
+
+      [disabled]="
+        currentPage === totalPages
+      ">
+
+      Next
+
+    </button>
+
+  </div>
+
+</div>
