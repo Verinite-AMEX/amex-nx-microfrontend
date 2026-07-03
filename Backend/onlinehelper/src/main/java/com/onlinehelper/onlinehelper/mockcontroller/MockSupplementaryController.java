@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/onlinehelper/supplementary")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 public class MockSupplementaryController {
 
     private final MockSupplementaryService service;

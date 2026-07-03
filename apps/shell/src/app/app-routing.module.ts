@@ -24,9 +24,9 @@ const routes: Routes = [
       loadRemoteModule({
         type: "module",
         remoteEntry: "http://localhost:4201/remoteEntry.js",
-        exposedModule: "./Module",
+        exposedModule: "./Routes",
       })
-        .then((m) => m.RemoteEntryModule)
+        .then((m) => m.remoteRoutes)
         .catch(portalFallback),
   },
 
@@ -195,15 +195,15 @@ const routes: Routes = [
   },
 
   {
-    path: 'change-password',
+    path: "change-password",
     canActivate: [AuthGuard],
     loadChildren: () =>
       loadRemoteModule({
-        type: 'module',
-        remoteEntry: 'http://localhost:4214/remoteEntry.js',
-        exposedModule: './Module',
+        type: "module",
+        remoteEntry: "http://localhost:4214/remoteEntry.js",
+        exposedModule: "./Module",
       })
-        .then(m => m.ChangePasswordRemoteEntryModule)
+        .then((m) => m.ChangePasswordRemoteEntryModule)
         .catch(portalFallback),
   },
 
