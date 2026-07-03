@@ -11,6 +11,7 @@ const config: ModuleFederationConfig = {
     ["statement", "http://localhost:4203/"],
     ["vat_invoice", "http://localhost:4202/"],
     ["ui-components", "http://localhost:4214/"],
+    ["statement", "http://localhost:4212/"],
   ],
 };
 

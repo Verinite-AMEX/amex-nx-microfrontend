@@ -181,6 +181,20 @@ const routes: Routes = [
         .then((m) => m.CenLcyExcRemoteEntryModule)
         .catch(portalFallback),
   },
+
+  {
+    path: "statement",
+    canActivate: [AuthGuard],
+    loadChildren: () =>
+      loadRemoteModule({
+        type: "module",
+        remoteEntry: "http://localhost:4212/remoteEntry.js",
+        exposedModule: "./Routes",
+      })
+        .then((m) => m.remoteRoutes)
+        .catch(portalFallback),
+  },
+
   {
     path: "ui-components",
     canActivate: [AuthGuard],
