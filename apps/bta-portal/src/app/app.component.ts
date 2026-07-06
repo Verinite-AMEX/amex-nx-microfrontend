@@ -150,7 +150,11 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-    this.auth.clearSession();
-    this.router.navigate(['/bta/login']);
-  }
+  // OLD:
+  // this.auth.clearSession();
+  // this.router.navigate(['/bta/login']);
+
+  // NEW — delegates to Login-Logout-auth-app
+  this.auth.logout();
+}
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
-import { mockSubmitSecurityAnswers } from '../../pages/mocks/auth.service.mock';
+//import { mockSubmitSecurityAnswers } from '../../pages/mocks/auth.service.mock';
 
 export interface BtaUser {
   userId: string;
@@ -9,10 +9,10 @@ export interface BtaUser {
   email: string;
   fullName: string;
   avatarInitials: string;
-  accessToken: string;
-  refreshToken: string;
-  tokenType: string;
-  expiresIn: number;
+  // accessToken: string;
+  // refreshToken: string;
+  // tokenType: string;
+  // expiresIn: number;
   roles: string[];
 }
 
@@ -40,67 +40,80 @@ export interface ChangeExpiredPasswordRequest {
 
 @Injectable({ providedIn: 'root' })
 export class BtaAuthService {
-  static readonly TOKEN_KEY   = 'mfe_token';
+  // static readonly TOKEN_KEY   = 'mfe_token';
+  // static readonly USER_KEY    = 'mfe_user';
+  // static readonly REFRESH_KEY = 'mfe_refresh';
+
+  // ─── NEW — shared keys written by Login-Logout-auth-app ──────────────────
+  static readonly TOKEN_KEY   = 'mfe_access_token';
   static readonly USER_KEY    = 'mfe_user';
-  static readonly REFRESH_KEY = 'mfe_refresh';
+  static readonly REFRESH_KEY = 'mfe_refresh_token';
 
   private readonly API = 'http://localhost:8080/api/auth';
+  private readonly AUTH_APP_URL = 'http://localhost:4216'; // move to environment.ts for UAT/Prod
 
   constructor(private http: HttpClient) {}
 
   // ─── API Calls ────────────────────────────────────────────────────────────
 
-  login(request: LoginRequest): Observable<any> {
-    return this.http.post<any>(`${this.API}/login`, request).pipe(
-      tap(res => {
-        const user: BtaUser = res.data;
-        this.saveSession(user);
-      })
-    );
-  }
+  // login(request: LoginRequest): Observable<any> {
+  //   return this.http.post<any>(`${this.API}/login`, request).pipe(
+  //     tap(res => {
+  //       const user: BtaUser = res.data;
+  //       this.saveSession(user);
+  //     })
+  //   );
+  // }
 
-  logout(): Observable<any> {
-    const token = this.getToken();
-    return this.http.post<any>(
-      `${this.API}/logout`, {},
-      { headers: { Authorization: `Bearer ${token}` } }
-    ).pipe(
-      tap(() => this.clearSession())
-    );
-  }
+  // logout(): Observable<any> {
+  //   const token = this.getToken();
+  //   return this.http.post<any>(
+  //     `${this.API}/logout`, {},
+  //     { headers: { Authorization: `Bearer ${token}` } }
+  //   ).pipe(
+  //     tap(() => this.clearSession())
+  //   );
+  // }
 
-  forgotPassword(request: ForgotPasswordRequest): Observable<any> {
-    return this.http.post<any>(`${this.API}/forgot-password`, request);
-  }
+  // forgotPassword(request: ForgotPasswordRequest): Observable<any> {
+  //   return this.http.post<any>(`${this.API}/forgot-password`, request);
+  // }
 
   // ─── MOCKED: backend /api/auth/reset-password not ready yet ──────────────
   // TODO: Replace with real call when backend is ready:
   // return this.http.post<any>(`${this.API}/reset-password`, request);
-  submitSecurityAnswers(request: SecurityAnswersRequest): Observable<any> {
-    return mockSubmitSecurityAnswers(request);
-  }
+  // submitSecurityAnswers(request: SecurityAnswersRequest): Observable<any> {
+  //   return mockSubmitSecurityAnswers(request);
+  // }
 
-  // ─── Change expired password ──────────────────────────────────────────────
-  changeExpiredPassword(request: ChangeExpiredPasswordRequest): Observable<any> {
-    return this.http.post<any>(`${this.API}/change-expired-password`, request);
-  }
+  // // ─── Change expired password ──────────────────────────────────────────────
+  // changeExpiredPassword(request: ChangeExpiredPasswordRequest): Observable<any> {
+  //   return this.http.post<any>(`${this.API}/change-expired-password`, request);
+  // }
 
-  refreshToken(): Observable<any> {
-    const refresh = this.getRefreshToken();
-    return this.http.post<any>(`${this.API}/refresh`, { refreshToken: refresh }).pipe(
-      tap(res => {
-        const user: BtaUser = res.data;
-        this.saveSession(user);
-      })
-    );
-  }
+  // refreshToken(): Observable<any> {
+  //   const refresh = this.getRefreshToken();
+  //   return this.http.post<any>(`${this.API}/refresh`, { refreshToken: refresh }).pipe(
+  //     tap(res => {
+  //       const user: BtaUser = res.data;
+  //       this.saveSession(user);
+  //     })
+  //   );
+  // }
 
-  // ─── Session Helpers ─────────────────────────────────────────────────────
+  // // ─── Session Helpers ─────────────────────────────────────────────────────
 
-  private saveSession(user: BtaUser): void {
-    localStorage.setItem(BtaAuthService.TOKEN_KEY,   user.accessToken);
-    localStorage.setItem(BtaAuthService.REFRESH_KEY, user.refreshToken);
-    localStorage.setItem(BtaAuthService.USER_KEY,    JSON.stringify(user));
+  // private saveSession(user: BtaUser): void {
+  //   localStorage.setItem(BtaAuthService.TOKEN_KEY,   user.accessToken);
+  //   localStorage.setItem(BtaAuthService.REFRESH_KEY, user.refreshToken);
+  //   localStorage.setItem(BtaAuthService.USER_KEY,    JSON.stringify(user));
+  // }
+
+  // ─── NEW LOGOUT — delegates to Login-Logout-auth-app ──────────────────────
+  logout(): void {
+    this.clearSession();
+   const returnUrl = encodeURIComponent(window.location.origin + '/');
+  window.location.href = `${this.AUTH_APP_URL}/login?returnUrl=${returnUrl}`;
   }
 
   clearSession(): void {

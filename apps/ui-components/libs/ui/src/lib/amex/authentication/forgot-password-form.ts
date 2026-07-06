@@ -98,7 +98,7 @@ import { FormsModule } from '@angular/forms';
 
             <div
               class="success-box"
-              *ngIf="submitted && !errorMessage"
+              *ngIf="success && !errorMessage"
             >
               Your temporary password has been sent to your registered email address.
             </div>
@@ -110,7 +110,7 @@ import { FormsModule } from '@angular/forms';
               {{ errorMessage }}
             </div>
 
-            <ng-container *ngIf="!submitted || errorMessage">
+            <ng-container *ngIf="!success || errorMessage">
 
               <p class="help-text">
                 Please enter your User ID and registered Email Address.
@@ -161,7 +161,7 @@ import { FormsModule } from '@angular/forms';
 
             <div
               class="back-link"
-              *ngIf="submitted && !errorMessage"
+              *ngIf="success && !errorMessage"
             >
               <a
                 class="form-link"
@@ -189,7 +189,7 @@ import { FormsModule } from '@angular/forms';
 
             <div
               class="success-box"
-              *ngIf="submitted && !errorMessage"
+              *ngIf="success && !errorMessage"
             >
               Your temporary password has been sent to your registered email address.
             </div>
@@ -201,7 +201,7 @@ import { FormsModule } from '@angular/forms';
               {{ errorMessage }}
             </div>
 
-            <ng-container *ngIf="!submitted || errorMessage">
+            <ng-container *ngIf="!success || errorMessage">
 
               <p class="help-text">
                 Please enter your User ID and registered Email Address.
@@ -262,7 +262,7 @@ import { FormsModule } from '@angular/forms';
 
             <div
               class="back-link"
-              *ngIf="submitted && !errorMessage"
+              *ngIf="success && !errorMessage"
             >
               <a
                 class="form-link"
@@ -601,6 +601,7 @@ export class AmexForgotPasswordFormComponent implements AfterViewInit {
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() portalTitle = '';
   @Input() errorMessage = '';
+  @Input() success = false;
 
   @Output() submitIdentifier = new EventEmitter<{
     userId: string;
@@ -618,7 +619,6 @@ export class AmexForgotPasswordFormComponent implements AfterViewInit {
   userId = '';
   emailId = '';
 
-  submitted = false;
 
   ngAfterViewInit(): void {
     const firstInput =
@@ -637,21 +637,16 @@ export class AmexForgotPasswordFormComponent implements AfterViewInit {
   }
 
   onSubmit(): void {
-
-    if (!this.userId.trim() || !this.emailId.trim()) {
-      this.errorMessage = 'User ID and Email ID are required';
-      return;
-    }
-
-    this.errorMessage = '';
-
-    this.submitted = true;
-
-    this.submitIdentifier.emit({
-      userId: this.userId,
-      emailId: this.emailId
-    });
+  if (!this.userId.trim() || !this.emailId.trim()) {
+    this.errorMessage = 'User ID and Email ID are required';
+    return;
   }
+  this.errorMessage = '';
+  this.submitIdentifier.emit({
+    userId: this.userId,
+    emailId: this.emailId
+  });
+}
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent): void {

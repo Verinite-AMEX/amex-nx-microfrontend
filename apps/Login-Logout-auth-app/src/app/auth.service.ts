@@ -26,6 +26,10 @@ export interface LoginResult {
   roles: string[];
 }
 
+export interface ForgotPasswordResponse {
+  message: string;
+}
+
 const API_BASE = 'http://localhost:8080/api/auth'; // update host/port to match your gateway
 
 @Injectable({ providedIn: 'root' })
@@ -78,4 +82,13 @@ export class AuthService {
     this.util.logout();
     this.router.navigate(['/login']);
   }
+
+forgotPassword(userId: string, emailId: string): Observable<string> {
+  return this.http
+    .post<ApiResponse<void>>(`${API_BASE}/forgot-password`, {
+      username: userId,
+      email: emailId,
+    })
+    .pipe(map((res) => res.message));
+}
 }
