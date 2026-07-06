@@ -1,62 +1,127 @@
 import { Component } from '@angular/core';
-import {
-  AmexSOCROCRecordsTableComponent,
-  AmexSOCROCEntryFormComponent,
-  SOCROCRow
-} from '@vn-core-ui-components/ui';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../core/directives/numbers-only.directive';
+
 
 @Component({
   selector: 'app-soc-roc-transactions',
   standalone: true,
-  imports: [AmexSOCROCRecordsTableComponent, AmexSOCROCEntryFormComponent],
-  template: `
-    <amex-socroc-entry-form
-      [showSOC]="true"
-      [showROC]="true"
-      [rejectionCodes]="rejectionCodes"
-      (socAction)="onSocAction($event)"
-      (rocAction)="onRocAction($event)">
-    </amex-socroc-entry-form>
-
-    <amex-socroc-records-table
-      [rows]="records"
-      sectionLabel="SOC's & ROC's"
-      [showExport]="true"
-      (actionClick)="onActionClick($event)"
-      (exportClick)="onExport()"
-      (printClick)="onPrint()">
-    </amex-socroc-records-table>
-  `
+  imports: [CommonModule, FormsModule, AmexPageShellComponent, NumbersOnlyDirective],
+  templateUrl: './soc-roc-transactions.html',
+  styleUrls: ['./soc-roc-transactions.css']
 })
-export class SocRocTransactions {
-  rejectionCodes: string[] = [
-    '001 - Invalid Card Number',
-    '002 - Duplicate Transaction',
-    '003 - Expired Card',
-    '004 - Insufficient Funds',
-    '005 - Invalid Merchant'
-  ];
+export class SocRocTransactionsComponent {
 
-  // Interface: { seNo, socRefNo, totalAmount, noOfCharges, cardAccountNo, approvalCode }
-  records: SOCROCRow[] = [];
+  // SOC fields
+  soc = {
+    seNumber:    '',
+    dateDD:      '',
+    dateMM:      '',
+    dateYYYY:    '',
+    grandTotal:  '',
+    noOfCharges: '',
+    socRefNo:    '',
+    refund:      false,
+    seName:      '',
+    currency:    '',
+    country:     ''
+  };
 
-  onSocAction(event: { action: string; soc: any }): void {
-    // TODO: Replace with SocRocService API call
-    console.log('SOC action:', event);
+  // ROC fields
+  roc = {
+    cardAccountNo:  '',
+    dateDD:         '',
+    dateMM:         '',
+    dateYYYY:       '',
+    approvalCode:   '',
+    totalAmount:    '',
+    rocRefNo:       '',
+    hash:           '',
+    balanceSocAmt:  '',
+    rejectionCode:  ''
+  };
+
+  rocList: any[]   = [];
+  showRocList      = false;
+  msg              = '';
+  msgType: 'ok' | 'err' = 'ok';
+
+  rejectionCodes = ['RC01', 'RC02', 'RC03', 'RC04', 'RC05'];
+
+  // ---------- SOC ----------
+  onSocModify() {
+    if (!this.soc.socRefNo.trim()) {
+      this.showMsg('SOC Ref No. is mandatory to modify.', 'err'); return;
+    }
+    // TODO: SocRocService.modifySOC()
+    console.log('SOC Modify:', this.soc);
+    this.showMsg('SOC modified successfully.', 'ok');
   }
 
-  onRocAction(event: { action: string; roc: any }): void {
-    // TODO: Replace with SocRocService API call
-    console.log('ROC action:', event);
+  onSocDelete() {
+    if (!this.soc.socRefNo.trim()) {
+      this.showMsg('SOC Ref No. is mandatory to delete.', 'err'); return;
+    }
+    // TODO: SocRocService.deleteSOC()
+    console.log('SOC Delete:', this.soc);
+    this.showMsg('SOC deleted successfully.', 'ok');
   }
 
-  onActionClick(event: { action: string; row: SOCROCRow }): void {
-    console.log('Row action:', event);
+  onSocPrint() {
+    // TODO: SocRocService.printSOC() — downloads download.html, shows "No Data Found" if empty
+    const html = `<html><body style="font-family:Arial,sans-serif;padding:30px;">
+      <div style="text-align:right"><a href="#" onclick="window.print()">Export</a></div>
+      <p style="text-align:center;margin-top:100px;">No Data Found</p>
+    </body></html>`;
+    const blob = new Blob([html], { type: 'text/html' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
+    a.download = 'download.html';
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
-  onExport(): void {}
-
-  onPrint(): void {
-    window.print();
+  onSocCancel() {
+    this.soc = {
+      seNumber: '', dateDD: '', dateMM: '', dateYYYY: '',
+      grandTotal: '', noOfCharges: '', socRefNo: '', refund: false,
+      seName: '', currency: '', country: ''
+    };
+    this.clearMsg();
   }
+
+  // ---------- ROC ----------
+  onRocModify() {
+    if (!this.roc.rocRefNo.trim()) {
+      this.showMsg('ROC Ref No. is mandatory to modify.', 'err'); return;
+    }
+    // TODO: SocRocService.modifyROC()
+    console.log('ROC Modify:', this.roc);
+    this.showMsg('ROC modified successfully.', 'ok');
+  }
+
+  onListRocs() {
+    if (!this.roc.rocRefNo.trim()) {
+      this.showMsg('ROC Ref No. is required to list ROCs.', 'err'); return;
+    }
+    // TODO: SocRocService.listROCs()
+    this.rocList     = [];
+    this.showRocList = true;
+  }
+
+  onRocCancel() {
+    this.roc = {
+      cardAccountNo: '', dateDD: '', dateMM: '', dateYYYY: '',
+      approvalCode: '', totalAmount: '', rocRefNo: '',
+      hash: '', balanceSocAmt: '', rejectionCode: ''
+    };
+    this.showRocList = false;
+    this.clearMsg();
+  }
+
+  showMsg(m: string, t: 'ok' | 'err') { this.msg = m; this.msgType = t; }
+  clearMsg() { this.msg = ''; }
 }

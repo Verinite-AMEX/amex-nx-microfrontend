@@ -3,13 +3,14 @@ pipeline {
 
     tools {
         nodejs 'NodeJS-20'
-        maven 'MAVEN_HOME'
+        maven   'MAVEN_HOME'
     }
 
     environment {
         SONAR_HOST_URL = 'http://localhost:9000'
-        PROJECTS = 'shell:amex-shell:4200 bta-portal:amex-bta-portal:4201'
-        ZAP_EXE = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
+        NX_ROOT        = "${WORKSPACE}"
+        PROJECTS = 'shell:amex-shell:4200 bta-portal:amex-bta-portal:4203 oms:amex-oms:4201'
+        ZAP_EXE  = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
     }
 
     stages {
@@ -26,19 +27,22 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                script {
-                    env.PROJECTS.split(' ').each { proj ->
-                        def folder = proj.split(':')[0]
-
-                        echo "--- npm install: ${folder} ---"
-
-                        dir(folder) {
-                            bat 'if exist node_modules rmdir /s /q node_modules'
-                            bat 'if exist package-lock.json del package-lock.json'
-                            bat 'npm install'
-                        }
-                    }
-                }
+                echo '==========================='
+                echo 'npm install (monorepo root)'
+                echo '==========================='
+                // legacy-bundling already removed from the global .npmrc;
+                // npm refuses to accept this setting via 'npm config set' so it must not be re-added here.
+                bat '''
+                echo Checking Verdaccio registry...
+                curl -s -o nul -w "%%{http_code}" http://localhost:4873/ | findstr "200" >nul
+                if errorlevel 1 (
+                    echo ERROR: Verdaccio registry at localhost:4873 is not running.
+                    echo Please start Verdaccio before running this pipeline.
+                    exit /b 1
+                )
+                echo Verdaccio is reachable.
+                '''
+                bat 'npm install'
             }
         }
 
@@ -46,25 +50,9 @@ pipeline {
             steps {
                 script {
                     env.PROJECTS.split(' ').each { proj ->
-
-                        def folder = proj.split(':')[0]
-
-                        echo "--- Building: ${folder} ---"
-
-                        dir(folder) {
-
-                            bat '''
-                            npm run build -- --configuration production || (
-                                echo BUILD FAILED
-                                for /d %%d in ("%TEMP%\\ng-*") do (
-                                    if exist "%%d\\angular-errors.log" (
-                                        type "%%d\\angular-errors.log"
-                                    )
-                                )
-                                exit /b 1
-                            )
-                            '''
-                        }
+                        def app = proj.split(':')[0]
+                        echo "--- Building: ${app} ---"
+                        bat "npx nx build ${app} --configuration=production"
                     }
                 }
             }
@@ -73,73 +61,153 @@ pipeline {
         stage('Test & Coverage') {
             steps {
                 script {
-
                     env.PROJECTS.split(' ').each { proj ->
-
-                        def folder = proj.split(':')[0]
-
-                        echo "--- Testing: ${folder} ---"
-
-                        dir(folder) {
-
-                            bat 'ng test --code-coverage --watch=false --browsers=ChromeHeadlessCI'
-
-                            bat '''
-                            echo ==================================
-                            echo COVERAGE GENERATED FILES
-                            echo ==================================
-                            if exist coverage (
-                                dir coverage /s
-                            ) else (
-                                echo Coverage folder not found
-                            )
-                            '''
-                        }
+                        def app = proj.split(':')[0]
+                        echo "--- Testing: ${app} ---"
+                        bat """
+                        npx nx test ${app} ^
+                            --code-coverage ^
+                            --watch=false ^
+                            --browsers=ChromeHeadlessCI
+                        """
+                        bat """
+                        echo ==================================
+                        echo COVERAGE FILES: ${app}
+                        echo ==================================
+                        if exist coverage\\apps\\${app} (
+                            dir coverage\\apps\\${app} /s
+                        ) else (
+                            echo Coverage folder not found for ${app}
+                        )
+                        """
                     }
                 }
+            }
+        }
+
+        stage('Start Backend') {
+            steps {
+                echo '==========================='
+                echo 'Building backend (Maven multi-module)...'
+                echo '==========================='
+                dir('Backend') {
+                    bat 'mvn clean install -DskipTests'
+                }
+
+                echo '==========================='
+                echo 'Starting Eureka (8761)...'
+                echo '==========================='
+                dir('Backend\\eureka\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\eureka-server.log 2>&1
+                    )
+                    '''
+                }
+                sleep(time: 25, unit: 'SECONDS')
+
+                echo '==========================='
+                echo 'Starting Auth Service (8081)...'
+                echo '==========================='
+                dir('Backend\\auth-service\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\auth-service.log 2>&1
+                    )
+                    '''
+                }
+                sleep(time: 20, unit: 'SECONDS')
+
+                echo '==========================='
+                echo 'Starting Wearables Backend (8082)...'
+                echo '==========================='
+                dir('Backend\\wearables-springboot-backend\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\wearables-backend.log 2>&1
+                    )
+                    '''
+                }
+                sleep(time: 20, unit: 'SECONDS')
+
+                echo '==========================='
+                echo 'Starting API Gateway (8080)...'
+                echo '==========================='
+                dir('Backend\\apigateway\\target') {
+                    bat '''
+                    for %%f in (*.jar) do (
+                        echo Launching %%f
+                        start "" /B java -jar "%%f" > ..\\..\\..\\apigateway.log 2>&1
+                    )
+                    '''
+                }
+                sleep(time: 25, unit: 'SECONDS')
+
+                echo 'All backend services started — checking gateway health...'
+                bat '''
+                setlocal enabledelayedexpansion
+                set RETRIES=10
+                :WAIT
+                curl -s -o nul -w "%%{http_code}" http://localhost:8080/actuator/health > health_status.txt
+                set /p STATUS=<health_status.txt
+                if "!STATUS!"=="200" goto READY
+                set /a RETRIES-=1
+                if !RETRIES! EQU 0 (
+                    echo Backend health check timed out.
+                    echo --- eureka-server.log ---
+                    type eureka-server.log 2>nul
+                    echo --- auth-service.log ---
+                    type auth-service.log 2>nul
+                    echo --- wearables-backend.log ---
+                    type wearables-backend.log 2>nul
+                    echo --- apigateway.log ---
+                    type apigateway.log 2>nul
+                    exit /b 1
+                )
+                ping -n 6 127.0.0.1 >nul
+                goto WAIT
+                :READY
+                echo Backend gateway is healthy.
+                endlocal
+                '''
             }
         }
 
         stage('ZAP Security Scan') {
             steps {
                 script {
-
                     env.PROJECTS.split(' ').each { proj ->
+                        def parts     = proj.split(':')
+                        def app       = parts[0]
+                        def port      = parts[2]
+                        def zapDir    = "${WORKSPACE}\\zap-home-${app}"
+                        def zapReport = "${WORKSPACE}\\zap-reports\\${app}-zap-report.html"
 
-                        def parts = proj.split(':')
-
-                        def folder = parts[0]
-                        def port = parts[2]
-
-                        def zapDir = "${WORKSPACE}\\zap-home-${folder}"
-                        def zapReport = "${WORKSPACE}\\${folder}\\zap-report.html"
-
-                        echo "--- Starting ${folder} on port ${port} ---"
-
-                        dir(folder) {
-                            bat "start /B ng serve --port ${port}"
-                        }
-
+                        echo "--- Serving ${app} on port ${port} for ZAP scan ---"
+                        bat "start \"${app}-zap-serve\" /B npx nx serve ${app} --port=${port} --configuration=production"
                         sleep(time: 30, unit: 'SECONDS')
 
-                        echo "--- Running ZAP Scan ---"
-
+                        echo "--- Running ZAP Scan for ${app} ---"
                         bat """
-                        cd "C:\\Program Files\\ZAP\\Zed Attack Proxy"
-
-                        zap.bat -cmd ^
-                        -port 8090 ^
-                        -dir "${zapDir}" ^
-                        -quickurl http://localhost:${port} ^
-                        -quickprogress ^
-                        -quickout "${zapReport}" ^
-                        -silent || exit 0
+                        "${ZAP_EXE}" -cmd ^
+                          -port 8090 ^
+                          -dir "${zapDir}" ^
+                          -quickurl http://localhost:${port} ^
+                          -quickprogress ^
+                          -quickout "${zapReport}" ^
+                          -silent || exit 0
                         """
 
-                        echo "--- Stopping Angular App ---"
-
-                        bat 'taskkill /F /IM node.exe /T 2>nul || exit 0'
-
+                        echo "--- Stopping NX serve for ${app} on port ${port} ---"
+                        bat """
+                        for /f \"tokens=5\" %%a in ('netstat -aon ^| findstr \":${port}\" ^| findstr \"LISTENING\"') do (
+                            taskkill /F /PID %%a 2>nul
+                        )
+                        exit 0
+                        """
                         sleep(time: 5, unit: 'SECONDS')
                     }
                 }
@@ -148,34 +216,24 @@ pipeline {
 
         stage('SonarQube Analysis') {
             steps {
-
                 script {
-
                     env.PROJECTS.split(' ').each { proj ->
-
-                        def parts = proj.split(':')
-
-                        def folder = parts[0]
+                        def parts    = proj.split(':')
+                        def app      = parts[0]
                         def sonarKey = parts[1]
 
-                        echo "--- Sonar Analysis: ${folder} ---"
-
-                        dir(folder) {
-
-                            withSonarQubeEnv('SonarQube') {
-
-                                def scannerHome = tool 'SonarQubeScanner'
-
-                                bat """
-                                "${scannerHome}\\bin\\sonar-scanner.bat" ^
-                                -Dsonar.projectKey=${sonarKey} ^
-                                -Dsonar.sources=src ^
-                                -Dsonar.exclusions=**/*.spec.ts ^
-                                -Dsonar.tests=src ^
-                                -Dsonar.test.inclusions=**/*.spec.ts ^
-                                -Dsonar.javascript.lcov.reportPaths=coverage/lcov.info
-                                """
-                            }
+                        echo "--- Sonar Analysis: ${app} ---"
+                        withSonarQubeEnv('SonarQube') {
+                            def scannerHome = tool 'SonarQubeScanner'
+                            bat """
+                            "${scannerHome}\\bin\\sonar-scanner.bat" ^
+                              -Dsonar.projectKey=${sonarKey} ^
+                              -Dsonar.sources=apps/${app}/src ^
+                              -Dsonar.exclusions=**/*.spec.ts ^
+                              -Dsonar.tests=apps/${app}/src ^
+                              -Dsonar.test.inclusions=**/*.spec.ts ^
+                              -Dsonar.javascript.lcov.reportPaths=coverage/apps/${app}/lcov.info
+                            """
                         }
                     }
                 }
@@ -184,116 +242,156 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-
                 echo 'Waiting for SonarQube Quality Gate...'
-
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: false
                 }
             }
         }
 
+        stage('Serve Apps for Automation Testing') {
+            steps {
+                echo '==========================='
+                echo 'Starting frontend apps for Cucumber/Selenium GUI tests'
+                echo '==========================='
+                script {
+                    env.PROJECTS.split(' ').each { proj ->
+                        def parts = proj.split(':')
+                        def app   = parts[0]
+                        def port  = parts[2]
+                        echo "--- Serving ${app} on port ${port} ---"
+                        bat "start \"${app}-serve\" /B npx nx serve ${app} --port=${port} --configuration=production > ${app}-serve.log 2>&1"
+                    }
+                }
+                echo 'Waiting for all apps to come up...'
+                script {
+                    env.PROJECTS.split(' ').each { proj ->
+                        def parts = proj.split(':')
+                        def app   = parts[0]
+                        def port  = parts[2]
+                        bat """
+                        setlocal enabledelayedexpansion
+                        set RETRIES=20
+                        :WAIT_${app}
+                        curl -s -o nul -w "%%{http_code}" http://localhost:${port} > ${app}_status.txt
+                        set /p STATUS=<${app}_status.txt
+                        if "!STATUS!"=="200" goto READY_${app}
+                        set /a RETRIES-=1
+                        if !RETRIES! EQU 0 (
+                            echo ${app} did not come up on port ${port} in time.
+                            type ${app}-serve.log 2>nul
+                            exit /b 1
+                        )
+                        ping -n 4 127.0.0.1 >nul
+                        goto WAIT_${app}
+                        :READY_${app}
+                        echo ${app} is serving on ${port}.
+                        endlocal
+                        """
+                    }
+                }
+            }
+        }
+
         stage('Automation Testing') {
             steps {
-
                 echo '==========================='
-                echo 'Running Automation Tests'
+                echo 'Running Cucumber Automation Tests'
                 echo '==========================='
-
                 dir('CucumberFramwork') {
-                    bat 'mvn clean install -DskipTests'
+                    bat 'mvn clean test'
                 }
             }
         }
 
         stage('Deployment') {
             steps {
-
                 echo '==========================='
                 echo 'Deployment Stage'
                 echo '==========================='
-
                 echo 'Deployment logic goes here'
             }
         }
     }
 
     post {
-
         always {
+            echo '--- Stopping backend and frontend servers if still running ---'
+            bat '''
+            for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
+                for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
+                    taskkill /F /PID %%a 2>nul
+                )
+            )
+            exit 0
+            '''
 
-            echo '--- Publishing Reports ---'
-
+            echo '--- Publishing Coverage Reports ---'
             publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'shell/coverage/shell',
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'coverage/apps/shell',
                 reportFiles: 'index.html',
-                reportName: 'Shell Coverage'
+                reportName:  'Shell Coverage'
             ])
-
             publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'bta-portal/coverage/bta-portal',
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'coverage/apps/bta-portal',
                 reportFiles: 'index.html',
-                reportName: 'BTA Portal Coverage'
+                reportName:  'BTA Portal Coverage'
             ])
-
             publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'shell',
-                reportFiles: 'zap-report.html',
-                reportName: 'Shell ZAP Report'
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'coverage/apps/oms',
+                reportFiles: 'index.html',
+                reportName:  'OMS Coverage'
             ])
 
+            echo '--- Publishing ZAP Reports ---'
             publishHTML([
-                allowMissing: true,
-                alwaysLinkToLastBuild: true,
-                keepAll: true,
-                reportDir: 'bta-portal',
-                reportFiles: 'zap-report.html',
-                reportName: 'BTA Portal ZAP Report'
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'zap-reports',
+                reportFiles: 'shell-zap-report.html',
+                reportName:  'Shell ZAP Report'
+            ])
+            publishHTML([
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'zap-reports',
+                reportFiles: 'bta-portal-zap-report.html',
+                reportName:  'BTA Portal ZAP Report'
+            ])
+            publishHTML([
+                allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true,
+                reportDir:   'zap-reports',
+                reportFiles: 'oms-zap-report.html',
+                reportName:  'OMS ZAP Report'
             ])
 
+            echo '--- Publishing Allure Report ---'
             script {
-
                 if (fileExists('CucumberFramwork/allure-results')) {
-
                     try {
-
                         allure([
                             includeProperties: false,
-                            jdk: '',
-                            commandline: 'allure',
-                            results: [[path: 'CucumberFramwork/allure-results']]
+                            jdk:              '',
+                            commandline:      'allure',
+                            results:          [[path: 'CucumberFramwork/allure-results']]
                         ])
-
                     } catch (Exception ex) {
-
                         echo "Allure generation failed: ${ex.getMessage()}"
                     }
-
                 } else {
-
-                    echo 'No Allure results found. Skipping report generation.'
+                    echo 'No Allure results found. Skipping.'
                 }
             }
         }
 
         success {
-
             echo '==========================='
             echo 'BUILD PASSED ✅'
             echo '==========================='
         }
 
         failure {
-
             echo '==========================='
             echo 'BUILD FAILED ❌'
             echo '==========================='

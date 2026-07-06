@@ -6,6 +6,8 @@ import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
@@ -15,6 +17,8 @@ import Utils.LoggerUtils;
 
 import java.time.Duration;
 import java.util.Base64;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.testng.Assert.*;
 
@@ -105,7 +109,7 @@ public class UiHelper {
         }
     }
 
-    public void handleDownloadPopup() {
+    public void handlePopup() {
         try {
             try {
                 Thread.sleep(1000);
@@ -125,6 +129,20 @@ public class UiHelper {
 
         } catch (Exception e) {
             LoggerUtils.logInfo("Error handling popup: " + e.getMessage());
+        }
+    }
+
+    public void PasswordAlertHandle(){
+        try {
+            try {
+                click(By.xpath("//button[contains(text(), 'OK') or contains(text(), 'Never') or contains(text(), 'Skip')]"));
+                LoggerUtils.logInfo("Dismissed password manager popup");
+            } catch (Exception e) {
+                driver.switchTo().alert().dismiss();
+                LoggerUtils.logInfo("Dismissed password manager alert");
+            }
+        } catch (Exception e) {
+            LoggerUtils.logInfo("No popup to dismiss");
         }
     }
 

@@ -1,0 +1,53 @@
+import { Component } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AmexLoginFormComponent, LoginCredentials } from '@vn-core-ui-components/ui';
+import { AuthService } from './auth.service';
+
+@Component({
+  selector: 'app-login-page',
+  standalone: true,
+  imports: [AmexLoginFormComponent],
+  template: `
+    <amex-login-form
+      portalTitle="Login Page"
+      [errorMessage]="errorMessage"
+      (loginSubmit)="onLoginSubmit($event)"
+      (forgotPassword)="onForgotPassword()">
+    </amex-login-form>
+  `,
+})
+export class LoginPageComponent {
+  errorMessage = '';
+  private returnUrl = '';
+
+  constructor(
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {
+    // reads ?returnUrl=http://localhost:4201 sent by OMS/soc-roc/bta etc.
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '';
+  }
+
+onLoginSubmit(creds: LoginCredentials): void {
+  this.auth.login(creds.username, creds.password).subscribe({
+    next: (result) => {
+
+      if (this.returnUrl) {
+        const redirectUrl =
+          decodeURIComponent(this.returnUrl) +
+          '?token=' +
+          encodeURIComponent(result.accessToken);
+
+        window.location.href = redirectUrl;
+      } else {
+        this.router.navigate(['/home']);
+      }
+    }
+  });
+}
+
+  onForgotPassword(): void {
+    alert('Forgot password flow goes here.');
+  }
+}

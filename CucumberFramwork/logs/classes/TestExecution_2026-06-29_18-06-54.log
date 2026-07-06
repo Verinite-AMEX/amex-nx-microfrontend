@@ -1,0 +1,23 @@
+2026-06-29 18:06:54 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section ==========
+2026-06-29 18:06:54 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_18-06-54.html
+2026-06-29 18:06:54 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section
+2026-06-29 18:06:54 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 18:06:55 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 18:06:55 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 18:06:56 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 18:06:56 [main] INFO  Hooks - Browser initialized
+2026-06-29 18:06:56 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 18:06:58 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 18:06:58 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 18:06:59 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 18:06:59 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 18:07:01 [main] INFO  SupplementaryAccessSteps - Navigated to Online Account Services
+2026-06-29 18:07:01 [main] INFO  SupplementaryAccessSteps - Entered valid user id
+2026-06-29 18:07:01 [main] INFO  SupplementaryAccessSteps - Clicked login button
+2026-06-29 18:07:01 [main] INFO  UiHelper - ✓ SUCCESS MESSAGE VERIFIED: User ID "supp15123" not found.
+2026-06-29 18:07:01 [main] INFO  ExtentReportManager - ✓ ✓ SUCCESS MESSAGE VERIFIED: User ID "supp15123" not found.
+2026-06-29 18:07:01 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section ==========
+2026-06-29 18:07:01 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section
+2026-06-29 18:07:01 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 18:07:01 [main] INFO  Hooks - Browser closed
+2026-06-29 18:07:02 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_18-06-54.html

@@ -30,7 +30,7 @@ CucumberFramework/
 │   │   │   │   └── ApiHelper.java          # REST API helper (GET, POST, PUT)
 │   │   │   └── UI/
 │   │   │       └── UiHelper.java           # Selenium UI helper (click, type, assert)
-│   │   ├── Runners/
+│   │   ├── AllRunners/
 │   │   │   ├── ApiTestRunner.java          # Runs @API tagged scenarios only
 │   │   │   └── UITestRunner.java           # Runs @UI tagged scenarios only
 │   │   ├── StepDefinitions/

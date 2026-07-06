@@ -2,7 +2,9 @@ import {
   Component,
   EventEmitter,
   Output,
-  OnInit
+  OnInit,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -21,8 +23,12 @@ import {
   OmsCustomizedReportsService
 } from '../../services/oms-customized-reports.service';
 
+import {
+  OmsPaginationComponent
+} from '../../shared/pagination/oms-pagination.component';
+
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'oms-customized-reports-form',
 
   standalone: true,
@@ -30,7 +36,8 @@ import {
   imports: [
     CommonModule,
     FormsModule,
-    AmexCustomizedReportsFormComponent
+    AmexCustomizedReportsFormComponent,
+    OmsPaginationComponent
   ],
 
   templateUrl:
@@ -225,9 +232,11 @@ import {
   `]
 })
 export class OmsCustomizedReportsFormComponent
-implements OnInit {
+implements OnInit, OnChanges {
 
   generatedReports: any[] = [];
+
+  paginatedReports: any[] = [];
 
   searchKeyword = '';
 
@@ -284,7 +293,6 @@ implements OnInit {
 
   constructor(
 
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private customizedReportsService:
       OmsCustomizedReportsService
 
@@ -294,6 +302,22 @@ implements OnInit {
 
     this.loadGeneratedReports();
   }
+
+  ngOnChanges(
+  changes: SimpleChanges
+) {
+
+  if (
+    changes['generatedReports']
+  ) {
+
+    this.paginatedReports = [
+      ...this.generatedReports
+    ];
+
+  }
+
+}
 
   // LOAD REPORTS
   loadGeneratedReports() {
@@ -305,6 +329,9 @@ implements OnInit {
         this.generatedReports =
           reports;
 
+        this.paginatedReports =
+          [...reports];
+
         console.log(
           'GENERATED REPORTS:',
           reports
@@ -312,107 +339,215 @@ implements OnInit {
       });
   }
 
+  onPageChanged(
+  rows: any[]
+) {
+
+  this.paginatedReports =
+    rows;
+
+}
+
   // SUBMIT REPORT
-  onSubmit(
-    event: any
-  ) {
+onSubmit(
+  event: any
+) {
 
-    console.log(
-      'CUSTOMIZED REPORT:',
-      event
-    );
+  console.log(
+    'CUSTOMIZED REPORT:',
+    event
+  );
 
-    console.log(
-  'RAW EVENT:',
+  console.log(
+    'RAW EVENT:',
+    JSON.stringify(
+      event,
+      null,
+      2
+    )
+  );
+
+  console.log(
+  'Report Type:',
+  event.reportType
+);
+
+console.log(
+  'Report Type JSON:',
   JSON.stringify(
-    event,
-    null,
-    2
+    event.reportType
   )
 );
 
-    this.isSubmitting =
-      true;
+console.log(
+  'Report Type Length:',
+  event.reportType?.length
+);
 
-      this.showSubscriptionWarning =
+  // CHECK DATE VALUES
+  console.log(
+    'Date From:',
+    event.dateFrom
+  );
 
-  !!event.emailSubscription;
+  console.log(
+    'Date To:',
+    event.dateTo
+  );
 
-    // MOCK API DELAY
-    setTimeout(() => {
+  console.log(
+    'Date From Type:',
+    typeof event.dateFrom
+  );
 
-      const newReport = {
+  console.log(
+    'Date To Type:',
+    typeof event.dateTo
+  );
 
-        reportType:
-          event.reportType ||
+  // REPORT TYPE
+  if (
+    !event.reportType
+  ) {
 
-          '',
+    alert(
+      'Please select Report Type.'
+    );
 
-        fromDate:
-  event.dateFrom ||
+    return;
+  }
 
-  '',
+  // FROM DATE
+  if (
+    !event.dateFrom
+  ) {
 
-toDate:
-  event.dateTo ||
+    alert(
+      'Please select From Date.'
+    );
 
-  '',
+    return;
+  }
 
-        merchantAccount:
-          event.merchantAccount ||
+  // TO DATE
+  if (
+    !event.dateTo
+  ) {
 
-          '',
+    alert(
+      'Please select To Date.'
+    );
 
-        settlementDate:
-          event.settlementDate ||
+    return;
+  }
 
-          '',
+  // PARSE DATES
+  const fromDate =
+    new Date(
+      event.dateFrom
+    );
 
-        emailSubscription:
-          event.emailSubscription ||
+  const toDate =
+    new Date(
+      event.dateTo
+    );
 
-          false,
+  console.log(
+    'Parsed From Date:',
+    fromDate
+  );
 
-        subscriptionEmail:
-          event.subscriptionEmail ||
+  console.log(
+    'Parsed To Date:',
+    toDate
+  );
 
-          '',
+  console.log(
+    'From Timestamp:',
+    fromDate.getTime()
+  );
 
-        screenReaderMode:
-          event.screenReaderMode ||
+  console.log(
+    'To Timestamp:',
+    toDate.getTime()
+  );
 
-          false,
+  // VALIDATE DATE RANGE
+  if (
+    fromDate.getTime() >
+    toDate.getTime()
+  ) {
 
-        createdDate:
-          new Date()
-            .toLocaleDateString(),
+    alert(
+      'From Date cannot be greater than To Date.'
+    );
 
-        status:
-          'Generated'
-      };
+    return;
+  }
 
-      console.log(
-        'FINAL REPORT:',
+  this.isSubmitting = true;
+
+  this.showSubscriptionWarning =
+    !!event.emailSubscription;
+
+  // MOCK API DELAY
+  setTimeout(() => {
+
+    const newReport = {
+
+      reportType:
+        event.reportType || '',
+
+      fromDate:
+        event.dateFrom || '',
+
+      toDate:
+        event.dateTo || '',
+
+      merchantAccount:
+        event.merchantAccount || '',
+
+      settlementDate:
+        event.settlementDate || '',
+
+      emailSubscription:
+        event.emailSubscription || false,
+
+      subscriptionEmail:
+        event.subscriptionEmail || '',
+
+      screenReaderMode:
+        event.screenReaderMode || false,
+
+      createdDate:
+        new Date()
+          .toLocaleDateString(),
+
+      status:
+        'Generated'
+    };
+
+    console.log(
+      'FINAL REPORT:',
+      newReport
+    );
+
+    this.customizedReportsService
+      .addReport(
         newReport
       );
 
-      this.customizedReportsService
-        .addReport(
-          newReport
-        );
+    this.loadGeneratedReports();
 
-      // REFRESH TABLE
-      this.loadGeneratedReports();
+    this.isSubmitting = false;
 
-      this.isSubmitting =
-        false;
+    alert(
+      'Customized Report Generated Successfully'
+    );
 
-      alert(
-        'Customized Report Generated Successfully'
-      );
+  }, 1500);
 
-    }, 1500);
-  }
+}
 
   // SEARCH REPORTS
   onSearchReports() {

@@ -1,65 +1,69 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexReportDownloadButtonComponent,
-  ReportFormat,
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
+
 
 @Component({
   selector: 'app-download-multiple-se',
   standalone: true,
   imports: [
-    AmexReportDownloadButtonComponent,
+    CommonModule,
+    FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
-  template: `
-    <amex-report-download-button
-      [config]="downloadConfig"
-      (download)="onDownload($event)"
-      (back)="onBack()">
-    </amex-report-download-button>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './download-multiple-se.html',
+  styleUrl: './download-multiple-se.css'
 })
-export class DownloadMultipleSe implements OnInit {
-  // ReportFormat = 'excel' | 'pdf' | 'csv' | 'rtf'
-  downloadConfig = {
-    label: "Download Multiple SE's",
-    formats: ['excel', 'csv'] as ReportFormat[],
-    submitLabel: 'Download',
-    showBack: true
-  };
+export class DownloadMultipleSe {
+  fileName: string = '';
+  sheetNo: string = '1';
+  refund: boolean = false;
+  selectedFile: File | null = null;
 
+  isRefreshing = false;
+  isUploading = false;
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage: string = '';
 
-  ngOnInit(): void {}
-
-  onDownload(format: ReportFormat): void {
-    // TODO: Replace with actual API download call using julianDay + seNumbers
-    this.status = 'success';
-    this.statusMessage = `Multiple SE data downloaded as ${format} successfully.`;
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.fileName = input.files[0].name;
+    }
   }
 
-  onBack(): void {
-    // TODO: navigate back
+  onRefreshData(): void {
+    if (!this.selectedFile) {
+      this.status = 'error';
+      this.statusMessage = 'Please choose an Excel file first.';
+      return;
+    }
+    this.isRefreshing = true;
+    this.status = 'idle';
+    // TODO: Replace with actual API call
+    setTimeout(() => {
+      this.isRefreshing = false;
+      this.status = 'success';
+      this.statusMessage = 'Data refreshed from Excel successfully.';
+    }, 800);
+  }
+
+  onUploadToServer(): void {
+    this.isUploading = true;
+    this.status = 'idle';
+    // TODO: Replace with actual API call
+    setTimeout(() => {
+      this.isUploading = false;
+      this.status = 'success';
+      this.statusMessage = "Multiple SE's uploaded to server successfully.";
+    }, 800);
   }
 }

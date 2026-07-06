@@ -1,0 +1,208 @@
+2026-06-24 15:03:25 [main] INFO  Utils - [TestNG] Running:
+  C:\Users\V00450\AppData\Local\JetBrains\IdeaIC2025.2\temp-testng-customsuite.xml
+
+2026-06-24 15:03:26 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Amex Internal Admin User ==========
+2026-06-24 15:03:26 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:03:26 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Amex Internal Admin User
+2026-06-24 15:03:26 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:03:29 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:03:29 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:03:32 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:03:32 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:03:33 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:03:35 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:03:35 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:03:36 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:03:36 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:03:36 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:03:38 [main] INFO  UiHelper - ✓ All 4 elements are successfully displayed
+2026-06-24 15:03:38 [main] INFO  ExtentReportManager - ✓ ✓ All 4 elements are successfully displayed
+2026-06-24 15:03:38 [main] INFO  BtaUserManagementSteps - Clicked on Corporate User Management 
+2026-06-24 15:03:45 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-24 15:03:45 [main] INFO  BtaUserManagementSteps - Clicked on TMC User Management 
+2026-06-24 15:03:51 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:03:54 [main] INFO  BtaMemoStatement - Clicked the Memo Statement Section
+2026-06-24 15:03:55 [main] INFO  BtaMemoStatement - Clicked Excel download button
+2026-06-24 15:03:56 [main] INFO  BtaMonthlyStatement - Clicked the Monthly Statement Section
+2026-06-24 15:03:57 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Amex Internal Admin User ==========
+2026-06-24 15:03:57 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Amex Internal Admin User
+2026-06-24 15:03:58 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:03:58 [main] INFO  Hooks - Browser closed
+2026-06-24 15:03:59 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:03:59 [main] INFO  Hooks - ========== UI Test Started: Verify BTA Corp Master Admin create New user with empty Values ==========
+2026-06-24 15:03:59 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA Corp Master Admin create New user with empty Values
+2026-06-24 15:03:59 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:03:59 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:03:59 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:04:02 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:04:02 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:04:02 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:04:05 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:04:05 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:04:05 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:04:05 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:04:05 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:04:07 [main] INFO  UiHelper - ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:07 [main] INFO  ExtentReportManager - ✓ ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:08 [main] INFO  UiHelper - ✓ All 9 elements are successfully displayed
+2026-06-24 15:04:08 [main] INFO  ExtentReportManager - ✓ ✓ All 9 elements are successfully displayed
+2026-06-24 15:04:08 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA Corp Master Admin create New user with empty Values ==========
+2026-06-24 15:04:08 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA Corp Master Admin create New user with empty Values
+2026-06-24 15:04:11 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:04:11 [main] INFO  Hooks - Browser closed
+2026-06-24 15:04:11 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:04:11 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Corporate Master Admin User ==========
+2026-06-24 15:04:11 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Corporate Master Admin User
+2026-06-24 15:04:11 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:04:11 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:04:11 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:04:13 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:04:13 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:04:13 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:04:16 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:04:16 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:04:17 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:04:17 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:04:17 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:04:19 [main] INFO  UiHelper - ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:19 [main] INFO  ExtentReportManager - ✓ ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:22 [main] INFO  BtaMemoStatement - Clicked the Memo Statement Section
+2026-06-24 15:04:23 [main] INFO  BtaMemoStatement - Clicked Excel download button
+2026-06-24 15:04:27 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-24 15:04:27 [main] INFO  BtaLargeReports - Clicked the Large Report Section
+2026-06-24 15:04:31 [main] INFO  BtaMonthlyStatement - Clicked the Monthly Statement Section
+2026-06-24 15:04:32 [main] INFO  BtaPaymentAllocation - Clicked the Payment Allocation Section
+2026-06-24 15:04:33 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:04:36 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Corporate Master Admin User ==========
+2026-06-24 15:04:36 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Corporate Master Admin User
+2026-06-24 15:04:38 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:04:38 [main] INFO  Hooks - Browser closed
+2026-06-24 15:04:38 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:04:38 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Corporate Sub Admin User ==========
+2026-06-24 15:04:38 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Corporate Sub Admin User
+2026-06-24 15:04:38 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:04:38 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:04:38 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:04:40 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:04:40 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:04:40 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:04:43 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:04:43 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:04:44 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:04:44 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:04:44 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:04:46 [main] INFO  UiHelper - ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:46 [main] INFO  ExtentReportManager - ✓ ✓ All 6 elements are successfully displayed
+2026-06-24 15:04:52 [main] INFO  BtaMemoStatement - Clicked the Memo Statement Section
+2026-06-24 15:04:53 [main] INFO  BtaMemoStatement - Clicked Excel download button
+2026-06-24 15:04:57 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-24 15:04:58 [main] INFO  BtaLargeReports - Clicked the Large Report Section
+2026-06-24 15:04:59 [main] INFO  BtaMonthlyStatement - Clicked the Monthly Statement Section
+2026-06-24 15:05:01 [main] INFO  BtaPaymentAllocation - Clicked the Payment Allocation Section
+2026-06-24 15:05:03 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:05:06 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Corporate Sub Admin User ==========
+2026-06-24 15:05:06 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Corporate Sub Admin User
+2026-06-24 15:05:08 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:05:08 [main] INFO  Hooks - Browser closed
+2026-06-24 15:05:08 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:05:08 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Corporate User ==========
+2026-06-24 15:05:08 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Corporate User
+2026-06-24 15:05:08 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:05:08 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:05:08 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:05:11 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:05:11 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:05:11 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:05:15 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:05:15 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:05:15 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:05:16 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:05:16 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:05:17 [main] INFO  UiHelper - ✓ All 5 elements are successfully displayed
+2026-06-24 15:05:17 [main] INFO  ExtentReportManager - ✓ ✓ All 5 elements are successfully displayed
+2026-06-24 15:05:18 [main] INFO  BtaMemoStatement - Clicked the Memo Statement Section
+2026-06-24 15:05:19 [main] INFO  BtaMemoStatement - Clicked Excel download button
+2026-06-24 15:05:23 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-24 15:05:23 [main] INFO  BtaLargeReports - Clicked the Large Report Section
+2026-06-24 15:05:25 [main] INFO  BtaMonthlyStatement - Clicked the Monthly Statement Section
+2026-06-24 15:05:28 [main] INFO  BtaPaymentAllocation - Clicked the Payment Allocation Section
+2026-06-24 15:05:29 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:05:32 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Corporate User ==========
+2026-06-24 15:05:32 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Corporate User
+2026-06-24 15:05:35 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:05:35 [main] INFO  Hooks - Browser closed
+2026-06-24 15:05:35 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:05:35 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Travel Master Admin User ==========
+2026-06-24 15:05:35 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Travel Master Admin User
+2026-06-24 15:05:35 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:05:35 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:05:35 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:05:38 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:05:38 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:05:38 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:05:40 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:05:40 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:05:41 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:05:41 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:05:41 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:05:43 [main] INFO  UiHelper - ✓ All 4 elements are successfully displayed
+2026-06-24 15:05:43 [main] INFO  ExtentReportManager - ✓ ✓ All 4 elements are successfully displayed
+2026-06-24 15:05:46 [main] INFO  BtaCaseManagement - Clicked the Case Management Section
+2026-06-24 15:05:48 [main] INFO  UiHelper - ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:05:48 [main] INFO  ExtentReportManager - ✓ ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:05:48 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:05:51 [main] INFO  BtaTMCTransactions - Clicked the Large Report Section
+2026-06-24 15:05:53 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Travel Master Admin User ==========
+2026-06-24 15:05:53 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Travel Master Admin User
+2026-06-24 15:05:56 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:05:56 [main] INFO  Hooks - Browser closed
+2026-06-24 15:05:56 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:05:56 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Travel Agent Sub Admin User ==========
+2026-06-24 15:05:56 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Travel Agent Sub Admin User
+2026-06-24 15:05:56 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:05:56 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:05:56 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:05:59 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:05:59 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:05:59 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:06:01 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:06:01 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:06:02 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:06:03 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:06:03 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:06:04 [main] INFO  UiHelper - ✓ All 4 elements are successfully displayed
+2026-06-24 15:06:04 [main] INFO  ExtentReportManager - ✓ ✓ All 4 elements are successfully displayed
+2026-06-24 15:06:09 [main] INFO  BtaCaseManagement - Clicked the Case Management Section
+2026-06-24 15:06:10 [main] INFO  UiHelper - ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:06:10 [main] INFO  ExtentReportManager - ✓ ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:06:11 [main] INFO  BtaAuditTrail - Clicked the Audit Trail Section
+2026-06-24 15:06:16 [main] INFO  BtaTMCTransactions - Clicked the Large Report Section
+2026-06-24 15:06:22 [main] INFO  BtaUserManagementSteps - Waited for few seconds to observe the result
+2026-06-24 15:06:22 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Travel Agent Sub Admin User ==========
+2026-06-24 15:06:22 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Travel Agent Sub Admin User
+2026-06-24 15:06:23 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:06:23 [main] INFO  Hooks - Browser closed
+2026-06-24 15:06:24 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html
+2026-06-24 15:06:24 [main] INFO  Hooks - ========== UI Test Started: Verify BTA functionality for Travel Agent User ==========
+2026-06-24 15:06:24 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify BTA functionality for Travel Agent User
+2026-06-24 15:06:24 [main] INFO  ExtentReportManager - Test Started
+2026-06-24 15:06:24 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-24 15:06:24 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-24 15:06:26 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-24 15:06:26 [main] INFO  Hooks - Browser initialized
+2026-06-24 15:06:26 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-24 15:06:31 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4203
+2026-06-24 15:06:31 [main] INFO  BTALoginSteps - Navigated to BTA Portal
+2026-06-24 15:06:31 [main] INFO  BTALoginSteps - Entered username and password
+2026-06-24 15:06:32 [main] INFO  BTALoginSteps - Clicked login button
+2026-06-24 15:06:32 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-24 15:06:33 [main] INFO  UiHelper - ✓ All 2 elements are successfully displayed
+2026-06-24 15:06:33 [main] INFO  ExtentReportManager - ✓ ✓ All 2 elements are successfully displayed
+2026-06-24 15:06:34 [main] INFO  UiHelper - ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:06:34 [main] INFO  ExtentReportManager - ✓ ✓ SUCCESS MESSAGE VERIFIED: Comment submitted successfully.
+2026-06-24 15:06:34 [main] INFO  BtaTMCTransactions - Clicked the Large Report Section
+2026-06-24 15:06:35 [main] INFO  Hooks - ========== UI Test Finished: Verify BTA functionality for Travel Agent User ==========
+2026-06-24 15:06:35 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify BTA functionality for Travel Agent User
+2026-06-24 15:06:37 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-24 15:06:37 [main] INFO  Hooks - Browser closed
+2026-06-24 15:06:37 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_24-06-2026_15-03-26.html

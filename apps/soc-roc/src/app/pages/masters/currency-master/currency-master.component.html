@@ -1,1 +1,105 @@
-<p>currency-master works!</p>
+<div class="cm-page">
+
+  <!-- DEFAULT VIEW -->
+  <div *ngIf="view === 'default'" class="cm-form">
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [(ngModel)]="defaultCode" readonly />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Name</label>
+      <div class="cm-select-wrap">
+        <input
+          type="text"
+          class="cm-input cm-input--select"
+          [value]="defaultName"
+          readonly
+        />
+        <span class="cm-arrow" (click)="toggleDefaultDrop()">&#9660;</span>
+        <div class="cm-dropdown" *ngIf="showDefaultDrop">
+          <div
+            class="cm-drop-item"
+            *ngFor="let c of defaultSuggestions"
+            (mousedown)="onDefaultPick(c)"
+          >{{ c.name }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="cm-action-btns">
+      <button class="cm-btn cm-btn--blue" (click)="goToAddNew()">Add New</button>
+      <button class="cm-btn cm-btn--blue" (click)="goToModify()">Modify</button>
+    </div>
+  </div>
+
+  <!-- ADD NEW VIEW -->
+  <div *ngIf="view === 'add'" class="cm-form">
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [(ngModel)]="addCode" maxlength="10" />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Name <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [(ngModel)]="addName" maxlength="100" />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">Short Name <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [(ngModel)]="addShortName" maxlength="10" />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">No. of Decimals <span class="cm-req">*</span></label>
+      <input type="number" class="cm-input cm-input--sm" [(ngModel)]="addDecimals" min="0" max="5" />
+    </div>
+    <div *ngIf="msg" class="cm-msg"
+      [class.cm-msg--ok]="msgType==='ok'"
+      [class.cm-msg--err]="msgType==='err'">{{ msg }}</div>
+    <div class="cm-action-btns">
+      <button class="cm-btn cm-btn--blue" (click)="onSave()">Save</button>
+      <button class="cm-btn cm-btn--cancel" (click)="goBack()">Cancel</button>
+    </div>
+  </div>
+
+  <!-- MODIFY VIEW -->
+  <div *ngIf="view === 'modify'" class="cm-form">
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [value]="modifyCode" readonly />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">Currency Name</label>
+      <div class="cm-select-wrap">
+        <input
+          type="text"
+          class="cm-input cm-input--select"
+          [value]="modifyInput"
+          (input)="onModifyInput($any($event.target).value)"
+          (focus)="toggleModifyDrop()"
+          autocomplete="off"
+        />
+        <span class="cm-arrow" (click)="toggleModifyDrop()">&#9660;</span>
+        <div class="cm-dropdown" *ngIf="showDrop && suggestions.length > 0">
+          <div
+            class="cm-drop-item"
+            *ngFor="let c of suggestions"
+            (mousedown)="onPick(c)"
+          >{{ c.name }}</div>
+        </div>
+      </div>
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">Short Name <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input" [value]="modifyShortName" readonly />
+    </div>
+    <div class="cm-field-row">
+      <label class="cm-label">No. of Decimals <span class="cm-req">*</span></label>
+      <input type="text" class="cm-input cm-input--sm" [value]="modifyDecimals" readonly />
+    </div>
+    <div *ngIf="msg" class="cm-msg"
+      [class.cm-msg--ok]="msgType==='ok'"
+      [class.cm-msg--err]="msgType==='err'">{{ msg }}</div>
+    <div class="cm-action-btns">
+      <button class="cm-btn cm-btn--blue" (click)="goToAddNew()">Add New</button>
+      <button class="cm-btn cm-btn--blue" (click)="onModifyUpdate()">Modify</button>
+    </div>
+  </div>
+
+</div>

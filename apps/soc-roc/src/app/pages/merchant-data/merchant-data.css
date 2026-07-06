@@ -1,1 +1,157 @@
+.md-page {
+  padding: 20px 30px;
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  color: #333;
+}
 
+.md-form {
+  display: inline-block;
+  min-width: 420px;
+}
+
+.md-field-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  gap: 8px;
+}
+
+.md-field-row--top {
+  align-items: flex-start;
+}
+
+.md-label {
+  min-width: 140px;
+  font-size: 13px;
+  color: #333;
+  font-weight: 600;
+}
+
+.md-req {
+  color: red;
+}
+
+/* Address stacked inputs */
+.md-address-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.md-input {
+  height: 22px;
+  padding: 2px 6px;
+  border: 1px solid #aaa;
+  font-size: 13px;
+  color: #333;
+  width: 200px;
+  background: #fff;
+  box-sizing: border-box;
+}
+
+.md-input:focus {
+  outline: 1px solid #336699;
+  border-color: #336699;
+}
+
+.md-input--readonly {
+  background: #e8e8e8;
+  color: #666;
+}
+
+.md-input--invalid {
+  border: 1px solid #cc0000;
+  background: #fff0f0;
+}
+
+.md-invalid-icon {
+  color: #cc0000;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* Select */
+.md-select-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.md-select {
+  height: 24px;
+  width: 208px;
+  padding: 0 4px;
+  border: 1px solid #aaa;
+  font-size: 13px;
+  color: #333;
+  background: #fff;
+  box-sizing: border-box;
+  appearance: auto;
+}
+
+.md-select--readonly {
+  background: #e8e8e8;
+  color: #666;
+}
+
+/* Checkbox */
+.md-checkbox {
+  width: 14px;
+  height: 14px;
+  cursor: pointer;
+}
+
+/* Buttons */
+.md-action-btns {
+  display: flex;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.md-btn {
+  padding: 5px 20px;
+  font-size: 13px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 2px;
+}
+
+.md-btn--blue {
+  background: #1a5276;
+  color: #fff;
+}
+
+.md-btn--blue:hover {
+  background: #154360;
+}
+
+.md-btn--cancel {
+  background: #5d8aa8;
+  color: #fff;
+  border: none;
+}
+
+.md-btn--cancel:hover {
+  background: #4a7a96;
+}
+
+/* Message */
+.md-msg {
+  margin: 6px 0 4px;
+  padding: 4px 10px;
+  font-size: 13px;
+  display: inline-block;
+}
+
+.md-msg--ok {
+  color: #006600;
+  background: #eeffee;
+  border: 1px solid #aaddaa;
+}
+
+.md-msg--err {
+  color: #cc0000;
+  background: #ffeeee;
+  border: 1px solid #ffaaaa;
+}

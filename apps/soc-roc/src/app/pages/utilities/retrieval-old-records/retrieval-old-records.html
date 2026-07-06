@@ -1,23 +1,25 @@
 <div class="ffu-container">
 
-  <!-- Julian Day -->
+  <!-- Julian Day Input -->
   <div class="ffu-row">
     <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
     <input
       type="text"
       class="ffu-text-input"
       [(ngModel)]="julianDay"
+      appNumbersOnly
       (ngModelChange)="onJulianDayInput()"
-      maxlength="3" />
+      maxlength="3"
+    />
   </div>
 
-  <!-- Today button -->
+  <!-- Or Select Date / Today -->
   <div class="ffu-row ffu-row-inline">
     <label class="ffu-label">or Select the capture date</label>
     <button class="ffu-today-btn" (click)="setToday()">Today</button>
   </div>
 
-  <!-- Calendar -->
+  <!-- Custom Calendar -->
   <div class="ffu-calendar">
     <div class="ffu-cal-header">
       <button class="ffu-cal-nav" (click)="prevMonth()">&#9664;</button>
@@ -25,16 +27,19 @@
       <button class="ffu-cal-nav" (click)="nextMonth()">&#9654;</button>
     </div>
     <div class="ffu-cal-grid">
-      <div class="ffu-cal-day-name" *ngFor="let d of ['Su','Mo','Tu','We','Th','Fr','Sa']">{{ d }}</div>
-      <div
-        *ngFor="let day of calendarDays"
-        class="ffu-cal-day"
-        [class.ffu-cal-day--other]="!day.currentMonth"
-        [class.ffu-cal-day--today]="isToday(day.date)"
-        [class.ffu-cal-day--selected]="isSelected(day.date)"
-        (click)="selectDate(day)">
-        {{ day.date.getDate() }}
-      </div>
+      @for (d of ['Su','Mo','Tu','We','Th','Fr','Sa']; track d) {
+        <div class="ffu-cal-day-name">{{ d }}</div>
+      }
+      @for (day of calendarDays; track day.date) {
+        <div
+          class="ffu-cal-day"
+          [class.ffu-cal-day--other]="!day.currentMonth"
+          [class.ffu-cal-day--today]="isToday(day.date)"
+          [class.ffu-cal-day--selected]="isSelected(day.date)"
+          (click)="selectDate(day)">
+          {{ day.date.getDate() }}
+        </div>
+      }
     </div>
   </div>
 
@@ -48,22 +53,32 @@
     </select>
   </div>
 
-  <!-- SE Number -->
+  <!-- SE Number (optional) -->
   <div class="ffu-row">
     <label class="ffu-label">SE Number</label>
-    <input
-      type="text"
-      class="ffu-text-input"
-      [(ngModel)]="seNumber"
-      placeholder="Optional" />
+    <input type="text" class="ffu-text-input" appNumbersOnly [(ngModel)]="seNumber" placeholder="Optional" />
   </div>
 
-  <!-- Status -->
-  <div *ngIf="status !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + status">
-    {{ statusMessage }}
-  </div>
+  <!-- vn-core Toast Messages -->
+  @if (status === 'success') {
+    <amex-success-toast
+      [message]="statusMessage"
+      [autoDismiss]="true"
+      [duration]="4000"
+      [dismissible]="true"
+      (dismissed)="onDismissSuccess()">
+    </amex-success-toast>
+  }
 
-  <!-- Submit -->
+  @if (status === 'error') {
+    <amex-error-toast
+      [message]="statusMessage"
+      [dismissible]="true"
+      (dismissed)="onDismissError()">
+    </amex-error-toast>
+  }
+
+  <!-- Submit Button -->
   <div class="ffu-row">
     <button class="ffu-submit-btn" (click)="onRetrieve()" [disabled]="isLoading">
       {{ isLoading ? 'Retrieving...' : 'Retrieve Old Records' }}

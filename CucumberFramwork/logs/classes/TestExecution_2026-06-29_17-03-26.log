@@ -1,0 +1,23 @@
+2026-06-29 17:03:26 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:03:26 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_17-03-26.html
+2026-06-29 17:03:26 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+2026-06-29 17:03:26 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 17:03:28 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 17:03:28 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 17:03:30 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 17:03:30 [main] INFO  Hooks - Browser initialized
+2026-06-29 17:03:30 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 17:03:32 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 17:03:32 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 17:03:33 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 17:03:33 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 17:03:44 [main] INFO  UiHelper - Popup handled - proceeding
+2026-06-29 17:03:45 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-29 17:03:45 [main] INFO  OnlineAccountServicesSteps - Navigated to Online Account Services
+2026-06-29 17:03:45 [main] INFO  OnlineAccountServicesSteps - Entered invalid user id
+2026-06-29 17:03:45 [main] INFO  OnlineAccountServicesSteps - Clicked login button
+2026-06-29 17:03:45 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:03:45 [main] INFO  ExtentReportManager - ✓ Test PASSED: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+2026-06-29 17:03:46 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 17:03:46 [main] INFO  Hooks - Browser closed
+2026-06-29 17:03:46 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_17-03-26.html

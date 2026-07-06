@@ -103,20 +103,30 @@ export class OmsMerchantPanelComponent
 ) {
 
   console.log(
+    'NEW CODE EXECUTED'
+  );
+
+  console.log(
     'Add Merchant Event:',
     event
   );
-
   const merchantNo =
     event?.merchantNo;
 
   const ibanLast5Digits =
     event?.lastFiveIban;
 
+    console.log(
+  'IBAN:',
+  ibanLast5Digits,
+  typeof ibanLast5Digits
+);
+
   // VALIDATION
   if (
     !merchantNo ||
-    !ibanLast5Digits
+    ibanLast5Digits === null ||
+    ibanLast5Digits === undefined
   ) {
 
     alert(
@@ -126,11 +136,34 @@ export class OmsMerchantPanelComponent
     return;
   }
 
+  // CONVERT TO STRING
+  const ibanValue =
+    String(
+      ibanLast5Digits
+    ).trim();
+
+  // MUST BE EXACTLY 5 DIGITS
+  if (
+  ibanValue.length !== 5 ||
+  !/^\d+$/.test(ibanValue)
+) {
+
+  console.log(
+    'IBAN VALIDATION FAILED'
+  );
+
+  alert(
+    'Please enter exactly 5 numeric digits from the IBAN.'
+  );
+
+  return;
+}
+
   const isAdded =
     this.merchantService
       .addMerchant(
         merchantNo,
-        ibanLast5Digits
+        ibanValue
       );
 
   if (isAdded) {

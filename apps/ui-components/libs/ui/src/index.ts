@@ -168,7 +168,7 @@ export * from './lib/amex/authentication/password-expiry-screen';
 export * from './lib/amex/authentication/change-password-form';
 
 // AMEX Layout — page shell + ALL framework exports
-export * from './lib/amex/layout/page-shell';
+export * from './lib/amex/layout/page-component';
 
 // Adapters, tokens, runtime config, bootstrap helper
 // Note: page-shell.ts already re-exports these, but explicit exports
@@ -176,3 +176,13 @@ export * from './lib/amex/layout/page-shell';
 export * from './lib/amex/layout/adapters';
 export * from './lib/amex/layout/runtime-config';
 export * from './lib/amex/layout/portal-bootstrap';
+
+// ADD AFTER ALL EXISTING EXPORTS in src/index.ts:
+
+// AMEX Layout (Page Component + Auth Util)
+export * from './lib/amex/layout/page-component';
+export * from './lib/amex/layout/login-modal.component';
+export * from './lib/amex/layout/auth.util';
+export * from './lib/amex/layout/adapters';
+export * from './lib/amex/layout/portal-bootstrap';
+export * from './lib/amex/layout/runtime-config';

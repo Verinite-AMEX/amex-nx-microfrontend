@@ -1,58 +1,63 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexRejectionReportTableComponent,
-  RejectionReportRow,
-  AmexSuccessToastComponent,
-  AmexErrorToastComponent
+  AmexSortableFilterableTableComponent,
+  AmexTableColumn
 } from '@vn-core-ui-components/ui';
 
 @Component({
   selector: 'app-consolidated-rejection-report',
   standalone: true,
   imports: [
-    AmexRejectionReportTableComponent,
-    AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    CommonModule,
+    FormsModule,
+    AmexSortableFilterableTableComponent
   ],
-  template: `
-    <amex-rejection-report-table
-      [rows]="records"
-      (exportClick)="onExport()"
-      (printClick)="onPrint()">
-    </amex-rejection-report-table>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './consolidated-rejection-report.html',
+  styleUrl: './consolidated-rejection-report.css'
 })
-export class ConsolidatedRejectionReport implements OnInit {
-  // Interface: { seNo, rejectionReason, date, amount }
-  records: RejectionReportRow[] = [];
+export class ConsolidatedRejectionReport {
+  showTable = false;
+
+  fromDate: string = '';
+  toDate: string = '';
+
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage: string = '';
 
-  ngOnInit(): void {
+  columns: AmexTableColumn[] = [
+    { key: 'julianDay',       label: 'Julian Day' },
+    { key: 'socRefNo',        label: 'SOC Ref No.' },
+    { key: 'rocRefNo',        label: 'ROC Ref No.' },
+    { key: 'salesEntity',     label: 'Sales Entity' },
+    { key: 'cardNumber',      label: 'Card Number' },
+    { key: 'amount',          label: 'Amount' },
+    { key: 'currency',        label: 'Currency' },
+    { key: 'rejectionCode',   label: 'Rejection Code' },
+    { key: 'rejectionReason', label: 'Rejection Reason' },
+  ];
+
+  records: Record<string, any>[] = [];
+
+  onSearch(): void {
+    if (!this.fromDate || !this.toDate) {
+      this.status = 'error';
+      this.statusMessage = 'From Date and To Date are required.';
+      this.showTable = false;
+      return;
+    }
+    this.statusMessage = '';
+    this.status = 'idle';
     // TODO: Replace with ReportService API call
     this.records = [];
+    this.showTable = true;
   }
 
-  onExport(): void {}
+  onPrint(): void { window.print(); }
+  onExport(): void { /* TODO: export logic */ }
 
-  onPrint(): void {
-    window.print();
+  onSortChange(event: { key: string; dir: any }): void {
+    console.log('Sort:', event);
   }
 }

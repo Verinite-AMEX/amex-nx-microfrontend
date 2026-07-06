@@ -2,24 +2,38 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  OnChanges,
+  SimpleChanges
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
 import {
   AmexUserManagementTableComponent
 } from '@vn-core-ui-components/ui';
 
+// CHANGE THE PATH AS PER YOUR PROJECT
+import {
+  OmsPaginationComponent
+} from '../../shared/pagination/oms-pagination.component';
+
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
+
   selector: 'oms-user-management-table',
 
   standalone: true,
 
   imports: [
+
     CommonModule,
-    AmexUserManagementTableComponent
+
+    AmexUserManagementTableComponent,
+
+    OmsPaginationComponent
+
   ],
 
   templateUrl:
@@ -30,11 +44,14 @@ import {
     :host {
 
       width: 100%;
+
+      display: block;
     }
 
   `]
 })
-export class OmsUserManagementTableComponent {
+export class OmsUserManagementTableComponent
+implements OnChanges {
 
   @Input()
   title =
@@ -51,10 +68,16 @@ export class OmsUserManagementTableComponent {
   showMerchantNumber = false;
 
   @Output()
-  editUserClicked = new EventEmitter<any>();
+  editUserClicked =
+    new EventEmitter<any>();
 
   @Output()
-  deleteUserClicked = new EventEmitter<any>();
+  deleteUserClicked =
+    new EventEmitter<any>();
+
+  @Output()
+  createUserClicked =
+    new EventEmitter<void>();
 
   @Input()
   rows: any[] = [
@@ -128,73 +151,133 @@ export class OmsUserManagementTableComponent {
     }
   ];
 
-  @Output()
-  createUserClicked = new EventEmitter<void>();
+  // CURRENT PAGE DATA
+  paginatedRows: any[] = [];
 
-  handleClick(event: any) {
-
-  const text =
-    event.target?.innerText?.trim();
-
-  console.log(
-    'Clicked:',
-    text
-  );
-
-  // CREATE
-  if (
-    text?.toLowerCase()
-      .includes('create')
+  ngOnChanges(
+    changes: SimpleChanges
   ) {
 
-    this.createUserClicked.emit();
+    if (
+      changes['rows']
+    ) {
+
+      // DEFAULT FIRST PAGE
+      this.paginatedRows = [
+        ...this.rows
+      ];
+
+    }
+
   }
 
-  // EDIT
-  if (
-    text?.toLowerCase()
-      .includes('edit')
+  // PAGINATION CALLBACK
+  onPageChanged(
+    rows: any[]
   ) {
 
-    // MOCK SELECTED USER
-    const selectedUser =
-      this.rows[0];
+    this.paginatedRows =
+      rows;
 
-    this.editUserClicked.emit(
-      selectedUser
-    );
   }
 
-  // DELETE
-  if (
-    text?.toLowerCase()
-      .includes('delete')
+  handleClick(
+    event: any
   ) {
 
-    // MOCK SELECTED USER
-    const selectedUser =
-      this.rows[0];
+    const text =
+      event.target?.innerText?.trim();
 
     console.log(
-      'Delete User:',
-      selectedUser
+      'Clicked:',
+      text
     );
 
-    this.deleteUserClicked.emit(
-      selectedUser
-    );
+    // CREATE
+    if (
+      text?.toLowerCase()
+        .includes('create')
+    ) {
+
+      this.createUserClicked.emit();
+
+      return;
+
+    }
+
+    // EDIT
+    if (
+      text?.toLowerCase()
+        .includes('edit')
+    ) {
+
+      const selectedUser =
+
+        this.paginatedRows.length > 0
+
+          ? this.paginatedRows[0]
+
+          : this.rows[0];
+
+      this.editUserClicked.emit(
+        selectedUser
+      );
+
+      return;
+
+    }
+
+    // DELETE
+    if (
+      text?.toLowerCase()
+        .includes('delete')
+    ) {
+
+      const selectedUser =
+
+        this.paginatedRows.length > 0
+
+          ? this.paginatedRows[0]
+
+          : this.rows[0];
+
+      console.log(
+        'Delete User:',
+        selectedUser
+      );
+
+      this.deleteUserClicked.emit(
+        selectedUser
+      );
+
+    }
+
   }
-}
 
-get rowsWithoutMerchantNumber() {
+  get rowsWithoutMerchantNumber() {
 
-  return this.rows.map(
-    ({
-      merchantNumber,
-      ...rest
-    }) => rest
-  );
-}
+    return this.rows.map(
 
+      ({
+        merchantNumber,
+        ...rest
+      }) => rest
+
+    );
+
+  }
+
+  get paginatedRowsWithoutMerchantNumber() {
+
+    return this.paginatedRows.map(
+
+      ({
+        merchantNumber,
+        ...rest
+      }) => rest
+
+    );
+
+  }
 
 }

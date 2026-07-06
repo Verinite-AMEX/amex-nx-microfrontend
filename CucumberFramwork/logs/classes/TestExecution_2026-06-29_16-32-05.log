@@ -1,0 +1,35 @@
+2026-06-29 16:32:05 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering valid card number in Online Account Service ==========
+2026-06-29 16:32:06 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_16-32-06.html
+2026-06-29 16:32:06 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering valid card number in Online Account Service
+2026-06-29 16:32:06 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 16:32:06 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 16:32:06 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 16:32:08 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 16:32:08 [main] INFO  Hooks - Browser initialized
+2026-06-29 16:32:08 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 16:32:10 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 16:32:10 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 16:32:11 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 16:32:11 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 16:32:23 [main] INFO  UiHelper - Download popup handled - proceeding
+2026-06-29 16:32:23 [main] INFO  BTALoginSteps - Home page landed successfully
+2026-06-29 16:32:23 [main] INFO  OnlineAccountServicesSteps - Navigated to Online Account Services
+2026-06-29 16:32:24 [main] INFO  OnlineAccountServicesSteps - Entered valid card number
+2026-06-29 16:32:24 [main] INFO  OnlineAccountServicesSteps - Clicked login button
+2026-06-29 16:32:44 [main] INFO  UiHelper - ✗ supp15 is registered. is NOT displayed - Expected condition failed: waiting for visibility of element located by By.xpath: /html/body/app-root/amex-page-component/div/div/div/div/app-online-account-entry/app-nx-welcome/app-search-card-user/div/div/div/div/div[2]/div[2]/p (tried for 20 second(s) with 500 milliseconds interval)
+Build info: version: '4.34.0', revision: '707dcb4246*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.11'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 149.0.7827.104, chrome: {chromedriverVersion: 149.0.7827.155 (07b52360cc1..., userDataDir: C:\Users\V00450\AppData\Loc...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63619}, goog:processID: 17564, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63619/devtoo..., se:cdpVersion: 149.0.7827.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 18cbc5fa47adf00ccf2f3e42af21b2e6
+2026-06-29 16:32:44 [main] INFO  UiHelper - Screenshot captured for failure: supp15 is registered. - Not Displayed
+2026-06-29 16:32:44 [main] INFO  ExtentReportManager - ✗ ✗ supp15 is registered. is NOT displayed - Expected condition failed: waiting for visibility of element located by By.xpath: /html/body/app-root/amex-page-component/div/div/div/div/app-online-account-entry/app-nx-welcome/app-search-card-user/div/div/div/div/div[2]/div[2]/p (tried for 20 second(s) with 500 milliseconds interval)
+Build info: version: '4.34.0', revision: '707dcb4246*'
+System info: os.name: 'Windows 11', os.arch: 'amd64', os.version: '10.0', java.version: '17.0.11'
+Driver info: org.openqa.selenium.chrome.ChromeDriver
+Capabilities {acceptInsecureCerts: false, browserName: chrome, browserVersion: 149.0.7827.104, chrome: {chromedriverVersion: 149.0.7827.155 (07b52360cc1..., userDataDir: C:\Users\V00450\AppData\Loc...}, fedcm:accounts: true, goog:chromeOptions: {debuggerAddress: localhost:63619}, goog:processID: 17564, networkConnectionEnabled: false, pageLoadStrategy: normal, platformName: windows, proxy: Proxy(), se:cdp: ws://localhost:63619/devtoo..., se:cdpVersion: 149.0.7827.104, setWindowRect: true, strictFileInteractability: false, timeouts: {implicit: 0, pageLoad: 300000, script: 30000}, unhandledPromptBehavior: dismiss and notify, webauthn:extension:credBlob: true, webauthn:extension:largeBlob: true, webauthn:extension:minPinLength: true, webauthn:extension:prf: true, webauthn:virtualAuthenticators: true}
+Session ID: 18cbc5fa47adf00ccf2f3e42af21b2e6
+2026-06-29 16:32:44 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering valid card number in Online Account Service ==========
+2026-06-29 16:32:45 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 16:32:45 [main] INFO  Hooks - Browser closed
+2026-06-29 16:32:45 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_16-32-06.html

@@ -14,16 +14,16 @@
 
 .ret-panel {
   border: 1px solid #ccc;
-  padding: 14px 16px;
+  padding: 8px 12px;
   background: #fafafa;
 }
 
 .ret-panel--left {
-  min-width: 340px;
+  min-width: 260px;
 }
 
 .ret-panel--right {
-  min-width: 280px;
+  min-width: 200px;
 }
 
 /* Field rows */
@@ -40,7 +40,7 @@
 .ret-row {
   display: flex;
   align-items: center;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   gap: 6px;
 }
 
@@ -58,8 +58,8 @@
 }
 
 .ret-input {
-  height: 22px;
-  padding: 2px 6px;
+  height: 18px;
+  padding: 1px 6px;
   border: 1px solid #aaa;
   font-size: 13px;
   color: #333;
@@ -76,8 +76,8 @@
 }
 
 .ret-select {
-  height: 24px;
-  padding: 2px 4px;
+  height: 20px;
+  padding: 1px 4px;
   border: 1px solid #aaa;
   font-size: 13px;
   color: #333;

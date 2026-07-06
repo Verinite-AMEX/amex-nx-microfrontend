@@ -2,15 +2,10 @@
 
   <!-- Julian Day -->
   <div class="ffu-row">
-    <label class="ffu-label">
-      Enter the Julian Day <span class="ffu-required">*</span>
-    </label>
-    <input
-      type="text"
-      class="ffu-text-input"
-      [(ngModel)]="julianDay"
-      (ngModelChange)="onJulianDayInput()"
-      maxlength="3">
+    <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
+    <input type="text" class="ffu-text-input" [(ngModel)]="julianDay"
+      appNumbersOnly
+      (ngModelChange)="onJulianDayInput()" maxlength="3">
   </div>
 
   <!-- Today button -->
@@ -28,9 +23,7 @@
     </div>
     <div class="ffu-cal-grid">
       <div class="ffu-cal-day-name" *ngFor="let d of ['Su','Mo','Tu','We','Th','Fr','Sa']">{{ d }}</div>
-      <div
-        *ngFor="let day of calendarDays"
-        class="ffu-cal-day"
+      <div *ngFor="let day of calendarDays" class="ffu-cal-day"
         [class.ffu-cal-day--other]="!day.currentMonth"
         [class.ffu-cal-day--today]="isToday(day.date)"
         [class.ffu-cal-day--selected]="isSelected(day.date)"
@@ -40,64 +33,52 @@
     </div>
   </div>
 
-  <!-- SE Numbers list -->
+  <!-- SE Number input -->
   <div class="ffu-row">
-    <label class="ffu-label">
-      SE Numbers <span class="ffu-required">*</span>
-    </label>
-    <select
-      multiple
-      size="8"
-      class="eri-se-list"
-      (change)="selectedIndex = +$any($event.target).selectedIndex">
-      @for (se of seNumbers; track se) {
-        <option [value]="se">{{ se }}</option>
-      }
-    </select>
-  </div>
-
-  <!-- Add SE input -->
-  <div class="ffu-row">
-    <label class="ffu-label"></label>
-    <input
-      type="text"
-      class="ffu-text-input"
-      [(ngModel)]="seNumber"
-      (keyup.enter)="addSeNumber()"
+    <label class="ffu-label">SE Numbers <span class="ffu-required">*</span></label>
+    <input type="text" class="ffu-text-input" [(ngModel)]="seNumber"
+      appNumbersOnly
       placeholder="Enter SE Number">
-    <button class="ffu-today-btn" (click)="addSeNumber()">Add To List</button>
-  </div>
-
-  <!-- Remove selected -->
-  <div class="ffu-row">
-    <label class="ffu-label"></label>
-    <button class="ffu-today-btn" (click)="removeSelected()">Remove Selected</button>
   </div>
 
   <!-- SOC Header radio -->
-  <div class="ffu-row">
+  <div class="ffu-row" style="align-items:flex-start;">
     <label class="ffu-label"></label>
     <div>
       <div>
         <input type="radio" name="header" [value]="true" [(ngModel)]="includeSocHeader">
         With SOC header
       </div>
-      <div style="margin-top:8px;">
+      <div style="margin-top:6px;">
         <input type="radio" name="header" [value]="false" [(ngModel)]="includeSocHeader">
         Without SOC header
       </div>
     </div>
   </div>
 
-  <!-- Status message -->
-  <div *ngIf="status !== 'idle'" class="ffu-status" [ngClass]="'ffu-status--' + status">
-    {{ statusMessage }}
-  </div>
+  <!-- vn-core Toast Messages -->
+  @if (status === 'success') {
+    <amex-success-toast
+      [message]="statusMessage"
+      [autoDismiss]="true"
+      [duration]="4000"
+      [dismissible]="true"
+      (dismissed)="onDismissSuccess()">
+    </amex-success-toast>
+  }
+
+  @if (status === 'error') {
+    <amex-error-toast
+      [message]="statusMessage"
+      [dismissible]="true"
+      (dismissed)="onDismissError()">
+    </amex-error-toast>
+  }
 
   <!-- Submit -->
   <div class="ffu-row">
     <button class="ffu-submit-btn" (click)="onExtractRejectedItems()" [disabled]="isLoading">
-      {{ isLoading ? 'Processing...' : 'Extract Rejected Items' }}
+      {{ isLoading ? 'Processing...' : 'Do File Formation' }}
     </button>
   </div>
 

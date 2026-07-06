@@ -54,7 +54,12 @@
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
         "port": 4205,
-        "publicHost": "http://localhost:4205"
+        "publicHost": "http://localhost:4205",
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+          "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        }
       },
       "configurations": {
         "production": {

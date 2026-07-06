@@ -1,6 +1,6 @@
 <amex-sub-user-admin-table
 
-  [rows]="rows"
+  [rows]="paginatedRows"
 
   [title]="title"
 
@@ -17,3 +17,15 @@
   ">
 
 </amex-sub-user-admin-table>
+
+<oms-pagination
+
+  [rows]="rows"
+
+  [pageSize]="10"
+
+  (pageData)="
+    onPageChanged($event)
+  ">
+
+</oms-pagination>

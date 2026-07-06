@@ -1,0 +1,15 @@
+@UI @OMS @Positive @OmsMerchantUser
+
+Feature: Verify that the User is able to access the online account service in OMS portal and validate their functionality.
+
+  Background:
+    Given Navigate to the OMS Portal
+    When  I enter username and password in OMS Portal
+    Then  I click the OMS login button
+    And   I should see the OMS Home Page
+
+
+    
+
+
+

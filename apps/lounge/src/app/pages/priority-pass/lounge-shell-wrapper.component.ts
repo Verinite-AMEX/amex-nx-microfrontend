@@ -11,7 +11,7 @@ import { SHELL_HOSTED } from '../../core/tokens/shell.token';
   standalone: true,
   imports: [CommonModule, AmexPageShellComponent, LoungePriorityPassComponent],
   template: `
-    <amex-page-shell
+    <amex-page-component
       portalStyle="onls"
       portalTitle="ONLS Helper Tool"
       [config]="shellConfig"
@@ -22,7 +22,7 @@ import { SHELL_HOSTED } from '../../core/tokens/shell.token';
       (logout)="onLogout()"
     >
       <app-lounge-priority-pass></app-lounge-priority-pass>
-    </amex-page-shell>
+    </amex-page-component>
   `,
 })
 export class LoungeShellWrapperComponent {

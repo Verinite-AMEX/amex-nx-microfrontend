@@ -1,108 +1,174 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexFileUploadFormComponent,
-  AmexFileUploadProgressComponent,
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
-import { Utility } from '../../../core/services/utility';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
+
+interface CalendarDay {
+  date: Date;
+  currentMonth: boolean;
+}
 
 @Component({
   selector: 'app-file-formation-upload',
   standalone: true,
   imports: [
-    AmexFileUploadFormComponent,
-    AmexFileUploadProgressComponent,
+    CommonModule,
+    FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
-  template: `
-    <amex-file-upload-form
-      title="File Formation & Upload"
-      fileLabel="Choose SOC/ROC File"
-      submitLabel="Do File Formation"
-      acceptedTypes=".txt,.csv,.dat"
-      [errorMessage]="errorMessage"
-      (submitClick)="onDoFileFormation($event)">
-    </amex-file-upload-form>
-
-    @if (isLoading) {
-      <amex-file-upload-progress
-        [fileName]="uploadFileName"
-        [percent]="uploadPercent"
-        status="uploading"
-        portalStyle="onls"
-        (cancel)="onCancelUpload()">
-      </amex-file-upload-progress>
-    }
-
-    @if (uploadStatus === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="uploadStatus = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (uploadStatus === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="uploadStatus = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './file-formation-upload.html',
+  styleUrl: './file-formation-upload.css'
 })
 export class FileFormationUpload implements OnInit {
-  errorMessage: string = '';
-  uploadFileName: string = '';
-  uploadPercent: number = 0;
-  isLoading: boolean = false;
+  julianDay: string = '';
+  selectedDate: Date | null = null;
+  country: string = '';
+  currency: string = '';
+  isLoading = false;
   uploadStatus: 'idle' | 'success' | 'error' = 'idle';
-  statusMessage: string = '';
+  statusMessage = '';
 
-  constructor(private utilityService: Utility) {}
+  countries = [
+    'ALGERIA','BAHRAIN','EGYPT','EUROPE','INDIA','JORDAN','KUWAIT',
+    'LEBANON','LIBYA','MAURITANIA','OMAN','QATAR','SAUDI ARABIA',
+    'SOMALIA','SUDAN','SYRIA','TUNISIA','UAE','US','YEMAN'
+  ];
 
-  ngOnInit(): void {}
+  currencies = [
+    'ALGERIAN DINAR','BAHRAIN DINAR','EGYPTIAN POUND','INDIAN RUPEE',
+    'KUWAITI DINAR','LIBYAN DINAR','MOROCCAN DIRHAM','OMANI RIAL',
+    'QATARI RIYAL','SAUDI RIYAL','SMT DINAR','SOMALI SHILLING',
+    'SUDANESE DINAR','TUNISIAN DINAR','UAE DIRHAM','US DOLLAR','OUGUIJA'
+  ];
 
-  onDoFileFormation(file: File | null): void {
-    if (!file) {
-      this.errorMessage = 'Please select a file.';
-      return;
+  // Calendar state
+  viewYear: number = new Date().getFullYear();
+  viewMonth: number = new Date().getMonth();
+  calendarDays: CalendarDay[] = [];
+
+  get calendarMonthYear(): string {
+    const d = new Date(this.viewYear, this.viewMonth, 1);
+    return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
+  }
+
+  ngOnInit(): void {
+    this.buildCalendar();
+    this.setToday();
+  }
+
+  buildCalendar(): void {
+    const days: CalendarDay[] = [];
+    const first = new Date(this.viewYear, this.viewMonth, 1);
+    const startDay = first.getDay();
+
+    for (let i = startDay - 1; i >= 0; i--) {
+      const d = new Date(this.viewYear, this.viewMonth, -i);
+      days.push({ date: d, currentMonth: false });
     }
-    this.errorMessage = '';
-    this.uploadFileName = file.name;
-    this.isLoading = true;
-    this.uploadPercent = 0;
+    const daysInMonth = new Date(this.viewYear, this.viewMonth + 1, 0).getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({ date: new Date(this.viewYear, this.viewMonth, i), currentMonth: true });
+    }
+    const remaining = 42 - days.length;
+    for (let i = 1; i <= remaining; i++) {
+      days.push({ date: new Date(this.viewYear, this.viewMonth + 1, i), currentMonth: false });
+    }
+    this.calendarDays = days;
+  }
 
+  prevMonth(): void {
+    if (this.viewMonth === 0) { this.viewMonth = 11; this.viewYear--; }
+    else this.viewMonth--;
+    this.buildCalendar();
+  }
+
+  nextMonth(): void {
+    if (this.viewMonth === 11) { this.viewMonth = 0; this.viewYear++; }
+    else this.viewMonth++;
+    this.buildCalendar();
+  }
+
+  setToday(): void {
     const today = new Date();
-    const julianDay = this.getJulianDay(today);
-    const dateStr = today.toISOString().split('T')[0];
-
-    this.utilityService.formFile(dateStr, julianDay).subscribe({
-      next: () => {
-        this.isLoading = false;
-        this.uploadPercent = 100;
-        this.uploadStatus = 'success';
-        this.statusMessage = 'File formation completed successfully.';
-      },
-      error: () => {
-        this.isLoading = false;
-        this.uploadStatus = 'error';
-        this.statusMessage = 'File formation failed. Please try again.';
-      }
-    });
+    this.viewYear = today.getFullYear();
+    this.viewMonth = today.getMonth();
+    this.selectDate({ date: today, currentMonth: true });
+    this.buildCalendar();
   }
 
-  onCancelUpload(): void {
-    this.isLoading = false;
-    this.uploadStatus = 'idle';
+  selectDate(day: CalendarDay): void {
+    this.selectedDate = day.date;
+    this.julianDay = this.toJulian(day.date);
   }
 
-  private getJulianDay(date: Date): string {
+  isToday(d: Date): boolean {
+    const t = new Date();
+    return d.getFullYear() === t.getFullYear() &&
+           d.getMonth() === t.getMonth() &&
+           d.getDate() === t.getDate();
+  }
+
+  isSelected(d: Date): boolean {
+    if (!this.selectedDate) return false;
+    return d.getFullYear() === this.selectedDate.getFullYear() &&
+           d.getMonth() === this.selectedDate.getMonth() &&
+           d.getDate() === this.selectedDate.getDate();
+  }
+
+  onJulianDayInput(): void {
+    const j = parseInt(this.julianDay, 10);
+    if (!isNaN(j) && j >= 1 && j <= 366) {
+      const d = new Date(new Date().getFullYear(), 0, j);
+      this.selectedDate = d;
+      this.viewYear = d.getFullYear();
+      this.viewMonth = d.getMonth();
+      this.buildCalendar();
+    }
+  }
+
+  toJulian(date: Date): string {
     const start = new Date(date.getFullYear(), 0, 0);
     const diff = date.getTime() - start.getTime();
     return Math.floor(diff / (1000 * 60 * 60 * 24)).toString();
+  }
+
+  onDoFileFormation(): void {
+    if (!this.julianDay) {
+      this.uploadStatus = 'error';
+      this.statusMessage = 'Julian Day is required.';
+      return;
+    }
+    if (!this.country) {
+      this.uploadStatus = 'error';
+      this.statusMessage = 'Country is required.';
+      return;
+    }
+    if (!this.currency) {
+      this.uploadStatus = 'error';
+      this.statusMessage = 'Currency is required.';
+      return;
+    }
+    this.isLoading = true;
+    this.uploadStatus = 'idle';
+    // TODO: Replace with UtilityService API call
+    setTimeout(() => {
+      this.isLoading = false;
+      this.uploadStatus = 'success';
+      this.statusMessage = 'File formation completed successfully.';
+    }, 1000);
+  }
+
+  onDismissSuccess(): void {
+    this.uploadStatus = 'idle';
+  }
+
+  onDismissError(): void {
+    this.uploadStatus = 'idle';
   }
 }

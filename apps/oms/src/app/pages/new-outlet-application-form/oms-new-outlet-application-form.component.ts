@@ -85,6 +85,117 @@ export class OmsNewOutletApplicationFormComponent {
       event
     );
 
+    // OUTLET NAME
+    if (
+      !event.outletName?.trim()
+    ) {
+
+      alert(
+        'Outlet Name is required'
+      );
+
+      return;
+    }
+
+    // BUSINESS TYPE
+    if (
+      !event.businessType?.trim()
+    ) {
+
+      alert(
+        'Business Type is required'
+      );
+
+      return;
+    }
+
+    // LOCATION
+    if (
+      !event.location?.trim()
+    ) {
+
+      alert(
+        'Location is required'
+      );
+
+      return;
+    }
+
+    // CONTACT NAME
+    if (
+      !event.contactName?.trim()
+    ) {
+
+      alert(
+        'Contact Name is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^[a-zA-Z\s]+$/.test(
+        event.contactName
+      )
+    ) {
+
+      alert(
+        'Contact Name should contain only letters'
+      );
+
+      return;
+    }
+
+    // EMAIL
+    if (
+      !event.contactEmail?.trim()
+    ) {
+
+      alert(
+        'Contact Email is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+        event.contactEmail
+      )
+    ) {
+
+      alert(
+        'Please enter a valid email address'
+      );
+
+      return;
+    }
+
+    // PHONE
+    if (
+      !event.contactPhone?.trim()
+    ) {
+
+      alert(
+        'Contact Phone is required'
+      );
+
+      return;
+    }
+
+    if (
+      !/^\d{7,15}$/.test(
+        event.contactPhone
+      )
+    ) {
+
+      alert(
+        'Contact Phone must contain 7 to 15 digits only'
+      );
+
+      return;
+    }
+
     this.isSubmitting =
       true;
 

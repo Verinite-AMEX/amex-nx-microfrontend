@@ -14,8 +14,16 @@
 
   [showCancel]="showCancel"
 
-  (agree)="agree($event)"
+  (acceptedChange)="
+    onAcceptedChange($event)
+  "
 
-  (cancel)="cancel($event)">
+  (agree)="
+    agree($event)
+  "
+
+  (cancel)="
+    cancel($event)
+  ">
 
 </amex-terms-and-conditions-viewer>

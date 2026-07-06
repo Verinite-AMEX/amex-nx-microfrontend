@@ -1,0 +1,4 @@
+2026-06-29 17:06:22 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering invalid user id in Online Account Service ==========
+2026-06-29 17:06:22 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_17-06-22.html
+2026-06-29 17:06:22 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering invalid user id in Online Account Service
+2026-06-29 17:06:22 [main] INFO  ExtentReportManager - Test Started

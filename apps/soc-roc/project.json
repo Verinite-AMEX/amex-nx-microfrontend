@@ -1,111 +1,116 @@
 {
-  "name": "soc-roc",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
-  "projectType": "application",
-  "prefix": "app",
-  "sourceRoot": "apps/soc-roc/src",
-  "tags": [],
-  "targets": {
-    "build": {
-      "executor": "@nx/angular:webpack-browser",
-      "outputs": ["{options.outputPath}"],
-      "options": {
-        "outputPath": "dist/apps/soc-roc",
-        "index": "apps/soc-roc/src/index.html",
-        "main": "apps/soc-roc/src/main.ts",
-        "tsConfig": "apps/soc-roc/tsconfig.app.json",
-        "assets": [
-          {
-            "glob": "**/*",
-            "input": "apps/soc-roc/public"
-          }
-        ],
-        "styles": ["apps/soc-roc/src/styles.css"],
-        "customWebpackConfig": {
-          "path": "apps/soc-roc/webpack.config.js"
-        }
-      },
-      "configurations": {
-        "production": {
-          "budgets": [
-            {
-              "type": "initial",
-              "maximumWarning": "500kb",
-              "maximumError": "1mb"
+    "name": "soc-roc",
+    "$schema": "../../node_modules/nx/schemas/project-schema.json",
+    "projectType": "application",
+    "prefix": "app",
+    "sourceRoot": "apps/soc-roc/src",
+    "tags": [],
+    "targets": {
+        "build": {
+            "executor": "@nx/angular:webpack-browser",
+            "outputs": [
+                "{options.outputPath}"
+            ],
+            "options": {
+                "outputPath": "dist/apps/soc-roc",
+                "index": "apps/soc-roc/src/index.html",
+                "main": "apps/soc-roc/src/main.ts",
+                "tsConfig": "apps/soc-roc/tsconfig.app.json",
+                "assets": [
+                    {
+                        "glob": "**/*",
+                        "input": "apps/soc-roc/public"
+                    }
+                ],
+                "styles": [
+                    "apps/soc-roc/src/styles.css"
+                ],
+                "customWebpackConfig": {
+                    "path": "apps/soc-roc/webpack.config.js"
+                }
             },
-            {
-              "type": "anyComponentStyle",
-              "maximumWarning": "4kb",
-              "maximumError": "8kb"
+            "configurations": {
+                "production": {
+                    "budgets": [
+                        {
+                            "type": "initial",
+                            "maximumWarning": "500kb",
+                            "maximumError": "1mb"
+                        },
+                        {
+                            "type": "anyComponentStyle",
+                            "maximumWarning": "4kb",
+                            "maximumError": "8kb"
+                        }
+                    ],
+                    "outputHashing": "all",
+                    "customWebpackConfig": {
+                        "path": "apps/soc-roc/webpack.prod.config.js"
+                    }
+                },
+                "development": {
+                    "buildOptimizer": false,
+                    "optimization": false,
+                    "vendorChunk": true,
+                    "extractLicenses": false,
+                    "sourceMap": true,
+                    "namedChunks": true
+                }
+            },
+            "defaultConfiguration": "production"
+        },
+        "serve": {
+            "continuous": true,
+            "executor": "@nx/angular:dev-server",
+            "options": {
+                "port": 4215,
+                "publicHost": "http://localhost:4215"
+            },
+            "configurations": {
+                "production": {
+                    "buildTarget": "soc-roc:build:production"
+                },
+                "development": {
+                    "buildTarget": "soc-roc:build:development"
+                }
+            },
+            "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+            "executor": "@angular-devkit/build-angular:extract-i18n",
+            "options": {
+                "buildTarget": "soc-roc:build"
             }
-          ],
-          "outputHashing": "all",
-          "customWebpackConfig": {
-            "path": "apps/soc-roc/webpack.prod.config.js"
-          }
         },
-        "development": {
-          "buildOptimizer": false,
-          "optimization": false,
-          "vendorChunk": true,
-          "extractLicenses": false,
-          "sourceMap": true,
-          "namedChunks": true
-        }
-      },
-      "defaultConfiguration": "production"
-    },
-    "serve": {
-      "continuous": true,
-      "executor": "@nx/angular:dev-server",
-      "options": {
-        "port": 4214,
-        "publicHost": "http://localhost:4214"
-      },
-      "configurations": {
-        "production": {
-          "buildTarget": "soc-roc:build:production"
+        "lint": {
+            "executor": "@nx/eslint:lint"
         },
-        "development": {
-          "buildTarget": "soc-roc:build:development"
-        }
-      },
-      "defaultConfiguration": "development"
-      
-    },
-    "extract-i18n": {
-      "executor": "@angular-devkit/build-angular:extract-i18n",
-      "options": {
-        "buildTarget": "soc-roc:build"
-      }
-    },
-    "lint": {
-      "executor": "@nx/eslint:lint"
-    },
-    "test": {
-      "executor": "@nx/vitest:test",
-      "outputs": ["{options.reportsDirectory}"],
-      "options": {
-        "reportsDirectory": "coverage/apps/soc-roc"
-      }
-    },
-    "serve-static": {
-      "continuous": true,
-      "executor": "@nx/web:file-server",
-      "defaultConfiguration": "production",
-      "options": {
-        "buildTarget": "soc-roc:build",
-        "port": 4214,
-        "watch": false
-      },
-      "configurations": {
-        "development": {
-          "buildTarget": "soc-roc:build:development"
+        "test": {
+            "executor": "@nx/vitest:test",
+            "outputs": [
+                "{options.reportsDirectory}"
+            ],
+            "options": {
+                "reportsDirectory": "coverage/apps/soc-roc"
+            }
         },
-        "production": {
-          "buildTarget": "soc-roc:build:production"
+        "serve-static": {
+            "continuous": true,
+            "executor": "@nx/web:file-server",
+            "defaultConfiguration": "production",
+            "options": {
+                "buildTarget": "soc-roc:build",
+                "port": 4215,
+                "watch": false
+            },
+            "configurations": {
+                "development": {
+                    "buildTarget": "soc-roc:build:development"
+                },
+                "production": {
+                    "buildTarget": "soc-roc:build:production"
+                }
+            }
         }
-      }
     }
-  }
 }

@@ -4,16 +4,23 @@
   "projectType": "application",
   "prefix": "app",
   "sourceRoot": "apps/online-account/src",
-  "tags": ["type:app", "scope:online-account"],
+  "tags": [
+    "type:app",
+    "scope:online-account"
+  ],
   "targets": {
     "build": {
       "executor": "@angular-builders/custom-webpack:browser",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/apps/online-account",
         "index": "apps/online-account/src/index.html",
         "main": "apps/online-account/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/online-account/tsconfig.app.json",
         "assets": [
           {
@@ -21,7 +28,9 @@
             "input": "apps/online-account/public"
           }
         ],
-        "styles": ["apps/online-account/src/styles.css"],
+        "styles": [
+          "apps/online-account/src/styles.css"
+        ],
         "customWebpackConfig": {
           "path": "apps/online-account/webpack.config.js"
         }
@@ -44,8 +53,13 @@
     "serve": {
       "executor": "@angular-builders/custom-webpack:dev-server",
       "options": {
-        "port": 4201,
-        "publicHost": "http://localhost:4201"
+        "port": 4202,
+        "publicHost": "http://localhost:4202",
+        "headers": {
+          "Access-Control-Allow-Origin": "*",
+          "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+          "Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+        }
       },
       "configurations": {
         "production": {
@@ -68,7 +82,9 @@
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
-      "outputs": ["{workspaceRoot}/coverage/apps/online-account"],
+      "outputs": [
+        "{workspaceRoot}/coverage/apps/online-account"
+      ],
       "options": {
         "main": "apps/online-account/src/test.ts",
         "tsConfig": "apps/online-account/tsconfig.spec.json",

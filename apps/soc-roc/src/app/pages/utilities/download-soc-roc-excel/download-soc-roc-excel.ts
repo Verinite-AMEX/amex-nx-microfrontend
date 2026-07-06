@@ -1,98 +1,77 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexFileUploadFormComponent,
-  AmexSortableFilterableTableComponent,
-  AmexTableColumn,
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
 
 @Component({
   selector: 'app-download-soc-roc-excel',
   standalone: true,
   imports: [
-    AmexFileUploadFormComponent,
-    AmexSortableFilterableTableComponent,
+    CommonModule,
+    FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
-  template: `
-    <amex-file-upload-form
-      title="Download SOC & ROC Details from Excel"
-      fileLabel="Choose Excel File"
-      submitLabel="Refresh Data"
-      acceptedTypes=".xlsx,.xls"
-      [errorMessage]="errorMessage"
-      (submitClick)="onRefreshData($event)">
-    </amex-file-upload-form>
-
-    @if (tableData.length > 0) {
-      <amex-sortable-filterable-table
-        title="SOC & ROC Excel Data"
-        ctaLabel="Upload to Server"
-        [columns]="columns"
-        [rows]="tableData"
-        [actions]="[]"
-        (ctaClick)="onUploadToServer()">
-      </amex-sortable-filterable-table>
-    }
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './download-soc-roc-excel.html',
+  styleUrl: './download-soc-roc-excel.css'
 })
 export class DownloadSocRocExcel {
-  errorMessage: string = '';
-  tableData: Record<string, any>[] = [];
+  // Form fields matching screenshot
+  seNo: string = '';
+  seName: string = '';
+  date: string = '';
+  country: string = '';
+  currency: string = '';
+  grandTotal: string = '';
+  refund: boolean = false;
+  noOfCharges: string = '';
+  socRefNo: string = '';
+  sheetNo: string = '1';
+  fileName: string = '';
+  selectedFile: File | null = null;
+
+  isRefreshing = false;
+  isUploading = false;
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage: string = '';
 
-  columns: AmexTableColumn[] = [
-    { key: 'SE Number',      label: 'SE Number' },
-    { key: 'SOC Reference',  label: 'SOC Reference' },
-    { key: 'ROC Reference',  label: 'ROC Reference' },
-    { key: 'Amount',         label: 'Amount' },
-    { key: 'Currency',       label: 'Currency' },
-    { key: 'Date',           label: 'Date' },
-  ];
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files.length > 0) {
+      this.selectedFile = input.files[0];
+      this.fileName = input.files[0].name;
+    }
+  }
 
-  onRefreshData(file: File | null): void {
-    if (!file) {
-      this.errorMessage = 'Please select an Excel file.';
+  onRefreshData(): void {
+    if (!this.selectedFile) {
+      this.status = 'error';
+      this.statusMessage = 'Please choose an Excel file first.';
       return;
     }
-    this.errorMessage = '';
+    this.isRefreshing = true;
+    this.status = 'idle';
     // TODO: Replace with actual Excel parsing / API call
-    this.tableData = [
-      { 'SE Number': '100001', 'SOC Reference': 'SOC-001', 'ROC Reference': 'ROC-001', 'Amount': '1500.00', 'Currency': 'USD', 'Date': '2024-09-26' },
-      { 'SE Number': '100002', 'SOC Reference': 'SOC-002', 'ROC Reference': 'ROC-002', 'Amount': '2300.00', 'Currency': 'AED', 'Date': '2024-09-26' },
-    ];
-    this.status = 'success';
-    this.statusMessage = 'Data refreshed from Excel successfully.';
+    setTimeout(() => {
+      this.isRefreshing = false;
+      this.status = 'success';
+      this.statusMessage = 'Data refreshed from Excel successfully.';
+    }, 800);
   }
 
   onUploadToServer(): void {
-    if (this.tableData.length === 0) {
-      this.status = 'error';
-      this.statusMessage = 'Please refresh data from Excel before uploading.';
-      return;
-    }
+    this.isUploading = true;
+    this.status = 'idle';
     // TODO: Replace with actual API call
-    this.status = 'success';
-    this.statusMessage = 'Data uploaded to server successfully.';
+    setTimeout(() => {
+      this.isUploading = false;
+      this.status = 'success';
+      this.statusMessage = 'Data uploaded to server successfully.';
+    }, 800);
   }
 }

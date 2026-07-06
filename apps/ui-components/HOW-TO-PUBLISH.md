@@ -237,6 +237,7 @@ npm update @vn-core-ui-components/ui
 |---|---|
 | Build the library | `nx run ui:build:production` |
 | Publish (Verdaccio) | `cd dist/vn-core-ui-components && npm publish --registry http://localhost:4873` |
+| UnPublish (Verdaccio) | `npm unpublish @vn-core-ui-components/ui --force --registry http://localhost:4873` |
 | Publish (GitHub) | `cd dist/vn-core-ui-components && npm publish --registry https://npm.pkg.github.com` |
 | Publish (public npm) | `cd dist/vn-core-ui-components && npm publish --access public` |
 | Teammate installs | `npm install @vn-core-ui-components/ui` |

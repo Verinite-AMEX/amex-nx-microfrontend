@@ -11,10 +11,16 @@
         "outputPath": "dist/apps/change-password-portal",
         "index": "apps/change-password-portal/src/index.html",
         "main": "apps/change-password-portal/src/main.ts",
-        "polyfills": ["zone.js"],
+        "polyfills": [
+          "zone.js"
+        ],
         "tsConfig": "apps/change-password-portal/tsconfig.app.json",
-        "assets": ["apps/change-password-portal/src/assets"],
-        "styles": ["apps/change-password-portal/src/styles.scss"],
+        "assets": [
+          "apps/change-password-portal/src/assets"
+        ],
+        "styles": [
+          "apps/change-password-portal/src/styles.scss"
+        ],
         "scripts": [],
         "commonChunk": false,
         "customWebpackConfig": {
@@ -22,8 +28,14 @@
         }
       },
       "configurations": {
-        "production": { "outputHashing": "all" },
-        "development": { "optimization": false, "extractLicenses": false, "sourceMap": true }
+        "production": {
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
       },
       "defaultConfiguration": "development"
     },
@@ -32,21 +44,34 @@
       "options": {
         "port": 4214,
         "publicHost": "http://localhost:4214",
-        "headers": { "Access-Control-Allow-Origin": "*" }
+        "headers": {
+          "Access-Control-Allow-Origin": "*"
+        }
       },
       "configurations": {
-        "production": { "buildTarget": "change-password-portal:build:production" },
-        "development": { "buildTarget": "change-password-portal:build:development" }
+        "production": {
+          "buildTarget": "change-password-portal:build:production"
+        },
+        "development": {
+          "buildTarget": "change-password-portal:build:development"
+        }
       },
       "defaultConfiguration": "development"
     },
     "test": {
       "executor": "@angular-devkit/build-angular:karma",
       "options": {
-        "polyfills": ["zone.js", "zone.js/testing"],
+        "polyfills": [
+          "zone.js",
+          "zone.js/testing"
+        ],
         "tsConfig": "apps/change-password-portal/tsconfig.spec.json",
-        "assets": ["apps/change-password-portal/src/assets"],
-        "styles": ["apps/change-password-portal/src/styles.scss"],
+        "assets": [
+          "apps/change-password-portal/src/assets"
+        ],
+        "styles": [
+          "apps/change-password-portal/src/styles.scss"
+        ],
         "scripts": []
       }
     }

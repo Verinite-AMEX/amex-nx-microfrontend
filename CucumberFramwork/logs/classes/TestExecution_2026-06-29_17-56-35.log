@@ -1,0 +1,20 @@
+2026-06-29 17:56:35 [main] INFO  Hooks - ========== UI Test Started: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section ==========
+2026-06-29 17:56:35 [main] INFO  ExtentReportManager - ExtentReport initialized at: logs/reports/ExtentReport_29-06-2026_17-56-35.html
+2026-06-29 17:56:35 [main] INFO  ExtentReportManager - Test created in ExtentReport: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section
+2026-06-29 17:56:35 [main] INFO  ExtentReportManager - Test Started
+2026-06-29 17:56:35 [main] INFO  WebDriverManager - Using chromedriver 149.0.7827.155 (resolved driver for Chrome 149)
+2026-06-29 17:56:35 [main] INFO  WebDriverManager - Exporting webdriver.chrome.driver as C:\Users\V00450\.cache\selenium\chromedriver\win64\149.0.7827.155\chromedriver.exe
+2026-06-29 17:56:37 [main] INFO  WebDriverManagerUtil - Browser initialized: chrome
+2026-06-29 17:56:37 [main] INFO  Hooks - Browser initialized
+2026-06-29 17:56:37 [main] INFO  ExtentReportManager - ✓ Browser initialized successfully
+2026-06-29 17:56:39 [main] INFO  WebDriverManagerUtil - Navigated to: http://localhost:4200
+2026-06-29 17:56:39 [main] INFO  OnlineHelperLoginSteps - Navigated to Online Helper Portal
+2026-06-29 17:56:40 [main] INFO  OnlineHelperLoginSteps - Entered username and password
+2026-06-29 17:56:40 [main] INFO  OnlineHelperLoginSteps - Clicked login button
+2026-06-29 17:56:53 [main] INFO  UiHelper - Download popup handled - proceeding
+2026-06-29 17:56:53 [main] INFO  SupplementaryAccessSteps - Navigated to Online Account Services
+2026-06-29 17:56:53 [main] INFO  SupplementaryAccessSteps - Entered valid user id
+2026-06-29 17:57:13 [main] INFO  Hooks - ========== UI Test Finished: Verify that user is able to retrieve details by entering valid user id in Supplementary Access section ==========
+2026-06-29 17:57:14 [main] INFO  WebDriverManagerUtil - Browser closed and ThreadLocal cleared.
+2026-06-29 17:57:14 [main] INFO  Hooks - Browser closed
+2026-06-29 17:57:14 [main] INFO  ExtentReportManager - ExtentReport flushed → logs/reports/ExtentReport_29-06-2026_17-56-35.html

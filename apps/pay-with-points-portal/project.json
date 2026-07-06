@@ -55,7 +55,9 @@
       "options": {
         "port": 4207,
         "publicHost": "http://localhost:4207",
-        "allowedHosts": ["all"],
+        "allowedHosts": [
+          "all"
+        ],
         "headers": {
           "Access-Control-Allow-Origin": "*",
           "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",

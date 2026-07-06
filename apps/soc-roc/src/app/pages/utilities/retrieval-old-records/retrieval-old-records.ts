@@ -1,86 +1,143 @@
 import { Component, OnInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import {
-  AmexSortableFilterableTableComponent,
-  AmexTableColumn,
   AmexSuccessToastComponent,
   AmexErrorToastComponent
 } from '@vn-core-ui-components/ui';
+import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
+
+
+interface CalendarDay {
+  date: Date;
+  currentMonth: boolean;
+}
 
 @Component({
   selector: 'app-retrieval-old-records',
   standalone: true,
   imports: [
-    AmexSortableFilterableTableComponent,
+    CommonModule,
+    FormsModule,
     AmexSuccessToastComponent,
-    AmexErrorToastComponent
+    AmexErrorToastComponent,
+    NumbersOnlyDirective
   ],
-  template: `
-    <amex-sortable-filterable-table
-      title="Retrieval of Old Records & Reports"
-      ctaLabel="Retrieve"
-      [columns]="columns"
-      [rows]="records"
-      [actions]="tableActions"
-      (ctaClick)="onRetrieve()"
-      (actionClick)="onActionClick($event)"
-      (sortChange)="onSortChange($event)">
-    </amex-sortable-filterable-table>
-
-    @if (status === 'success') {
-      <amex-success-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        [autoDismiss]="true"
-        (dismissed)="status = 'idle'">
-      </amex-success-toast>
-    }
-
-    @if (status === 'error') {
-      <amex-error-toast
-        [message]="statusMessage"
-        portalStyle="onls"
-        (dismissed)="status = 'idle'">
-      </amex-error-toast>
-    }
-  `
+  templateUrl: './retrieval-old-records.html',
+  styleUrl: './retrieval-old-records.css'
 })
 export class RetrievalOldRecords implements OnInit {
-  columns: AmexTableColumn[] = [
-    { key: 'julianDay',  label: 'Julian Day' },
-    { key: 'recordType', label: 'Record Type' },
-    { key: 'seNumber',   label: 'SE Number' },
-    { key: 'refNo',      label: 'Reference No.' },
-    { key: 'date',       label: 'Date' },
-    { key: 'amount',     label: 'Amount' },
-    { key: 'currency',   label: 'Currency' },
-    { key: 'status',     label: 'Status' },
-  ];
-
-  tableActions = [
-    { id: 'view',  label: 'View',  type: 'primary' },
-    { id: 'print', label: 'Print', type: 'secondary' },
-  ];
-
-  records: Record<string, any>[] = [];
+  julianDay: string = '';
+  selectedDate: Date | null = null;
+  recordType: string = 'SOC';
+  seNumber: string = '';
+  isLoading = false;
   status: 'idle' | 'success' | 'error' = 'idle';
-  statusMessage: string = '';
+  statusMessage = '';
 
-  ngOnInit(): void {}
+  // Calendar state
+  viewYear: number = new Date().getFullYear();
+  viewMonth: number = new Date().getMonth();
+  calendarDays: CalendarDay[] = [];
 
-  onRetrieve(): void {
-    // TODO: Replace with ReportService API call
-    this.records = [];
-    this.status = 'success';
-    this.statusMessage = 'Old records retrieved successfully.';
+  get calendarMonthYear(): string {
+    const d = new Date(this.viewYear, this.viewMonth, 1);
+    return d.toLocaleString('en-US', { month: 'long', year: 'numeric' });
   }
 
-  onActionClick(event: { action: string; row: any }): void {
-    if (event.action === 'print') {
-      window.print();
+  ngOnInit(): void {
+    this.buildCalendar();
+    this.setToday();
+  }
+
+  buildCalendar(): void {
+    const days: CalendarDay[] = [];
+    const first = new Date(this.viewYear, this.viewMonth, 1);
+    const startDay = first.getDay();
+    for (let i = startDay - 1; i >= 0; i--) {
+      days.push({ date: new Date(this.viewYear, this.viewMonth, -i), currentMonth: false });
+    }
+    const daysInMonth = new Date(this.viewYear, this.viewMonth + 1, 0).getDate();
+    for (let i = 1; i <= daysInMonth; i++) {
+      days.push({ date: new Date(this.viewYear, this.viewMonth, i), currentMonth: true });
+    }
+    const remaining = 42 - days.length;
+    for (let i = 1; i <= remaining; i++) {
+      days.push({ date: new Date(this.viewYear, this.viewMonth + 1, i), currentMonth: false });
+    }
+    this.calendarDays = days;
+  }
+
+  prevMonth(): void {
+    if (this.viewMonth === 0) { this.viewMonth = 11; this.viewYear--; }
+    else this.viewMonth--;
+    this.buildCalendar();
+  }
+
+  nextMonth(): void {
+    if (this.viewMonth === 11) { this.viewMonth = 0; this.viewYear++; }
+    else this.viewMonth++;
+    this.buildCalendar();
+  }
+
+  setToday(): void {
+    const today = new Date();
+    this.viewYear = today.getFullYear();
+    this.viewMonth = today.getMonth();
+    this.selectDate({ date: today, currentMonth: true });
+    this.buildCalendar();
+  }
+
+  selectDate(day: CalendarDay): void {
+    this.selectedDate = day.date;
+    this.julianDay = this.toJulian(day.date);
+  }
+
+  isToday(d: Date): boolean {
+    const t = new Date();
+    return d.getFullYear() === t.getFullYear() && d.getMonth() === t.getMonth() && d.getDate() === t.getDate();
+  }
+
+  isSelected(d: Date): boolean {
+    if (!this.selectedDate) return false;
+    return d.getFullYear() === this.selectedDate.getFullYear() &&
+           d.getMonth() === this.selectedDate.getMonth() &&
+           d.getDate() === this.selectedDate.getDate();
+  }
+
+  onJulianDayInput(): void {
+    const j = parseInt(this.julianDay, 10);
+    if (!isNaN(j) && j >= 1 && j <= 366) {
+      const d = new Date(new Date().getFullYear(), 0, j);
+      this.selectedDate = d;
+      this.viewYear = d.getFullYear();
+      this.viewMonth = d.getMonth();
+      this.buildCalendar();
     }
   }
 
-  onSortChange(event: { key: string; dir: any }): void {
-    console.log('Sort:', event);
+  toJulian(date: Date): string {
+    const start = new Date(date.getFullYear(), 0, 0);
+    const diff = date.getTime() - start.getTime();
+    return Math.floor(diff / (1000 * 60 * 60 * 24)).toString();
   }
+
+  onRetrieve(): void {
+    if (!this.julianDay) {
+      this.status = 'error';
+      this.statusMessage = 'Julian Day is required.';
+      return;
+    }
+    this.isLoading = true;
+    this.status = 'idle';
+    // TODO: Replace with ReportService API call
+    setTimeout(() => {
+      this.isLoading = false;
+      this.status = 'success';
+      this.statusMessage = 'Old records retrieved successfully.';
+    }, 1000);
+  }
+
+  onDismissSuccess(): void { this.status = 'idle'; }
+  onDismissError(): void { this.status = 'idle'; }
 }
