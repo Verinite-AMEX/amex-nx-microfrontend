@@ -1,0 +1,9 @@
+{
+  "run": {
+    "command": "nx serve Login-Logout-auth-app",
+    "startTime": "2026-07-01T09:28:31.207Z",
+    "endTime": "2026-07-01T10:08:58.006Z",
+    "inner": false
+  },
+  "tasks": []
+}

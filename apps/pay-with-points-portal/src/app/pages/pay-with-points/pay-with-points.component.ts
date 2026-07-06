@@ -9,16 +9,6 @@ import {
 } from '@vn-core-ui-components/ui';
 import { AmexCardRow } from '@vn-core-ui-components/ui';
 
-/**
- * PayWithPointsComponent — the actual UI for Select & Pay With Points.
- *
- * This is a STANDALONE component — it can be rendered:
- *   1. Directly at http://localhost:4207/pay-with-points (standalone mode)
- *   2. Inside the shell at http://localhost:4200/pay-with-points (MFE mode)
- *
- * It does NOT import Router or navigate programmatically — preventing
- * re-render conflicts with the shell router.
- */
 @Component({
   selector:   'app-pay-with-points',
   standalone: true,
@@ -52,9 +42,6 @@ import { AmexCardRow } from '@vn-core-ui-components/ui';
 
     <!-- VIEW 2: SELECT & PAY WITH POINTS table -->
     <ng-container *ngIf="view === 'select'">
-      <div class="pwp-bureau-bar">
-        <span class="pwp-bureau-link" (click)="goToForm()">◀ BUREAU</span>
-      </div>
       <div class="pwp-body">
         <amex-eligible-transactions-table
           pageTitle="SELECT & PAY WITH POINTS"
@@ -101,11 +88,8 @@ import { AmexCardRow } from '@vn-core-ui-components/ui';
     .pwp-form-error    { color: red; font-size: 12px; margin-top: 6px; }
 
     /* Select view */
-    .pwp-bureau-bar {
-      background: #e8e8e8; padding: 4px 12px;
-      border-bottom: 1px solid #d0d0d0; font-size: 12px;
-    }
-    .pwp-bureau-link   { color: #006fcf; cursor: pointer; font-weight: bold; }
+
+    .pwp-bureau-link   { color: #1a3a6b; cursor: pointer; font-weight: bold; }
     .pwp-bureau-link:hover { text-decoration: underline; }
     .pwp-body          { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
@@ -181,7 +165,7 @@ export class PayWithPointsComponent implements OnInit {
     this.resetCard();
 
     if (!this.cardRows.length) {
-      this.errorMessage = `No cards found for client code "${code}".`;
+      this.errorMessage = `ERROR: Sorry, selected card is not eligible for the Select and Pay With Points benefit".`;
     }
   }
 
