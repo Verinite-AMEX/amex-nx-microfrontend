@@ -150,10 +150,30 @@ public class DataInitializer implements CommandLineRunner {
                     .password(passwordEncoder.encode("Onls@1234"))
                     .fullName("Khalid Al Nasser")
                     .avatarInitials("KN")
-                    .roles(Set.of(Roles.ONLS_ADMIN) )
+                    .roles(Set.of(Roles.ONLS_ADMIN))
                     .build());
 
-            log.info("Seeded 9 AEME users: sys.admin / csa.agent / onls.admin / risk.user / mrm.user / corp.admin / ta.admin / soc.user / cma.admin");
+            // LDAP Test Admin
+            userRepository.save(User.builder()
+                    .username("admin")
+                    .email("admin@springframework.org")
+                    .password(passwordEncoder.encode("password"))
+                    .fullName("Rod Johnson")
+                    .avatarInitials("RJ")
+                    .roles(Set.of(Roles.SYS_ADMIN))
+                    .build());
+
+            // LDAP Test User
+            userRepository.save(User.builder()
+                    .username("user")
+                    .email("user@springframework.org")
+                    .password(passwordEncoder.encode("password"))
+                    .fullName("Dianne Emu")
+                    .avatarInitials("DE")
+                    .roles(Set.of("ROLE_VIEWER"))
+                    .build());
+
+            log.info("Seeded 15 users: admin / user / sys.admin / csa.agent / onls.admin / risk.user / mrm.user / corp.admin / ta.admin / soc.user / etc.");
         }
     }
 }

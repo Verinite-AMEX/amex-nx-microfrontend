@@ -81,7 +81,18 @@ public class AuthService {
         );
 
         User user = userRepository.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseGet(() -> {
+                    log.info("Auto-provisioning LDAP user into database: {}", request.getUsername());
+                    User newUser = User.builder()
+                            .username(request.getUsername())
+                            .email(request.getUsername() + "@aeme.com")
+                            .password(passwordEncoder.encode(request.getPassword()))
+                            .fullName(request.getUsername().toUpperCase())
+                            .avatarInitials(deriveInitials(request.getUsername()))
+                            .roles(Set.of("ROLE_VIEWER"))
+                            .build();
+                    return userRepository.save(newUser);
+                });
 
         refreshTokenRepository.revokeAllUserTokens(user);
         return generateAuthResponse(user);

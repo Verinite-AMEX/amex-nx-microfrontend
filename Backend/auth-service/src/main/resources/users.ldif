@@ -1,0 +1,197 @@
+dn: dc=springframework,dc=org
+objectclass: top
+objectclass: domain
+dc: springframework
+
+dn: ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: groups
+
+dn: ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: organizationalUnit
+ou: people
+
+# ── LDAP POC Users ──────────────────────────────────────────────────────────
+
+dn: uid=admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Rod Johnson
+sn: Johnson
+uid: admin
+userPassword: password
+
+dn: uid=user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Dianne Emu
+sn: Emu
+uid: user
+userPassword: password
+
+# ── Amex Seeded Users (from DataInitializer) ────────────────────────────────
+
+dn: uid=sys.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: System Administrator
+sn: Administrator
+uid: sys.admin
+userPassword: Admin@1234
+
+dn: uid=csa.agent,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Sarah Al Mansouri
+sn: Al Mansouri
+uid: csa.agent
+userPassword: Agent@1234
+
+dn: uid=risk.user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Ahmed Khalil
+sn: Khalil
+uid: risk.user
+userPassword: Risk@1234
+
+dn: uid=mrm.user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Priya Nair
+sn: Nair
+uid: mrm.user
+userPassword: Mrm@1234
+
+dn: uid=corp.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Sam Frost
+sn: Frost
+uid: corp.admin
+userPassword: Corp@1234
+
+dn: uid=corp.sub.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Nadia Al Farsi
+sn: Al Farsi
+uid: corp.sub.admin
+userPassword: Corp@1234
+
+dn: uid=corp.user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Arnold Smith
+sn: Smith
+uid: corp.user
+userPassword: Corp@1234
+
+dn: uid=ta.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Layla Hassan
+sn: Hassan
+uid: ta.admin
+userPassword: Travel@1234
+
+dn: uid=ta.sub.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Jack Hassan
+sn: Hassan
+uid: ta.sub.admin
+userPassword: Travel@1234
+
+dn: uid=ta.user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Travel User
+sn: User
+uid: ta.user
+userPassword: Travel@1234
+
+dn: uid=Amex.internal.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Amex Internal Admin
+sn: Admin
+uid: Amex.internal.admin
+userPassword: Internal@1234
+
+dn: uid=soc.user,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Omar Farooq
+sn: Farooq
+uid: soc.user
+userPassword: Soc@1234
+
+dn: uid=onls.admin,ou=people,dc=springframework,dc=org
+objectclass: top
+objectclass: person
+objectclass: organizationalPerson
+objectclass: inetOrgPerson
+cn: Khalid Al Nasser
+sn: Al Nasser
+uid: onls.admin
+userPassword: Onls@1234
+
+# ── Groups ──────────────────────────────────────────────────────────────────
+
+dn: cn=user,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: user
+member: uid=admin,ou=people,dc=springframework,dc=org
+member: uid=user,ou=people,dc=springframework,dc=org
+member: uid=sys.admin,ou=people,dc=springframework,dc=org
+member: uid=csa.agent,ou=people,dc=springframework,dc=org
+member: uid=risk.user,ou=people,dc=springframework,dc=org
+member: uid=mrm.user,ou=people,dc=springframework,dc=org
+member: uid=corp.admin,ou=people,dc=springframework,dc=org
+member: uid=corp.sub.admin,ou=people,dc=springframework,dc=org
+member: uid=corp.user,ou=people,dc=springframework,dc=org
+member: uid=ta.admin,ou=people,dc=springframework,dc=org
+member: uid=ta.sub.admin,ou=people,dc=springframework,dc=org
+member: uid=ta.user,ou=people,dc=springframework,dc=org
+member: uid=Amex.internal.admin,ou=people,dc=springframework,dc=org
+member: uid=soc.user,ou=people,dc=springframework,dc=org
+member: uid=onls.admin,ou=people,dc=springframework,dc=org
+
+dn: cn=admin,ou=groups,dc=springframework,dc=org
+objectclass: top
+objectclass: groupOfNames
+cn: admin
+member: uid=admin,ou=people,dc=springframework,dc=org
+member: uid=sys.admin,ou=people,dc=springframework,dc=org
