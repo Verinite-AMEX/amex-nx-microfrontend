@@ -14,8 +14,8 @@
 
     [rows]="
       showMerchantNumber
-        ? rows
-        : rowsWithoutMerchantNumber
+        ? paginatedRows
+        : paginatedRowsWithoutMerchantNumber
     "
 
     [title]="title"
@@ -27,3 +27,15 @@
   </amex-user-management-table>
 
 </div>
+
+<oms-pagination
+
+  [rows]="rows"
+
+  [pageSize]="10"
+
+  (pageData)="
+    onPageChanged($event)
+  ">
+
+</oms-pagination>
