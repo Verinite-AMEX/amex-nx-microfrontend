@@ -2,19 +2,33 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { BtaAuthService } from '../services/auth.service';
 
+const AUTH_APP_URL = 'http://localhost:4216'; // move to environment.ts for UAT/Prod
+
 export const btaAuthGuard: CanActivateFn = (route) => {
   const auth   = inject(BtaAuthService);
   const router = inject(Router);
 
-  // Not logged in → go to login
+
+   const redirectToAuthApp = () => {
+    const returnUrl = encodeURIComponent(window.location.href);
+    window.location.href = `${AUTH_APP_URL}/login?returnUrl=${returnUrl}`;
+  };
+
+
+ // Not logged in → redirect to Login-Logout-auth-app
   if (!auth.isLoggedIn()) {
-    router.navigate(['/bta/login']);
+    // OLD: router.navigate(['/bta/login']);
+    redirectToAuthApp();
     return false;
   }
 
-  // Not a BTA user at all → deny
+  // Not a BTA user — could be a stale/foreign token. Clear it so it
+  // doesn't keep silently failing, and send them back through login
+  // WITH returnUrl this time.
   if (!auth.isBtaUser()) {
-    router.navigate(['/bta/login']);
+    // OLD: window.location.href = `${AUTH_APP_URL}/login`;
+    auth.clearSession();
+    redirectToAuthApp();
     return false;
   }
 
@@ -36,5 +50,6 @@ function getFallback(auth: BtaAuthService): string {
   if (auth.isTaAdmin())    return 'user-management';
   if (auth.isTaUser())     return 'case-management';
   if (auth.isAemeAdmin())  return 'user-management';
-  return 'login';
+  // OLD: return 'login';
+  return 'user-management';
 }

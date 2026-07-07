@@ -244,13 +244,15 @@ export class AmexLoginFormComponent {
     }
   }
 
-  onSubmit() {
-    // Validate form before submission
-    if (!this.credentials.username || !this.credentials.password) {
-      return;
-    }
-    this.loginSubmit.emit({ ...this.credentials });
+ onSubmit() {
+  // Validate form before submission
+  if (!this.credentials.username || !this.credentials.password) {
+    this.errorMessage = 'User Name and Password are required.'; // NEW
+    return;
   }
+  this.errorMessage = ''; // NEW — clear any old error on a valid attempt
+  this.loginSubmit.emit({ ...this.credentials });
+}
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent) {

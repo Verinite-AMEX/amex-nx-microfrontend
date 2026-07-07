@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { BtaLoginComponent } from '../pages/login/bta-login.component';
+//import { BtaLoginComponent } from '../pages/login/bta-login.component';
 import { btaAuthGuard } from '../core/guards/bta-auth.guard';
 
 const CORP_ADMIN_ROLES  = ['ROLE_CORP_MASTER_ADMIN', 'ROLE_CORP_SUB_ADMIN'];
@@ -13,10 +13,10 @@ const ALL_ADMINS        = [...CORP_ADMIN_ROLES, ...TA_ADMIN_ROLES, ...AEME_ADMIN
 
 const routes: Routes = [
   // Public — no guard
-  {
-    path: 'login',
-    component: BtaLoginComponent,
-  },
+  // {
+  //   path: 'login',
+  //   component: BtaLoginComponent,
+  // },
 
   // Protected routes — direct children, no wrapper shell component
   {
@@ -68,15 +68,18 @@ const routes: Routes = [
     loadChildren: () => import('../pages/tmc-transactions/bta-tmc-transactions.module').then(m => m.BtaTmcTransactionsModule),
   },
 
-  // Default redirect
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  // // Default redirect
+  // { path: '', redirectTo: 'login', pathMatch: 'full' },
+
+  // OLD default: redirectTo: 'login'
+  { path: '', redirectTo: 'user-management', pathMatch: 'full' },
 ];
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule.forChild(routes),
-    BtaLoginComponent,
+   // BtaLoginComponent,
   ],
 })
 export class BtaRemoteEntryModule {}
