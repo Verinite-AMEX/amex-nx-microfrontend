@@ -7,9 +7,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/mock/supplementary")
+@RequestMapping("/api/onlinehelper/supplementary")
 @RequiredArgsConstructor
-@CrossOrigin(origins = "*")
+// @CrossOrigin(origins = "*")
 public class MockSupplementaryController {
 
     private final MockSupplementaryService service;

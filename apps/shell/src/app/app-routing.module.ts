@@ -2,18 +2,18 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { loadRemoteModule } from '@angular-architects/module-federation';
 
-import { LoginComponent }          from './pages/login/login.component';
+import { LoginComponent } from './pages/login/login.component';
 import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password.component';
-import { AuthGuard }               from './core/guards/auth.guard';
+import { AuthGuard } from './core/guards/auth.guard';
 
 const portalFallback = () =>
   import('./pages/portal-error/portal-error.module').then(m => m.PortalErrorModule);
 
 const routes: Routes = [
 
-  { path: 'login',           component: LoginComponent },
+  { path: 'login', component: LoginComponent },
   { path: 'forgot-password', component: ForgotPasswordComponent },
-  { path: '',                redirectTo: 'misc/priority-pass', pathMatch: 'full' },
+  { path: '', redirectTo: 'misc/priority-pass', pathMatch: 'full' },
 
   // ── NX-native remotes (expose ./Routes → remoteRoutes) ───────────
 
@@ -133,7 +133,7 @@ const routes: Routes = [
   },
 
   {
-    path: 'change-password',
+    path: "change-password",
     canActivate: [AuthGuard],
     loadChildren: () =>
       loadRemoteModule({ type: 'module', remoteEntry: 'http://localhost:4214/remoteEntry.js', exposedModule: './Module' })
@@ -146,4 +146,4 @@ const routes: Routes = [
   imports: [RouterModule.forRoot(routes, { scrollPositionRestoration: 'enabled' })],
   exports: [RouterModule],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

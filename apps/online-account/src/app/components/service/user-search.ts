@@ -1,18 +1,21 @@
-import { inject, Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Account, AccessGroupModel } from './../../model/account.model';
-import { Observable } from 'rxjs/internal/Observable';
+import { inject, Injectable } from "@angular/core";
+import { HttpClient } from "@angular/common/http";
+import { Account, AccessGroupModel } from "./../../model/account.model";
+import { Observable } from "rxjs/internal/Observable";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class UserSearch {
   accountData!: Account;
 
   private http = inject(HttpClient);
 
-  private baseUrl = 'http://localhost:8081/api/mock/accounts';
-  private suppBaseUrl = 'http://localhost:8081/api/mock/supplementary';
+  // private baseUrl = "http://localhost:8085/api/mock/accounts";
+  // private suppBaseUrl = "http://localhost:8085/api/mock/supplementary";
+
+  private baseUrl = "http://localhost:8080/api/onlinehelper/accounts";
+  private suppBaseUrl = "http://localhost:8080/api/onlinehelper/supplementary";
 
   getAccountByUserId(userId: string): Observable<Account> {
     return this.http.get<Account>(`${this.baseUrl}/user/${userId}`);

@@ -7,9 +7,7 @@
   [showBureauDropdown]="false"
   [links]="[
     { id:'onlineaccount', label:'Online Account' },
-    { id:'supplementary', label:'Supplementary Access Helper' },
-    { id:'offers', label:'Offers' },
-    { id:'benefits', label:'Benefits' }
+    { id:'supplementary', label:'Supplementary Access Helper' }
   ]"
   [activeLinkId]="activeSection"
   (linkClick)="changeSection($event)"
@@ -258,7 +256,8 @@
         </div>
       </div>
 
-      } @if(activeSection === 'offers') {
+      }
+      <!-- @if(activeSection === 'offers') {
       <div class="content-box">
         <h2>Offers</h2>
         <p>Offers data will load here</p>
@@ -268,7 +267,7 @@
         <h2>Benefits</h2>
         <p>Benefits data will load here</p>
       </div>
-      }
+      } -->
     </div>
   </div>
 </div>
