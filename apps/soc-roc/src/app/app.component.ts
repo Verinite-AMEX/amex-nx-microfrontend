@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterOutlet, NavigationEnd } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { SocRocAuthService } from './core/services/auth.service';
 import {
   AmexPageComponent,
   AmexTopNavBarComponent,
@@ -175,7 +176,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private router: Router,
-  private secureForm: SecureFormService) {}
+  private secureForm: SecureFormService,
+private auth: SocRocAuthService,) {}
 
   ngOnInit(): void {
     this.secureForm.enable();
@@ -188,10 +190,16 @@ export class AppComponent implements OnInit {
   }
 
   private checkRoute(url: string): void {
-    this.isPublicPage = url === '/login' || url === '/' || url === '/signup';
+    // OLD:
+  // this.isPublicPage = url === '/login' || url === '/' || url === '/signup';
+  // NEW — '/login' no longer exists in this app
+  this.isPublicPage = url === '/signup';
     this.isDashboardPage = url === '/dashboard';
     if (!this.isPublicPage) {
-      this.loggedInUser = localStorage.getItem('soc_roc_user') || 'User';
+      // OLD:
+    // this.loggedInUser = localStorage.getItem('soc_roc_user') || 'User';
+    // NEW — read from the shared auth service instead
+    this.loggedInUser = this.auth.getUsername() || 'User';
     }
   }
 
@@ -231,8 +239,12 @@ export class AppComponent implements OnInit {
   }
 
   onLogout(): void {
-    localStorage.removeItem('soc_roc_token');
-    localStorage.removeItem('soc_roc_user');
-    this.router.navigateByUrl('/login');
+    // OLD:
+  // localStorage.removeItem('soc_roc_token');
+  // localStorage.removeItem('soc_roc_user');
+  // this.router.navigateByUrl('/login');
+
+  // NEW
+  this.auth.logout();
   }
 }
