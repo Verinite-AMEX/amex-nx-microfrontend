@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -38,10 +38,10 @@ export interface AuditTrailRow {
       <!-- Filter row -->
       <div class="adt__filters">
         <div class="adt__filter-row">
-          <label class="adt__filter-label">Date From</label>
-          <input class="adt__date-input" type="text" [(ngModel)]="dateFrom" placeholder="dd/mm/yyyy" />
-          <label class="adt__filter-label">Date To</label>
-          <input class="adt__date-input" type="text" [(ngModel)]="dateTo" placeholder="dd/mm/yyyy" />
+          <label class="adt__filter-label" [for]="id + '-date-from'">Date From</label>
+          <input [id]="id + '-date-from'" class="adt__date-input" type="text" [(ngModel)]="dateFrom" placeholder="dd/mm/yyyy" />
+          <label class="adt__filter-label" [for]="id + '-date-to'">Date To</label>
+          <input [id]="id + '-date-to'" class="adt__date-input" type="text" [(ngModel)]="dateTo" placeholder="dd/mm/yyyy" />
         </div>
         <button class="adt__load-btn" (click)="loadClick.emit({dateFrom, dateTo})">Load Audit Trail</button>
       </div>
@@ -55,13 +55,13 @@ export interface AuditTrailRow {
       <table *ngIf="rows.length" class="adt__table">
         <thead>
           <tr class="adt__head-row">
-            <th class="adt__th">Date</th>
-            <th class="adt__th">Time</th>
-            <th class="adt__th">User</th>
-            <th class="adt__th">Action</th>
-            <th class="adt__th">Entity</th>
-            <th class="adt__th">Old Value</th>
-            <th class="adt__th">New Value</th>
+            <th class="adt__th" scope="col">Date</th>
+            <th class="adt__th" scope="col">Time</th>
+            <th class="adt__th" scope="col">User</th>
+            <th class="adt__th" scope="col">Action</th>
+            <th class="adt__th" scope="col">Entity</th>
+            <th class="adt__th" scope="col">Old Value</th>
+            <th class="adt__th" scope="col">New Value</th>
           </tr>
         </thead>
         <tbody>
@@ -156,6 +156,10 @@ export interface AuditTrailRow {
   `],
 })
 export class AmexAuditTrailDetailTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `audit-trail-detail-table-${++AmexAuditTrailDetailTableComponent._idCounter}`;
+
+
   @Input() rows: AuditTrailRow[] = [];
   @Input() loaded = false;
   activeTab: 'detailed' | 'summary' = 'detailed';

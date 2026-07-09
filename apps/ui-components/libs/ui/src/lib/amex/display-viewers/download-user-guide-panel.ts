@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -102,6 +102,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexDownloadUserGuidePanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `download-user-guide-panel-${++AmexDownloadUserGuidePanelComponent._idCounter}`;
+
+
   @Input() showSectionHeader  = false;
   @Input() sectionHeaderText  = 'Help & Resources';
   @Input() guideButtonLabel   = 'Download User Guide';

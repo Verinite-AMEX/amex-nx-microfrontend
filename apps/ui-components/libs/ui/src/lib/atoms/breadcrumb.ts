@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface BreadcrumbItem {
@@ -31,6 +31,10 @@ export interface BreadcrumbItem {
   `],
 })
 export class BreadcrumbComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-breadcrumb-${++BreadcrumbComponent._idCounter}`;
+
+
   @Input() items: BreadcrumbItem[] = [];
   @Input() separator = '/';
 }

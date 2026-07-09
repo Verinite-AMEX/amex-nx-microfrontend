@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -47,8 +47,8 @@ export interface PointsHistoryRow {
       <div *ngIf="activeTab === 'eligible'" class="ett__content">
         <!-- Card selector dropdown -->
         <div class="ett__card-selector">
-          <label class="ett__card-label">Select a Card</label>
-          <select class="ett__card-select" [(ngModel)]="selectedCard"
+          <label class="ett__card-label" [for]="id + '-select-a-card'">Select a Card</label>
+          <select [id]="id + '-select-a-card'" class="ett__card-select" [(ngModel)]="selectedCard"
             (ngModelChange)="cardChange.emit(selectedCard)">
             <option value="">-- Select --</option>
             <option *ngFor="let c of cards" [value]="c.value">{{ c.label }}</option>
@@ -72,11 +72,11 @@ export interface PointsHistoryRow {
         <table *ngIf="eligibleRows.length" class="ett__table">
           <thead>
             <tr class="ett__head-row">
-              <th class="ett__th ett__th--check"></th>
-              <th class="ett__th">Transaction Date</th>
-              <th class="ett__th">Description</th>
-              <th class="ett__th ett__th--num">Amount</th>
-              <th class="ett__th ett__th--num">Points Value</th>
+              <th class="ett__th ett__th--check" scope="col"></th>
+              <th class="ett__th" scope="col">Transaction Date</th>
+              <th class="ett__th" scope="col">Description</th>
+              <th class="ett__th ett__th--num" scope="col">Amount</th>
+              <th class="ett__th ett__th--num" scope="col">Points Value</th>
             </tr>
           </thead>
           <tbody>
@@ -123,10 +123,10 @@ export interface PointsHistoryRow {
         <table class="ett__table ett__table--history">
           <thead>
           <tr class="ett__head-row">
-              <th class="ett__th" style="width: 20%;">Transaction Date</th>
-              <th class="ett__th" style="width: 35%;">Description</th>
-              <th class="ett__th" style="width: 22%;">Transaction Amount</th>
-              <th class="ett__th" style="width: 23%;">Redemption Date</th>
+              <th class="ett__th" style="width: 20%;" scope="col">Transaction Date</th>
+              <th class="ett__th" style="width: 35%;" scope="col">Description</th>
+              <th class="ett__th" style="width: 22%;" scope="col">Transaction Amount</th>
+              <th class="ett__th" style="width: 23%;" scope="col">Redemption Date</th>
           </tr>
           </thead>
           <tbody>
@@ -262,6 +262,10 @@ export interface PointsHistoryRow {
   `],
 })
 export class AmexEligibleTransactionsTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `eligible-transactions-table-${++AmexEligibleTransactionsTableComponent._idCounter}`;
+
+
   @Input() pageTitle = 'SELECT & PAY WITH POINTS';
   @Input() cards: { value: string; label: string }[] = [];
   @Input() eligibleRows: EligibleTransaction[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -24,8 +24,8 @@ export interface TMCTransactionRow {
     <div class="tmc">
       <!-- Index dropdown filter -->
       <div class="tmc__filter-bar">
-        <label class="tmc__filter-label">Index</label>
-        <select class="tmc__select" [(ngModel)]="selectedIndex"
+        <label class="tmc__filter-label" [for]="id + '-index'">Index</label>
+        <select [id]="id + '-index'" class="tmc__select" [(ngModel)]="selectedIndex"
           (ngModelChange)="indexChange.emit(selectedIndex)">
           <option value="">-- Select --</option>
           <option *ngFor="let opt of indexOptions" [value]="opt.value">{{ opt.label }}</option>
@@ -36,10 +36,10 @@ export interface TMCTransactionRow {
       <table class="tmc__table">
         <thead>
           <tr class="tmc__head-row">
-            <th class="tmc__th">Date</th>
-            <th class="tmc__th tmc__th--num">Amount</th>
-            <th class="tmc__th">Merchant</th>
-            <th class="tmc__th">Reference</th>
+            <th class="tmc__th" scope="col">Date</th>
+            <th class="tmc__th tmc__th--num" scope="col">Amount</th>
+            <th class="tmc__th" scope="col">Merchant</th>
+            <th class="tmc__th" scope="col">Reference</th>
           </tr>
         </thead>
         <tbody>
@@ -75,6 +75,10 @@ export interface TMCTransactionRow {
   `],
 })
 export class AmexTMCTransactionsTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `tmc-transactions-table-${++AmexTMCTransactionsTableComponent._idCounter}`;
+
+
   @Input() rows: TMCTransactionRow[] = [];
   @Input() indexOptions: { value: string; label: string }[] = [];
   selectedIndex = '';

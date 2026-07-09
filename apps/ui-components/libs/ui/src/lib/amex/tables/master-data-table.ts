@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,9 +29,9 @@ export interface MasterDataRow {
       <table class="mdt__table">
         <thead>
           <tr class="mdt__head-row">
-            <th class="mdt__th mdt__th--radio"></th>
-            <th class="mdt__th">{{ nameLabel }}</th>
-            <th class="mdt__th">{{ codeLabel }}</th>
+            <th class="mdt__th mdt__th--radio" scope="col"></th>
+            <th class="mdt__th" scope="col">{{ nameLabel }}</th>
+            <th class="mdt__th" scope="col">{{ codeLabel }}</th>
           </tr>
         </thead>
         <tbody>
@@ -89,6 +89,10 @@ export interface MasterDataRow {
   `],
 })
 export class AmexMasterDataTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `master-data-table-${++AmexMasterDataTableComponent._idCounter}`;
+
+
   @Input() rows: MasterDataRow[] = [];
   @Input() nameLabel = 'Name';
   @Input() codeLabel = 'Code';

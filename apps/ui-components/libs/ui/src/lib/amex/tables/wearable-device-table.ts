@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface WearableDeviceRow {
@@ -39,11 +39,11 @@ export interface WearableDeviceRow {
       <table class="wdt__table">
         <thead>
           <tr class="wdt__head-row">
-            <th class="wdt__th">Device Type</th>
-            <th class="wdt__th">Status</th>
-            <th class="wdt__th">Card Linked</th>
-            <th class="wdt__th">Issue Date</th>
-            <th class="wdt__th wdt__th--actions">Actions</th>
+            <th class="wdt__th" scope="col">Device Type</th>
+            <th class="wdt__th" scope="col">Status</th>
+            <th class="wdt__th" scope="col">Card Linked</th>
+            <th class="wdt__th" scope="col">Issue Date</th>
+            <th class="wdt__th wdt__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -117,6 +117,10 @@ export interface WearableDeviceRow {
   `],
 })
 export class AmexWearableDeviceTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `wearable-device-table-${++AmexWearableDeviceTableComponent._idCounter}`;
+
+
   @Input() title = 'Wearable Devices';
   @Input() rows: WearableDeviceRow[] = [];
   @Input() showTypeTabs = true;

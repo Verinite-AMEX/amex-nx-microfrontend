@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -41,10 +41,10 @@ export interface MemoTransaction {
           <table class="msv__table">
             <thead>
               <tr>
-                <th>Type</th>
-                <th>Date</th>
-                <th>Description</th>
-                <th class="msv__th-num">Amount</th>
+                <th scope="col">Type</th>
+                <th scope="col">Date</th>
+                <th scope="col">Description</th>
+                <th class="msv__th-num" scope="col">Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -221,6 +221,10 @@ export interface MemoTransaction {
   `],
 })
 export class AmexMemoStatementViewerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `memo-statement-viewer-${++AmexMemoStatementViewerComponent._idCounter}`;
+
+
   @Input() statementDate  = '29 Jan 2025';
   @Input() accountNumber  = 'BTA 3744XXXXXXX5229 - BTACLIENTBAH001';
   @Input() travelAgent    = 'DNATA (BTA)';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -115,6 +115,10 @@ export interface ContactRow {
   `],
 })
 export class AmexContactInformationFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `contact-information-form-${++AmexContactInformationFormComponent._idCounter}`;
+
+
   @Input() sectionTitle = 'Operations';
   @Input() backLabel = 'Back';
   @Input() saveLabel = 'Save';

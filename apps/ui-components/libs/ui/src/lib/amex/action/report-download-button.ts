@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, Renderer2 } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, Renderer2, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -261,6 +261,10 @@ const FORMAT_ICON: Record<ReportFormat, { svg: string; label: string }> = {
   `],
 })
 export class AmexReportDownloadButtonComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `report-download-button-${++AmexReportDownloadButtonComponent._idCounter}`;
+
+
   @Input() config: ReportDownloadButtonConfig = {};
 
   /** Emits the chosen format when "Submit Request" is clicked */

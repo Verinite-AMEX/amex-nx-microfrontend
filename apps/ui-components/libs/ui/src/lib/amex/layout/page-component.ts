@@ -2,23 +2,7 @@
 // RENAMED FROM: page-shell.ts
 // SELECTOR RENAMED: amex-page-shell → amex-page-component
 
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  TemplateRef,
-  inject,
-  OnInit,
-  OnChanges,
-  OnDestroy,
-  Type,
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  signal,
-  computed,
-  DestroyRef,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, TemplateRef, inject, OnInit, OnChanges, OnDestroy, Type, ChangeDetectionStrategy, ChangeDetectorRef, signal, computed, DestroyRef, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, timeout } from 'rxjs';
@@ -400,6 +384,10 @@ export interface AmexPortalLayoutConfig {
   `],
 })
 export class AmexPageComponent implements OnInit, OnChanges, OnDestroy {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `page-component-${++AmexPageComponent._idCounter}`;
+
+
 
   /* ==========================================================================
      ── NEW PRODUCTION INPUTS ──────────────────────────────────────────────

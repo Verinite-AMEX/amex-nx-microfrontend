@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -30,12 +30,12 @@ export interface MerchantOption { merchantNo: string; label: string; }
       <div class="admp__panel" *ngIf="mode === 'add'">
         <div class="admp__title">{{ addTitle }}</div>
         <div class="admp__field">
-          <label class="admp__label">Primary Merchant Number <span class="admp__req">*</span></label>
-          <input class="admp__input" [(ngModel)]="merchantNo" placeholder="Enter merchant number" />
+          <label class="admp__label" [for]="id + '-primary-merchant-number'">Primary Merchant Number <span class="admp__req">*</span></label>
+          <input [id]="id + '-primary-merchant-number'" class="admp__input" [(ngModel)]="merchantNo" placeholder="Enter merchant number" />
         </div>
         <div class="admp__field">
-          <label class="admp__label">Last 5 Digits of IBAN <span class="admp__req">*</span></label>
-          <input class="admp__input" [(ngModel)]="lastFiveIban" maxlength="5" placeholder="XXXXX" />
+          <label class="admp__label" [for]="id + '-last-5-digits-of-iban'">Last 5 Digits of IBAN <span class="admp__req">*</span></label>
+          <input [id]="id + '-last-5-digits-of-iban'" class="admp__input" [(ngModel)]="lastFiveIban" maxlength="5" placeholder="XXXXX" />
         </div>
         <div class="admp__actions">
           <button class="admp__btn admp__btn--back" (click)="backClick.emit()">Back</button>
@@ -101,6 +101,10 @@ export interface MerchantOption { merchantNo: string; label: string; }
   `],
 })
 export class AmexAddDeleteMerchantPanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `add-delete-merchant-panel-${++AmexAddDeleteMerchantPanelComponent._idCounter}`;
+
+
   @Input() addTitle = 'Add a Merchant Account';
   @Input() deleteTitle = 'Delete an existing Merchant Account';
   @Input() merchantOptions: MerchantOption[] = [];

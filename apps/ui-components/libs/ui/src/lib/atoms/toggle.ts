@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIf } from '@angular/common';
 
@@ -10,6 +10,7 @@ import { NgIf } from '@angular/common';
   template: `
     <label class="toggle-label" [class.disabled]="disabled">
       <input type="checkbox" class="toggle-input" [checked]="checked" [disabled]="disabled"
+        [required]="required"
         [attr.aria-checked]="checked"
         [attr.aria-label]="ariaLabel || label"
         [attr.aria-describedby]="ariaDescribedBy"
@@ -41,6 +42,10 @@ import { NgIf } from '@angular/common';
   `],
 })
 export class ToggleComponent implements ControlValueAccessor {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-toggle-${++ToggleComponent._idCounter}`;
+
+
   @Input() label = '';
   @Input() disabled = false;
   @Input() ariaLabel = '';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -123,6 +123,10 @@ export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'faile
   `],
 })
 export class AmexFileUploadProgressComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `file-upload-progress-${++AmexFileUploadProgressComponent._idCounter}`;
+
+
   @Input() fileName = '';
   @Input() percent = 0;
   @Input() status: AmexUploadStatus = 'uploading';

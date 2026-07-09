@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type FileResponseStatus = 'Pending' | 'Processing' | 'Completed' | 'Failed';
@@ -27,10 +27,10 @@ export interface FileResponseRow {
       <table class="frst__table">
         <thead>
           <tr class="frst__head-row">
-            <th class="frst__th">Submission Date</th>
-            <th class="frst__th">File Name</th>
-            <th class="frst__th">Status</th>
-            <th class="frst__th frst__th--actions">Actions</th>
+            <th class="frst__th" scope="col">Submission Date</th>
+            <th class="frst__th" scope="col">File Name</th>
+            <th class="frst__th" scope="col">Status</th>
+            <th class="frst__th frst__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -84,6 +84,10 @@ export interface FileResponseRow {
   `],
 })
 export class AmexFileResponseStatusTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `file-response-status-table-${++AmexFileResponseStatusTableComponent._idCounter}`;
+
+
   @Input() title = '';
   @Input() rows: FileResponseRow[] = [];
   @Output() actionClick = new EventEmitter<{ action: string; row: FileResponseRow }>();

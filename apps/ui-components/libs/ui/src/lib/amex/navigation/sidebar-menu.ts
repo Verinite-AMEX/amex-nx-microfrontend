@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AmexSidebarMenuItem { id: string; label: string; }
@@ -94,6 +94,10 @@ export interface AmexSidebarMenuItem { id: string; label: string; }
   `],
 })
 export class AmexSidebarMenuComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `sidebar-menu-${++AmexSidebarMenuComponent._idCounter}`;
+
+
   @Input() portalStyle: 'onls' | 'bcrb' | 'oms' = 'onls';
   @Input() items: AmexSidebarMenuItem[] = [];
   @Input() activeId = '';

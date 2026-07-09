@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -25,8 +25,8 @@ export interface StatementMonth {
       <div class="sv__panel">
         <div class="sv__panel-header">View Statements</div>
         <div class="sv__search-row">
-          <label class="sv__search-label">Please enter a card number</label>
-          <input class="sv__input" [(ngModel)]="cardNumber" [value]="cardNumber" />
+          <label class="sv__search-label" [for]="id + '-please-enter-a-card-number'">Please enter a card number</label>
+          <input [id]="id + '-please-enter-a-card-number'" class="sv__input" [(ngModel)]="cardNumber" [value]="cardNumber" />
           <button class="sv__btn" (click)="viewStatements.emit(cardNumber)">View Statements</button>
         </div>
 
@@ -156,6 +156,10 @@ export interface StatementMonth {
   `],
 })
 export class AmexStatementViewerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `statement-viewer-${++AmexStatementViewerComponent._idCounter}`;
+
+
   @Input() cardNumber = '';
   @Input() statements: StatementMonth[] = [];
   @Output() viewStatements  = new EventEmitter<string>();

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -124,6 +124,10 @@ import { AmexPortalStyle } from './success-toast';
   `],
 })
 export class AmexConfirmationModalComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `confirmation-modal-${++AmexConfirmationModalComponent._idCounter}`;
+
+
   @Input() visible = false;
   @Input() portalStyle: AmexPortalStyle = 'onls';
   @Input() title = 'Confirm Action';

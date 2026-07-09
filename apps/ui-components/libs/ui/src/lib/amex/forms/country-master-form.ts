@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, SimpleChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -22,8 +22,8 @@ export interface CountryMasterData {
       <div class="cmf__form">
         <!-- Country Code -->
         <div class="cmf__row">
-          <label class="cmf__label">Country Code <span class="cmf__req">*</span></label>
-          <input class="cmf__input"
+          <label class="cmf__label" [for]="id + '-country-code'">Country Code <span class="cmf__req">*</span></label>
+          <input [id]="id + '-country-code'" class="cmf__input"
             [(ngModel)]="form.countryCode"
             [readonly]="form.action === 'modify'"
             [class.cmf__input--readonly]="form.action === 'modify'"
@@ -32,9 +32,9 @@ export interface CountryMasterData {
 
         <!-- Country Name — dropdown on modify, text on add -->
         <div class="cmf__row">
-          <label class="cmf__label">Country Name <span class="cmf__req" *ngIf="form.action === 'addNew'">*</span></label>
+          <label class="cmf__label" [for]="id + '-country-name'">Country Name <span class="cmf__req" *ngIf="form.action === 'addNew'">*</span></label>
           <ng-container *ngIf="form.action === 'addNew'">
-            <input class="cmf__input" [(ngModel)]="form.countryName" placeholder="Enter country name" />
+            <input [id]="id + '-country-name'" class="cmf__input" [(ngModel)]="form.countryName" placeholder="Enter country name" />
           </ng-container>
           <ng-container *ngIf="form.action === 'modify'">
             <select class="cmf__select" [(ngModel)]="form.countryName" (ngModelChange)="onNameSelect($event)">
@@ -112,6 +112,10 @@ export interface CountryMasterData {
   `],
 })
 export class AmexCountryMasterFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `country-master-form-${++AmexCountryMasterFormComponent._idCounter}`;
+
+
   @Input() countryOptions: { name: string; code: string }[] = [
     { name: 'UNITED ARAB EMIRATES', code: '784' },
     { name: 'BAHRAIN', code: '048' },

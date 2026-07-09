@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -26,32 +26,32 @@ export interface NewOutletData {
       <div class="noaf__accent"></div>
       <div class="noaf__panel">
         <div class="noaf__field">
-          <label class="noaf__label">Outlet Name <span class="noaf__req">*</span></label>
-          <input class="noaf__input" [(ngModel)]="form.outletName" placeholder="Enter outlet name" />
+          <label class="noaf__label" [for]="id + '-outlet-name'">Outlet Name <span class="noaf__req">*</span></label>
+          <input [id]="id + '-outlet-name'" class="noaf__input" [(ngModel)]="form.outletName" placeholder="Enter outlet name" />
         </div>
         <div class="noaf__field">
-          <label class="noaf__label">Location <span class="noaf__req">*</span></label>
-          <input class="noaf__input" [(ngModel)]="form.location" placeholder="Enter location / address" />
+          <label class="noaf__label" [for]="id + '-location'">Location <span class="noaf__req">*</span></label>
+          <input [id]="id + '-location'" class="noaf__input" [(ngModel)]="form.location" placeholder="Enter location / address" />
         </div>
         <div class="noaf__field">
-          <label class="noaf__label">Business Type <span class="noaf__req">*</span></label>
-          <select class="noaf__select" [(ngModel)]="form.businessType">
+          <label class="noaf__label" [for]="id + '-business-type'">Business Type <span class="noaf__req">*</span></label>
+          <select [id]="id + '-business-type'" class="noaf__select" [(ngModel)]="form.businessType">
             <option value="">-- Select --</option>
             <option *ngFor="let t of businessTypes" [value]="t">{{ t }}</option>
           </select>
         </div>
         <div class="noaf__section-title">Contact Details</div>
         <div class="noaf__field">
-          <label class="noaf__label">Contact Name</label>
-          <input class="noaf__input" [(ngModel)]="form.contactName" placeholder="Enter contact name" />
+          <label class="noaf__label" [for]="id + '-contact-name'">Contact Name</label>
+          <input [id]="id + '-contact-name'" class="noaf__input" [(ngModel)]="form.contactName" placeholder="Enter contact name" />
         </div>
         <div class="noaf__field">
-          <label class="noaf__label">Contact Email</label>
-          <input class="noaf__input" [(ngModel)]="form.contactEmail" type="email" placeholder="Enter email" />
+          <label class="noaf__label" [for]="id + '-contact-email'">Contact Email</label>
+          <input [id]="id + '-contact-email'" class="noaf__input" [(ngModel)]="form.contactEmail" type="email" placeholder="Enter email" />
         </div>
         <div class="noaf__field">
-          <label class="noaf__label">Contact Phone</label>
-          <input class="noaf__input" [(ngModel)]="form.contactPhone" placeholder="Enter phone number" />
+          <label class="noaf__label" [for]="id + '-contact-phone'">Contact Phone</label>
+          <input [id]="id + '-contact-phone'" class="noaf__input" [(ngModel)]="form.contactPhone" placeholder="Enter phone number" />
         </div>
         <div class="noaf__actions">
           <button class="noaf__btn noaf__btn--back" (click)="backClick.emit()">Back</button>
@@ -82,6 +82,10 @@ export interface NewOutletData {
   `],
 })
 export class AmexNewOutletApplicationFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `new-outlet-application-form-${++AmexNewOutletApplicationFormComponent._idCounter}`;
+
+
   @Input() businessTypes = ['Retail', 'Restaurant', 'Hotel', 'Supermarket', 'Petrol Station', 'Other'];
   form: NewOutletData = { outletName: '', location: '', businessType: '', contactName: '', contactEmail: '', contactPhone: '' };
   @Output() submitClick = new EventEmitter<NewOutletData>();

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -14,8 +14,8 @@ import { FormsModule } from '@angular/forms';
   template: `
     <div class="mdf-wrap">
       <div class="mdf-row">
-        <label class="mdf-label">{{ label }}</label>
-        <select class="mdf-select" [(ngModel)]="selectedMonths">
+        <label class="mdf-label" [for]="id + '-field'">{{ label }}</label>
+        <select [id]="id + '-field'" class="mdf-select" [(ngModel)]="selectedMonths">
           <option *ngFor="let m of monthOptions" [value]="m">{{ m }} {{ m === 1 ? 'Month' : 'Months' }}</option>
         </select>
         <button class="mdf-btn" (click)="onSubmit()">{{ buttonLabel }}</button>
@@ -75,6 +75,10 @@ import { FormsModule } from '@angular/forms';
   `],
 })
 export class AmexMonthsDropdownFilterComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `months-dropdown-filter-${++AmexMonthsDropdownFilterComponent._idCounter}`;
+
+
   @Input() label = 'Select Months';
   @Input() buttonLabel = 'Submit';
   @Input() hint = '';

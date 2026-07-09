@@ -1,4 +1,4 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, HostListener, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'amex-skip-links',
@@ -95,6 +95,10 @@ import { Component, HostListener } from '@angular/core';
   `]
 })
 export class SkipLinksComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `skip-links-${++SkipLinksComponent._idCounter}`;
+
+
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent): void {
     // Show skip links when Tab key is pressed

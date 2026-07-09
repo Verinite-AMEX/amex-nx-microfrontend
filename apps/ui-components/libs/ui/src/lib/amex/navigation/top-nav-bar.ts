@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
@@ -169,6 +169,10 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
   `],
 })
 export class AmexTopNavBarComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `top-nav-bar-${++AmexTopNavBarComponent._idCounter}`;
+
+
   @Input() portalStyle: AmexNavPortalStyle = 'onls';
   @Input() portalTitle = 'THE HUB LOGIN';
   @Input() omsServiceName = 'Merchant Services';

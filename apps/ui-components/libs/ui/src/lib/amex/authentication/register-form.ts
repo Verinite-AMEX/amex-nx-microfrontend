@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -45,28 +45,28 @@ export interface RegisterData {
             <p class="required-note">* All fields are required</p>
 
             <div class="field-row">
-              <label class="field-label">First Name <span class="req">*</span></label>
-              <input type="text" class="field-input" [(ngModel)]="data.firstName" />
+              <label class="field-label" [for]="id + '-first-name'">First Name <span class="req">*</span></label>
+              <input [id]="id + '-first-name'" type="text" class="field-input" [(ngModel)]="data.firstName" />
             </div>
             <div class="field-row">
-              <label class="field-label">Last Name <span class="req">*</span></label>
-              <input type="text" class="field-input" [(ngModel)]="data.lastName" />
+              <label class="field-label" [for]="id + '-last-name'">Last Name <span class="req">*</span></label>
+              <input [id]="id + '-last-name'" type="text" class="field-input" [(ngModel)]="data.lastName" />
             </div>
             <div class="field-row">
-              <label class="field-label">Email Address <span class="req">*</span></label>
-              <input type="email" class="field-input" [(ngModel)]="data.email" />
+              <label class="field-label" [for]="id + '-email-address'">Email Address <span class="req">*</span></label>
+              <input [id]="id + '-email-address'" type="email" class="field-input" [(ngModel)]="data.email" />
             </div>
             <div class="field-row">
-              <label class="field-label">Password <span class="req">*</span></label>
-              <input type="password" class="field-input" [(ngModel)]="data.password" />
+              <label class="field-label" [for]="id + '-password'">Password <span class="req">*</span></label>
+              <input [id]="id + '-password'" type="password" class="field-input" [(ngModel)]="data.password" />
             </div>
             <div class="field-row">
-              <label class="field-label">Confirm Password <span class="req">*</span></label>
-              <input type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
+              <label class="field-label" [for]="id + '-confirm-password'">Confirm Password <span class="req">*</span></label>
+              <input [id]="id + '-confirm-password'" type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
             </div>
             <div class="field-row">
-              <label class="field-label">Business Name <span class="req">*</span></label>
-              <input type="text" class="field-input" [(ngModel)]="data.businessName" />
+              <label class="field-label" [for]="id + '-business-name'">Business Name <span class="req">*</span></label>
+              <input [id]="id + '-business-name'" type="text" class="field-input" [(ngModel)]="data.businessName" />
             </div>
 
             <div class="btn-row">
@@ -129,6 +129,10 @@ export interface RegisterData {
   `]
 })
 export class AmexRegisterFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `register-form-${++AmexRegisterFormComponent._idCounter}`;
+
+
   @Input() portalTitle = '';
   @Input() errorMessage = '';
   @Input() successMessage = '';

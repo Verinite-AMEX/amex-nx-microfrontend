@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'ui-spinner',
@@ -19,6 +19,10 @@ import { Component, Input } from '@angular/core';
   `],
 })
 export class SpinnerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-spinner-${++SpinnerComponent._idCounter}`;
+
+
   @Input() size: 'sm' | 'md' | 'lg' = 'md';
   @Input() color = '#1976d2';
 }

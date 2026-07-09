@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -147,6 +147,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexPageHeaderComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `page-header-${++AmexPageHeaderComponent._idCounter}`;
+
+
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() title = '';
   @Input() subtitle = '';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, inject, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,9 +23,10 @@ export interface AmexAutocompleteSuggestion {
       <div class="ac-row">
         <!-- Primary input with suggestions -->
         <div class="ac-field">
-          <label class="ac-label">{{ label }}</label>
+          <label class="ac-label" [for]="id + '-input'">{{ label }}</label>
           <div class="ac-input-wrap">
             <input
+              [id]="id + '-input'"
               class="ac-input"
               type="text"
               [placeholder]="placeholder"
@@ -48,14 +49,14 @@ export interface AmexAutocompleteSuggestion {
 
         <!-- Auto-populated code field -->
         <div class="ac-field" *ngIf="codeLabel">
-          <label class="ac-label">{{ codeLabel }}</label>
-          <input class="ac-input ac-input--readonly" type="text" [value]="selectedCode" readonly />
+          <label class="ac-label" [for]="id + '-code'">{{ codeLabel }}</label>
+          <input [id]="id + '-code'" class="ac-input ac-input--readonly" type="text" [value]="selectedCode" readonly />
         </div>
 
         <!-- Auto-populated extra field (e.g. exchange rate) -->
         <div class="ac-field" *ngIf="extraLabel && selectedExtra">
-          <label class="ac-label">{{ extraLabel }}</label>
-          <input class="ac-input ac-input--readonly" type="text" [value]="selectedExtra" readonly />
+          <label class="ac-label" [for]="id + '-extra'">{{ extraLabel }}</label>
+          <input [id]="id + '-extra'" class="ac-input ac-input--readonly" type="text" [value]="selectedExtra" readonly />
         </div>
       </div>
     </div>
@@ -127,6 +128,10 @@ export interface AmexAutocompleteSuggestion {
   `],
 })
 export class AmexAutocompleteInputComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `autocomplete-input-${++AmexAutocompleteInputComponent._idCounter}`;
+
+
   @Input() label = 'Name';
   @Input() placeholder = 'Start typing...';
   @Input() codeLabel = 'Code';

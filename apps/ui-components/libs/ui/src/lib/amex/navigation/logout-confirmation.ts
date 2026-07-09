@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -60,6 +60,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexLogoutConfirmationComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `logout-confirmation-${++AmexLogoutConfirmationComponent._idCounter}`;
+
+
   @Input() visible = false;
   @Input() serverLabel = 'tst-websrv01 says';
   @Input() message = 'Are you sure you want to log out?';

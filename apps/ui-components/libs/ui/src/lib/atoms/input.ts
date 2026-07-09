@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { NgIf } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
@@ -19,6 +19,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
         [placeholder]="placeholder"
         [disabled]="disabled"
         [value]="value"
+        [required]="required"
         [attr.aria-invalid]="error ? 'true' : null"
         [attr.aria-describedby]="getDescriptionId()"
         [attr.aria-required]="required"
@@ -65,7 +66,8 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@a
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
-  @Input() id = '';
+  private static _idCounter = 0;
+  @HostBinding('attr.id') @Input() id = `ui-input-${++InputComponent._idCounter}`;
   @Input() placeholder = '';
   @Input() disabled = false;
   @Input() error = '';

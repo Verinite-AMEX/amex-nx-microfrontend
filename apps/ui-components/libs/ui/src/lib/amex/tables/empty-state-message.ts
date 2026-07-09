@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -54,6 +54,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexEmptyStateMessageComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `empty-state-message-${++AmexEmptyStateMessageComponent._idCounter}`;
+
+
   @Input() message = 'No Data Found';
   @Input() icon = '';
   @Input() ctaLabel = '';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -24,8 +24,8 @@ export interface PaymentTransaction {
       <div class="paf__body">
         <!-- Account selector -->
         <div class="paf__field">
-          <label class="paf__label">Account Number</label>
-          <select class="paf__select" [(ngModel)]="selectedAccount"
+          <label class="paf__label" [for]="id + '-account-number'">Account Number</label>
+          <select [id]="id + '-account-number'" class="paf__select" [(ngModel)]="selectedAccount"
             (ngModelChange)="accountChange.emit(selectedAccount)">
             <option value="">-- Select Account --</option>
             <option *ngFor="let a of accounts" [value]="a.value">{{ a.label }}</option>
@@ -44,9 +44,9 @@ export interface PaymentTransaction {
         <table class="paf__table">
           <thead>
             <tr class="paf__head">
-              <th class="paf__th">Date</th>
-              <th class="paf__th">Description</th>
-              <th class="paf__th paf__th--num">Amount</th>
+              <th class="paf__th" scope="col">Date</th>
+              <th class="paf__th" scope="col">Description</th>
+              <th class="paf__th paf__th--num" scope="col">Amount</th>
             </tr>
           </thead>
           <tbody>
@@ -95,6 +95,10 @@ export interface PaymentTransaction {
   `],
 })
 export class AmexPaymentAllocationFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `payment-allocation-form-${++AmexPaymentAllocationFormComponent._idCounter}`;
+
+
   @Input() accounts: { value: string; label: string }[] = [];
   @Input() billedTransactions: PaymentTransaction[] = [];
   @Input() unbilledTransactions: PaymentTransaction[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -27,6 +27,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class FormGroupComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-form-group-${++FormGroupComponent._idCounter}`;
+
+
   @Input() legend = '';
   @Input() layout: 'vertical' | 'horizontal' = 'vertical';
 }

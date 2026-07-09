@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -91,11 +91,11 @@ export interface WearableDevice {
         <table class="wdv__list-table">
           <thead>
             <tr>
-              <th>Device Type</th>
-              <th>Status</th>
-              <th>Issue Date</th>
-              <th>Card Linked</th>
-              <th>Actions</th>
+              <th scope="col">Device Type</th>
+              <th scope="col">Status</th>
+              <th scope="col">Issue Date</th>
+              <th scope="col">Card Linked</th>
+              <th scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -210,6 +210,10 @@ export interface WearableDevice {
   `],
 })
 export class AmexWearableDetailsViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `wearable-details-view-${++AmexWearableDetailsViewComponent._idCounter}`;
+
+
   @Input() device:  WearableDevice | null = null;
   @Input() devices: WearableDevice[] = [];
   clientInput = '';

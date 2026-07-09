@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -37,37 +37,37 @@ export interface MerchantFormData {
 
         <div class="mdf__two-col">
           <div class="mdf__field">
-            <label class="mdf__label">Merchant Name <span class="mdf__req">*</span></label>
-            <input class="mdf__input" [(ngModel)]="form.merchantName" placeholder="Enter merchant name" />
+            <label class="mdf__label" [for]="id + '-merchant-name'">Merchant Name <span class="mdf__req">*</span></label>
+            <input [id]="id + '-merchant-name'" class="mdf__input" [(ngModel)]="form.merchantName" placeholder="Enter merchant name" />
           </div>
           <div class="mdf__field">
-            <label class="mdf__label">Merchant Number <span class="mdf__req">*</span></label>
-            <input class="mdf__input" [(ngModel)]="form.merchantNumber" placeholder="Enter merchant number" />
-          </div>
-        </div>
-
-        <div class="mdf__two-col">
-          <div class="mdf__field">
-            <label class="mdf__label">Last 5 IBAN Digits <span class="mdf__req">*</span></label>
-            <input class="mdf__input" [(ngModel)]="form.lastFiveIban" maxlength="5" placeholder="XXXXX" />
-          </div>
-          <div class="mdf__field">
-            <label class="mdf__label">Trade Licence / CR No.</label>
-            <input class="mdf__input" [(ngModel)]="form.tradeLicense" placeholder="Enter trade licence" />
+            <label class="mdf__label" [for]="id + '-merchant-number'">Merchant Number <span class="mdf__req">*</span></label>
+            <input [id]="id + '-merchant-number'" class="mdf__input" [(ngModel)]="form.merchantNumber" placeholder="Enter merchant number" />
           </div>
         </div>
 
         <div class="mdf__two-col">
           <div class="mdf__field">
-            <label class="mdf__label">Country <span class="mdf__req">*</span></label>
-            <select class="mdf__select" [(ngModel)]="form.country">
+            <label class="mdf__label" [for]="id + '-last-5-iban-digits'">Last 5 IBAN Digits <span class="mdf__req">*</span></label>
+            <input [id]="id + '-last-5-iban-digits'" class="mdf__input" [(ngModel)]="form.lastFiveIban" maxlength="5" placeholder="XXXXX" />
+          </div>
+          <div class="mdf__field">
+            <label class="mdf__label" [for]="id + '-trade-licence-cr-no'">Trade Licence / CR No.</label>
+            <input [id]="id + '-trade-licence-cr-no'" class="mdf__input" [(ngModel)]="form.tradeLicense" placeholder="Enter trade licence" />
+          </div>
+        </div>
+
+        <div class="mdf__two-col">
+          <div class="mdf__field">
+            <label class="mdf__label" [for]="id + '-country'">Country <span class="mdf__req">*</span></label>
+            <select [id]="id + '-country'" class="mdf__select" [(ngModel)]="form.country">
               <option value="">-- Select Country --</option>
               <option *ngFor="let c of countryOptions" [value]="c">{{ c }}</option>
             </select>
           </div>
           <div class="mdf__field">
-            <label class="mdf__label">City <span class="mdf__req">*</span></label>
-            <select class="mdf__select" [(ngModel)]="form.city">
+            <label class="mdf__label" [for]="id + '-city'">City <span class="mdf__req">*</span></label>
+            <select [id]="id + '-city'" class="mdf__select" [(ngModel)]="form.city">
               <option value="">-- Select City --</option>
               <option *ngFor="let c of cityOptions" [value]="c">{{ c }}</option>
             </select>
@@ -75,8 +75,8 @@ export interface MerchantFormData {
         </div>
 
         <div class="mdf__field">
-          <label class="mdf__label">Business Legal Structure <span class="mdf__req">*</span></label>
-          <select class="mdf__select mdf__select--wide" [(ngModel)]="form.legalStructure">
+          <label class="mdf__label" [for]="id + '-business-legal-structure'">Business Legal Structure <span class="mdf__req">*</span></label>
+          <select [id]="id + '-business-legal-structure'" class="mdf__select mdf__select--wide" [(ngModel)]="form.legalStructure">
             <option value="">-- Select --</option>
             <option *ngFor="let l of legalOptions" [value]="l">{{ l }}</option>
           </select>
@@ -86,18 +86,18 @@ export interface MerchantFormData {
 
         <div class="mdf__two-col">
           <div class="mdf__field">
-            <label class="mdf__label">Representative Name</label>
-            <input class="mdf__input" [(ngModel)]="form.repName" placeholder="Full name" />
+            <label class="mdf__label" [for]="id + '-representative-name'">Representative Name</label>
+            <input [id]="id + '-representative-name'" class="mdf__input" [(ngModel)]="form.repName" placeholder="Full name" />
           </div>
           <div class="mdf__field">
-            <label class="mdf__label">Email</label>
-            <input class="mdf__input" [(ngModel)]="form.repEmail" type="email" placeholder="Email address" />
+            <label class="mdf__label" [for]="id + '-email'">Email</label>
+            <input [id]="id + '-email'" class="mdf__input" [(ngModel)]="form.repEmail" type="email" placeholder="Email address" />
           </div>
         </div>
 
         <div class="mdf__field">
-          <label class="mdf__label">Phone</label>
-          <input class="mdf__input" [(ngModel)]="form.repPhone" placeholder="+971 XX XXX XXXX" />
+          <label class="mdf__label" [for]="id + '-phone'">Phone</label>
+          <input [id]="id + '-phone'" class="mdf__input" [(ngModel)]="form.repPhone" placeholder="+971 XX XXX XXXX" />
         </div>
 
         <!-- T&C checkbox -->
@@ -168,6 +168,10 @@ export interface MerchantFormData {
   `],
 })
 export class AmexMerchantDataFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `merchant-data-form-${++AmexMerchantDataFormComponent._idCounter}`;
+
+
   @Input() title = 'MERCHANT DETAILS';
   @Input() backLabel = 'Back';
   @Input() submitLabel = 'Submit';

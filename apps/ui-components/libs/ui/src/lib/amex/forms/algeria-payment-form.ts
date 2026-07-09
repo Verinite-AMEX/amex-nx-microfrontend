@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,26 +27,26 @@ export interface AlgeriaPaymentData {
         <legend class="apf__legend">View Report</legend>
 
         <div class="apf__row">
-          <label class="apf__label">Julian Day <span class="apf__req">*</span></label>
-          <input class="apf__input" [(ngModel)]="form.julianDay" placeholder="e.g. 268" />
+          <label class="apf__label" [for]="id + '-julian-day'">Julian Day <span class="apf__req">*</span></label>
+          <input [id]="id + '-julian-day'" class="apf__input" [(ngModel)]="form.julianDay" placeholder="e.g. 268" />
         </div>
         <div class="apf__row">
-          <label class="apf__label">Year <span class="apf__req">*</span></label>
-          <select class="apf__select" [(ngModel)]="form.year">
+          <label class="apf__label" [for]="id + '-year'">Year <span class="apf__req">*</span></label>
+          <select [id]="id + '-year'" class="apf__select" [(ngModel)]="form.year">
             <option *ngFor="let y of years" [value]="y">{{ y }}</option>
           </select>
         </div>
         <div class="apf__row">
-          <label class="apf__label">Exchange Rate</label>
-          <input class="apf__input" [(ngModel)]="form.exchangeRate" />
+          <label class="apf__label" [for]="id + '-exchange-rate'">Exchange Rate</label>
+          <input [id]="id + '-exchange-rate'" class="apf__input" [(ngModel)]="form.exchangeRate" />
         </div>
         <div class="apf__row">
-          <label class="apf__label">Reference No.</label>
-          <input class="apf__input" [(ngModel)]="form.referenceNo" />
+          <label class="apf__label" [for]="id + '-reference-no'">Reference No.</label>
+          <input [id]="id + '-reference-no'" class="apf__input" [(ngModel)]="form.referenceNo" />
         </div>
         <div class="apf__row">
-          <label class="apf__label">SE Type <span class="apf__req">*</span></label>
-          <input class="apf__input" [(ngModel)]="form.seType" />
+          <label class="apf__label" [for]="id + '-se-type'">SE Type <span class="apf__req">*</span></label>
+          <input [id]="id + '-se-type'" class="apf__input" [(ngModel)]="form.seType" />
         </div>
 
         <div class="apf__actions">
@@ -87,6 +87,10 @@ export interface AlgeriaPaymentData {
   `],
 })
 export class AmexAlgeriaPaymentFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `algeria-payment-form-${++AmexAlgeriaPaymentFormComponent._idCounter}`;
+
+
   @Input() years = ['2024', '2023', '2022', '2021'];
   form: AlgeriaPaymentData = { julianDay: '', year: '2024', exchangeRate: '1', referenceNo: '1', seType: '' };
   @Output() viewReport = new EventEmitter<AlgeriaPaymentData>();

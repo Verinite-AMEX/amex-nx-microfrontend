@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -42,8 +42,8 @@ import { FormsModule } from '@angular/forms';
               </p>
 
               <div class="field-row">
-                <label class="field-label">Email Address <span class="req">*</span></label>
-                <input type="email" class="field-input" [(ngModel)]="email" placeholder="Enter registered email" />
+                <label class="field-label" [for]="id + '-email-address'">Email Address <span class="req">*</span></label>
+                <input [id]="id + '-email-address'" type="email" class="field-input" [(ngModel)]="email" placeholder="Enter registered email" />
               </div>
 
               <div class="btn-row">
@@ -113,6 +113,10 @@ import { FormsModule } from '@angular/forms';
   `]
 })
 export class AmexForgotUserIdFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `forgot-user-id-form-${++AmexForgotUserIdFormComponent._idCounter}`;
+
+
   @Input() portalTitle = '';
   @Input() errorMessage = '';
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -47,8 +47,8 @@ export interface AmexSecondaryField {
 
       <!-- Dropdown mode -->
       <div class="rts-dropdown-row" *ngIf="mode === 'dropdown'">
-        <label class="rts-label">{{ label }}</label>
-        <select class="rts-select" [(ngModel)]="selectedValue" (change)="onSelectByValue()">
+        <label class="rts-label" [for]="id + '-select'">{{ label }}</label>
+        <select [id]="id + '-select'" class="rts-select" [(ngModel)]="selectedValue" (change)="onSelectByValue()">
           <option value="">-- Select --</option>
           <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
         </select>
@@ -57,10 +57,11 @@ export interface AmexSecondaryField {
       <!-- Dynamic secondary fields based on selected type -->
       <div class="rts-secondary" *ngIf="selectedOption?.secondaryFields?.length">
         <div class="rts-field" *ngFor="let field of selectedOption!.secondaryFields">
-          <label class="rts-field-label">{{ field.label }}</label>
+          <label class="rts-field-label" [for]="id + '-' + field.key">{{ field.label }}</label>
 
           <input
             *ngIf="field.type === 'text'"
+            [id]="id + '-' + field.key"
             class="rts-input"
             type="text"
             [(ngModel)]="secondaryValues[field.key]"
@@ -68,6 +69,7 @@ export interface AmexSecondaryField {
 
           <input
             *ngIf="field.type === 'date'"
+            [id]="id + '-' + field.key"
             class="rts-input"
             type="date"
             [(ngModel)]="secondaryValues[field.key]"
@@ -75,6 +77,7 @@ export interface AmexSecondaryField {
 
           <select
             *ngIf="field.type === 'select'"
+            [id]="id + '-' + field.key"
             class="rts-input"
             [(ngModel)]="secondaryValues[field.key]"
           >
@@ -194,6 +197,9 @@ export interface AmexSecondaryField {
   `],
 })
 export class AmexReportTypeSelectorComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `report-type-selector-${++AmexReportTypeSelectorComponent._idCounter}`;
+
   @Input() label = 'Report Type';
   @Input() mode: 'radio' | 'dropdown' = 'dropdown';
   @Input() options: AmexReportTypeOption[] = [];

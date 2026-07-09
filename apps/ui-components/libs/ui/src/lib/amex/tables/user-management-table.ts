@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -33,23 +33,23 @@ export type UserTableAction = 'edit' | 'resetPassword' | 'delete';
         <thead>
           <!-- Column header row with sort arrows -->
           <tr class="umt__head-row">
-            <th class="umt__th" (click)="onSort('userId')">
+            <th class="umt__th" (click)="onSort('userId')" scope="col">
               User ID <span class="umt__sort">{{ sortIcon('userId') }}</span>
             </th>
-            <th class="umt__th" (click)="onSort('userName')">
+            <th class="umt__th" (click)="onSort('userName')" scope="col">
               User Name <span class="umt__sort">{{ sortIcon('userName') }}</span>
             </th>
-            <th class="umt__th" (click)="onSort('emailAddress')">
+            <th class="umt__th" (click)="onSort('emailAddress')" scope="col">
               Email Address <span class="umt__sort">{{ sortIcon('emailAddress') }}</span>
             </th>
-            <th class="umt__th" (click)="onSort('creationDate')">
+            <th class="umt__th" (click)="onSort('creationDate')" scope="col">
               Creation Date<br><span class="umt__th-sub">dd/mm/yyyy</span>
               <span class="umt__sort">{{ sortIcon('creationDate') }}</span>
             </th>
-            <th class="umt__th" (click)="onSort('status')">
+            <th class="umt__th" (click)="onSort('status')" scope="col">
               Status <span class="umt__sort">{{ sortIcon('status') }}</span>
             </th>
-            <th class="umt__th umt__th--actions">Actions</th>
+            <th class="umt__th umt__th--actions" scope="col">Actions</th>
           </tr>
           <!-- Per-column filter inputs row -->
           <tr class="umt__filter-row">
@@ -202,6 +202,10 @@ export type UserTableAction = 'edit' | 'resetPassword' | 'delete';
   `],
 })
 export class AmexUserManagementTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `user-management-table-${++AmexUserManagementTableComponent._idCounter}`;
+
+
   @Input() rows: AmexUserRow[] = [];
   @Input() title = 'MRM USER ADMINISTRATION';
   @Input() showCreate = true;

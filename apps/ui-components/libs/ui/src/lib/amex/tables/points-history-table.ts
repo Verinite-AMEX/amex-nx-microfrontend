@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface PointsHistoryRowModel{
@@ -37,10 +37,10 @@ export interface PointsHistoryRowModel{
       <table class="pht__table">
         <thead>
           <tr class="pht__head-row">
-            <th class="pht__th">Transaction Date</th>
-            <th class="pht__th">Description</th>
-            <th class="pht__th pht__th--num">Transaction Amount</th>
-            <th class="pht__th">Redemption Date</th>
+            <th class="pht__th" scope="col">Transaction Date</th>
+            <th class="pht__th" scope="col">Description</th>
+            <th class="pht__th pht__th--num" scope="col">Transaction Amount</th>
+            <th class="pht__th" scope="col">Redemption Date</th>
           </tr>
         </thead>
         <tbody>
@@ -85,6 +85,10 @@ export interface PointsHistoryRowModel{
   `],
 })
 export class AmexPointsHistoryTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `points-history-table-${++AmexPointsHistoryTableComponent._idCounter}`;
+
+
   @Input() rows: PointsHistoryRowModel[] = [];
   @Input() totalCredit = '';
   @Input() totalPointsRedeemed = '';

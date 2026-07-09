@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -32,6 +32,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class DateInputComponent implements ControlValueAccessor {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-date-input-${++DateInputComponent._idCounter}`;
+
+
   @Input() min = '';
   @Input() max = '';
   @Input() disabled = false;

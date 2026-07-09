@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,12 +17,12 @@ export interface AmexDateRange { from: string; to: string; }
     <div class="drp-wrap">
       <div class="drp-row">
         <div class="drp-field">
-          <label class="drp-label">{{ fromLabel }}</label>
-          <input class="drp-input" type="date" [(ngModel)]="fromDate" (change)="onChange()" />
+          <label class="drp-label" [for]="id + '-field'">{{ fromLabel }}</label>
+          <input [id]="id + '-field'" class="drp-input" type="date" [(ngModel)]="fromDate" (change)="onChange()" />
         </div>
         <div class="drp-field">
-          <label class="drp-label">{{ toLabel }}</label>
-          <input class="drp-input" type="date" [(ngModel)]="toDate" (change)="onChange()" />
+          <label class="drp-label" [for]="id + '-field-2'">{{ toLabel }}</label>
+          <input [id]="id + '-field-2'" class="drp-input" type="date" [(ngModel)]="toDate" (change)="onChange()" />
         </div>
         <button class="drp-btn" (click)="onApply()" [disabled]="!fromDate || !toDate">
           {{ buttonLabel }}
@@ -93,6 +93,10 @@ export interface AmexDateRange { from: string; to: string; }
   `],
 })
 export class AmexDateRangePickerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `date-range-picker-${++AmexDateRangePickerComponent._idCounter}`;
+
+
   @Input() fromLabel = 'From';
   @Input() toLabel = 'To';
   @Input() buttonLabel = 'Apply';

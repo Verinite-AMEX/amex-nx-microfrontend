@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface CaseManagementRow {
@@ -27,12 +27,12 @@ export interface CaseManagementRow {
       <table class="cml__table">
         <thead>
           <tr class="cml__head-row">
-            <th class="cml__th">Case ID</th>
-            <th class="cml__th">Subject</th>
-            <th class="cml__th">Status</th>
-            <th class="cml__th">Assignee</th>
-            <th class="cml__th">Created Date</th>
-            <th class="cml__th cml__th--actions">Actions</th>
+            <th class="cml__th" scope="col">Case ID</th>
+            <th class="cml__th" scope="col">Subject</th>
+            <th class="cml__th" scope="col">Status</th>
+            <th class="cml__th" scope="col">Assignee</th>
+            <th class="cml__th" scope="col">Created Date</th>
+            <th class="cml__th cml__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -86,6 +86,10 @@ export interface CaseManagementRow {
   `],
 })
 export class AmexCaseManagementListComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `case-management-list-${++AmexCaseManagementListComponent._idCounter}`;
+
+
   @Input() rows: CaseManagementRow[] = [];
   @Input() showCreate = false;
   @Input() createLabel = 'New Case';

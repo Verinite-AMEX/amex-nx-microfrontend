@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -70,15 +70,15 @@ export interface UAEFTSRecord {
           <table class="usv__table">
             <thead>
               <tr>
-                <th>Reference#</th>
-                <th>Customer Name</th>
-                <th>ID</th>
-                <th>IBAN</th>
-                <th>Period</th>
-                <th>Consent Date</th>
-                <th>Status</th>
-                <th>Created</th>
-                <th>Verified</th>
+                <th scope="col">Reference#</th>
+                <th scope="col">Customer Name</th>
+                <th scope="col">ID</th>
+                <th scope="col">IBAN</th>
+                <th scope="col">Period</th>
+                <th scope="col">Consent Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Created</th>
+                <th scope="col">Verified</th>
               </tr>
             </thead>
             <tbody>
@@ -127,25 +127,25 @@ export interface UAEFTSRecord {
       <div *ngIf="mode === 'request'" class="usv__request">
         <div class="usv__request-form">
           <div class="usv__field-row">
-            <label class="usv__field-label">Search Type</label>
-            <select class="usv__select" [(ngModel)]="requestSearchType">
+            <label class="usv__field-label" [for]="id + '-search-type'">Search Type</label>
+            <select [id]="id + '-search-type'" class="usv__select" [(ngModel)]="requestSearchType">
               <option value="iban">IBAN</option>
               <option value="emirates_id">Emirates ID</option>
               <option value="name">Customer Name</option>
             </select>
           </div>
           <div class="usv__field-row">
-            <label class="usv__field-label">
+            <label class="usv__field-label" [for]="id + '-iban-number-emirates-id-customer-name'">
               <ng-container *ngIf="requestSearchType === 'iban'">IBAN Number</ng-container>
               <ng-container *ngIf="requestSearchType === 'emirates_id'">Emirates ID</ng-container>
               <ng-container *ngIf="requestSearchType === 'name'">Customer Name</ng-container>
             </label>
-            <input class="usv__input usv__input--wide" [(ngModel)]="requestValue"
+            <input [id]="id + '-iban-number-emirates-id-customer-name'" class="usv__input usv__input--wide" [(ngModel)]="requestValue"
                    placeholder="Enter value..." />
           </div>
           <div class="usv__field-row">
-            <label class="usv__field-label">Period (months)</label>
-            <input class="usv__input" [(ngModel)]="requestPeriod" type="number" min="1" max="12" />
+            <label class="usv__field-label" [for]="id + '-period-months'">Period (months)</label>
+            <input [id]="id + '-period-months'" class="usv__input" [(ngModel)]="requestPeriod" type="number" min="1" max="12" />
           </div>
           <button class="usv__submit-btn" (click)="submitRequest.emit({ type: requestSearchType, value: requestValue, period: requestPeriod })">
             Submit Request
@@ -273,6 +273,10 @@ export interface UAEFTSRecord {
   `],
 })
 export class AmexUAEFTSStatusViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `uaefts-status-view-${++AmexUAEFTSStatusViewComponent._idCounter}`;
+
+
   @Input() mode: 'search' | 'request' = 'search';
   @Input() records: UAEFTSRecord[] = [];
   @Input() requestConfirmation: { referenceNo: string } | null = null;

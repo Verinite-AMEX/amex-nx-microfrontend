@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -112,6 +112,10 @@ import { AmexPortalStyle } from './success-toast';
   `],
 })
 export class AmexResetPasswordConfirmComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `reset-password-confirm-${++AmexResetPasswordConfirmComponent._idCounter}`;
+
+
   @Input() visible = false;
   @Input() portalStyle: AmexPortalStyle = 'oms';
   @Input() userName = '';

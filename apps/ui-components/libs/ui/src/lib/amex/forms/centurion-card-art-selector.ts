@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -79,6 +79,10 @@ export interface CardArtOption { id: string; label: string; color: string; }
   `],
 })
 export class AmexCenturionCardArtSelectorComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `centurion-card-art-selector-${++AmexCenturionCardArtSelectorComponent._idCounter}`;
+
+
   @Input() title = 'Select Card Art';
   @Input() cardArts: CardArtOption[] = [
     { id: 'black', label: 'Classic Black', color: '#1a1a1a' },

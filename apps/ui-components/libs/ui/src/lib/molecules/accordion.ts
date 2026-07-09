@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, ElementRef, ViewChildren, QueryList, AfterViewInit, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AccordionItem {
@@ -46,6 +46,10 @@ export interface AccordionItem {
   `],
 })
 export class AccordionComponent implements AfterViewInit {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-accordion-${++AccordionComponent._idCounter}`;
+
+
   @Input() items: AccordionItem[] = [];
   @Input() multiple = false;
 

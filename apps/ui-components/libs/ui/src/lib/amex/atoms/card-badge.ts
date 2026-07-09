@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type AmexCardType =
@@ -39,6 +39,10 @@ export type AmexCardType =
   `],
 })
 export class AmexCardBadgeComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `card-badge-${++AmexCardBadgeComponent._idCounter}`;
+
+
   @Input() type: AmexCardType = 'green';
   @Input() label = '';
 

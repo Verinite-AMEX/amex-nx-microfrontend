@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -27,8 +27,8 @@ export interface ReportFormatData {
       <div class="rff__panel">
         <!-- Email checkbox -->
         <div class="rff__email-check">
-          <input type="checkbox" id="rff-email" [(ngModel)]="form.receiveByEmail" />
-          <label for="rff-email" class="rff__check-label">
+          <input type="checkbox" [id]="id + '-email'" [(ngModel)]="form.receiveByEmail" />
+          <label [for]="id + '-email'" class="rff__check-label">
             I would like to receive payment details by email.
           </label>
         </div>
@@ -62,9 +62,9 @@ export interface ReportFormatData {
 
         <!-- Add Email section -->
         <div class="rff__email-section">
-          <div class="rff__email-label">Add Email Address:</div>
+          <label class="rff__email-label" [for]="id + '-new-email'">Add Email Address:</label>
           <div class="rff__email-row">
-            <input class="rff__email-input" [(ngModel)]="newEmail" placeholder="" />
+            <input [id]="id + '-new-email'" class="rff__email-input" [(ngModel)]="newEmail" placeholder="" />
             <button class="rff__btn rff__btn--add" (click)="addEmail()">Add</button>
           </div>
           <div class="rff__email-note">
@@ -126,6 +126,9 @@ export interface ReportFormatData {
   `],
 })
 export class AmexReportFormatFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `report-format-form-${++AmexReportFormatFormComponent._idCounter}`;
+
   @Input() settlementOptions = [
     { value: 'pdf', label: 'Adobe PDF' },
     { value: 'excel', label: 'Microsoft Excel' },

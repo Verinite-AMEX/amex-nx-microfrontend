@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -255,6 +255,10 @@ export interface PriorityPassCard {
   `],
 })
 export class AmexPriorityPassViewerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `priority-pass-viewer-${++AmexPriorityPassViewerComponent._idCounter}`;
+
+
   @Input() clientCode    = '';
   @Input() noEligibleCards = false;
   @Input() mobile        = '';

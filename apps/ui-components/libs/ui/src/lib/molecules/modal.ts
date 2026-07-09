@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnChanges, SimpleChanges, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnChanges, SimpleChanges, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -54,6 +54,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class ModalComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-modal-${++ModalComponent._idCounter}`;
+
+
   @Input() open = false;
   @Input() title = '';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';

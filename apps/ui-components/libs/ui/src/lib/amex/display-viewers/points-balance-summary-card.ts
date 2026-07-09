@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -38,8 +38,8 @@ import { FormsModule } from '@angular/forms';
 
       <!-- Card selector -->
       <div class="pbsc__selector-row">
-        <label class="pbsc__selector-label">Select a Card</label>
-        <select class="pbsc__card-select" [(ngModel)]="selectedCardNumber"
+        <label class="pbsc__selector-label" [for]="id + '-select-a-card'">Select a Card</label>
+        <select [id]="id + '-select-a-card'" class="pbsc__card-select" [(ngModel)]="selectedCardNumber"
                 (change)="cardSelected.emit(selectedCardNumber)">
           <option value="">-- Select --</option>
           <option *ngFor="let c of cards" [value]="c.cardNumber">
@@ -162,6 +162,10 @@ import { FormsModule } from '@angular/forms';
   `],
 })
 export class AmexPointsBalanceSummaryCardComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `points-balance-summary-card-${++AmexPointsBalanceSummaryCardComponent._idCounter}`;
+
+
   @Input() cards: { cardNumber: string }[] = [];
   @Input() selectedCardNumber = '';
   @Input() balance: number | null = null;

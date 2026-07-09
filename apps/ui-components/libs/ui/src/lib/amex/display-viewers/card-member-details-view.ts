@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface CardMemberDetails {
@@ -149,6 +149,10 @@ export interface CardMemberDetails {
   `],
 })
 export class AmexCardMemberDetailsViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `card-member-details-view-${++AmexCardMemberDetailsViewComponent._idCounter}`;
+
+
   @Input() details: CardMemberDetails | null = null;
   @Output() offersClick   = new EventEmitter<void>();
   @Output() benefitsClick = new EventEmitter<void>();

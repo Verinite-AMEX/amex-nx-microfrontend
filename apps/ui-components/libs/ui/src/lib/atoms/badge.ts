@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'ui-badge',
@@ -22,6 +22,10 @@ import { Component, Input } from '@angular/core';
   `],
 })
 export class BadgeComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-badge-${++BadgeComponent._idCounter}`;
+
+
   @Input() label = '';
   @Input() variant: 'primary' | 'secondary' | 'success' | 'warning' | 'error' | 'neutral' = 'primary';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';

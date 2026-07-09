@@ -19,28 +19,6 @@
         }
       }
     },
-    "storybook": {
-      "executor": "@storybook/angular:start-storybook",
-      "options": {
-        "configDir": "libs/ui/.storybook",
-        "browserTarget": "vn-core-ui-components:build:development",
-        "styles": ["libs/ui-styles/src/lib/styles/index.scss"],
-        "tsConfig": "libs/ui/tsconfig.lib.json",
-        "compodoc": false,
-        "port": 4400
-      }
-    },
-    "build-storybook": {
-      "executor": "@storybook/angular:build-storybook",
-      "options": {
-        "configDir": "libs/ui/.storybook",
-        "browserTarget": "vn-core-ui-components:build:development",
-        "styles": ["libs/ui-styles/src/lib/styles/index.scss"],
-        "tsConfig": "libs/ui/tsconfig.lib.json",
-        "compodoc": false,
-        "outputDir": "dist/storybook/ui"
-      }
-    },
     "test": {
       "executor": "@nx/jest:jest",
       "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],

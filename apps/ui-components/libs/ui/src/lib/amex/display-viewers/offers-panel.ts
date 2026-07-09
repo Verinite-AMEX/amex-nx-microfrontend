@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -314,6 +314,10 @@ export interface OfferItem {
   `],
 })
 export class AmexOffersPanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `offers-panel-${++AmexOffersPanelComponent._idCounter}`;
+
+
   @Input() offers: OfferItem[] = [];
   @Input() categories = [
     { key: 'all',           icon: '🌐', label: 'All' },

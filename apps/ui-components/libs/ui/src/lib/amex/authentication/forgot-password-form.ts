@@ -1,13 +1,4 @@
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  HostListener,
-  ElementRef,
-  ViewChild,
-  AfterViewInit
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, AfterViewInit, HostBinding } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -118,12 +109,12 @@ import { FormsModule } from '@angular/forms';
 
               <!-- USER ID -->
               <div class="field-row">
-                <label class="field-label">
+                <label class="field-label" [for]="id + '-user-id'">
                   User ID
                   <span class="req">*</span>
                 </label>
 
-                <input
+                <input [id]="id + '-user-id'"
                   type="text"
                   class="field-input"
                   [(ngModel)]="userId"
@@ -134,12 +125,12 @@ import { FormsModule } from '@angular/forms';
 
               <!-- EMAIL -->
               <div class="field-row">
-                <label class="field-label">
+                <label class="field-label" [for]="id + '-email-id'">
                   Email ID
                   <span class="req">*</span>
                 </label>
 
-                <input
+                <input [id]="id + '-email-id'"
                   type="email"
                   class="field-input"
                   [(ngModel)]="emailId"
@@ -209,12 +200,12 @@ import { FormsModule } from '@angular/forms';
 
               <!-- USER ID -->
               <div class="field-row">
-                <label class="field-label">
+                <label class="field-label" [for]="id + '-user-id-2'">
                   User ID
                   <span class="req">*</span>
                 </label>
 
-                <input
+                <input [id]="id + '-user-id-2'"
                   type="text"
                   class="field-input-oms"
                   [(ngModel)]="userId"
@@ -225,12 +216,12 @@ import { FormsModule } from '@angular/forms';
 
               <!-- EMAIL -->
               <div class="field-row">
-                <label class="field-label">
+                <label class="field-label" [for]="id + '-email-id-2'">
                   Email ID
                   <span class="req">*</span>
                 </label>
 
-                <input
+                <input [id]="id + '-email-id-2'"
                   type="email"
                   class="field-input-oms"
                   [(ngModel)]="emailId"
@@ -597,6 +588,10 @@ import { FormsModule } from '@angular/forms';
 })
 
 export class AmexForgotPasswordFormComponent implements AfterViewInit {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `forgot-password-form-${++AmexForgotPasswordFormComponent._idCounter}`;
+
+
 
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() portalTitle = '';
