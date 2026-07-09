@@ -185,6 +185,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: "centurion", label: "Centurion" },
     { id: "change-password", label: "Change Password" },
     { id: "statement", label: "Statement" },
+    { id: "bcrb", label: "BCRB" },
   ];
 
   readonly centurionSubItems: AmexTabItem[] = [
@@ -309,6 +310,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.activeSubId = "";
       return;
     }
+    if (url.startsWith("/bcrb")) {
+      this.activeTabId = "bcrb";
+      this.activeSubId = "";
+      return;
+    }
     if (url.startsWith("/change-password")) {
       this.activeTabId = "change-password";
       this.activeSubId = "";
@@ -362,6 +368,7 @@ export class AppComponent implements OnInit, OnDestroy {
       benefits: "/offers/benefits",
       "change-password": "/change-password",
       statement: "/statement",
+      bcrb: "/bcrb",
     };
     if (routeMap[tabId]) {
       this.router.navigate([routeMap[tabId]]);
