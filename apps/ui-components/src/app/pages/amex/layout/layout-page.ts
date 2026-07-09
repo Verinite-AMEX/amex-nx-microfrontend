@@ -35,7 +35,7 @@ import {
       provide: AMEX_PORTAL_AUTH_ADAPTER,
       useValue: {
         getUsername: () => 'john.doe@amex.com',
-        logout:      () => console.log('[AuthAdapter] logout'),
+        logout: () => console.log('[AuthAdapter] logout'),
       } satisfies AmexPortalAuthAdapter,
     },
     {
@@ -50,36 +50,40 @@ import {
     {
       provide: AMEX_PORTAL_NAVIGATION_ADAPTER,
       useValue: {
-        onTabClick:     (id: string) => console.log('[Nav] tab:', id),
+        onTabClick: (id: string) => console.log('[Nav] tab:', id),
         onSidebarClick: (id: string) => console.log('[Nav] sidebar:', id),
       } satisfies AmexPortalNavigationAdapter,
     },
     {
       provide: AMEX_PORTAL_THEME_ADAPTER,
       useValue: {
-        getTheme:    ()           => 'onls',
-        applyTheme:  (t: string)  => console.log('[Theme] applied:', t),
+        getTheme: () => 'onls',
+        applyTheme: (t: string) => console.log('[Theme] applied:', t),
         // onThemeChange not needed here — AmexPageShellComponent handles cleanup internally
       } satisfies AmexPortalThemeAdapter,
     },
     {
       provide: AMEX_PORTAL_USER_CONTEXT_ADAPTER,
       useValue: {
-        getUserId: ()          => 'USR-001',
-        getRoles:  ()          => ['AGENT', 'VIEWER'],
-        hasRole:   (r: string) => ['AGENT', 'VIEWER'].includes(r),
-        getLocale: ()          => 'en-AE',
+        getUserId: () => 'USR-001',
+        getRoles: () => ['AGENT', 'VIEWER'],
+        hasRole: (r: string) => ['AGENT', 'VIEWER'].includes(r),
+        getLocale: () => 'en-AE',
       } satisfies AmexPortalUserContextAdapter,
     },
     {
       provide: AMEX_PORTAL_FEATURE_FLAG_ADAPTER,
       useValue: {
         isEnabled: (f: string) =>
-          ({ 'show-beta-reports': true, 'enable-wearables': true, 'new-dashboard-ui': false })[f] ?? false,
+          ({
+            'show-beta-reports': true,
+            'enable-wearables': true,
+            'new-dashboard-ui': false,
+          })[f] ?? false,
         getFlags: () => ({
           'show-beta-reports': true,
-          'enable-wearables':  true,
-          'new-dashboard-ui':  false,
+          'enable-wearables': true,
+          'new-dashboard-ui': false,
         }),
       } satisfies AmexPortalFeatureFlagAdapter,
     },
@@ -95,7 +99,6 @@ import {
       footerText="© American Express — Adapter Demo"
     >
       <div class="demo-content">
-
         <div class="demo-info-box">
           <strong>Adapter Injection Pattern ✓</strong>
           <br /><br />
@@ -106,115 +109,129 @@ import {
         </div>
 
         <div class="adapter-grid">
-
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_AUTH_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
 
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_NAVIGATION_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
 
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_THEME_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
 
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_ANALYTICS_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
 
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_USER_CONTEXT_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
 
           <div class="adapter-row">
             <span class="adapter-token">AMEX_PORTAL_FEATURE_FLAG_ADAPTER</span>
-            <span class="adapter-status adapter-status--active">✓ PROVIDED</span>
+            <span class="adapter-status adapter-status--active"
+              >✓ PROVIDED</span
+            >
           </div>
-
         </div>
 
         <div class="demo-info-box demo-info-box--blue" style="margin-top:12px">
           Each microfrontend portal provides its own adapter implementations.
-          The shell owns <strong>none</strong> of this.
-          Use <code>bootstrapPortal(&#123; authAdapter, navAdapter, ... &#125;)</code>
-          in your portal's <code>AppModule</code> or <code>bootstrapApplication</code>.
+          The shell owns <strong>none</strong> of this. Use
+          <code
+            >bootstrapPortal(&#123; authAdapter, navAdapter, ... &#125;)</code
+          >
+          in your portal's <code>AppModule</code> or
+          <code>bootstrapApplication</code>.
         </div>
-
       </div>
     </amex-page-shell>
   `,
-  styles: [`
-    /* FIX 6: :host display + height added so flex parent
+  styles: [
+    `
+      /* FIX 6: :host display + height added so flex parent
        (.shell-demo-wrap) can stretch this component correctly. */
-    :host {
-      display: block;
-      height: 100%;
-    }
+      :host {
+        display: block;
+        height: 100%;
+      }
 
-    .demo-content {
-      padding: 16px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: #333;
-    }
+      .demo-content {
+        padding: 16px;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        color: #333;
+      }
 
-    .demo-info-box {
-      background: #fff8e1;
-      border: 1px solid #ffe082;
-      border-radius: 4px;
-      padding: 12px 16px;
-      margin-bottom: 12px;
-      font-size: 12px;
-      color: #5d4037;
-      line-height: 1.6;
-    }
+      .demo-info-box {
+        background: #fff8e1;
+        border: 1px solid #ffe082;
+        border-radius: 4px;
+        padding: 12px 16px;
+        margin-bottom: 12px;
+        font-size: 12px;
+        color: #5d4037;
+        line-height: 1.6;
+      }
 
-    .demo-info-box--blue {
-      background: #e3f2fd;
-      border-color: #90caf9;
-      color: #1a237e;
-    }
+      .demo-info-box--blue {
+        background: #e3f2fd;
+        border-color: #90caf9;
+        color: #1a237e;
+      }
 
-    .adapter-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-    }
+      .adapter-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
 
-    .adapter-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #fafafa;
-      border: 1px solid #eee;
-      border-radius: 3px;
-      padding: 6px 10px;
-    }
+      .adapter-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background: #fafafa;
+        border: 1px solid #eee;
+        border-radius: 3px;
+        padding: 6px 10px;
+      }
 
-    .adapter-token {
-      font-family: monospace;
-      font-size: 11px;
-      color: #333;
-    }
+      .adapter-token {
+        font-family: monospace;
+        font-size: 11px;
+        color: #333;
+      }
 
-    .adapter-status {
-      font-size: 10px;
-      font-weight: bold;
-      padding: 2px 8px;
-      border-radius: 999px;
-    }
+      .adapter-status {
+        font-size: 10px;
+        font-weight: bold;
+        padding: 2px 8px;
+        border-radius: 999px;
+      }
 
-    .adapter-status--active {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-  `],
+      .adapter-status--active {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
+    `,
+  ],
 })
 class AdapterDemoShellComponent {}
 
@@ -477,7 +494,7 @@ class AdapterDemoShellComponent {}
           <amex-page-shell
             portalStyle="onls"
             [showSidebar]="false"
-            [showCustomHeader]="true"
+            /* [showCustomHeader]="true" */
             [showCustomFooter]="true"
           >
 
@@ -676,263 +693,264 @@ class AdapterDemoShellComponent {}
     </app-showcase-page>
   `,
 
-  styles: [`
-    .shell-demo-wrap {
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      overflow: hidden;
-      height: 420px;
-      display: flex;
-      flex-direction: column;
-      background: #fff;
-    }
+  styles: [
+    `
+      .shell-demo-wrap {
+        border: 1px solid #e0e0e0;
+        border-radius: 4px;
+        overflow: hidden;
+        height: 420px;
+        display: flex;
+        flex-direction: column;
+        background: #fff;
+      }
 
-    .shell-demo-wrap--small {
-      height: 220px;
-    }
+      .shell-demo-wrap--small {
+        height: 220px;
+      }
 
-    .shell-demo-wrap amex-page-shell,
-    .shell-demo-wrap app-adapter-demo-shell {
-      flex: 1;
-      min-height: 0;
-      display: block;
-    }
+      .shell-demo-wrap amex-page-shell,
+      .shell-demo-wrap app-adapter-demo-shell {
+        flex: 1;
+        min-height: 0;
+        display: block;
+      }
 
-    /* =========================================================
+      /* =========================================================
        CONTENT
     ========================================================= */
 
-    .demo-content {
-      padding: 16px;
-      font-family: Arial, sans-serif;
-      font-size: 13px;
-      color: #333;
-    }
+      .demo-content {
+        padding: 16px;
+        font-family: Arial, sans-serif;
+        font-size: 13px;
+        color: #333;
+      }
 
-    .demo-info-box {
-      background: #fff8e1;
-      border: 1px solid #ffe082;
-      border-radius: 4px;
-      padding: 12px 16px;
-      margin-bottom: 16px;
-      font-size: 12px;
-      color: #5d4037;
-      line-height: 1.6;
-    }
+      .demo-info-box {
+        background: #fff8e1;
+        border: 1px solid #ffe082;
+        border-radius: 4px;
+        padding: 12px 16px;
+        margin-bottom: 16px;
+        font-size: 12px;
+        color: #5d4037;
+        line-height: 1.6;
+      }
 
-    .demo-info-box--blue {
-      background: #e3f2fd;
-      border-color: #90caf9;
-      color: #1a237e;
-    }
+      .demo-info-box--blue {
+        background: #e3f2fd;
+        border-color: #90caf9;
+        color: #1a237e;
+      }
 
-    .demo-report-title {
-      display: block;
-      margin-bottom: 10px;
-      font-size: 14px;
-    }
+      .demo-report-title {
+        display: block;
+        margin-bottom: 10px;
+        font-size: 14px;
+      }
 
-    /* =========================================================
+      /* =========================================================
        TABLE
     ========================================================= */
 
-    .demo-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
+      .demo-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 12px;
+      }
 
-    .demo-table th {
-      background: #f5f5f5;
-      border-bottom: 1px solid #ddd;
-      padding: 8px 10px;
-      text-align: left;
-      font-weight: bold;
-      color: #333;
-    }
+      .demo-table th {
+        background: #f5f5f5;
+        border-bottom: 1px solid #ddd;
+        padding: 8px 10px;
+        text-align: left;
+        font-weight: bold;
+        color: #333;
+      }
 
-    .demo-table td {
-      border-bottom: 1px solid #eee;
-      padding: 8px 10px;
-      color: #555;
-    }
+      .demo-table td {
+        border-bottom: 1px solid #eee;
+        padding: 8px 10px;
+        color: #555;
+      }
 
-    /* =========================================================
+      /* =========================================================
        BADGES
     ========================================================= */
 
-    .badge {
-      display: inline-block;
-      padding: 2px 8px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: bold;
-    }
+      .badge {
+        display: inline-block;
+        padding: 2px 8px;
+        border-radius: 999px;
+        font-size: 11px;
+        font-weight: bold;
+      }
 
-    .badge--active {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
+      .badge--active {
+        background: #e8f5e9;
+        color: #2e7d32;
+      }
 
-    .badge--pending {
-      background: #ffebee;
-      color: #c62828;
-    }
+      .badge--pending {
+        background: #ffebee;
+        color: #c62828;
+      }
 
-    /* =========================================================
+      /* =========================================================
        FORM
     ========================================================= */
 
-    .demo-form-row {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 12px;
-    }
+      .demo-form-row {
+        display: flex;
+        gap: 16px;
+        margin-bottom: 12px;
+      }
 
-    .demo-form-field {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+      .demo-form-field {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
 
-    .demo-form-field label {
-      font-size: 11px;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+      .demo-form-field label {
+        font-size: 11px;
+        color: #888;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
 
-    .demo-form-field input {
-      border: 1px solid #ccc;
-      border-radius: 2px;
-      padding: 6px 10px;
-      background: #fafafa;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-    }
+      .demo-form-field input {
+        border: 1px solid #ccc;
+        border-radius: 2px;
+        padding: 6px 10px;
+        background: #fafafa;
+        font-size: 13px;
+        font-family: Arial, sans-serif;
+      }
 
-    /* =========================================================
+      /* =========================================================
        CUSTOM PROJECTED HEADER
     ========================================================= */
 
-    .custom-header-slot {
-      background: #006fcf;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 8px 16px;
-    }
+      .custom-header-slot {
+        background: #006fcf;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 8px 16px;
+      }
 
-    .custom-header-logo {
-      background: #fff;
-      color: #006fcf;
-      width: 36px;
-      height: 36px;
-      border-radius: 3px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 11px;
-      font-weight: 900;
-      line-height: 1.1;
-      text-align: center;
-    }
+      .custom-header-logo {
+        background: #fff;
+        color: #006fcf;
+        width: 36px;
+        height: 36px;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 900;
+        line-height: 1.1;
+        text-align: center;
+      }
 
-    .custom-header-title {
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-    }
+      .custom-header-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+      }
 
-    .custom-header-logout {
-      margin-left: auto;
-      border: none;
-      background: #fff;
-      color: #006fcf;
-      padding: 4px 12px;
-      font-size: 11px;
-      cursor: pointer;
-      border-radius: 2px;
-    }
+      .custom-header-logout {
+        margin-left: auto;
+        border: none;
+        background: #fff;
+        color: #006fcf;
+        padding: 4px 12px;
+        font-size: 11px;
+        cursor: pointer;
+        border-radius: 2px;
+      }
 
-    /* =========================================================
+      /* =========================================================
        CUSTOM FOOTER
     ========================================================= */
 
-    .custom-footer-slot {
-      background: #fff;
-      border-top: 1px solid #d8d8d8;
-      padding: 8px 16px;
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      font-size: 11px;
-      color: #888;
-    }
+      .custom-footer-slot {
+        background: #fff;
+        border-top: 1px solid #d8d8d8;
+        padding: 8px 16px;
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+        font-size: 11px;
+        color: #888;
+      }
 
-    .custom-footer-slot a {
-      color: #006fcf;
-      text-decoration: none;
-    }
+      .custom-footer-slot a {
+        color: #006fcf;
+        text-decoration: none;
+      }
 
-    .custom-footer-slot a:hover {
-      text-decoration: underline;
-    }
+      .custom-footer-slot a:hover {
+        text-decoration: underline;
+      }
 
-    /* =========================================================
+      /* =========================================================
        TEMPLATE HEADER
     ========================================================= */
 
-    .template-header {
-      background: #3d4dac;
-      height: 48px;
-      padding: 0 16px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
+      .template-header {
+        background: #3d4dac;
+        height: 48px;
+        padding: 0 16px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
 
-    .template-header-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
+      .template-header-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
 
-    .template-menu-icon {
-      color: #fff;
-      font-size: 20px;
-      cursor: pointer;
-    }
+      .template-menu-icon {
+        color: #fff;
+        font-size: 20px;
+        cursor: pointer;
+      }
 
-    .template-header-title {
-      color: #fff;
-      font-size: 15px;
-      font-weight: bold;
-    }
+      .template-header-title {
+        color: #fff;
+        font-size: 15px;
+        font-weight: bold;
+      }
 
-    .template-header-user {
-      color: #fff;
-      font-size: 13px;
-    }
-  `],
+      .template-header-user {
+        color: #fff;
+        font-size: 13px;
+      }
+    `,
+  ],
 })
 export class AmexLayoutPageComponent {
-
   /* =========================================================
      ONLS
   ========================================================= */
 
   readonly onlsTabs = [
-    { id: 'statements',  label: 'Statements' },
-    { id: 'misc',        label: 'MISC' },
+    { id: 'statements', label: 'Statements' },
+    { id: 'misc', label: 'MISC' },
     { id: 'centralstmt', label: 'Central Statements' },
   ];
 
   readonly prioritySubNav = [
-    { id: 'priority',  label: 'ENROLL FOR PRIORITY PASS™' },
-    { id: 'supp',      label: 'Supplementary Access' },
-    { id: 'wallet',    label: 'Digital Wallet' },
+    { id: 'priority', label: 'ENROLL FOR PRIORITY PASS™' },
+    { id: 'supp', label: 'Supplementary Access' },
+    { id: 'wallet', label: 'Digital Wallet' },
     { id: 'wearables', label: 'Wearables' },
   ];
 
@@ -941,24 +959,27 @@ export class AmexLayoutPageComponent {
   ========================================================= */
 
   readonly omsTabs = [
-    { id: 'profile',  label: 'EDIT YOUR PROFILE' },
+    { id: 'profile', label: 'EDIT YOUR PROFILE' },
     { id: 'merchant', label: 'MERCHANT ACCOUNTS' },
-    { id: 'reports',  label: 'REPORTS' },
-    { id: 'vat',      label: 'VAT INVOICE' },
-    { id: 'admin',    label: 'MRM ADMIN' },
+    { id: 'reports', label: 'REPORTS' },
+    { id: 'vat', label: 'VAT INVOICE' },
+    { id: 'admin', label: 'MRM ADMIN' },
   ];
 
   readonly omsSidebar = [
     { id: 'settlement', label: 'Settlement & Submissions' },
-    { id: 'profile',    label: 'Edit Profile' },
-    { id: 'merchants',  label: 'Merchant Accounts' },
-    { id: 'contact',    label: 'Contact Information' },
-    { id: 'vat',        label: 'VAT Registration' },
+    { id: 'profile', label: 'Edit Profile' },
+    { id: 'merchants', label: 'Merchant Accounts' },
+    { id: 'contact', label: 'Contact Information' },
+    { id: 'vat', label: 'VAT Registration' },
   ];
 
   readonly omsConfig: AmexPortalLayoutConfig = {
     header: { visible: true },
-    footer: { visible: true, text: '© American Express — Online Merchant Services Portal' },
+    footer: {
+      visible: true,
+      text: '© American Express — Online Merchant Services Portal',
+    },
   };
 
   /* =========================================================
@@ -967,21 +988,21 @@ export class AmexLayoutPageComponent {
 
   readonly bcrbSidebar = [
     { id: 'consumer-monthly', label: 'Consumer Monthly Audit Report' },
-    { id: 'corp-monthly',     label: 'Corporate Monthly Audit Report' },
-    { id: 'consumer-data',    label: 'Consumer Data Audit Report' },
-    { id: 'corp-data',        label: 'Corporate Data Audit Report' },
-    { id: 'consumer-full',    label: 'Consumer Full Report' },
+    { id: 'corp-monthly', label: 'Corporate Monthly Audit Report' },
+    { id: 'consumer-data', label: 'Consumer Data Audit Report' },
+    { id: 'corp-data', label: 'Corporate Data Audit Report' },
+    { id: 'consumer-full', label: 'Consumer Full Report' },
     { id: 'consumer-history', label: 'Consumer History Report' },
-    { id: 'corp-history',     label: 'Corporate History Report' },
+    { id: 'corp-history', label: 'Corporate History Report' },
   ];
 
   readonly bureauOptions = [
-    { id: 'aecb',  label: 'AECB' },
+    { id: 'aecb', label: 'AECB' },
     { id: 'simah', label: 'SIMAH' },
   ];
 
   readonly dashboardLinks = [
-    { id: 'bcrb',       label: 'BCRB Reports' },
+    { id: 'bcrb', label: 'BCRB Reports' },
     { id: 'aecb-alert', label: 'AECB Alert' },
     { id: 'aecb-scrub', label: 'AECB Scrub' },
   ];
@@ -1004,27 +1025,39 @@ export class AmexLayoutPageComponent {
     footer: { visible: true },
     features: {
       'show-beta-reports': true,
-      'enable-wearables':  true,
-      'new-dashboard-ui':  false,
-      'legacy-mode':       false,
+      'enable-wearables': true,
+      'new-dashboard-ui': false,
+      'legacy-mode': false,
     },
   };
 
   readonly featureFlags = [
-    { key: 'show-beta-reports', value: true  },
-    { key: 'enable-wearables',  value: true  },
-    { key: 'new-dashboard-ui',  value: false },
-    { key: 'legacy-mode',       value: false },
+    { key: 'show-beta-reports', value: true },
+    { key: 'enable-wearables', value: true },
+    { key: 'new-dashboard-ui', value: false },
+    { key: 'legacy-mode', value: false },
   ];
 
   /* =========================================================
      EVENTS
   ========================================================= */
 
-  onLogout(portal: string):   void { console.log('[PageShell] logout — portal:', portal); }
-  onTabClick(tabId: string):  void { console.log('[PageShell] tab clicked:', tabId); }
-  onSidebarClick(id: string): void { console.log('[PageShell] sidebar clicked:', id); }
-  onCtaClick():               void { console.log('[PageShell] CTA clicked'); }
-  onMenuToggle():             void { console.log('[PageShell] menu toggled'); }
-  onBureauChange(id: string): void { console.log('[PageShell] bureau changed:', id); }
+  onLogout(portal: string): void {
+    console.log('[PageShell] logout — portal:', portal);
+  }
+  onTabClick(tabId: string): void {
+    console.log('[PageShell] tab clicked:', tabId);
+  }
+  onSidebarClick(id: string): void {
+    console.log('[PageShell] sidebar clicked:', id);
+  }
+  onCtaClick(): void {
+    console.log('[PageShell] CTA clicked');
+  }
+  onMenuToggle(): void {
+    console.log('[PageShell] menu toggled');
+  }
+  onBureauChange(id: string): void {
+    console.log('[PageShell] bureau changed:', id);
+  }
 }
