@@ -1,18 +1,19 @@
 #!/usr/bin/env node
 /**
  * publish-ui.js
- * Automates the build -> (unpublish) -> publish cycle for @ui-components/ui
+ * Automates the install -> build -> (unpublish) -> publish cycle for @ui-components/ui
  * against a Verdaccio registry, so you never have to run the manual
  * unpublish/publish commands by hand again.
  *
  * Usage (run from the Nx workspace root):
  *
- *   node tools/publish-ui.js                 # unpublish-if-exists + publish current version (matches your table)
+ *   node tools/publish-ui.js                 # install + unpublish-if-exists + publish current version (matches your table)
  *   node tools/publish-ui.js --bump=patch    # auto bump 0.0.0 -> 0.0.1, build, publish (no unpublish needed)
  *   node tools/publish-ui.js --bump=minor
  *   node tools/publish-ui.js --bump=major
  *   node tools/publish-ui.js --unpublish-only
  *   node tools/publish-ui.js --registry=https://npm.pkg.github.com
+ *   node tools/publish-ui.js --skip-install
  *   node tools/publish-ui.js --dry-run
  *
  * Env vars (all optional, override CLI defaults):
@@ -40,6 +41,7 @@ const DIST_DIR = path.resolve(process.cwd(), args.distDir || process.env.DIST_DI
 const BUMP = args.bump || null; // patch | minor | major | null
 const UNPUBLISH_ONLY = !!args['unpublish-only'];
 const DRY_RUN = !!args['dry-run'];
+const SKIP_INSTALL = !!args['skip-install'];
 
 // ---------- helpers ----------
 function log(msg) {
@@ -101,6 +103,46 @@ function packageExistsOnRegistry(pkgName) {
 }
 
 // ---------- steps ----------
+function needsInstall() {
+  const nodeModulesDir = path.resolve(process.cwd(), 'node_modules');
+  const pkgLockPath = path.resolve(process.cwd(), 'package-lock.json');
+  const pkgJsonPath = path.resolve(process.cwd(), 'package.json');
+
+  if (!fs.existsSync(nodeModulesDir)) {
+    log('node_modules not found — install needed.');
+    return true;
+  }
+
+  const nodeModulesTime = fs.statSync(nodeModulesDir).mtimeMs;
+
+  // Compare against whichever exists: package-lock.json is more accurate,
+  // fall back to package.json if there's no lockfile.
+  const checkPath = fs.existsSync(pkgLockPath) ? pkgLockPath : pkgJsonPath;
+  if (!fs.existsSync(checkPath)) {
+    log('No package.json/package-lock.json found to compare — skipping install check, installing to be safe.');
+    return true;
+  }
+
+  const depsTime = fs.statSync(checkPath).mtimeMs;
+
+  if (depsTime > nodeModulesTime) {
+    log(`${path.basename(checkPath)} is newer than node_modules — dependencies changed, install needed.`);
+    return true;
+  }
+
+  log('node_modules is up to date with package.json/package-lock.json — skipping install.');
+  return false;
+}
+
+function installDeps() {
+  if (SKIP_INSTALL) {
+    log('Skipping npm install (--skip-install passed).');
+    return;
+  }
+  if (!needsInstall()) return;
+  log('Running npm install at workspace root...');
+  runInherit(`npm install`);
+}
 function build() {
   log(`Building project "${PROJECT}" (target: ${BUILD_TARGET})...`);
   runInherit(`npx nx run ${PROJECT}:${BUILD_TARGET}`);
@@ -158,6 +200,7 @@ function publish() {
     return;
   }
 
+  installDeps();
   build();
   bumpVersion();
 
