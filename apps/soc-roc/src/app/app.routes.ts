@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 import { socRocAuthGuard } from './core/guards/soc-roc-auth.guard';
 
-import { Login } from './pages/login/login';
+//import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
 
 import { FileFormationUpload } from './pages/utilities/file-formation-upload/file-formation-upload';
@@ -26,11 +26,13 @@ import { PaymentRegister } from './pages/payment-register/payment-register';
 
 export const routes: Routes = [
     // Public routes - no guard
-    { path: 'login', component: Login },
+   // { path: 'login', component: Login },
     { path: 'signup', component: Signup },
 
-    // Default redirect
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
+     // OLD:
+    // { path: '', redirectTo: 'login', pathMatch: 'full' },
+    // NEW — default lands on the guarded dashboard; guard bounces to auth app if needed
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 
     // Protected routes
     { path: 'dashboard', component: Dashboard, canActivate: [socRocAuthGuard] },

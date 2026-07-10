@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
-import { NxWelcome } from './nx-welcome';
+import { Component } from "@angular/core";
+import { NxWelcome } from "./nx-welcome";
 
 @Component({
+  standalone: true,
+  selector: "app-bcrb-entry",
   imports: [NxWelcome],
-  selector: 'app-bcrb-entry',
   template: `<app-nx-welcome></app-nx-welcome>`,
 })
 export class RemoteEntry {}
