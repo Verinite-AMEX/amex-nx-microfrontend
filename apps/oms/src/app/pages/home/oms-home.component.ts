@@ -19,7 +19,6 @@ import {
 } from '../../services/auth.service';
 
 @Component({
-
   selector: 'oms-home',
 
   standalone: true,
