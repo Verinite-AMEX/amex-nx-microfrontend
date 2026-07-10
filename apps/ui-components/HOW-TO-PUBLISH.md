@@ -1,4 +1,4 @@
-# How to Publish @vn-core-ui-components/ui to npm
+# How to Publish @ui-components/ui to npm
 
 ## Overview
 
@@ -6,9 +6,9 @@ There are **3 ways** your teammates can get this library:
 
 | Option | Best for | Command |
 |---|---|---|
-| **A. Private npm registry (Verdaccio)** | Team/intranet, no internet needed | `npm install @vn-core-ui-components/ui` |
-| **B. GitHub Packages** | Team already uses GitHub | `npm install @vn-core-ui-components/ui` |
-| **C. Public npmjs.com** | Open source, public | `npm install @vn-core-ui-components/ui` |
+| **A. Private npm registry (Verdaccio)** | Team/intranet, no internet needed | `npm install @ui-components/ui` |
+| **B. GitHub Packages** | Team already uses GitHub | `npm install @ui-components/ui` |
+| **C. Public npmjs.com** | Open source, public | `npm install @ui-components/ui` |
 
 ---
 
@@ -26,11 +26,11 @@ npm install ng-packagr --save-dev  // we can skip, this library added in package
 npx nx run ui:build:production
 ```
 
-This creates a `dist/vn-core-ui-components/` folder — that's your publishable package.
+This creates a `dist/ui-components/` folder — that's your publishable package.
 
 Check the output:
 ```
-dist/vn-core-ui-components/
+dist/ui-components/
   ├── esm2022/          ← modern ES modules
   ├── fesm2022/         ← flattened ES modules
   ├── index.d.ts        ← TypeScript types
@@ -64,7 +64,7 @@ pm2 save
 ### Publish your library:
 
 ```bash
-cd dist/vn-core-ui-components
+cd dist/ui-components
 
 # Create an account on Verdaccio (first time)
 npm adduser --registry http://localhost:4873
@@ -74,7 +74,7 @@ npm publish --registry http://localhost:4873
 
 # To set registry
 npm config set registry https://registry.npmjs.org/
-npm config set @vn-core-ui-components:registry http://localhost:4873
+npm config set @ui-components:registry http://localhost:4873
 ```
 
 ### Your teammates install it:
@@ -82,12 +82,12 @@ npm config set @vn-core-ui-components:registry http://localhost:4873
 Tell them to add this `.npmrc` in their project root:
 
 ```
-@vn-core-ui-components:registry=http://<YOUR-SERVER-IP or localhost>:4873
+@ui-components:registry=http://<YOUR-SERVER-IP or localhost>:4873
 ```
 
 Then simply:
 ```bash
-npm install @vn-core-ui-components/ui
+npm install @ui-components/ui
 ```
 
 ---
@@ -100,7 +100,7 @@ npm install @vn-core-ui-components/ui
 
 2. Add `.npmrc` to the **root of your monorepo**:
    ```
-   @vn-core-ui-components:registry=https://npm.pkg.github.com
+   @ui-components:registry=https://npm.pkg.github.com
    //npm.pkg.github.com/:_authToken=${GITHUB_TOKEN}
    ```
 
@@ -115,7 +115,7 @@ npm install @vn-core-ui-components/ui
 4. Build and publish:
    ```bash
    nx run ui:build:production
-   cd dist/vn-core-ui-components
+   cd dist/ui-components
    npm publish --registry https://npm.pkg.github.com
    ```
 
@@ -123,13 +123,13 @@ npm install @vn-core-ui-components/ui
 
 They add to their `.npmrc`:
 ```
-@vn-core-ui-components:registry=https://npm.pkg.github.com
+@ui-components:registry=https://npm.pkg.github.com
 //npm.pkg.github.com/:_authToken=<THEIR_GITHUB_TOKEN>
 ```
 
 Then:
 ```bash
-npm install @vn-core-ui-components/ui
+npm install @ui-components/ui
 ```
 
 ---
@@ -146,14 +146,14 @@ npm login
 nx run ui:build:production
 
 # Publish
-cd dist/vn-core-ui-components
+cd dist/ui-components
 npm publish --access public
 ```
 
 ### Teammates install:
 
 ```bash
-npm install @vn-core-ui-components/ui
+npm install @ui-components/ui
 ```
 
 No extra config needed.
@@ -165,7 +165,7 @@ No extra config needed.
 ### 1. Install
 
 ```bash
-npm install @vn-core-ui-components/ui
+npm install @ui-components/ui
 ```
 
 ### 2. Use any component — all are standalone, just import and use:
@@ -176,7 +176,7 @@ import {
   AmexStatementViewerComponent,
   AmexOffersPanelComponent,
   // ... any component from the lib
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   standalone: true,
@@ -203,7 +203,7 @@ export class MyPageComponent {
 
 ### 3. No extra module imports needed
 
-Every component in `@vn-core-ui-components/ui` is a standalone Angular component.  
+Every component in `@ui-components/ui` is a standalone Angular component.  
 Just add it to the `imports: []` array and use its selector in the template.
 
 ---
@@ -220,13 +220,13 @@ Whenever you add new components or fix bugs:
 nx run ui:build:production
 
 # 3. Re-publish
-cd dist/vn-core-ui-components
+cd dist/ui-components
 npm publish --registry <your-registry>
 ```
 
 Teammates update with:
 ```bash
-npm update @vn-core-ui-components/ui
+npm update @ui-components/ui
 ```
 
 ---
@@ -236,8 +236,8 @@ npm update @vn-core-ui-components/ui
 | Task | Command |
 |---|---|
 | Build the library | `nx run ui:build:production` |
-| Publish (Verdaccio) | `cd dist/vn-core-ui-components && npm publish --registry http://localhost:4873` |
-| UnPublish (Verdaccio) | `npm unpublish @vn-core-ui-components/ui --force --registry http://localhost:4873` |
-| Publish (GitHub) | `cd dist/vn-core-ui-components && npm publish --registry https://npm.pkg.github.com` |
-| Publish (public npm) | `cd dist/vn-core-ui-components && npm publish --access public` |
-| Teammate installs | `npm install @vn-core-ui-components/ui` |
+| Publish (Verdaccio) | `cd dist/ui-components && npm publish --registry http://localhost:4873` |
+| UnPublish (Verdaccio) | `npm unpublish @ui-components/ui --force --registry http://localhost:4873` |
+| Publish (GitHub) | `cd dist/ui-components && npm publish --registry https://npm.pkg.github.com` |
+| Publish (public npm) | `cd dist/ui-components && npm publish --access public` |
+| Teammate installs | `npm install @ui-components/ui` |

@@ -3,5 +3,5 @@
   "lib": {
     "entryFile": "src/index.ts"
   },
-  "dest": "../../dist/vn-core-ui-components"
+  "dest": "../../dist/ui-components"
 }
