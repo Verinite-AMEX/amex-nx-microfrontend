@@ -6,6 +6,9 @@
     "start": "nx serve",
     "build": "nx build",
     "test": "nx test",
+    "ui:publish": "node tools/publish-ui.js",
+    "ui:publish:bump": "node tools/publish-ui.js --bump=patch",
+    "ui:unpublish": "node tools/publish-ui.js --unpublish-only",
     "a11y:gen-tests": "node ./tools/generate-a11y-tests.js",
     "test:a11y": "npm run a11y:gen-tests && nx test --testFile=libs/ui/src/lib/__generated__/a11y/**/*.spec.ts"
   },
