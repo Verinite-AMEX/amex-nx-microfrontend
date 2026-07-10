@@ -1,0 +1,51 @@
+import { inject } from '@angular/core';
+import { CanActivateFn, Router } from '@angular/router';
+import { OmsAuthService } from '../services/auth.service';
+
+const AUTH_APP_URL = 'http://localhost:4216'; // move to environment.ts for UAT/Prod
+
+export const omsAuthGuard: CanActivateFn = (route) => {
+  const auth   = inject(OmsAuthService);
+  const router = inject(Router);
+
+
+   const redirectToAuthApp = () => {
+    const returnUrl = encodeURIComponent(window.location.href);
+    window.location.href = `${AUTH_APP_URL}/login?returnUrl=${returnUrl}`;
+  };
+
+
+ // Not logged in → redirect to Login-Logout-auth-app
+  if (!auth.isLoggedIn()) {
+    redirectToAuthApp();
+    return false;
+  }
+
+  // doesn't keep silently failing, and send them back through login
+  // WITH returnUrl this time.
+  if (!auth.isMerchant()) {
+    auth.clearSession();
+    redirectToAuthApp();
+    return false;
+  }
+
+  // Per-route role check using route data
+  const allowedRoles: string[] = route.data?.['roles'] ?? [];
+  if (allowedRoles.length > 0 && !auth.hasRole(...allowedRoles)) {
+    // Redirect to their first allowed page instead of a blank screen
+    const fallback = getFallback(auth);
+    router.navigate([`/oms/${fallback}`]);
+    return false;
+  }
+
+  return true;
+};
+
+function getFallback(auth: OmsAuthService): string {
+  if (auth.isMerchant())  return 'settlement';
+  if (auth.isOmsAdmin())   return 'settlement';
+  if (auth.isOmsSubUser())    return 'settlement';
+  if (auth.isMrmUser())     return 'settlement';
+  if (auth.isOmsVatUser())  return 'settlement';
+  return 'settlement';
+}

@@ -10,7 +10,6 @@ import { Router } from '@angular/router';
 export class RemoteEntry {
 
   constructor(
-  // eslint-disable-next-line @angular-eslint/prefer-inject
   private router: Router
 ) {}
 

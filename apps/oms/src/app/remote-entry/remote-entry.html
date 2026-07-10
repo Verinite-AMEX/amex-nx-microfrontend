@@ -1,36 +1,38 @@
+<amex-page-component
+      portalStyle="onls"
+      portalTitle="Online Merchant Services"
+      
+      activeTabId="oms"
+      [showCustomSidebar]="true"
+      (logout)="onLogout()">
+
+      <!-- left-nav slot: our nav when logged in, empty div on login page -->
+      <div left-nav>
+        <ng-container *ngIf="navItems.length > 0">
+          <oms-home
+            (tabChanged)="onTabChanged($event)">
+          </oms-home>
+          <a
+            *ngFor="let item of navItems"
+            class="bta-nav-item"
+            [class.active]="activeId === item.id"
+            (click)="onNavClick(item.id)">
+          </a>
+        </ng-container>
+      </div>
+
+      <!-- default slot: page content -->
+      <!-- <router-outlet></router-outlet> -->
+
+    </amex-page-component>
+
 <!-- HEADER -->
-<oms-header></oms-header>
+<!-- <oms-header></oms-header> -->
 
 <!-- TAB BAR -->
-<oms-home
+<!-- <oms-home
   (tabChanged)="onTabChanged($event)">
-</oms-home>
-
-
-
-<!-- <amex-page-shell
-
-  [portalStyle]="'oms'"
-
-  [pageTitle]="'OMS Portal'"
-
-  [pageSubtitle]="
-    'Manage merchants, reports and users'
-  "
-
-  [showSidebar]="true"
-
-  [showHeader]="true"
-
-  [showFooter]="true"
-
-  [tabs]="tabs"
-
-  [activeTabId]="activeTabId"
-
-  (tabChange)="
-    onTabChanged($event)
-  "> -->
+</oms-home> -->
 
 <!-- OMS SECTION -->
 <div

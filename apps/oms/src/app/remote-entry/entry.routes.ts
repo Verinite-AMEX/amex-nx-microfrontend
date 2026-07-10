@@ -1,19 +1,27 @@
 import { Route } from '@angular/router';
 import { RemoteEntry } from './entry';
+import { omsAuthGuard } from '../guards/oms-auth.guard';
+
+const ALL_MERCHANTS        = ['ROLE_MERCHANT_USER', 'ROLE_CORP_MASTER_ADMIN'];
 
 export const remoteRoutes: Route[] = [
+
   {
     path: '',
+    canActivate: [omsAuthGuard],
+    data: { roles: ALL_MERCHANTS },
     component: RemoteEntry,
     children: [
       {
         path: '',
-        redirectTo: '',
+        redirectTo: 'settlement',
         pathMatch: 'full'
       },
 
       {
         path: 'settlement',
+        canActivate: [omsAuthGuard],
+        data: { roles: ALL_MERCHANTS },
         loadComponent: () =>
           import('../pages/settlement-submissions-table/oms-settlement-submissions-table.component')
             .then(m => m.OmsSettlementSubmissionsTableComponent)
@@ -21,6 +29,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'merchantaccount',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/merchant-data-form/oms-merchant-data-form.component')
             .then(m => m.OmsMerchantDataFormComponent)
@@ -28,6 +37,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'omsusers',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/user-management-table/oms-user-management-table.component')
             .then(m => m.OmsUserManagementTableComponent)
@@ -35,6 +45,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'mrmusers',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/user-management-table/oms-user-management-table.component')
             .then(m => m.OmsUserManagementTableComponent)
@@ -42,6 +53,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'subuseradministration',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/sub-user-admin-table/oms-sub-user-admin-table.component')
             .then(m => m.OmsSubUserAdminTableComponent)
@@ -49,6 +61,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'password',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/change-password/oms-change-password.component')
             .then(m => m.OmsChangePasswordComponent)
@@ -56,6 +69,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'termsandconditions',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/terms-and-conditions/oms-terms-and-conditions.component')
             .then(m => m.OmsTermsAndConditionsComponent)
@@ -63,6 +77,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'customizedreports',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/customized-reports-form/oms-customized-reports-form.component')
             .then(m => m.OmsCustomizedReportsFormComponent)
@@ -70,6 +85,7 @@ export const remoteRoutes: Route[] = [
 
       {
         path: 'addnewoutlet',
+        canActivate: [omsAuthGuard],
         loadComponent: () =>
           import('../pages/new-outlet-application-form/oms-new-outlet-application-form.component')
             .then(m => m.OmsNewOutletApplicationFormComponent)

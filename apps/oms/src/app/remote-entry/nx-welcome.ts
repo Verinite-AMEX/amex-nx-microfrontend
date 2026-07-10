@@ -10,6 +10,8 @@ import {
 } from '@angular/common';
 
 import {
+  NavigationEnd,
+  Router,
   RouterOutlet
 } from '@angular/router';
 
@@ -68,6 +70,15 @@ import { OmsSettlementSubmissionService } from '../services/oms-settlement-submi
 import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@ui-components/ui';
 
+import { OmsAuthService } from '../services/auth.service';
+import { filter, Subscription } from 'rxjs';
+
+interface NavItem { id: string; label: string; }
+
+interface AmexTabItem {
+    id: string;
+    label: string;
+}
 
 @Component({
   selector: 'app-nx-welcome',
@@ -113,6 +124,8 @@ import { AmexPageShellComponent } from '@ui-components/ui';
     OmsNewOutletApplicationFormComponent,
 
     RouterOutlet,
+
+    AmexPageComponent
   ],
 
   templateUrl: './remote-entry.html',
@@ -219,6 +232,7 @@ import { AmexPageShellComponent } from '@ui-components/ui';
 
   encapsulation: ViewEncapsulation.None,
 })
+
 export class NxWelcome
   implements OnInit {
 
@@ -282,30 +296,108 @@ export class NxWelcome
 
   showSettlementTable = false;
 
+  private routeSub!: Subscription;
+
+  navItems: NavItem[] = [];
+  activeId = '';
+  // tabs: AmexTabItem[] = [{ id: 'oms', label: 'OMS Portal' }];
+
 
   constructor(
     private secureForm: SecureFormService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private omsUserService: OmsUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private mrmUserService: MrmUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private cdr: ChangeDetectorRef,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private subUserService: SubUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private settlementService: OmsSettlementSubmissionService
-
+    private settlementService: OmsSettlementSubmissionService,
+    private auth: OmsAuthService,
+    private router: Router,
 
   ) {}
 
   // INIT
   ngOnInit() {
+    // this.secureForm.enable(); 
+    // this.loadOmsUsers();
+    // this.loadMrmUsers();
+    // this.loadSubUsers();
+
+    this.secureForm.enable(); 
+    this.updateNav(this.router.url);
+
+    this.routeSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      this.updateNav(e.urlAfterRedirects ?? e.url);
+    });
+
     this.secureForm.enable(); 
     this.loadOmsUsers();
     this.loadMrmUsers();
     this.loadSubUsers();
   }
+
+  private updateNav(url: string): void {
+    if (url.includes('/oms/login') || !this.auth.isLoggedIn()) {
+      this.navItems = [];
+      this.activeId = '';
+      return;
+    }
+
+    this.navItems = this.buildNav();
+    const seg = url.split('/').filter(Boolean).pop() ?? '';
+    this.activeId = this.navItems.find(i => i.id === seg)?.id
+      ?? this.navItems[0]?.id
+      ?? '';
+  }
+
+  private buildNav(): NavItem[] {
+    if (this.auth.isMerchant()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        
+      ];
+    }
+    if (this.auth.isOmsAdmin()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        
+      ];
+    }
+    if (this.auth.isOmsSubUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    if (this.auth.isMrmUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    if (this.auth.isOmsVatUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    return [];
+  }
+
+  onNavClick(id: string): void {
+    this.activeId = id;
+    this.router.navigate(['/bta', id]);
+  }
+
+  onLogout(): void {
+  // OLD:
+  // this.auth.clearSession();
+  // this.router.navigate(['/bta/login']);
+
+  // NEW — delegates to Login-Logout-auth-app
+  this.auth.logout();
+}
 
   // LOAD OMS USERS
   loadOmsUsers() {
@@ -1096,4 +1188,6 @@ onBackToNewOutletPortal() {
   this.showNewOutletPortal =
     true;
 }
+
+
 }
