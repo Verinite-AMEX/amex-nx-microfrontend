@@ -10,6 +10,8 @@ import {
 } from '@angular/common';
 
 import {
+  NavigationEnd,
+  Router,
   RouterOutlet
 } from '@angular/router';
 
@@ -68,6 +70,15 @@ import { OmsSettlementSubmissionService } from '../services/oms-settlement-submi
 import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@ui-components/ui';
 
+import { OmsAuthService } from '../services/auth.service';
+import { filter, Subscription } from 'rxjs';
+
+interface NavItem { id: string; label: string; }
+
+interface AmexTabItem {
+    id: string;
+    label: string;
+}
 
 @Component({
   selector: 'app-nx-welcome',
@@ -113,6 +124,8 @@ import { AmexPageShellComponent } from '@ui-components/ui';
     OmsNewOutletApplicationFormComponent,
 
     RouterOutlet,
+
+    AmexPageComponent
   ],
 
   templateUrl: './remote-entry.html',
@@ -219,6 +232,7 @@ import { AmexPageShellComponent } from '@ui-components/ui';
 
   encapsulation: ViewEncapsulation.None,
 })
+
 export class NxWelcome
   implements OnInit {
 
@@ -282,30 +296,110 @@ export class NxWelcome
 
   showSettlementTable = false;
 
+  private routeSub!: Subscription;
+
+  navItems: NavItem[] = [];
+  activeId = '';
+  // tabs: AmexTabItem[] = [{ id: 'oms', label: 'OMS Portal' }];
+
 
   constructor(
     private secureForm: SecureFormService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private omsUserService: OmsUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private mrmUserService: MrmUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private cdr: ChangeDetectorRef,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
     private subUserService: SubUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private settlementService: OmsSettlementSubmissionService
-
+    private settlementService: OmsSettlementSubmissionService,
+    private auth: OmsAuthService,
+    private router: Router,
 
   ) {}
 
+  // INIT
   ngOnInit() {
+    // this.secureForm.enable(); 
+    // this.loadOmsUsers();
+    // this.loadMrmUsers();
+    // this.loadSubUsers();
+
+    this.secureForm.enable(); 
+    this.updateNav(this.router.url);
+
+    this.routeSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      this.updateNav(e.urlAfterRedirects ?? e.url);
+    });
+
     this.secureForm.enable(); 
     this.loadOmsUsers();
     this.loadMrmUsers();
     this.loadSubUsers();
   }
 
+  private updateNav(url: string): void {
+    if (url.includes('/oms/login') || !this.auth.isLoggedIn()) {
+      this.navItems = [];
+      this.activeId = '';
+      return;
+    }
+
+    this.navItems = this.buildNav();
+    const seg = url.split('/').filter(Boolean).pop() ?? '';
+    this.activeId = this.navItems.find(i => i.id === seg)?.id
+      ?? this.navItems[0]?.id
+      ?? '';
+  }
+
+  private buildNav(): NavItem[] {
+    if (this.auth.isMerchant()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        
+      ];
+    }
+    if (this.auth.isOmsAdmin()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        
+      ];
+    }
+    if (this.auth.isOmsSubUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    if (this.auth.isMrmUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    if (this.auth.isOmsVatUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+      
+      ];
+    }
+    return [];
+  }
+
+  onNavClick(id: string): void {
+    this.activeId = id;
+    this.router.navigate(['/bta', id]);
+  }
+
+  onLogout(): void {
+  // OLD:
+  // this.auth.clearSession();
+  // this.router.navigate(['/bta/login']);
+
+  // NEW — delegates to Login-Logout-auth-app
+  this.auth.logout();
+}
+
+  // LOAD OMS USERS
   loadOmsUsers() {
 
     this.omsUserService
@@ -354,6 +448,7 @@ loadSubUsers() {
     });
 }
 
+// LOAD INITIAL TABLE
 loadSettlementRows() {
 
   this.settlementService
@@ -365,6 +460,7 @@ loadSettlementRows() {
     });
 }
 
+// FILTER TABLE
 onSettlementSubmit(
   months: number
 ) {
@@ -374,12 +470,15 @@ onSettlementSubmit(
     months
   );
 
+  // HIDE TABLE
   this.showSettlementTable =
     false;
 
+  // SHOW LOADING
   this.settlementLoading =
     true;
 
+  // FORCE UI REFRESH
   this.cdr.detectChanges();
 
   this.settlementService
@@ -396,16 +495,20 @@ onSettlementSubmit(
       this.settlementRows =
         [...rows];
 
+      // STOP LOADING
       this.settlementLoading =
         false;
 
+      // SHOW TABLE
       this.showSettlementTable =
         true;
 
+      // FORCE UI REFRESH
       this.cdr.detectChanges();
     });
 }
 
+  // TAB CLICK
   onTabChanged(tabId: any) {
 
     console.log(
@@ -413,6 +516,7 @@ onSettlementSubmit(
       tabId
     );
 
+    // RESET
     this.showSidebar = false;
 
     this.showTermsConditions = false;
@@ -447,54 +551,65 @@ onSettlementSubmit(
 
     this.selectedSidebarMenu = '';
 
+    // CLOSE POPUP ON TAB CHANGE
     this.closeEditPopup();
 
+    // MERCHANT ACCOUNT
     if (tabId === 'merchantaccount') {
 
       this.showSidebar = true;
     }
 
+    // TERMS
     if (tabId === 'termsandconditions') {
 
       this.showTermsConditions = true;
     }
 
+    // PASSWORD
     if (tabId === 'password') {
 
       this.showChangePassword = true;
     }
 
+    // CUSTOMIZED REPORT
     if (tabId === 'customizedreports') {
 
       this.showCustomizedReport = true;
     }
 
+    // SETTLEMENT
     if (tabId === 'settlement') {
 
       this.showSettlementSubmission = true;
     }
 
+    // SUB USER
     if (tabId === 'subuseradministration') {
 
       this.showSubUserAdmin = true;
     }
 
+    // MRM USER
     if (tabId === 'mrmusers') {
 
       this.showMrmUserAdmin = true;
     }
 
+    // OMS USER
     if (tabId === 'omsusers') {
 
       this.showOmsUsers = true;
     }
 
+    // NEW OUTLET
     if (tabId === 'addnewoutlet') {
 
       this.showNewOutletPortal = true;
     }
   }
 
+  // SIDEBAR
   onMenuChanged(menuId: string) {
 
     console.log(
@@ -506,6 +621,7 @@ onSettlementSubmit(
       menuId;
   }
 
+  // TAX DELIVERY
   onTaxInvoiceDeliveryClicked() {
 
     this.showTaxInvoiceDelivery = true;
@@ -516,6 +632,7 @@ onSettlementSubmit(
     this.showTaxInvoiceDelivery = false;
   }
 
+  // UPLOAD CERTIFICATE
   onUploadCertificateClicked() {
 
     this.showUploadCertificate = true;
@@ -526,6 +643,7 @@ onSettlementSubmit(
     this.showUploadCertificate = false;
   }
 
+  // TAX REPORT
   onDownloadTaxInvoiceClicked() {
 
     this.showTaxInvoiceReport = true;
@@ -536,6 +654,7 @@ onSettlementSubmit(
     this.showTaxInvoiceReport = false;
   }
 
+  // CREATE OMS USER
   onCreateOmsUser() {
 
     this.showOmsUsers = false;
@@ -550,6 +669,7 @@ onSettlementSubmit(
     this.showOmsUsers = true;
   }
 
+  // SAVE OMS USER
   saveOmsUser(
   event: any
 ) {
@@ -561,12 +681,15 @@ onSettlementSubmit(
 
   const newUser = {
 
+    // TABLE FIELD
     userId:
       event.username,
 
+    // TABLE FIELD
     userName:
       event.name,
 
+    // TABLE FIELD
     emailAddress:
       event.email,
 
@@ -594,9 +717,11 @@ onSettlementSubmit(
       newUser
     );
 
+  // CLOSE FORM
   this.showCreateOmsUser =
     false;
 
+  // SHOW TABLE
   this.showOmsUsers =
     true;
 }
@@ -671,10 +796,12 @@ onUpdateOmsUser(
       updatedUser
     );
 
+  // CLOSE POPUP
   this.showEditUserPopup =
     false;
 }
 
+  // CREATE MRM USER
   onCreateMrmUser() {
 
     this.showMrmUserAdmin = false;
@@ -689,6 +816,8 @@ onUpdateOmsUser(
     this.showMrmUserAdmin = true;
   }
 
+  // EDIT MRM USER
+  // EDIT MRM USER
 onEditMrmUser(
   user: any
 ) {
@@ -698,14 +827,18 @@ onEditMrmUser(
     user
   );
 
+  // RESET POPUP
   this.showEditUserPopup =
     false;
 
+  // CLEAR OLD DATA
   this.selectedEditUser =
     null;
 
+  // FORCE REFRESH
   this.cdr.detectChanges();
 
+  // SET NEW DATA
   this.selectedEditUser = {
 
     ...user
@@ -714,10 +847,12 @@ onEditMrmUser(
   this.editPopupTitle =
     'EDIT MRM USER';
 
+  // OPEN POPUP
   this.showEditUserPopup =
     true;
 }
 
+  // EDIT OMS USER
 onEditOmsUser(
   user: any
 ) {
@@ -727,14 +862,18 @@ onEditOmsUser(
     user
   );
 
+  // RESET POPUP
   this.showEditUserPopup =
     false;
 
+  // CLEAR OLD DATA
   this.selectedEditUser =
     null;
 
+  // FORCE REFRESH
   this.cdr.detectChanges();
 
+  // SET NEW DATA
   this.selectedEditUser = {
 
     ...user
@@ -743,10 +882,12 @@ onEditOmsUser(
   this.editPopupTitle =
     'EDIT OMS USER';
 
+  // OPEN POPUP
   this.showEditUserPopup =
     true;
 }
 
+  // CLOSE POPUP
   closeEditPopup() {
 
   this.showEditUserPopup =
@@ -759,6 +900,7 @@ onEditOmsUser(
     '';
 }
 
+  // SUB USER
   onCreateSubUser() {
 
     this.showSubUserAdmin = false;
@@ -785,6 +927,8 @@ onEditOmsUser(
 
   setTimeout(() => {
 
+    // IMPORTANT:
+    // KEEP ORIGINAL ID
     this.selectedEditUser = {
 
       id:
@@ -844,12 +988,16 @@ onUpdateSubUser(
     id:
       this.selectedEditUser.id,
 
+    // IMPORTANT:
+    // TABLE EXPECTS name
     name:
 
       event.userName ||
 
       this.selectedEditUser.userName,
 
+    // IMPORTANT:
+    // TABLE EXPECTS email
     email:
 
       event.emailAddress ||
@@ -897,6 +1045,7 @@ onDeleteSubUser(
     );
 }
 
+  // NEW OUTLET
   onCreateNewApplication() {
 
     this.showNewOutletPortal = false;
@@ -1039,4 +1188,6 @@ onBackToNewOutletPortal() {
   this.showNewOutletPortal =
     true;
 }
+
+
 }

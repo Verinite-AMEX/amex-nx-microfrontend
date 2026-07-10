@@ -153,6 +153,16 @@ public class DataInitializer implements CommandLineRunner {
                     .roles(Set.of(Roles.ONLS_ADMIN) )
                     .build());
 
+             // Merchant user — OMS Portal
+            userRepository.save(User.builder()
+                    .username("merchant.user")
+                    .email("merchant.user@aeme.com")
+                    .password(passwordEncoder.encode("Merchant@1234"))
+                    .fullName("John Doe")
+                    .avatarInitials("JD")
+                    .roles(Set.of(Roles.MERCHANT_USER))
+                    .build());       
+
             log.info("Seeded 9 AEME users: sys.admin / csa.agent / onls.admin / risk.user / mrm.user / corp.admin / ta.admin / soc.user / cma.admin");
         }
     }
