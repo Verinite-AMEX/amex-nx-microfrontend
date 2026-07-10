@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AmexLoginFormComponent } from '@vn-core-ui-components/ui';
+import { AmexLoginFormComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-login',

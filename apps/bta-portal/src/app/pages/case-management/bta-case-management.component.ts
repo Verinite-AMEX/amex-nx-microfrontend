@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent, AmexStatusBadgeComponent } from '@vn-core-ui-components/ui';
+import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent, AmexStatusBadgeComponent } from '@ui-components/ui';
 
 interface BtaCase {
   caseId: string; subject: string; status: string;

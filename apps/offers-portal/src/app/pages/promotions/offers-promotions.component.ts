@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
-// ✅ From @vn-core-ui-components/ui
+// ✅ From @ui-components/ui
 import {
   AmexPageHeaderComponent, AmexBreadcrumbTrailComponent,
   AmexStatusBadgeComponent, AmexStatus,
@@ -11,7 +11,7 @@ import {
   AmexPointsDisplayComponent,
   AmexSuccessToastComponent,
   AmexConfirmationModalComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 interface Promotion {
   id:string; title:string; description:string; category:string;

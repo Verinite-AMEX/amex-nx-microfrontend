@@ -8,7 +8,7 @@ import {
   AmexTopNavBarComponent,
   AmexTabBarComponent,
   AmexTabItem
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { SecureFormService } from './core/services/secure-form.service'; 
 
 interface MenuItem {

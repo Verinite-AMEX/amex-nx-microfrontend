@@ -4273,12 +4273,12 @@
         "hash": "sha512-HXciTXN/sDBYWgeAD4V4s0DN0g72x5mlxQhHxtYu3Tt8BLa6MzcJZUyDVFCdtjNs3bfENVHVzOsmooTVuNgAAw=="
       }
     },
-    "npm:@vn-core-ui-components/ui": {
+    "npm:@ui-components/ui": {
       "type": "npm",
-      "name": "npm:@vn-core-ui-components/ui",
+      "name": "npm:@ui-components/ui",
       "data": {
         "version": "1.0.0",
-        "packageName": "@vn-core-ui-components/ui",
+        "packageName": "@ui-components/ui",
         "hash": "sha512-uX8PntKgku86J2GWaOqlCnzhck6Axl6rpHsMuTTHTlZuo7rGs8ekm83PIlUZEh9tV7FeYPjxDwTuhRYpRc2P/A=="
       }
     },
@@ -9887,7 +9887,7 @@
       },
       {
         "source": "Login-Logout-auth-app",
-        "target": "npm:@vn-core-ui-components/ui",
+        "target": "npm:@ui-components/ui",
         "type": "static"
       },
       {
@@ -15509,24 +15509,24 @@
         "type": "static"
       }
     ],
-    "npm:@vn-core-ui-components/ui": [
+    "npm:@ui-components/ui": [
       {
-        "source": "npm:@vn-core-ui-components/ui",
+        "source": "npm:@ui-components/ui",
         "target": "npm:@angular/common",
         "type": "static"
       },
       {
-        "source": "npm:@vn-core-ui-components/ui",
+        "source": "npm:@ui-components/ui",
         "target": "npm:@angular/core",
         "type": "static"
       },
       {
-        "source": "npm:@vn-core-ui-components/ui",
+        "source": "npm:@ui-components/ui",
         "target": "npm:@angular/forms",
         "type": "static"
       },
       {
-        "source": "npm:@vn-core-ui-components/ui",
+        "source": "npm:@ui-components/ui",
         "target": "npm:tslib",
         "type": "static"
       }

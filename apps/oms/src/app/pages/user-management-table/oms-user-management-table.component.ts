@@ -13,7 +13,7 @@ import {
 
 import {
   AmexUserManagementTableComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 // CHANGE THE PATH AS PER YOUR PROJECT
 import {

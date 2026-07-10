@@ -3,10 +3,10 @@ import { Router, NavigationEnd, RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { filter } from 'rxjs/operators';
 
-import { AmexTopNavBarComponent }           from '@vn-core-ui-components/ui';
-import { AmexTabBarComponent, AmexTabItem }  from '@vn-core-ui-components/ui';
-import { AmexSidebarMenuComponent }         from '@vn-core-ui-components/ui';
-import { AmexLogoutConfirmationComponent }  from '@vn-core-ui-components/ui';
+import { AmexTopNavBarComponent }           from '@ui-components/ui';
+import { AmexTabBarComponent, AmexTabItem }  from '@ui-components/ui';
+import { AmexSidebarMenuComponent }         from '@ui-components/ui';
+import { AmexLogoutConfirmationComponent }  from '@ui-components/ui';
 
 /**
  * Standalone mode only (port 4204).

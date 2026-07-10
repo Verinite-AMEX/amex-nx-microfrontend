@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AmexPortalAuthUtil } from '@vn-core-ui-components/ui';
+import { AmexPortalAuthUtil } from '@ui-components/ui';
 import { Observable, map } from 'rxjs';
 
 export interface ApiResponse<T> {

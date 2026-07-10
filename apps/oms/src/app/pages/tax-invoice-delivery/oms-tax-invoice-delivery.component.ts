@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import {
   AmexTaxInvoiceDeliveryFormComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

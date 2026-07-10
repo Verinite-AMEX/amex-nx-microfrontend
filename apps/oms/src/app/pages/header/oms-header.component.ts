@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { AmexTopNavBarComponent } from '@vn-core-ui-components/ui';
+import { AmexTopNavBarComponent } from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

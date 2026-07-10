@@ -8,10 +8,10 @@ import {
   AmexPaymentRegisterTableComponent,
   AmexCardMemberDetailsViewComponent,
   AmexSortableFilterableTableComponent,
-} from "@vn-core-ui-components/ui";
-import { AmexCaseManagementListComponent } from "@vn-core-ui-components/ui";
-import { AmexSidebarMenuComponent } from "@vn-core-ui-components/ui";
-import { AmexPageHeaderComponent } from "@vn-core-ui-components/ui";
+} from "@ui-components/ui";
+import { AmexCaseManagementListComponent } from "@ui-components/ui";
+import { AmexSidebarMenuComponent } from "@ui-components/ui";
+import { AmexPageHeaderComponent } from "@ui-components/ui";
 import { UserSearch } from "./service/user-search";
 import { Account, AccessGroupModel } from "../model/account.model";
 @Component({

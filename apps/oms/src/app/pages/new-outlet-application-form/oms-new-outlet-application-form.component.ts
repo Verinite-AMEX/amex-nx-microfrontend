@@ -10,7 +10,7 @@ import {
 
 import {
   AmexNewOutletApplicationFormComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 import {
   OmsNewOutletService

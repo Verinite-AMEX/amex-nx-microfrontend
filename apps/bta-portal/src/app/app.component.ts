@@ -6,7 +6,7 @@ import { filter } from 'rxjs/operators';
 import {
   AmexPageComponent,
   AmexTabItem,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { SecureFormService } from './core/services/secure-form.service'; 
 import { BtaAuthService } from './core/services/auth.service';
 

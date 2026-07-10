@@ -9,7 +9,7 @@ import {
 
 import {
   AmexReportFormatFormComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 import {
   OmsReportFormatService

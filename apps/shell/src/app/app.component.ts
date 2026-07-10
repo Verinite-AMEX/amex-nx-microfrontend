@@ -14,7 +14,7 @@ import { SecureFormService } from "./core/services/secure-form.service";
 import {
   AmexTabItem,
   AMEX_PORTAL_AUTH_ADAPTER,
-} from "@vn-core-ui-components/ui";
+} from "@ui-components/ui";
 import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.service";
 
 @Component({

@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 
 import {
   AmexTopNavBarComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 import {
   OmsCustomizedReportsFormComponent
