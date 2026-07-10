@@ -79,6 +79,15 @@ interface AmexTabItem {
     id: string;
     label: string;
 }
+import { OmsAuthService } from '../services/auth.service';
+import { filter, Subscription } from 'rxjs';
+
+interface NavItem { id: string; label: string; }
+
+interface AmexTabItem {
+    id: string;
+    label: string;
+}
 
 @Component({
   selector: 'app-nx-welcome',
@@ -126,6 +135,7 @@ interface AmexTabItem {
     RouterOutlet,
 
     AmexPageShellComponent
+
   ],
 
   templateUrl: './remote-entry.html',
@@ -309,8 +319,11 @@ export class NxWelcome
     private mrmUserService: MrmUserManagementService,
     private cdr: ChangeDetectorRef,
     private subUserService: SubUserManagementService,
+    
     private settlementService: OmsSettlementSubmissionService,
+
     private auth: OmsAuthService,
+
     private router: Router,
 
   ) {}
@@ -1200,6 +1213,5 @@ onBackToNewOutletPortal() {
   this.showNewOutletPortal =
     true;
 }
-
 
 }

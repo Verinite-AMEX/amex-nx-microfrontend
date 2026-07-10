@@ -15,14 +15,11 @@ export const omsAuthGuard: CanActivateFn = (route) => {
   };
 
 
- // Not logged in → redirect to Login-Logout-auth-app
   if (!auth.isLoggedIn()) {
     redirectToAuthApp();
     return false;
   }
 
-  // doesn't keep silently failing, and send them back through login
-  // WITH returnUrl this time.
   if (
   !auth.isMerchant() &&
   !auth.isOmsAdmin() &&
@@ -35,10 +32,8 @@ export const omsAuthGuard: CanActivateFn = (route) => {
     return false;
   }
 
-  // Per-route role check using route data
   const allowedRoles: string[] = route.data?.['roles'] ?? [];
   if (allowedRoles.length > 0 && !auth.hasRole(...allowedRoles)) {
-    // Redirect to their first allowed page instead of a blank screen
     const fallback = getFallback(auth);
     router.navigate([fallback]);
     return false;
