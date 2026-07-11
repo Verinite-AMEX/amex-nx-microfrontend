@@ -251,10 +251,10 @@ export class AmexLoginFormComponent {
  onSubmit() {
   // Validate form before submission
   if (!this.credentials.username || !this.credentials.password) {
-    this.errorMessage = 'User Name and Password are required.'; // NEW
+    this.errorMessage = 'User Name and Password are required.';
     return;
   }
-  this.errorMessage = ''; // NEW — clear any old error on a valid attempt
+  this.errorMessage = '';
   this.loginSubmit.emit({ ...this.credentials });
 }
 

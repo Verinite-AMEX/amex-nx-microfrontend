@@ -241,3 +241,12 @@ npm update @ui-components/ui
 | Publish (GitHub) | `cd dist/ui-components && npm publish --registry https://npm.pkg.github.com` |
 | Publish (public npm) | `cd dist/ui-components && npm publish --access public` |
 | Teammate installs | `npm install @ui-components/ui` |
+
+---
+
+## Automatically Publish command
+
+```
+npm run ui:publish
+
+```
