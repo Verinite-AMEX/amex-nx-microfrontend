@@ -3,7 +3,7 @@ import { ModuleFederationConfig } from '@nx/module-federation';
 const config: ModuleFederationConfig = {
   name: 'vat_invoice',
   exposes: {
-    './Routes': 'vat_invoice/src/app/remote-entry/entry.routes.ts',
+    './Routes': 'apps/vat_invoice/src/app/remote-entry/entry.routes.ts',
   },
 };
 

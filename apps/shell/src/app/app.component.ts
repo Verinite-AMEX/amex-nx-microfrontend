@@ -186,6 +186,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: "change-password", label: "Change Password" },
     { id: "statement", label: "Statement" },
     { id: "bcrb", label: "BCRB" },
+    { id: "vat-invoice", label: "VAT Invoice" },
   ];
 
   readonly centurionSubItems: AmexTabItem[] = [
@@ -225,7 +226,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private secureForm: SecureFormService,
     private bus: EventBusService,
-  ) {}
+  ) { }
 
   // ── Lifecycle ─────────────────────────────────────────────────────
 
@@ -327,6 +328,12 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
+    if (url.startsWith("/vat-invoice")) {
+      this.activeTabId = "vat-invoice";
+      this.activeSubId = "";
+      return;
+    }
+
     // MISC
     for (const [subId, route] of Object.entries(this.subRouteMap)) {
       if (url.startsWith(route)) {
@@ -369,6 +376,7 @@ export class AppComponent implements OnInit, OnDestroy {
       "change-password": "/change-password",
       statement: "/statement",
       bcrb: "/bcrb",
+      "vat-invoice": "/vat-invoice",
     };
     if (routeMap[tabId]) {
       this.router.navigate([routeMap[tabId]]);
@@ -407,7 +415,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
-  onMenuToggle(): void {}
+  onMenuToggle(): void { }
 
   // ── Logout ───────────────────────────────────────────────────────
 
