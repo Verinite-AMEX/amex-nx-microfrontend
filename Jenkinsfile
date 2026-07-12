@@ -15,6 +15,7 @@ pipeline {
     environment {
         SONAR_HOST_URL      = 'http://localhost:9000'
         NX_ROOT             = "${WORKSPACE}"
+        NX_NO_CLOUD         = 'true'
         PROJECTS            = 'shell:amex-shell:4200 bta-portal:amex-bta-portal:4203 oms:amex-oms:4201'
         ZAP_EXE             = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
         // Name of the downstream Jenkins job (Jenkinsfile.automation). Update to match your job name.
