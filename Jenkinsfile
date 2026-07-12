@@ -114,7 +114,7 @@ log: { type: stdout, format: pretty, level: warn }
                 // A dummy token satisfies that check; Verdaccio's publish:$all config (set in
                 // the Start Verdaccio stage) means it doesn't actually validate this token.
                 bat 'npm config set //localhost:4873/:_authToken "anonymous"'
-                dir('apps/ui-components') {
+                dir('ui-components') {
                     bat 'npm run ui:publish'
                 }
             }
