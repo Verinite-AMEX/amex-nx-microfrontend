@@ -38,7 +38,7 @@ pipeline {
             // not just after — avoids "address already in use" failures on rerun.
             steps {
                 bat '''
-                for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
+                for %%P in (4873 8761 8081 8082 8080 4200 4201 4203) do (
                     for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
                         taskkill /F /PID %%a 2>nul
                     )
@@ -48,18 +48,44 @@ pipeline {
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Start Verdaccio') {
+            // Verdaccio is not a standing service on this agent (unlike your dev machine),
+            // so the pipeline has to start it itself before anything can install or publish.
             steps {
+                echo '=========================== Starting Verdaccio (4873)... ==========================='
+                bat 'start "verdaccio" /B npx verdaccio --listen 4873 > verdaccio.log 2>&1'
+
                 bat '''
-                echo Checking Verdaccio registry...
-                curl -s -o nul -w "%%{http_code}" http://localhost:4873/ | findstr "200" >nul
-                if errorlevel 1 (
-                    echo ERROR: Verdaccio registry at localhost:4873 is not running.
-                    echo Please start Verdaccio before running this pipeline.
+                setlocal enabledelayedexpansion
+                set RETRIES=15
+                :WAIT_VERDACCIO
+                curl -s -o nul -w "%%{http_code}" http://localhost:4873/ > verdaccio_status.txt
+                set /p STATUS=<verdaccio_status.txt
+                if "!STATUS!"=="200" goto VERDACCIO_READY
+                set /a RETRIES-=1
+                if !RETRIES! EQU 0 (
+                    echo ERROR: Verdaccio did not come up on port 4873 in time.
+                    type verdaccio.log 2>nul
                     exit /b 1
                 )
+                ping -n 3 127.0.0.1 >nul
+                goto WAIT_VERDACCIO
+                :VERDACCIO_READY
                 echo Verdaccio is reachable.
+                endlocal
                 '''
+            }
+        }
+
+        stage('Publish Shared UI Library') {
+            steps {
+                echo '=========================== Publishing @ui-components/ui to Verdaccio... ==========================='
+                bat 'npm run ui:publish'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
                 bat 'npm install'
             }
         }
@@ -313,7 +339,7 @@ pipeline {
         always {
             echo '--- Stopping backend and frontend servers ---'
             bat '''
-            for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
+            for %%P in (4873 8761 8081 8082 8080 4200 4201 4203) do (
                 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
                     taskkill /F /PID %%a 2>nul
                 )
