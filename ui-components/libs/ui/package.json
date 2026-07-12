@@ -12,7 +12,7 @@
   "dependencies": {},
   "repository": {
     "type": "git",
-    "url": ""
+    "url": "https://github.com/Verinite-AMEX/amex-nx-microfrontend"
   },
   "keywords": [
     "angular",
