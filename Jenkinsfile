@@ -1,16 +1,26 @@
 pipeline {
     agent any
 
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        timeout(time: 60, unit: 'MINUTES')
+    }
+
     tools {
         nodejs 'NodeJS-20'
-        maven   'MAVEN_HOME'
+        maven  'MAVEN_HOME'
     }
 
     environment {
-        SONAR_HOST_URL = 'http://localhost:9000'
-        NX_ROOT        = "${WORKSPACE}"
-        PROJECTS = 'shell:amex-shell:4200 bta-portal:amex-bta-portal:4203 oms:amex-oms:4201'
-        ZAP_EXE  = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
+        SONAR_HOST_URL      = 'http://localhost:9000'
+        NX_ROOT             = "${WORKSPACE}"
+        PROJECTS            = 'shell:amex-shell:4200 bta-portal:amex-bta-portal:4203 oms:amex-oms:4201'
+        ZAP_EXE             = 'C:\\Program Files\\ZAP\\Zed Attack Proxy\\zap.bat'
+        // Name of the downstream Jenkins job (Jenkinsfile.automation). Update to match your job name.
+        AUTOMATION_JOB      = 'AMEX-Automation-Pipeline'
+        SHELL_URL           = 'http://localhost:4200'
+        GATEWAY_URL          = 'http://localhost:8080'
     }
 
     stages {
@@ -18,20 +28,28 @@ pipeline {
         stage('Checkout') {
             steps {
                 cleanWs()
-                echo '==========================='
-                echo 'Checking out code...'
-                echo '==========================='
+                echo '=========================== Checking out code... ==========================='
                 checkout scm
+            }
+        }
+
+        stage('Pre-clean Ports') {
+            // Kill anything left over from a previous failed/aborted run BEFORE we start,
+            // not just after — avoids "address already in use" failures on rerun.
+            steps {
+                bat '''
+                for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
+                    for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
+                        taskkill /F /PID %%a 2>nul
+                    )
+                )
+                exit 0
+                '''
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                echo '==========================='
-                echo 'npm install (monorepo root)'
-                echo '==========================='
-                // legacy-bundling already removed from the global .npmrc;
-                // npm refuses to accept this setting via 'npm config set' so it must not be re-added here.
                 bat '''
                 echo Checking Verdaccio registry...
                 curl -s -o nul -w "%%{http_code}" http://localhost:4873/ | findstr "200" >nul
@@ -46,7 +64,7 @@ pipeline {
             }
         }
 
-        stage('Build') {
+        stage('Build Frontend') {
             steps {
                 script {
                     env.PROJECTS.split(' ').each { proj ->
@@ -70,83 +88,59 @@ pipeline {
                             --watch=false ^
                             --browsers=ChromeHeadlessCI
                         """
-                        bat """
-                        echo ==================================
-                        echo COVERAGE FILES: ${app}
-                        echo ==================================
-                        if exist coverage\\apps\\${app} (
-                            dir coverage\\apps\\${app} /s
-                        ) else (
-                            echo Coverage folder not found for ${app}
-                        )
-                        """
                     }
                 }
             }
         }
 
-        stage('Start Backend') {
+        stage('Build & Start Backend') {
             steps {
-                echo '==========================='
-                echo 'Building backend (Maven multi-module)...'
-                echo '==========================='
+                echo '=========================== Building backend (Maven multi-module)... ==========================='
                 dir('Backend') {
                     bat 'mvn clean install -DskipTests'
                 }
 
-                echo '==========================='
-                echo 'Starting Eureka (8761)...'
-                echo '==========================='
+                echo '=========================== Starting Eureka (8761)... ==========================='
                 dir('Backend\\eureka\\target') {
                     bat '''
                     for %%f in (*.jar) do (
-                        echo Launching %%f
                         start "" /B java -jar "%%f" > ..\\..\\..\\eureka-server.log 2>&1
                     )
                     '''
                 }
                 sleep(time: 25, unit: 'SECONDS')
 
-                echo '==========================='
-                echo 'Starting Auth Service (8081)...'
-                echo '==========================='
+                echo '=========================== Starting Auth Service (8081)... ==========================='
                 dir('Backend\\auth-service\\target') {
                     bat '''
                     for %%f in (*.jar) do (
-                        echo Launching %%f
                         start "" /B java -jar "%%f" > ..\\..\\..\\auth-service.log 2>&1
                     )
                     '''
                 }
                 sleep(time: 20, unit: 'SECONDS')
 
-                echo '==========================='
-                echo 'Starting Wearables Backend (8082)...'
-                echo '==========================='
+                echo '=========================== Starting Wearables Backend (8082)... ==========================='
                 dir('Backend\\wearables-springboot-backend\\target') {
                     bat '''
                     for %%f in (*.jar) do (
-                        echo Launching %%f
                         start "" /B java -jar "%%f" > ..\\..\\..\\wearables-backend.log 2>&1
                     )
                     '''
                 }
                 sleep(time: 20, unit: 'SECONDS')
 
-                echo '==========================='
-                echo 'Starting API Gateway (8080)...'
-                echo '==========================='
+                echo '=========================== Starting API Gateway (8080)... ==========================='
                 dir('Backend\\apigateway\\target') {
                     bat '''
                     for %%f in (*.jar) do (
-                        echo Launching %%f
                         start "" /B java -jar "%%f" > ..\\..\\..\\apigateway.log 2>&1
                     )
                     '''
                 }
                 sleep(time: 25, unit: 'SECONDS')
 
-                echo 'All backend services started — checking gateway health...'
+                echo 'Checking gateway health...'
                 bat '''
                 setlocal enabledelayedexpansion
                 set RETRIES=10
@@ -190,7 +184,6 @@ pipeline {
                         bat "start \"${app}-zap-serve\" /B npx nx serve ${app} --port=${port} --configuration=production"
                         sleep(time: 30, unit: 'SECONDS')
 
-                        echo "--- Running ZAP Scan for ${app} ---"
                         bat """
                         "${ZAP_EXE}" -cmd ^
                           -port 8090 ^
@@ -201,7 +194,6 @@ pipeline {
                           -silent || exit 0
                         """
 
-                        echo "--- Stopping NX serve for ${app} on port ${port} ---"
                         bat """
                         for /f \"tokens=5\" %%a in ('netstat -aon ^| findstr \":${port}\" ^| findstr \"LISTENING\"') do (
                             taskkill /F /PID %%a 2>nul
@@ -242,18 +234,16 @@ pipeline {
 
         stage('Quality Gate') {
             steps {
-                echo 'Waiting for SonarQube Quality Gate...'
                 timeout(time: 5, unit: 'MINUTES') {
                     waitForQualityGate abortPipeline: false
                 }
             }
         }
 
-        stage('Serve Apps for Automation Testing') {
+        stage('Serve Apps for Automation') {
+            // These are the SAME app instances that stay up for the automation job —
+            // no separate "serve for zap" vs "serve for tests" drift.
             steps {
-                echo '==========================='
-                echo 'Starting frontend apps for Cucumber/Selenium GUI tests'
-                echo '==========================='
                 script {
                     env.PROJECTS.split(' ').each { proj ->
                         def parts = proj.split(':')
@@ -263,7 +253,6 @@ pipeline {
                         bat "start \"${app}-serve\" /B npx nx serve ${app} --port=${port} --configuration=production > ${app}-serve.log 2>&1"
                     }
                 }
-                echo 'Waiting for all apps to come up...'
                 script {
                     env.PROJECTS.split(' ').each { proj ->
                         def parts = proj.split(':')
@@ -293,30 +282,36 @@ pipeline {
             }
         }
 
-        stage('Automation Testing') {
+        stage('Trigger Automation Pipeline') {
+            // Hands off to the dedicated automation job instead of running Cucumber inline.
+            // wait:true + propagate:true means this build fails if automation fails.
             steps {
-                echo '==========================='
-                echo 'Running Cucumber Automation Tests'
-                echo '==========================='
-                dir('CucumberFramwork') {
-                    bat 'mvn clean test'
+                script {
+                    def automationBuild = build job: env.AUTOMATION_JOB,
+                        parameters: [
+                            string(name: 'BASE_URL',     value: env.SHELL_URL),
+                            string(name: 'BACKEND_URL',  value: env.GATEWAY_URL),
+                            string(name: 'TRIGGERED_BY', value: "main-pipeline-#${env.BUILD_NUMBER}")
+                        ],
+                        wait: true,
+                        propagate: true
+
+                    echo "Automation pipeline finished with result: ${automationBuild.getResult()}"
                 }
             }
         }
 
         stage('Deployment') {
             steps {
-                echo '==========================='
-                echo 'Deployment Stage'
-                echo '==========================='
-                echo 'Deployment logic goes here'
+                echo '=========================== Deployment Stage ==========================='
+                echo 'Deployment logic goes here (e.g. docker build/push, artifact upload, etc.)'
             }
         }
     }
 
     post {
         always {
-            echo '--- Stopping backend and frontend servers if still running ---'
+            echo '--- Stopping backend and frontend servers ---'
             bat '''
             for %%P in (8761 8081 8082 8080 4200 4201 4203) do (
                 for /f "tokens=5" %%a in ('netstat -aon ^| findstr ":%%P" ^| findstr "LISTENING"') do (
@@ -365,36 +360,14 @@ pipeline {
                 reportFiles: 'oms-zap-report.html',
                 reportName:  'OMS ZAP Report'
             ])
-
-            echo '--- Publishing Allure Report ---'
-            script {
-                if (fileExists('CucumberFramwork/allure-results')) {
-                    try {
-                        allure([
-                            includeProperties: false,
-                            jdk:              '',
-                            commandline:      'allure',
-                            results:          [[path: 'CucumberFramwork/allure-results']]
-                        ])
-                    } catch (Exception ex) {
-                        echo "Allure generation failed: ${ex.getMessage()}"
-                    }
-                } else {
-                    echo 'No Allure results found. Skipping.'
-                }
-            }
         }
 
         success {
-            echo '==========================='
-            echo 'BUILD PASSED ✅'
-            echo '==========================='
+            echo '=========================== BUILD PASSED ✅ ==========================='
         }
 
         failure {
-            echo '==========================='
-            echo 'BUILD FAILED ❌'
-            echo '==========================='
+            echo '=========================== BUILD FAILED ❌ ==========================='
         }
     }
 }
