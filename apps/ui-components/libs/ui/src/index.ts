@@ -31,7 +31,6 @@ export * from './lib/molecules/date-input';
 export * from './lib/molecules/file-upload';
 export * from './lib/molecules/notification-toast';
 
-
 // AMEX Atoms
 export * from './lib/amex/atoms/card-badge';
 export * from './lib/amex/atoms/status-badge';
@@ -86,7 +85,6 @@ export * from './lib/amex/tables/user-management-table';
 export * from './lib/amex/tables/socroc-records-table';
 export * from './lib/amex/tables/eligible-transactions-table';
 export * from './lib/amex/tables/card-list-selector';
-export * from './lib/amex/tables/card-list-selector';
 export * from './lib/amex/tables/wearable-device-table';
 export * from './lib/amex/tables/audit-trail-detail-table';
 export * from './lib/amex/tables/master-data-table';
@@ -113,15 +111,6 @@ export * from './lib/amex/forms/currency-master-form';
 export * from './lib/amex/forms/socroc-entry-form';
 export * from './lib/amex/forms/merchant-data-form';
 export * from './lib/amex/forms/add-delete-merchant-panel';
-export * from './lib/amex/forms/add-user-form';
-export * from './lib/amex/forms/edit-user-form';
-export * from './lib/amex/forms/edit-my-details-form';
-export * from './lib/amex/forms/merchant-data-form';
-export * from './lib/amex/forms/add-delete-merchant-panel';
-export * from './lib/amex/forms/contact-information-form';
-export * from './lib/amex/forms/country-master-form';
-export * from './lib/amex/forms/currency-master-form';
-export * from './lib/amex/forms/socroc-entry-form';
 export * from './lib/amex/forms/payment-allocation-form';
 export * from './lib/amex/forms/report-format-form';
 export * from './lib/amex/forms/vat-registration-form';
@@ -167,22 +156,10 @@ export * from './lib/amex/authentication/forgot-password-form';
 export * from './lib/amex/authentication/password-expiry-screen';
 export * from './lib/amex/authentication/change-password-form';
 
-// AMEX Layout — page shell + ALL framework exports
-export * from './lib/amex/layout/page-component';
-
-// Adapters, tokens, runtime config, bootstrap helper
-// Note: page-shell.ts already re-exports these, but explicit exports
-// here ensure tree-shaking and direct imports both work.
-export * from './lib/amex/layout/adapters';
-export * from './lib/amex/layout/runtime-config';
-export * from './lib/amex/layout/portal-bootstrap';
-
-// ADD AFTER ALL EXISTING EXPORTS in src/index.ts:
-
-// AMEX Layout (Page Component + Auth Util)
+// AMEX Layout — page shell, auth, adapters, tokens, runtime config, bootstrap helper
 export * from './lib/amex/layout/page-component';
 export * from './lib/amex/layout/login-modal.component';
 export * from './lib/amex/layout/auth.util';
 export * from './lib/amex/layout/adapters';
-export * from './lib/amex/layout/portal-bootstrap';
 export * from './lib/amex/layout/runtime-config';
+export * from './lib/amex/layout/portal-bootstrap';
