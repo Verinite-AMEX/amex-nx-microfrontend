@@ -52,9 +52,36 @@ pipeline {
         stage('Start Verdaccio') {
             // Verdaccio is not a standing service on this agent (unlike your dev machine),
             // so the pipeline has to start it itself before anything can install or publish.
+            // It also needs a config that allows anonymous publish — on your dev machine
+            // this "just works" because a saved npm login token from way back is sitting
+            // in your global .npmrc; the Jenkins agent has no such token.
             steps {
+                writeFile file: 'verdaccio-ci-config.yaml', text: '''
+storage: ./verdaccio-storage
+auth:
+  htpasswd:
+    file: ./verdaccio-htpasswd
+    max_users: -1
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+packages:
+  "@*/*":
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+  "**":
+    access: $all
+    publish: $all
+    unpublish: $all
+    proxy: npmjs
+listen: 0.0.0.0:4873
+log: { type: stdout, format: pretty, level: warn }
+'''
+
                 echo '=========================== Starting Verdaccio (4873)... ==========================='
-                bat 'start "verdaccio" /B npx verdaccio --listen 4873 > verdaccio.log 2>&1'
+                bat 'start "verdaccio" /B npx verdaccio --config verdaccio-ci-config.yaml --listen 4873 > verdaccio.log 2>&1'
 
                 bat '''
                 setlocal enabledelayedexpansion
