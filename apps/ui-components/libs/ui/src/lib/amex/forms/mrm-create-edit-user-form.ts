@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -26,20 +26,20 @@ export interface MRMUserData {
 
       <div class="mrm__panel">
         <div class="mrm__field">
-          <label class="mrm__label">Name <span class="mrm__req">*</span></label>
-          <input class="mrm__input" [(ngModel)]="form.name" placeholder="Enter full name" />
+          <label class="mrm__label" [for]="id + '-name'">Name <span class="mrm__req">*</span></label>
+          <input [id]="id + '-name'" class="mrm__input" [(ngModel)]="form.name" placeholder="Enter full name" />
         </div>
         <div class="mrm__field">
-          <label class="mrm__label">Email <span class="mrm__req">*</span></label>
-          <input class="mrm__input" [(ngModel)]="form.email" type="email" placeholder="Enter email address" />
+          <label class="mrm__label" [for]="id + '-email'">Email <span class="mrm__req">*</span></label>
+          <input [id]="id + '-email'" class="mrm__input" [(ngModel)]="form.email" type="email" placeholder="Enter email address" />
         </div>
         <div class="mrm__field">
-          <label class="mrm__label">Username <span class="mrm__req">*</span></label>
-          <input class="mrm__input" [(ngModel)]="form.username" placeholder="Enter username" />
+          <label class="mrm__label" [for]="id + '-username'">Username <span class="mrm__req">*</span></label>
+          <input [id]="id + '-username'" class="mrm__input" [(ngModel)]="form.username" placeholder="Enter username" />
         </div>
         <div class="mrm__field">
-          <label class="mrm__label">Role</label>
-          <select class="mrm__select" [(ngModel)]="form.role">
+          <label class="mrm__label" [for]="id + '-role'">Role</label>
+          <select [id]="id + '-role'" class="mrm__select" [(ngModel)]="form.role">
             <option value="">-- Select Role --</option>
             <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
           </select>
@@ -47,10 +47,10 @@ export interface MRMUserData {
 
         <!-- Merchant access multi-select -->
         <div class="mrm__field">
-          <label class="mrm__label">Merchant Access</label>
+          <label class="mrm__label" [for]="id + '-merchant-access'">Merchant Access</label>
           <div class="mrm__access-list">
             <label *ngFor="let m of merchantOptions" class="mrm__access-item">
-              <input type="checkbox"
+              <input [id]="id + '-merchant-access'" type="checkbox"
                 [checked]="form.merchantAccess.includes(m.value)"
                 (change)="toggleMerchant(m.value, $event)" />
               <span>{{ m.label }}</span>
@@ -88,6 +88,10 @@ export interface MRMUserData {
   `],
 })
 export class AmexMRMCreateEditUserFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `mrm-create-edit-user-form-${++AmexMRMCreateEditUserFormComponent._idCounter}`;
+
+
   @Input() title = 'CREATE MRM USER';
   @Input() roleOptions = [
     { value: 'mrm_admin', label: 'MRM Admin' },

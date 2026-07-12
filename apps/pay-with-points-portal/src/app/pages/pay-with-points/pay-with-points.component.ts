@@ -6,8 +6,8 @@ import {
   AmexEligibleTransactionsTableComponent,
   EligibleTransaction,
   PointsHistoryRow,
-} from '@vn-core-ui-components/ui';
-import { AmexCardRow } from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
+import { AmexCardRow } from '@ui-components/ui';
 
 @Component({
   selector:   'app-pay-with-points',

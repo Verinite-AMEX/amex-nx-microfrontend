@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,8 +29,8 @@ export interface LargeReportRow {
 
         <!-- BTA Number -->
         <div class="lrdp__row">
-          <label class="lrdp__label">Select a BTA Number:</label>
-          <select class="lrdp__select" [(ngModel)]="selectedBta">
+          <label class="lrdp__label" [for]="id + '-bta-number'">Select a BTA Number:</label>
+          <select [id]="id + '-bta-number'" class="lrdp__select" [(ngModel)]="selectedBta">
             <option *ngFor="let b of btaNumbers" [value]="b">{{ b }}</option>
           </select>
         </div>
@@ -82,12 +82,12 @@ export interface LargeReportRow {
           <table class="lrdp__table">
             <thead>
               <tr>
-                <th>Document Id</th>
-                <th>Report Type</th>
-                <th>File Name</th>
-                <th>Format</th>
-                <th>Status</th>
-                <th>Download Link</th>
+                <th scope="col">Document Id</th>
+                <th scope="col">Report Type</th>
+                <th scope="col">File Name</th>
+                <th scope="col">Format</th>
+                <th scope="col">Status</th>
+                <th scope="col">Download Link</th>
               </tr>
             </thead>
             <tbody>
@@ -209,6 +209,9 @@ export interface LargeReportRow {
   `],
 })
 export class AmexLargeReportDownloadPanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `large-report-download-panel-${++AmexLargeReportDownloadPanelComponent._idCounter}`;
+
   @Input() btaNumbers       = ['BTACLIENTBAH001-3744XXXXXXX5229'];
   @Input() reportTypes      = ['Memo', 'Monthly'];
   @Input() downloadTypes    = ['Statement', 'Report'];

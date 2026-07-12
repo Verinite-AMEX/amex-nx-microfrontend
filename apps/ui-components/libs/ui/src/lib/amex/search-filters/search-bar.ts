@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -15,8 +15,8 @@ import { FormsModule } from '@angular/forms';
   template: `
     <div class="search-wrap">
       <div class="search-row">
-        <label class="search-label">{{ label }}</label>
-        <input
+        <label class="search-label" [for]="id + '-field'">{{ label }}</label>
+        <input [id]="id + '-field'"
           class="search-input"
           type="text"
           [placeholder]="placeholder"
@@ -101,6 +101,10 @@ import { FormsModule } from '@angular/forms';
   `],
 })
 export class AmexSearchBarComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `search-bar-${++AmexSearchBarComponent._idCounter}`;
+
+
   /** Label shown before the input. Varies per portal context. */
   @Input() label = 'Search';
   /** Placeholder text inside the input */

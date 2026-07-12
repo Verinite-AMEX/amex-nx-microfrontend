@@ -1,7 +1,7 @@
 # Demo Auth App
 
 Minimal standalone Angular app demonstrating shared login/logout using
-`@vn-core-ui-components/ui` — the same mechanism your shell + remote
+`@ui-components/ui` — the same mechanism your shell + remote
 micro-frontends would use, but in one single app so you can see the
 whole flow without the Module Federation setup.
 

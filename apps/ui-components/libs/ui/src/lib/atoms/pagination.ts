@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -30,6 +30,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class PaginationComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-pagination-${++PaginationComponent._idCounter}`;
+
+
   @Input() currentPage = 1;
   @Input() totalPages = 1;
   @Output() pageChange = new EventEmitter<number>();

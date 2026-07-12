@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -50,12 +50,12 @@ export interface NewPasswordData {
             <p class="required-note">All fields marked <span class="req">*</span> are mandatory</p>
 
             <div class="field-row">
-              <label class="field-label">New Password <span class="req">*</span></label>
-              <input type="password" class="field-input" [(ngModel)]="data.newPassword" />
+              <label class="field-label" [for]="id + '-new-password'">New Password <span class="req">*</span></label>
+              <input [id]="id + '-new-password'" type="password" class="field-input" [(ngModel)]="data.newPassword" />
             </div>
             <div class="field-row">
-              <label class="field-label">Confirm New Password <span class="req">*</span></label>
-              <input type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
+              <label class="field-label" [for]="id + '-confirm-new-password'">Confirm New Password <span class="req">*</span></label>
+              <input [id]="id + '-confirm-new-password'" type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
             </div>
 
             <div class="btn-row">
@@ -121,6 +121,10 @@ export interface NewPasswordData {
   `]
 })
 export class AmexPasswordExpiryScreenComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `password-expiry-screen-${++AmexPasswordExpiryScreenComponent._idCounter}`;
+
+
   @Input() portalTitle = '';
   @Input() errorMessage = '';
   @Input() successMessage = '';

@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -26,6 +26,7 @@ export interface RadioOption {
           [value]="opt.value"
           [checked]="opt.value === value"
           [disabled]="disabled || opt.disabled"
+          [required]="required"
           [attr.aria-checked]="opt.value === value"
           [attr.aria-label]="opt.ariaLabel || opt.label"
           [attr.aria-describedby]="opt.ariaDescribedBy"
@@ -80,6 +81,10 @@ export interface RadioOption {
   `],
 })
 export class RadioGroupComponent implements ControlValueAccessor {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-radio-group-${++RadioGroupComponent._idCounter}`;
+
+
   @Input() options: RadioOption[] = [];
   @Input() name = 'radio-group';
   @Input() orientation: 'vertical' | 'horizontal' = 'vertical';

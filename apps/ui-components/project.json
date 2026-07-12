@@ -1,5 +1,5 @@
 {
-  "name": "vn-core-ui-components",
+  "name": "ui-components",
   "$schema": "node_modules/nx/schemas/project-schema.json",
   "includedScripts": [],
   "projectType": "application",
@@ -60,10 +60,10 @@
       },
       "configurations": {
         "production": {
-          "buildTarget": "vn-core-ui-components:build:production"
+          "buildTarget": "ui-components:build:production"
         },
         "development": {
-          "buildTarget": "vn-core-ui-components:build:development"
+          "buildTarget": "ui-components:build:development"
         }
       },
       "defaultConfiguration": "development"
@@ -85,9 +85,9 @@
       "continuous": true,
       "executor": "@nx/web:file-server",
       "options": {
-        "buildTarget": "vn-core-ui-components:build",
+        "buildTarget": "ui-components:build",
         "port": 4200,
-        "staticFilePath": "dist/vn-core-ui-components/browser",
+        "staticFilePath": "dist/ui-components/browser",
         "spa": true
       }
     }

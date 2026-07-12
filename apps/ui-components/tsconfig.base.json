@@ -8,8 +8,8 @@
     "lib": ["es2020", "dom"],
     "baseUrl": ".",
     "paths": {
-      "@vn-core-ui-components/ui": ["libs/ui/src/index.ts"],
-      "@vn-core-ui-components/ui-styles": ["libs/ui-styles/src/index.ts"]
+      "@ui-components/ui": ["libs/ui/src/index.ts"],
+      "@ui-components/ui-styles": ["libs/ui-styles/src/index.ts"]
     },
     "skipLibCheck": true
   },

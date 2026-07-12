@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -111,6 +111,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexTempPasswordEmailPreviewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `temp-password-email-preview-${++AmexTempPasswordEmailPreviewComponent._idCounter}`;
+
+
   @Input() fromAddress = 'no-reply@aeme.americanexpress.com';
   @Input() toAddress   = 'user@example.com';
   @Input() subject     = 'Your AEME Portal Temporary Password';

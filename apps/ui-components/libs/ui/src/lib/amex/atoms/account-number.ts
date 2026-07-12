@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -31,6 +31,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexAccountNumberComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `account-number-${++AmexAccountNumberComponent._idCounter}`;
+
+
   /** Full 15 or 16-digit card number or account number */
   @Input() number = '';
   /** Show only last 4 digits with mask */

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -46,11 +46,11 @@ export interface BCRBReportRow {
       <table class="bcrb__table">
         <thead>
           <tr class="bcrb__head-row">
-            <th class="bcrb__th">Serial No.</th>
-            <th class="bcrb__th bcrb__th--link">Process ID</th>
-            <th class="bcrb__th bcrb__th--link">File Name</th>
-            <th class="bcrb__th">Report Creation Time</th>
-            <th class="bcrb__th bcrb__th--status">Processing Status</th>
+            <th class="bcrb__th" scope="col">Serial No.</th>
+            <th class="bcrb__th bcrb__th--link" scope="col">Process ID</th>
+            <th class="bcrb__th bcrb__th--link" scope="col">File Name</th>
+            <th class="bcrb__th" scope="col">Report Creation Time</th>
+            <th class="bcrb__th bcrb__th--status" scope="col">Processing Status</th>
           </tr>
         </thead>
         <tbody>
@@ -182,6 +182,10 @@ export interface BCRBReportRow {
   `],
 })
 export class AmexBCRBReportsTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `bcrb-reports-table-${++AmexBCRBReportsTableComponent._idCounter}`;
+
+
   @Input() rows: BCRBReportRow[] = [];
   @Input() username = '';
   @Output() rowClick  = new EventEmitter<BCRBReportRow>();

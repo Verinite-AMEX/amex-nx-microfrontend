@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,8 +23,8 @@ export interface SettlementRow {
     <div class="sst">
       <!-- Months filter row -->
       <div class="sst__filter-bar" *ngIf="showMonthsFilter">
-        <label class="sst__filter-label">View last</label>
-        <select class="sst__months-select" [(ngModel)]="selectedMonths"
+        <label class="sst__filter-label" [for]="id + '-view-last'">View last</label>
+        <select [id]="id + '-view-last'" class="sst__months-select" [(ngModel)]="selectedMonths"
           (ngModelChange)="monthsChange.emit(+selectedMonths)">
           <option *ngFor="let m of monthOptions" [value]="m">{{ m }} months</option>
         </select>
@@ -34,11 +34,11 @@ export interface SettlementRow {
       <table class="sst__table">
         <thead>
           <tr class="sst__head-row">
-            <th class="sst__th">Period</th>
-            <th class="sst__th">Merchant Account</th>
-            <th class="sst__th sst__th--num">Settlement Amount</th>
-            <th class="sst__th sst__th--num">Submissions</th>
-            <th class="sst__th">Status</th>
+            <th class="sst__th" scope="col">Period</th>
+            <th class="sst__th" scope="col">Merchant Account</th>
+            <th class="sst__th sst__th--num" scope="col">Settlement Amount</th>
+            <th class="sst__th sst__th--num" scope="col">Submissions</th>
+            <th class="sst__th" scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -93,6 +93,10 @@ export interface SettlementRow {
   `],
 })
 export class AmexSettlementSubmissionsTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `settlement-submissions-table-${++AmexSettlementSubmissionsTableComponent._idCounter}`;
+
+
   @Input() rows: SettlementRow[] = [];
   @Input() showMonthsFilter = true;
   @Input() monthOptions = [1, 3, 6, 12];

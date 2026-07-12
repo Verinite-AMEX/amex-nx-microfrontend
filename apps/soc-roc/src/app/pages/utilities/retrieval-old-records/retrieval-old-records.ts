@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { NumbersOnlyDirective } from '../../../core/directives/numbers-only.directive';
 
 

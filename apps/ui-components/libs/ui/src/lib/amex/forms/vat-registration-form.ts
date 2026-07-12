@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -75,6 +75,10 @@ import { FormsModule } from '@angular/forms';
   `],
 })
 export class AmexVATRegistrationFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `vat-registration-form-${++AmexVATRegistrationFormComponent._idCounter}`;
+
+
   @Output() stepClick = new EventEmitter<string>();
   @Output() backClick = new EventEmitter<void>();
 }

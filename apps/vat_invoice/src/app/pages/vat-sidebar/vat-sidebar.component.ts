@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexSidebarMenuComponent } from '@vn-core-ui-components/ui';
+import { AmexSidebarMenuComponent } from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

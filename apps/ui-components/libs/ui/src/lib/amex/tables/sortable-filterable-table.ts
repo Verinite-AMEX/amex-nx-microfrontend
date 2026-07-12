@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -30,14 +30,14 @@ export type AmexSortDir = 'asc' | 'desc' | '';
           <tr class="sft__head-row">
             <th *ngFor="let col of columns" class="sft__th"
               [style.width]="col.width || 'auto'"
-              (click)="col.sortable && onSort(col.key)">
+              (click)="col.sortable && onSort(col.key)" scope="col">
               <span class="sft__th-label">{{ col.label }}</span>
               <span *ngIf="col.sortable" class="sft__sort-icon">
                 <span [class.sft__sort-icon--active]="sortKey===col.key && sortDir==='asc'">▲</span>
                 <span [class.sft__sort-icon--active]="sortKey===col.key && sortDir==='desc'">▼</span>
               </span>
             </th>
-            <th *ngIf="actions.length" class="sft__th sft__th--actions">Actions</th>
+            <th *ngIf="actions.length" class="sft__th sft__th--actions" scope="col">Actions</th>
           </tr>
           <!-- per-column filter row -->
           <tr class="sft__filter-row" *ngIf="hasFilters">
@@ -194,6 +194,10 @@ export type AmexSortDir = 'asc' | 'desc' | '';
   `],
 })
 export class AmexSortableFilterableTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `sortable-filterable-table-${++AmexSortableFilterableTableComponent._idCounter}`;
+
+
   @Input() title = '';
   @Input() ctaLabel = '';
   @Input() columns: AmexTableColumn[] = [];

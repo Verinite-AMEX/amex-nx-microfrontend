@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -213,6 +213,10 @@ export interface LoginCredentials {
   `]
 })
 export class AmexLoginFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `login-form-${++AmexLoginFormComponent._idCounter}`;
+
+
   @Input() portalTitle = '';
   @Input() errorMessage = '';
   @Input() successMessage = '';
@@ -247,10 +251,10 @@ export class AmexLoginFormComponent {
  onSubmit() {
   // Validate form before submission
   if (!this.credentials.username || !this.credentials.password) {
-    this.errorMessage = 'User Name and Password are required.'; // NEW
+    this.errorMessage = 'User Name and Password are required.';
     return;
   }
-  this.errorMessage = ''; // NEW — clear any old error on a valid attempt
+  this.errorMessage = '';
   this.loginSubmit.emit({ ...this.credentials });
 }
 

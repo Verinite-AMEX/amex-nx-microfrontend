@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface BenefitItem {
@@ -297,6 +297,10 @@ export interface BenefitItem {
   `],
 })
 export class AmexBenefitsPanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `benefits-panel-${++AmexBenefitsPanelComponent._idCounter}`;
+
+
   @Input() benefits: BenefitItem[] = [];
   selectedBenefit: BenefitItem | null = null;
   private _idx = 0;

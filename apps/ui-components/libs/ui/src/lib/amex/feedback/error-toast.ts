@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -95,6 +95,10 @@ import { AmexPortalStyle } from './success-toast';
   `],
 })
 export class AmexErrorToastComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `error-toast-${++AmexErrorToastComponent._idCounter}`;
+
+
   @Input() message = 'An error occurred. Please try again.';
   @Input() portalStyle: AmexPortalStyle = 'onls';
   @Input() showRetry = false;

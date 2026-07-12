@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,13 +29,13 @@ export interface SOCROCRow {
       <table class="srt__table">
         <thead>
           <tr class="srt__head-row">
-            <th class="srt__th">SE Number</th>
-            <th class="srt__th">SOC Ref No.</th>
-            <th class="srt__th">Grand Total</th>
-            <th class="srt__th">No. of Charges</th>
-            <th class="srt__th">Card Account No.</th>
-            <th class="srt__th">Approval Code</th>
-            <th class="srt__th srt__th--actions">Actions</th>
+            <th class="srt__th" scope="col">SE Number</th>
+            <th class="srt__th" scope="col">SOC Ref No.</th>
+            <th class="srt__th" scope="col">Grand Total</th>
+            <th class="srt__th" scope="col">No. of Charges</th>
+            <th class="srt__th" scope="col">Card Account No.</th>
+            <th class="srt__th" scope="col">Approval Code</th>
+            <th class="srt__th srt__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -129,6 +129,10 @@ export interface SOCROCRow {
   `],
 })
 export class AmexSOCROCRecordsTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `socroc-records-table-${++AmexSOCROCRecordsTableComponent._idCounter}`;
+
+
   @Input() rows: SOCROCRow[] = [];
   @Input() sectionLabel = "SOC's";
   @Input() showExport = true;

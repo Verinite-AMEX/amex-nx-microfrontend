@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -50,12 +50,12 @@ export interface MonthlyTransaction {
           <table class="mstv__summary">
             <thead>
               <tr>
-                <th>Previous Balance</th>
-                <th>New Remittance</th>
-                <th>New Credit</th>
-                <th>New Debits</th>
-                <th>Disputes*</th>
-                <th>Total Due Balance</th>
+                <th scope="col">Previous Balance</th>
+                <th scope="col">New Remittance</th>
+                <th scope="col">New Credit</th>
+                <th scope="col">New Debits</th>
+                <th scope="col">Disputes*</th>
+                <th scope="col">Total Due Balance</th>
               </tr>
             </thead>
             <tbody>
@@ -80,8 +80,8 @@ export interface MonthlyTransaction {
           <table class="mstv__txn-table">
             <thead>
               <tr>
-                <th>Type</th><th>Date</th><th>Description</th>
-                <th class="mstv__th-r">Amount</th>
+                <th scope="col">Type</th><th scope="col">Date</th><th scope="col">Description</th>
+                <th class="mstv__th-r" scope="col">Amount</th>
               </tr>
             </thead>
             <tbody>
@@ -110,8 +110,8 @@ export interface MonthlyTransaction {
       <!-- Footer -->
       <div class="mstv__footer">
         <div class="mstv__footer-left">
-          <label class="mstv__view-label">View a Different Montly Statement:</label>
-          <select class="mstv__month-select" [(ngModel)]="selectedMonth">
+          <label class="mstv__view-label" [for]="id + '-view-a-different-montly-statement'">View a Different Montly Statement:</label>
+          <select [id]="id + '-view-a-different-montly-statement'" class="mstv__month-select" [(ngModel)]="selectedMonth">
             <option *ngFor="let m of availableMonths" [value]="m">{{ m }}</option>
           </select>
           <button class="mstv__show-btn" (click)="showStatement.emit(selectedMonth)">Show Statement</button>
@@ -257,6 +257,10 @@ export interface MonthlyTransaction {
   `],
 })
 export class AmexMonthlyStatementViewerComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `monthly-statement-viewer-${++AmexMonthlyStatementViewerComponent._idCounter}`;
+
+
   @Input() statementDate   = '28 February 2025';
   @Input() accountNumber   = 'BTA 3744XXXXXXX5229 - BTACLIENTBAH001';
   @Input() travelAgent     = 'DNATA (BTA)';

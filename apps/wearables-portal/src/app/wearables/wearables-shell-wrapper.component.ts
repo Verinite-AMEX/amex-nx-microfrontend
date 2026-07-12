@@ -6,7 +6,7 @@ import {
   AmexTabItem,
   AmexPortalHealthStatus,
   AMEX_PORTAL_AUTH_ADAPTER,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { WearablesComponent } from './wearables.component';
 import { WearablesAuthService } from '../core/services/auth.service';
 import { SHELL_HOSTED } from '../core/tokens/shell.token';
@@ -130,7 +130,7 @@ ngOnInit(): void {
 //   AmexTabItem,
 //   AmexPortalHealthStatus,
 //   AMEX_PORTAL_AUTH_ADAPTER,
-// } from '@vn-core-ui-components/ui';
+// } from '@ui-components/ui';
 // import { WearablesComponent } from './wearables.component';
 // import { WearablesAuthService } from '../core/services/auth.service';
 // import { SHELL_HOSTED } from '../core/tokens/shell.token';

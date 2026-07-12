@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -32,8 +32,8 @@ export interface AddUserFormData {
       <div class="auf__panel">
         <!-- User ID (read-only in edit mode) -->
         <div class="auf__field" *ngIf="showUserId">
-          <label class="auf__label">User ID</label>
-          <input class="auf__input"
+          <label class="auf__label" [for]="id + '-user-id'">User ID</label>
+          <input [id]="id + '-user-id'" class="auf__input"
             [class.auf__input--readonly]="userIdReadonly"
             [(ngModel)]="form.userId"
             [readonly]="userIdReadonly"
@@ -42,29 +42,29 @@ export interface AddUserFormData {
 
         <!-- User Name -->
         <div class="auf__field">
-          <label class="auf__label">User Name</label>
+          <label class="auf__label" [for]="id + '-user-name'">User Name</label>
           <div class="auf__input-wrap">
-            <input class="auf__input" [(ngModel)]="form.userName" placeholder="Enter user name" />
+            <input [id]="id + '-user-name'" class="auf__input" [(ngModel)]="form.userName" placeholder="Enter user name" />
             <span class="auf__info-icon" *ngIf="showInfoIcon" title="Username must be unique">&#9432;</span>
           </div>
         </div>
 
         <!-- Email Address -->
         <div class="auf__field">
-          <label class="auf__label">Email Address</label>
-          <input class="auf__input" [(ngModel)]="form.emailAddress" type="email" placeholder="Enter email address" />
+          <label class="auf__label" [for]="id + '-email-address'">Email Address</label>
+          <input [id]="id + '-email-address'" class="auf__input" [(ngModel)]="form.emailAddress" type="email" placeholder="Enter email address" />
         </div>
 
         <!-- Password (hidden in edit mode) -->
         <div class="auf__field" *ngIf="showPassword">
-          <label class="auf__label">Password</label>
-          <input class="auf__input" [(ngModel)]="form.password" type="password" placeholder="Enter password" />
+          <label class="auf__label" [for]="id + '-password'">Password</label>
+          <input [id]="id + '-password'" class="auf__input" [(ngModel)]="form.password" type="password" placeholder="Enter password" />
         </div>
 
         <!-- Role dropdown -->
         <div class="auf__field" *ngIf="showRole">
-          <label class="auf__label">Role</label>
-          <select class="auf__select" [(ngModel)]="form.role">
+          <label class="auf__label" [for]="id + '-role'">Role</label>
+          <select [id]="id + '-role'" class="auf__select" [(ngModel)]="form.role">
             <option value="">-- Select Role --</option>
             <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
           </select>
@@ -72,8 +72,8 @@ export interface AddUserFormData {
 
         <!-- Status dropdown -->
         <div class="auf__field">
-          <label class="auf__label">Status</label>
-          <select class="auf__select" [(ngModel)]="form.status">
+          <label class="auf__label" [for]="id + '-status'">Status</label>
+          <select [id]="id + '-status'" class="auf__select" [(ngModel)]="form.status">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
@@ -81,14 +81,14 @@ export interface AddUserFormData {
 
         <!-- Merchant Account (OMS specific) -->
         <div class="auf__field" *ngIf="showMerchantAccount">
-          <label class="auf__label">Merchant Account</label>
-          <input class="auf__input" [(ngModel)]="form.merchantAccount" placeholder="Enter merchant account number" />
+          <label class="auf__label" [for]="id + '-merchant-account'">Merchant Account</label>
+          <input [id]="id + '-merchant-account'" class="auf__input" [(ngModel)]="form.merchantAccount" placeholder="Enter merchant account number" />
         </div>
 
         <!-- Corporate Account (BTA specific) -->
         <div class="auf__field" *ngIf="showCorporateAccount">
-          <label class="auf__label">Corporate Account</label>
-          <input class="auf__input" [(ngModel)]="form.corporateAccount" placeholder="Enter corporate account" />
+          <label class="auf__label" [for]="id + '-corporate-account'">Corporate Account</label>
+          <input [id]="id + '-corporate-account'" class="auf__input" [(ngModel)]="form.corporateAccount" placeholder="Enter corporate account" />
         </div>
 
         <!-- Actions — navy Back + purple Submit matching screenshot exactly -->
@@ -162,6 +162,10 @@ export interface AddUserFormData {
   `],
 })
 export class AmexAddUserFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `add-user-form-${++AmexAddUserFormComponent._idCounter}`;
+
+
   @Input() title = 'CREATE USER';
   @Input() showUserId = false;
   @Input() userIdReadonly = false;

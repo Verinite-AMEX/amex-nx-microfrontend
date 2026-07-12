@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -18,8 +18,8 @@ export interface AmexPaginatedColumn {
       <table class="pt__table">
         <thead>
           <tr class="pt__head-row">
-            <th *ngFor="let col of columns" class="pt__th">{{ col.label }}</th>
-            <th *ngIf="actions.length" class="pt__th">Actions</th>
+            <th *ngFor="let col of columns" class="pt__th" scope="col">{{ col.label }}</th>
+            <th *ngIf="actions.length" class="pt__th" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -140,6 +140,10 @@ export interface AmexPaginatedColumn {
   `],
 })
 export class AmexPaginatedTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `paginated-table-${++AmexPaginatedTableComponent._idCounter}`;
+
+
   @Input() columns: AmexPaginatedColumn[] = [];
   @Input() rows: Record<string, any>[] = [];
   @Input() actions: { id: string; label: string; type: string }[] = [];

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -20,9 +20,9 @@ export type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
       <div class="ucp__panel">
         <div class="ucp__step-info" *ngIf="stepInfo">{{ stepInfo }}</div>
         <div class="ucp__field">
-          <label class="ucp__label">{{ fileLabel }}</label>
+          <label class="ucp__label" [for]="id + '-field'">{{ fileLabel }}</label>
           <div class="ucp__file-row">
-            <input type="file" class="ucp__file-input" (change)="onFileChange($event)"
+            <input [id]="id + '-field'" type="file" class="ucp__file-input" (change)="onFileChange($event)"
               [accept]="acceptedTypes" />
           </div>
           <div *ngIf="hintText" class="ucp__hint">{{ hintText }}</div>
@@ -67,6 +67,10 @@ export type UploadStatus = 'idle' | 'uploading' | 'success' | 'error';
   `],
 })
 export class AmexUploadCertificatePanelComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `upload-certificate-panel-${++AmexUploadCertificatePanelComponent._idCounter}`;
+
+
   @Input() title = 'Upload Certificate';
   @Input() stepInfo = 'Step 1 - Upload your VAT registration certificate';
   @Input() fileLabel = 'VAT Certificate File';

@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { EventBusService } from '../../core/services/event-bus.service';
-import { LoginCredentials } from '@vn-core-ui-components/ui';
-import { RegisterData }     from '@vn-core-ui-components/ui';
+import { LoginCredentials } from '@ui-components/ui';
+import { RegisterData }     from '@ui-components/ui';
 
 @Component({
     selector: 'app-login',

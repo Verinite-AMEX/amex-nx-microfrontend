@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AmexStatusBadgeComponent } from '../atoms/status-badge';
@@ -51,7 +51,7 @@ export interface AmexReportTableConfig {
                 [style.width]="col.width || 'auto'"
                 [class.amex-table__th--sortable]="col.sortable"
                 (click)="col.sortable && sort(col.key)"
-              >
+               scope="col">
                 {{ col.label }}
                 <span *ngIf="col.sortable" class="amex-table__sort-icon">
                   {{ sortKey === col.key ? (sortAsc ? '↑' : '↓') : '↕' }}
@@ -171,6 +171,10 @@ export interface AmexReportTableConfig {
   `],
 })
 export class AmexReportTableComponent implements OnChanges {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `report-table-${++AmexReportTableComponent._idCounter}`;
+
+
   @Input() config: AmexReportTableConfig = { columns: [] };
   @Input() rows: Record<string, unknown>[] = [];
   @Output() export = new EventEmitter<'pdf' | 'excel' | 'csv'>();

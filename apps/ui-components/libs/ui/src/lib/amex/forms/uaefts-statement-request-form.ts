@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -43,16 +43,16 @@ export interface UAEFTSSuccessData {
       <!-- Request form fields -->
       <div *ngIf="activeTab === 'request'" class="usrf__form">
         <div class="usrf__field">
-          <label class="usrf__label">Emirates ID</label>
-          <input class="usrf__input" [(ngModel)]="form.emiratesId" placeholder="e.g. 784199900001200" />
+          <label class="usrf__label" [for]="id + '-emirates-id'">Emirates ID</label>
+          <input [id]="id + '-emirates-id'" class="usrf__input" [(ngModel)]="form.emiratesId" placeholder="e.g. 784199900001200" />
         </div>
         <div class="usrf__field">
-          <label class="usrf__label">IBAN Number</label>
-          <input class="usrf__input" [(ngModel)]="form.ibanNumber" placeholder="e.g. AE070331234567890123456" />
+          <label class="usrf__label" [for]="id + '-iban-number'">IBAN Number</label>
+          <input [id]="id + '-iban-number'" class="usrf__input" [(ngModel)]="form.ibanNumber" placeholder="e.g. AE070331234567890123456" />
         </div>
         <div class="usrf__field">
-          <label class="usrf__label">Statement Period</label>
-          <select class="usrf__select" [(ngModel)]="form.statementPeriod">
+          <label class="usrf__label" [for]="id + '-statement-period'">Statement Period</label>
+          <select [id]="id + '-statement-period'" class="usrf__select" [(ngModel)]="form.statementPeriod">
             <option value="1">1 month</option>
             <option value="3">3 months</option>
             <option value="6">6 months</option>
@@ -60,8 +60,8 @@ export interface UAEFTSSuccessData {
           </select>
         </div>
         <div class="usrf__field">
-          <label class="usrf__label">Customer Consent</label>
-          <input class="usrf__input" [(ngModel)]="form.customerConsent" placeholder="dd/mm/yyyy" />
+          <label class="usrf__label" [for]="id + '-customer-consent'">Customer Consent</label>
+          <input [id]="id + '-customer-consent'" class="usrf__input" [(ngModel)]="form.customerConsent" placeholder="dd/mm/yyyy" />
         </div>
         <div class="usrf__actions">
           <button class="usrf__btn usrf__btn--submit"
@@ -155,6 +155,10 @@ export interface UAEFTSSuccessData {
   `],
 })
 export class AmexUAEFTSStatementRequestFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `uaefts-statement-request-form-${++AmexUAEFTSStatementRequestFormComponent._idCounter}`;
+
+
   @Input() successData: UAEFTSSuccessData | null = null;
 
   activeTab: 'search' | 'request' = 'request';

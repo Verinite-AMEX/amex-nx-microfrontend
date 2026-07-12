@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
 
@@ -70,6 +70,10 @@ export interface AmexAuditEntry {
   `],
 })
 export class AmexAuditTrailRowComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `audit-trail-row-${++AmexAuditTrailRowComponent._idCounter}`;
+
+
   @Input() entry!: AmexAuditEntry;
 
   get datePart(): string {

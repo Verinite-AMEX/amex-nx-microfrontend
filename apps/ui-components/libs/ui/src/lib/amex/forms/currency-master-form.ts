@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -24,8 +24,8 @@ export interface CurrencyMasterData {
       <div class="cumf__form">
 
         <div class="cumf__row">
-          <label class="cumf__label">Currency Code <span class="cumf__req">*</span></label>
-          <input class="cumf__input"
+          <label class="cumf__label" [for]="id + '-currency-code'">Currency Code <span class="cumf__req">*</span></label>
+          <input [id]="id + '-currency-code'" class="cumf__input"
             [(ngModel)]="form.currencyCode"
             [readonly]="form.action === 'modify'"
             [class.cumf__input--readonly]="form.action === 'modify'"
@@ -33,9 +33,9 @@ export interface CurrencyMasterData {
         </div>
 
         <div class="cumf__row">
-          <label class="cumf__label">Currency Name</label>
+          <label class="cumf__label" [for]="id + '-currency-name'">Currency Name</label>
           <ng-container *ngIf="form.action === 'addNew'">
-            <input class="cumf__input" [(ngModel)]="form.currencyName" placeholder="Enter currency name" />
+            <input [id]="id + '-currency-name'" class="cumf__input" [(ngModel)]="form.currencyName" placeholder="Enter currency name" />
           </ng-container>
           <ng-container *ngIf="form.action === 'modify'">
             <select class="cumf__select" [(ngModel)]="form.currencyName" (ngModelChange)="onNameSelect($event)">
@@ -46,8 +46,8 @@ export interface CurrencyMasterData {
         </div>
 
         <div class="cumf__row">
-          <label class="cumf__label">Short Name <span class="cumf__req">*</span></label>
-          <input class="cumf__input"
+          <label class="cumf__label" [for]="id + '-short-name'">Short Name <span class="cumf__req">*</span></label>
+          <input [id]="id + '-short-name'" class="cumf__input"
             [(ngModel)]="form.shortName"
             [readonly]="form.action === 'modify'"
             [class.cumf__input--readonly]="form.action === 'modify'"
@@ -55,8 +55,8 @@ export interface CurrencyMasterData {
         </div>
 
         <div class="cumf__row">
-          <label class="cumf__label">No. of Decimals <span class="cumf__req">*</span></label>
-          <input class="cumf__input"
+          <label class="cumf__label" [for]="id + '-no-of-decimals'">No. of Decimals <span class="cumf__req">*</span></label>
+          <input [id]="id + '-no-of-decimals'" class="cumf__input"
             [(ngModel)]="form.noOfDecimals"
             [readonly]="form.action === 'modify'"
             [class.cumf__input--readonly]="form.action === 'modify'"
@@ -116,6 +116,10 @@ export interface CurrencyMasterData {
   `],
 })
 export class AmexCurrencyMasterFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `currency-master-form-${++AmexCurrencyMasterFormComponent._idCounter}`;
+
+
   @Input() currencyOptions: { name: string; code: string; shortName: string; decimals: string }[] = [
     { name: 'US DOLLAR',      code: '001', shortName: 'USD', decimals: '2' },
     { name: 'UAE DIRHAM',     code: '002', shortName: 'AED', decimals: '2' },

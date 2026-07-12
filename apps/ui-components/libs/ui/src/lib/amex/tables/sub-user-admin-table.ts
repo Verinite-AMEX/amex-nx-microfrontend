@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface SubUserRow {
@@ -30,11 +30,11 @@ export interface SubUserRow {
       <table class="suat__table">
         <thead>
           <tr class="suat__head-row">
-            <th class="suat__th">Name</th>
-            <th class="suat__th">Email</th>
-            <th class="suat__th">Role</th>
-            <th class="suat__th">Status</th>
-            <th class="suat__th suat__th--actions">Actions</th>
+            <th class="suat__th" scope="col">Name</th>
+            <th class="suat__th" scope="col">Email</th>
+            <th class="suat__th" scope="col">Role</th>
+            <th class="suat__th" scope="col">Status</th>
+            <th class="suat__th suat__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -87,6 +87,10 @@ export interface SubUserRow {
   `],
 })
 export class AmexSubUserAdminTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `sub-user-admin-table-${++AmexSubUserAdminTableComponent._idCounter}`;
+
+
   @Input() rows: SubUserRow[] = [];
   @Input() title = 'SUB USER ADMINISTRATION';
   @Input() showCreate = true;

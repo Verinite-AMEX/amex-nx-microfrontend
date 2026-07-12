@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,9 +17,9 @@ import { FormsModule } from '@angular/forms';
       <div class="fuf__title">{{ title }}</div>
 
       <div class="fuf__field">
-        <label class="fuf__label">{{ fileLabel }}</label>
+        <label class="fuf__label" [for]="id + '-field'">{{ fileLabel }}</label>
         <div class="fuf__input-row">
-          <input type="file" class="fuf__file-input"
+          <input [id]="id + '-field'" type="file" class="fuf__file-input"
             [accept]="acceptedTypes"
             (change)="onFileChange($event)" />
         </div>
@@ -69,6 +69,10 @@ import { FormsModule } from '@angular/forms';
   `],
 })
 export class AmexFileUploadFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `file-upload-form-${++AmexFileUploadFormComponent._idCounter}`;
+
+
   @Input() title = 'Load Client Data';
   @Input() fileLabel = 'Choose File';
   @Input() hintText = '';

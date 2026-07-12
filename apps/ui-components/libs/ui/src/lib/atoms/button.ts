@@ -1,4 +1,4 @@
-import { Component, Input, HostListener, ElementRef } from '@angular/core';
+import { Component, Input, HostListener, ElementRef, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -35,6 +35,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class ButtonComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-button-${++ButtonComponent._idCounter}`;
+
+
   @Input() label = 'Button';
   @Input() variant: 'primary' | 'secondary' = 'primary';
   @Input() size: 'sm' | 'md' | 'lg' = 'md';

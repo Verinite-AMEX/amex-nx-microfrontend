@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AddUserFormData } from './add-user-form';
@@ -21,38 +21,38 @@ import { AddUserFormData } from './add-user-form';
 
       <div class="euf__panel">
         <div class="euf__field" *ngIf="data.userId">
-          <label class="euf__label">User ID</label>
-          <input class="euf__input euf__input--readonly" [value]="data.userId" readonly />
+          <label class="euf__label" [for]="id + '-user-id'">User ID</label>
+          <input [id]="id + '-user-id'" class="euf__input euf__input--readonly" [value]="data.userId" readonly />
         </div>
 
         <div class="euf__field">
-          <label class="euf__label">User Name</label>
-          <input class="euf__input" [(ngModel)]="data.userName" />
+          <label class="euf__label" [for]="id + '-user-name'">User Name</label>
+          <input [id]="id + '-user-name'" class="euf__input" [(ngModel)]="data.userName" />
         </div>
 
         <div class="euf__field">
-          <label class="euf__label">Email Address</label>
-          <input class="euf__input" [(ngModel)]="data.emailAddress" type="email" />
+          <label class="euf__label" [for]="id + '-email-address'">Email Address</label>
+          <input [id]="id + '-email-address'" class="euf__input" [(ngModel)]="data.emailAddress" type="email" />
         </div>
 
         <div class="euf__field" *ngIf="showRole">
-          <label class="euf__label">Role</label>
-          <select class="euf__select" [(ngModel)]="data.role">
+          <label class="euf__label" [for]="id + '-role'">Role</label>
+          <select [id]="id + '-role'" class="euf__select" [(ngModel)]="data.role">
             <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
           </select>
         </div>
 
         <div class="euf__field">
-          <label class="euf__label">Status</label>
-          <select class="euf__select" [(ngModel)]="data.status">
+          <label class="euf__label" [for]="id + '-status'">Status</label>
+          <select [id]="id + '-status'" class="euf__select" [(ngModel)]="data.status">
             <option value="Active">Active</option>
             <option value="Inactive">Inactive</option>
           </select>
         </div>
 
         <div class="euf__field" *ngIf="showMerchantAccount">
-          <label class="euf__label">Merchant Account</label>
-          <input class="euf__input" [(ngModel)]="data.merchantAccount" />
+          <label class="euf__label" [for]="id + '-merchant-account'">Merchant Account</label>
+          <input [id]="id + '-merchant-account'" class="euf__input" [(ngModel)]="data.merchantAccount" />
         </div>
 
         <div class="euf__actions">
@@ -90,6 +90,10 @@ import { AddUserFormData } from './add-user-form';
   `],
 })
 export class AmexEditUserFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `edit-user-form-${++AmexEditUserFormComponent._idCounter}`;
+
+
   @Input() title = 'EDIT USER';
   @Input() showRole = false;
   @Input() showMerchantAccount = false;

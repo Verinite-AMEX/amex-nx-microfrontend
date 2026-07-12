@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -33,8 +33,8 @@ export interface CenturionCardDetails {
     <div class="ccdv">
       <!-- Client ID input -->
       <div class="ccdv__search">
-        <label class="ccdv__search-label">Client ID</label>
-        <input class="ccdv__input" [(ngModel)]="clientIdInput" [placeholder]="'Enter Client ID'" />
+        <label class="ccdv__search-label" [for]="id + '-client-id'">Client ID</label>
+        <input [id]="id + '-client-id'" class="ccdv__input" [(ngModel)]="clientIdInput" [placeholder]="'Enter Client ID'" />
         <button class="ccdv__submit-btn" (click)="search.emit(clientIdInput)">Submit</button>
       </div>
 
@@ -183,6 +183,10 @@ export interface CenturionCardDetails {
   `],
 })
 export class AmexCenturionCardDetailsViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `centurion-card-details-view-${++AmexCenturionCardDetailsViewComponent._idCounter}`;
+
+
   @Input() details: CenturionCardDetails | null = null;
   clientIdInput = '';
 

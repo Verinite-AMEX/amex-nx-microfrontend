@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,8 +23,8 @@ export interface TaxInvoiceDeliveryData {
 
       <div class="tidf__panel">
         <div class="tidf__field">
-          <label class="tidf__label">VAT Registration Number</label>
-          <input class="tidf__input"
+          <label class="tidf__label" [for]="id + '-vat-registration-number'">VAT Registration Number</label>
+          <input [id]="id + '-vat-registration-number'" class="tidf__input"
             [(ngModel)]="form.vatRegistrationNumber"
             placeholder="VAT Registration Number"
             [class.tidf__input--error]="showError" />
@@ -32,8 +32,8 @@ export interface TaxInvoiceDeliveryData {
         </div>
 
         <div class="tidf__field">
-          <label class="tidf__label">VAT Registration Country</label>
-          <select class="tidf__select" [(ngModel)]="form.vatRegistrationCountry">
+          <label class="tidf__label" [for]="id + '-vat-registration-country'">VAT Registration Country</label>
+          <select [id]="id + '-vat-registration-country'" class="tidf__select" [(ngModel)]="form.vatRegistrationCountry">
             <option *ngFor="let c of countries" [value]="c.value">{{ c.label }}</option>
           </select>
         </div>
@@ -74,6 +74,10 @@ export interface TaxInvoiceDeliveryData {
   `],
 })
 export class AmexTaxInvoiceDeliveryFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `tax-invoice-delivery-form-${++AmexTaxInvoiceDeliveryFormComponent._idCounter}`;
+
+
   @Input() title = 'TAX Invoice Delivery Details';
   @Input() showError = false;
   @Input() countries: { value: string; label: string }[] = [

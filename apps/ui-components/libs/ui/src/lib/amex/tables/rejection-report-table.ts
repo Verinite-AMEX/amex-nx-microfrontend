@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,10 +29,10 @@ export interface RejectionReportRow {
       <table class="rrt__table">
         <thead>
           <tr class="rrt__head-row">
-            <th class="rrt__th">SE No.</th>
-            <th class="rrt__th">Rejection Reason</th>
-            <th class="rrt__th">Date</th>
-            <th class="rrt__th rrt__th--num">Amount</th>
+            <th class="rrt__th" scope="col">SE No.</th>
+            <th class="rrt__th" scope="col">Rejection Reason</th>
+            <th class="rrt__th" scope="col">Date</th>
+            <th class="rrt__th rrt__th--num" scope="col">Amount</th>
           </tr>
         </thead>
         <tbody>
@@ -69,6 +69,10 @@ export interface RejectionReportRow {
   `],
 })
 export class AmexRejectionReportTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `rejection-report-table-${++AmexRejectionReportTableComponent._idCounter}`;
+
+
   @Input() rows: RejectionReportRow[] = [];
   @Output() exportClick = new EventEmitter<void>();
   @Output() printClick  = new EventEmitter<void>();

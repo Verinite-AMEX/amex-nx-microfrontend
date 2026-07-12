@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -83,9 +83,9 @@ export interface AuditDetailEntry {
             <table class="atsv__table">
               <thead>
                 <tr>
-                  <th>Date</th><th>Time</th><th>User</th>
-                  <th>Action</th><th>Entity</th>
-                  <th>Old Value</th><th>New Value</th>
+                  <th scope="col">Date</th><th scope="col">Time</th><th scope="col">User</th>
+                  <th scope="col">Action</th><th scope="col">Entity</th>
+                  <th scope="col">Old Value</th><th scope="col">New Value</th>
                 </tr>
               </thead>
               <tbody>
@@ -109,10 +109,10 @@ export interface AuditDetailEntry {
             <table class="atsv__table">
               <thead>
                 <tr>
-                  <th>User</th>
-                  <th>Actions Count</th>
-                  <th>Last Action</th>
-                  <th>Last Action Date</th>
+                  <th scope="col">User</th>
+                  <th scope="col">Actions Count</th>
+                  <th scope="col">Last Action</th>
+                  <th scope="col">Last Action Date</th>
                 </tr>
               </thead>
               <tbody>
@@ -225,6 +225,10 @@ export interface AuditDetailEntry {
   `],
 })
 export class AmexAuditTrailSummaryViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `audit-trail-summary-view-${++AmexAuditTrailSummaryViewComponent._idCounter}`;
+
+
   @Input() activeTab: 'detail' | 'summary' = 'detail';
   @Input() years: string[]  = ['2021', '2022', '2023', '2024', '2025'];
   @Input() months: string[] = [

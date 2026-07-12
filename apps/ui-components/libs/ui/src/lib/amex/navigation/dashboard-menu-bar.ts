@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AmexMenuBarLink { id: string; label: string; }
@@ -16,8 +16,8 @@ export interface AmexMenuBarLink { id: string; label: string; }
     <div class="menubar">
       <!-- Bureau dropdown -->
       <div class="menubar__bureau" *ngIf="showBureauDropdown">
-        <label class="menubar__label">{{ bureauLabel }}</label>
-        <select class="menubar__select"
+        <label class="menubar__label" [for]="id + '-field'">{{ bureauLabel }}</label>
+        <select [id]="id + '-field'" class="menubar__select"
           [value]="activeBureauId"
           (change)="onBureauChange($event)">
           <option *ngFor="let opt of bureauOptions" [value]="opt.id">{{ opt.label }}</option>
@@ -73,6 +73,10 @@ export interface AmexMenuBarLink { id: string; label: string; }
   `],
 })
 export class AmexDashboardMenuBarComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `dashboard-menu-bar-${++AmexDashboardMenuBarComponent._idCounter}`;
+
+
   @Input() showBureauDropdown = true;
   @Input() bureauLabel = 'Bureau';
   @Input() bureauOptions: AmexMenuBarLink[] = [

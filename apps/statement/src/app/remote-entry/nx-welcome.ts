@@ -7,7 +7,7 @@ import { Navbar } from '../components/navbar/navbar';
 import {
   AmexDashboardMenuBarComponent,
   AmexPageHeaderComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { Contentbox } from '../components/content/contentbox';
 
 @Component({

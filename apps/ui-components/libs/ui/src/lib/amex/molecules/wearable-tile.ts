@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
 
@@ -80,6 +80,10 @@ export interface AmexWearable {
   `],
 })
 export class AmexWearableTileComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `wearable-tile-${++AmexWearableTileComponent._idCounter}`;
+
+
   @Input() wearable!: AmexWearable;
   @Input() showActions = false;
   @Output() activate = new EventEmitter<AmexWearable>();

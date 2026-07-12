@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -64,6 +64,10 @@ import { AmexPortalStyle } from './success-toast';
   `],
 })
 export class AmexInlineValidationErrorComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `inline-validation-error-${++AmexInlineValidationErrorComponent._idCounter}`;
+
+
   @Input() message = '';
   @Input() portalStyle: AmexPortalStyle = 'onls';
 }

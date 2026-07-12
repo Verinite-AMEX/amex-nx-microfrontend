@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -29,8 +29,8 @@ export interface AmexViewReportField {
     <div class="vrd-wrap">
       <!-- View Report selector row -->
       <div class="vrd-top-row">
-        <label class="vrd-label">View Report</label>
-        <select class="vrd-select" [(ngModel)]="selectedValue" (change)="onSelect()">
+        <label class="vrd-label" [for]="id + '-view-report'">View Report</label>
+        <select [id]="id + '-view-report'" class="vrd-select" [(ngModel)]="selectedValue" (change)="onSelect()">
           <option value="">-- Select --</option>
           <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
         </select>
@@ -40,9 +40,9 @@ export interface AmexViewReportField {
       <div class="vrd-panel" *ngIf="currentOption">
         <div class="vrd-panel-grid">
           <div class="vrd-field" *ngFor="let f of currentOption.fields">
-            <label class="vrd-field-label">{{ f.label }}</label>
+            <label class="vrd-field-label" [for]="id + '-field'">{{ f.label }}</label>
 
-            <input
+            <input [id]="id + '-field'"
               *ngIf="f.type === 'text'"
               class="vrd-input"
               type="text"
@@ -157,6 +157,10 @@ export interface AmexViewReportField {
   `],
 })
 export class AmexViewReportDropdownComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `view-report-dropdown-${++AmexViewReportDropdownComponent._idCounter}`;
+
+
   @Input() options: AmexViewReportOption[] = [];
 
   @Output() submitted = new EventEmitter<{ view: string; fields: Record<string, string> }>();

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -36,12 +36,12 @@ export interface CustomizedReportData {
         <!-- Date range -->
         <div class="crf__fields">
           <div class="crf__field">
-            <label class="crf__label">Date From</label>
-            <input class="crf__input" type="text" [(ngModel)]="form.dateFrom" placeholder="dd/mm/yyyy" />
+            <label class="crf__label" [for]="id + '-date-from'">Date From</label>
+            <input [id]="id + '-date-from'" class="crf__input" type="text" [(ngModel)]="form.dateFrom" placeholder="dd/mm/yyyy" />
           </div>
           <div class="crf__field">
-            <label class="crf__label">Date To</label>
-            <input class="crf__input" type="text" [(ngModel)]="form.dateTo" placeholder="dd/mm/yyyy" />
+            <label class="crf__label" [for]="id + '-date-to'">Date To</label>
+            <input [id]="id + '-date-to'" class="crf__input" type="text" [(ngModel)]="form.dateTo" placeholder="dd/mm/yyyy" />
           </div>
         </div>
 
@@ -91,6 +91,10 @@ export interface CustomizedReportData {
   `],
 })
 export class AmexCustomizedReportsFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `customized-reports-form-${++AmexCustomizedReportsFormComponent._idCounter}`;
+
+
   @Input() reportTypes = [
     { value: 'settlement_detail', label: 'Settlement Detail' },
     { value: 'submission_detail', label: 'Submission Detail' },

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexSuccessToastComponent } from '@vn-core-ui-components/ui';
+import { AmexSuccessToastComponent } from '@ui-components/ui';
 
 interface Benefit {
   id: string;

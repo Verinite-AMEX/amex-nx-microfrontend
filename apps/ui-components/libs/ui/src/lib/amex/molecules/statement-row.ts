@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexAmountComponent } from '../atoms/amount';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
@@ -82,5 +82,9 @@ export interface AmexTransaction {
   `],
 })
 export class AmexStatementRowComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `statement-row-${++AmexStatementRowComponent._idCounter}`;
+
+
   @Input() transaction!: AmexTransaction;
 }

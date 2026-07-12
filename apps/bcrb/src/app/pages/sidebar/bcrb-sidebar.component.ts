@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexSidebarMenuComponent, AmexTopNavBarComponent } from '@vn-core-ui-components/ui';
+import { AmexSidebarMenuComponent, AmexTopNavBarComponent } from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

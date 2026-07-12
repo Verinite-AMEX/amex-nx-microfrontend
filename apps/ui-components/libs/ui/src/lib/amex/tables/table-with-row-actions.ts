@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -51,10 +51,10 @@ export interface TableRowActionEvent {
         <table class="tra__table">
           <thead>
             <tr class="tra__head-row">
-              <th *ngFor="let col of columns" class="tra__th" [style.width]="col.width || 'auto'">
+              <th *ngFor="let col of columns" class="tra__th" [style.width]="col.width || 'auto'" scope="col">
                 {{ col.label }}
               </th>
-              <th class="tra__th tra__th--actions" *ngIf="actions.length > 0">Actions</th>
+              <th class="tra__th tra__th--actions" *ngIf="actions.length > 0" scope="col">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -226,6 +226,10 @@ export interface TableRowActionEvent {
   `]
 })
 export class AmexTableWithRowActionsComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `table-with-row-actions-${++AmexTableWithRowActionsComponent._idCounter}`;
+
+
   @Input() sectionTitle = '';
   @Input() columns: TableWithRowActionsColumn[] = [];
   @Input() rows: Record<string, string>[] = [];

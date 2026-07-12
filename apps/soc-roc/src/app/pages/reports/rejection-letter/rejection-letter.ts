@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   AmexSortableFilterableTableComponent,
   AmexTableColumn
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-rejection-letter',

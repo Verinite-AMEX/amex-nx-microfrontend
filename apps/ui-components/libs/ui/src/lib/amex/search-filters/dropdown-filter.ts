@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -16,8 +16,8 @@ export interface AmexDropdownOption { value: string; label: string; }
   template: `
     <div class="df-wrap">
       <div class="df-row">
-        <label class="df-label">{{ label }}</label>
-        <select class="df-select" [(ngModel)]="selectedValue">
+        <label class="df-label" [for]="id + '-field'">{{ label }}</label>
+        <select [id]="id + '-field'" class="df-select" [(ngModel)]="selectedValue">
           <option value="">{{ placeholder }}</option>
           <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
         </select>
@@ -84,6 +84,10 @@ export interface AmexDropdownOption { value: string; label: string; }
   `],
 })
 export class AmexDropdownFilterComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `dropdown-filter-${++AmexDropdownFilterComponent._idCounter}`;
+
+
   @Input() label = 'Filter';
   @Input() placeholder = '-- Select --';
   @Input() buttonLabel = 'Apply';

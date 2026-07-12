@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import {
   AmexTermsAndConditionsViewerComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
 

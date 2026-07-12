@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -72,6 +72,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexAmountComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `amount-${++AmexAmountComponent._idCounter}`;
+
+
   @Input() amount = 0;
   @Input() currency = 'AED';
   @Input() type: 'debit' | 'credit' | 'neutral' = 'neutral';

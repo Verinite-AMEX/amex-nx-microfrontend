@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AmexPortalTile {
@@ -298,6 +298,10 @@ export interface AmexPortalTile {
   `],
 })
 export class AmexPortalHomeTilesComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `portal-home-tiles-${++AmexPortalHomeTilesComponent._idCounter}`;
+
+
   @Input() portalTitle = 'ONLS Helper Tool';
 
   /** The 9 sub-portal tiles from the doc spec */

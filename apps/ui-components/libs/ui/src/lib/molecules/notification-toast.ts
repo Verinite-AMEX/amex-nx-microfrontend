@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -36,6 +36,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class NotificationToastComponent implements OnInit, OnDestroy {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-notification-toast-${++NotificationToastComponent._idCounter}`;
+
+
   @Input() variant: 'info' | 'success' | 'warning' | 'error' = 'info';
   @Input() title = '';
   @Input() message = '';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexCardBadgeComponent, AmexCardType } from '../atoms/card-badge';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
@@ -115,6 +115,10 @@ export interface AmexCardInfo {
   `],
 })
 export class AmexCardTileComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `card-tile-${++AmexCardTileComponent._idCounter}`;
+
+
   @Input() card!: AmexCardInfo;
   @Input() masked = true;
   @Input() selectable = false;

@@ -1,14 +1,6 @@
 // libs/ui/src/lib/amex/layout/login-modal.component.ts
 
-import {
-  Component,
-  Input,
-  Output,
-  EventEmitter,
-  signal,
-  ChangeDetectionStrategy,
-  inject,
-} from '@angular/core';
+import { Component, Input, Output, EventEmitter, signal, ChangeDetectionStrategy, inject, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -260,6 +252,10 @@ interface AuthApiResponse {
   `],
 })
 export class AmexLoginModalComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `login-modal-${++AmexLoginModalComponent._idCounter}`;
+
+
 
   @Input() portalTitle = 'American Express Portal';
   @Input() portalStyle: AmexNavPortalStyle = 'onls';

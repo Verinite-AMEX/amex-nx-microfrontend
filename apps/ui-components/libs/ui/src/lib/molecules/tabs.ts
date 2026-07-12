@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChildren, QueryList, AfterViewInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChildren, QueryList, AfterViewInit, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface TabItem {
@@ -58,6 +58,10 @@ export interface TabItem {
   `],
 })
 export class TabsComponent implements OnChanges, AfterViewInit {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-tabs-${++TabsComponent._idCounter}`;
+
+
   @Input() tabs: TabItem[] = [];
   @Input() activeTab = '';
   @Input() ariaLabel = 'Tabs';

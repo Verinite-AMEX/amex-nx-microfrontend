@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export type AmexPortalStyle = 'onls' | 'oms';
@@ -73,6 +73,10 @@ export type AmexPortalStyle = 'onls' | 'oms';
   `],
 })
 export class AmexSuccessToastComponent implements OnInit, OnDestroy {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `success-toast-${++AmexSuccessToastComponent._idCounter}`;
+
+
   @Input() message = 'Operation completed successfully.';
   @Input() portalStyle: AmexPortalStyle = 'onls';
   @Input() dismissible = true;

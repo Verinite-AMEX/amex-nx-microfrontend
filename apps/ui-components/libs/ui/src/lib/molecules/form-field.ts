@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -26,6 +26,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class FormFieldComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-form-field-${++FormFieldComponent._idCounter}`;
+
+
   @Input() label = '';
   @Input() hint = '';
   @Input() error = '';

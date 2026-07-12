@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -21,6 +21,7 @@ export interface SelectOption {
       <select
         [id]="id"
         [disabled]="disabled"
+        [required]="required"
         [attr.aria-invalid]="error ? 'true' : null"
         [attr.aria-describedby]="getDescriptionId()"
         [attr.aria-required]="required"
@@ -78,7 +79,8 @@ export class SelectComponent implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() disabled = false;
   @Input() error = '';
-  @Input() id = '';
+  private static _idCounter = 0;
+  @HostBinding('attr.id') @Input() id = `ui-select-${++SelectComponent._idCounter}`;
   @Input() label = '';
   @Input() required = false;
   @Input() helperText = '';

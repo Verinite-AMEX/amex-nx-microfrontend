@@ -13,7 +13,7 @@ import {
 
 import {
   AmexSubUserAdminTableComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 // Change path if required
 import {

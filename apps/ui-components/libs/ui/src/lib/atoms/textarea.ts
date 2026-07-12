@@ -1,4 +1,4 @@
-import { Component, Input, forwardRef } from '@angular/core';
+import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
@@ -18,6 +18,7 @@ import { CommonModule } from '@angular/common';
         [placeholder]="placeholder"
         [disabled]="disabled"
         [rows]="rows"
+        [required]="required"
         [attr.aria-invalid]="error ? 'true' : null"
         [attr.aria-describedby]="getDescriptionId()"
         [attr.aria-required]="required"
@@ -66,7 +67,8 @@ export class TextareaComponent implements ControlValueAccessor {
   @Input() disabled = false;
   @Input() rows = 4;
   @Input() error = '';
-  @Input() id = '';
+  private static _idCounter = 0;
+  @HostBinding('attr.id') @Input() id = `ui-textarea-${++TextareaComponent._idCounter}`;
   @Input() label = '';
   @Input() required = false;
   @Input() helperText = '';

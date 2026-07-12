@@ -6,7 +6,7 @@ import {
   AmexBreadcrumbTrailComponent,
   AmexStatementRowComponent,
   AmexAccountNumberComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-bta-memo-statement',

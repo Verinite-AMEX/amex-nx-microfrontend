@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -49,8 +49,8 @@ export interface VATInvoiceSearchData {
 
         <!-- Dynamic input label based on mode -->
         <div class="visf__input-row">
-          <label class="visf__label">{{ inputLabel }}</label>
-          <input class="visf__input" [(ngModel)]="form.searchValue"
+          <label class="visf__label" [for]="id + '-field'">{{ inputLabel }}</label>
+          <input [id]="id + '-field'" class="visf__input" [(ngModel)]="form.searchValue"
             [placeholder]="inputPlaceholder" />
         </div>
 
@@ -93,6 +93,10 @@ export interface VATInvoiceSearchData {
   `],
 })
 export class AmexVATInvoiceSearchFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `vat-invoice-search-form-${++AmexVATInvoiceSearchFormComponent._idCounter}`;
+
+
   form: VATInvoiceSearchData = { customerType: 'corporate', searchMode: 'vatReg', searchValue: '' };
 
   get inputLabel(): string {

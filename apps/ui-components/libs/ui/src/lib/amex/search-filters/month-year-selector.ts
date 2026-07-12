@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -17,14 +17,14 @@ export interface AmexMonthYear { year: number; month: number; }
     <div class="mys-wrap">
       <div class="mys-row">
         <div class="mys-field">
-          <label class="mys-label">Year</label>
-          <select class="mys-select" [(ngModel)]="selectedYear">
+          <label class="mys-label" [for]="id + '-year'">Year</label>
+          <select [id]="id + '-year'" class="mys-select" [(ngModel)]="selectedYear">
             <option *ngFor="let y of years" [value]="y">{{ y }}</option>
           </select>
         </div>
         <div class="mys-field">
-          <label class="mys-label">Month</label>
-          <select class="mys-select" [(ngModel)]="selectedMonth">
+          <label class="mys-label" [for]="id + '-month'">Month</label>
+          <select [id]="id + '-month'" class="mys-select" [(ngModel)]="selectedMonth">
             <option *ngFor="let m of months" [value]="m.value">{{ m.label }}</option>
           </select>
         </div>
@@ -81,6 +81,10 @@ export interface AmexMonthYear { year: number; month: number; }
   `],
 })
 export class AmexMonthYearSelectorComponent implements OnInit {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `month-year-selector-${++AmexMonthYearSelectorComponent._idCounter}`;
+
+
   @Input() buttonLabel = 'Submit';
   @Input() startYear = 2020;
   @Input() endYear = new Date().getFullYear();

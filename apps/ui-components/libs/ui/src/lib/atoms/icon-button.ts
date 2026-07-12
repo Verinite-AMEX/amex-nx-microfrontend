@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'ui-icon-button',
@@ -35,6 +35,10 @@ import { Component, Input, Output, EventEmitter, HostListener } from '@angular/c
   `],
 })
 export class IconButtonComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-icon-button-${++IconButtonComponent._idCounter}`;
+
+
   @Input() icon = '★';
   @Input() ariaLabel = '';
   @Input() ariaDescribedBy = '';

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -22,16 +22,16 @@ export interface MyDetailsFormData {
       <div class="emdf__panel-header">{{ panelTitle }}</div>
       <div class="emdf__body">
         <div class="emdf__field">
-          <label class="emdf__label">Name <span class="emdf__req">*</span></label>
-          <input class="emdf__input" [(ngModel)]="form.name" placeholder="Enter your name" />
+          <label class="emdf__label" [for]="id + '-name'">Name <span class="emdf__req">*</span></label>
+          <input [id]="id + '-name'" class="emdf__input" [(ngModel)]="form.name" placeholder="Enter your name" />
         </div>
         <div class="emdf__field">
-          <label class="emdf__label">Email <span class="emdf__req">*</span></label>
-          <input class="emdf__input" [(ngModel)]="form.email" type="email" placeholder="Enter your email" />
+          <label class="emdf__label" [for]="id + '-email'">Email <span class="emdf__req">*</span></label>
+          <input [id]="id + '-email'" class="emdf__input" [(ngModel)]="form.email" type="email" placeholder="Enter your email" />
         </div>
         <div class="emdf__field" *ngIf="showPhone">
-          <label class="emdf__label">Phone</label>
-          <input class="emdf__input" [(ngModel)]="form.phone" placeholder="Enter your phone number" />
+          <label class="emdf__label" [for]="id + '-phone'">Phone</label>
+          <input [id]="id + '-phone'" class="emdf__input" [(ngModel)]="form.phone" placeholder="Enter your phone number" />
         </div>
         <div class="emdf__actions">
           <button class="emdf__btn emdf__btn--cancel" (click)="cancelClick.emit()">Cancel</button>
@@ -76,6 +76,10 @@ export interface MyDetailsFormData {
   `],
 })
 export class AmexEditMyDetailsFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `edit-my-details-form-${++AmexEditMyDetailsFormComponent._idCounter}`;
+
+
   @Input() panelTitle = 'Edit My Details';
   @Input() showPhone = true;
   @Input() initialData: Partial<MyDetailsFormData> = {};

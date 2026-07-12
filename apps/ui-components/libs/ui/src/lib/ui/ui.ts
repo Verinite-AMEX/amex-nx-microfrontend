@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'lib-ui',
@@ -7,4 +7,8 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   styleUrl: './ui.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class Ui {}
+export class Ui {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-${++Ui._idCounter}`;
+
+}

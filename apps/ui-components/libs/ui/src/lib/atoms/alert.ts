@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 const ICONS: Record<string, string> = {
@@ -40,6 +40,10 @@ const ICONS: Record<string, string> = {
   `],
 })
 export class AlertComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-alert-${++AlertComponent._idCounter}`;
+
+
   @Input() variant: 'info' | 'success' | 'warning' | 'error' = 'info';
   @Input() title = '';
   @Input() message = '';

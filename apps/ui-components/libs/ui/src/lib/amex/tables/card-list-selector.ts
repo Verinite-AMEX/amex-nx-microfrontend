@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -23,9 +23,9 @@ export interface AmexCardRow {
     <div class="cls">
       <!-- Client ID search bar -->
       <div class="cls__search">
-        <label class="cls__label">{{ searchLabel }}</label>
+        <label class="cls__label" [for]="id + '-field'">{{ searchLabel }}</label>
         <div class="cls__search-row">
-          <input class="cls__input" [(ngModel)]="clientId" [placeholder]="placeholder" />
+          <input [id]="id + '-field'" class="cls__input" [(ngModel)]="clientId" [placeholder]="placeholder" />
           <button class="cls__submit-btn" (click)="search.emit(clientId)">{{ submitLabel }}</button>
         </div>
       </div>
@@ -48,10 +48,10 @@ export interface AmexCardRow {
       <table *ngIf="rows.length" class="cls__table">
         <thead>
           <tr class="cls__head-row">
-            <th class="cls__th cls__th--radio"></th>
-            <th class="cls__th">Card Number</th>
-            <th class="cls__th">Card Type</th>
-            <th class="cls__th">Status</th>
+            <th class="cls__th cls__th--radio" scope="col"></th>
+            <th class="cls__th" scope="col">Card Number</th>
+            <th class="cls__th" scope="col">Card Type</th>
+            <th class="cls__th" scope="col">Status</th>
           </tr>
         </thead>
         <tbody>
@@ -142,6 +142,10 @@ export interface AmexCardRow {
   `],
 })
 export class AmexCardListSelectorComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `card-list-selector-${++AmexCardListSelectorComponent._idCounter}`;
+
+
   @Input() searchLabel = 'Client ID';
   @Input() placeholder = 'eg. 12345';
   @Input() submitLabel = 'Submit';

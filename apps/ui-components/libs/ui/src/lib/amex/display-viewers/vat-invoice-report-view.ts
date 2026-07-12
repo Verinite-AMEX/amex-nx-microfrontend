@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -63,12 +63,12 @@ export interface VATLineItem {
 
         <!-- Dynamic label + input -->
         <div class="virv__input-block">
-          <div class="virv__input-label">
+          <label class="virv__input-label" [for]="id + '-search-value'">
             <ng-container *ngIf="searchMode === 'vat'">VAT Registration Number</ng-container>
             <ng-container *ngIf="searchMode === 'invoice'">Invoice Number</ng-container>
             <ng-container *ngIf="searchMode === 'account'">Basic Control Account</ng-container>
-          </div>
-          <input class="virv__input" [(ngModel)]="searchValue"
+          </label>
+          <input [id]="id + '-search-value'" class="virv__input" [(ngModel)]="searchValue"
                  [placeholder]="searchMode === 'vat' ? 'Enter VAT Reg Number'
                                : searchMode === 'invoice' ? 'Enter Invoice Number'
                                : 'Enter Account Number'" />
@@ -102,9 +102,9 @@ export interface VATLineItem {
           <table class="virv__line-table">
             <thead>
               <tr>
-                <th>Description</th>
-                <th class="virv__th-num">Amount (AED)</th>
-                <th class="virv__th-num">VAT (AED)</th>
+                <th scope="col">Description</th>
+                <th class="virv__th-num" scope="col">Amount (AED)</th>
+                <th class="virv__th-num" scope="col">VAT (AED)</th>
               </tr>
             </thead>
             <tbody>
@@ -233,6 +233,9 @@ export interface VATLineItem {
   `],
 })
 export class AmexVATInvoiceReportViewComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `vat-invoice-report-view-${++AmexVATInvoiceReportViewComponent._idCounter}`;
+
   @Input() customerType: 'corporate' | 'consumer' = 'corporate';
   @Input() searchMode: 'vat' | 'invoice' | 'account' = 'invoice';
   @Input() searchValue  = '';

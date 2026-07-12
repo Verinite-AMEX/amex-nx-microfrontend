@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -44,47 +44,47 @@ export interface ROCFormData {
           <!-- Left column -->
           <div class="sef__col">
             <div class="sef__row">
-              <label class="sef__label">SE Number <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="soc.seNumber" />
+              <label class="sef__label" [for]="id + '-se-number'">SE Number <span class="sef__req">*</span></label>
+              <input [id]="id + '-se-number'" class="sef__input" [(ngModel)]="soc.seNumber" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Date <span class="sef__req">*</span></label>
+              <label class="sef__label" [for]="id + '-date'">Date <span class="sef__req">*</span></label>
               <div class="sef__date-inputs">
-                <input class="sef__input sef__input--date" [(ngModel)]="socDay" placeholder="DD" maxlength="2" />
+                <input [id]="id + '-date'" class="sef__input sef__input--date" [(ngModel)]="socDay" placeholder="DD" maxlength="2" />
                 <input class="sef__input sef__input--date" [(ngModel)]="socMonth" placeholder="MM" maxlength="2" />
                 <input class="sef__input sef__input--year" [(ngModel)]="socYear" placeholder="YYYY" maxlength="4" />
               </div>
             </div>
             <div class="sef__row">
-              <label class="sef__label">Grand Total <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="soc.grandTotal" />
+              <label class="sef__label" [for]="id + '-grand-total'">Grand Total <span class="sef__req">*</span></label>
+              <input [id]="id + '-grand-total'" class="sef__input" [(ngModel)]="soc.grandTotal" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">No. of Charges <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="soc.noOfCharges" />
+              <label class="sef__label" [for]="id + '-no-of-charges'">No. of Charges <span class="sef__req">*</span></label>
+              <input [id]="id + '-no-of-charges'" class="sef__input" [(ngModel)]="soc.noOfCharges" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">SOC Ref. No. <span class="sef__req">*</span></label>
-              <input class="sef__input sef__input--highlight" [(ngModel)]="soc.socRefNo" />
+              <label class="sef__label" [for]="id + '-soc-ref-no'">SOC Ref. No. <span class="sef__req">*</span></label>
+              <input [id]="id + '-soc-ref-no'" class="sef__input sef__input--highlight" [(ngModel)]="soc.socRefNo" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Refund</label>
-              <input type="checkbox" [(ngModel)]="soc.refund" class="sef__checkbox" />
+              <label class="sef__label" [for]="id + '-refund'">Refund</label>
+              <input [id]="id + '-refund'" type="checkbox" [(ngModel)]="soc.refund" class="sef__checkbox" />
             </div>
           </div>
           <!-- Right column -->
           <div class="sef__col">
             <div class="sef__row">
-              <label class="sef__label">SE Name</label>
-              <input class="sef__input sef__input--readonly" [value]="soc.seName" readonly />
+              <label class="sef__label" [for]="id + '-se-name'">SE Name</label>
+              <input [id]="id + '-se-name'" class="sef__input sef__input--readonly" [value]="soc.seName" readonly />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Currency</label>
-              <input class="sef__input sef__input--readonly" [value]="soc.currency" readonly />
+              <label class="sef__label" [for]="id + '-currency'">Currency</label>
+              <input [id]="id + '-currency'" class="sef__input sef__input--readonly" [value]="soc.currency" readonly />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Country</label>
-              <input class="sef__input sef__input--readonly" [value]="soc.country" readonly />
+              <label class="sef__label" [for]="id + '-country'">Country</label>
+              <input [id]="id + '-country'" class="sef__input sef__input--readonly" [value]="soc.country" readonly />
             </div>
           </div>
         </div>
@@ -104,43 +104,43 @@ export interface ROCFormData {
           <!-- Left column -->
           <div class="sef__col">
             <div class="sef__row">
-              <label class="sef__label">Card Account No. <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="roc.cardAccountNo" />
+              <label class="sef__label" [for]="id + '-card-account-no'">Card Account No. <span class="sef__req">*</span></label>
+              <input [id]="id + '-card-account-no'" class="sef__input" [(ngModel)]="roc.cardAccountNo" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Date of Change <span class="sef__req">*</span></label>
+              <label class="sef__label" [for]="id + '-date-of-change'">Date of Change <span class="sef__req">*</span></label>
               <div class="sef__date-inputs">
-                <input class="sef__input sef__input--date" [(ngModel)]="rocDay" placeholder="DD" maxlength="2" />
+                <input [id]="id + '-date-of-change'" class="sef__input sef__input--date" [(ngModel)]="rocDay" placeholder="DD" maxlength="2" />
                 <input class="sef__input sef__input--date" [(ngModel)]="rocMonth" placeholder="MM" maxlength="2" />
                 <input class="sef__input sef__input--year" [(ngModel)]="rocYear" placeholder="YYYY" maxlength="4" />
               </div>
             </div>
             <div class="sef__row">
-              <label class="sef__label">Approval Code</label>
-              <input class="sef__input" [(ngModel)]="roc.approvalCode" />
+              <label class="sef__label" [for]="id + '-approval-code'">Approval Code</label>
+              <input [id]="id + '-approval-code'" class="sef__input" [(ngModel)]="roc.approvalCode" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Total Amount <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="roc.totalAmount" />
+              <label class="sef__label" [for]="id + '-total-amount'">Total Amount <span class="sef__req">*</span></label>
+              <input [id]="id + '-total-amount'" class="sef__input" [(ngModel)]="roc.totalAmount" />
             </div>
             <div class="sef__row">
-              <label class="sef__label">ROC Ref. No. <span class="sef__req">*</span></label>
-              <input class="sef__input" [(ngModel)]="roc.rocRefNo" />
+              <label class="sef__label" [for]="id + '-roc-ref-no'">ROC Ref. No. <span class="sef__req">*</span></label>
+              <input [id]="id + '-roc-ref-no'" class="sef__input" [(ngModel)]="roc.rocRefNo" />
             </div>
           </div>
           <!-- Right column -->
           <div class="sef__col">
             <div class="sef__row">
-              <label class="sef__label">#</label>
-              <input class="sef__input sef__input--readonly" [value]="roc.hash" readonly />
+              <label class="sef__label" [for]="id + '-field'">#</label>
+              <input [id]="id + '-field'" class="sef__input sef__input--readonly" [value]="roc.hash" readonly />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Balance SOC Amt.</label>
-              <input class="sef__input sef__input--readonly" [value]="roc.balanceSocAmt" readonly />
+              <label class="sef__label" [for]="id + '-balance-soc-amt'">Balance SOC Amt.</label>
+              <input [id]="id + '-balance-soc-amt'" class="sef__input sef__input--readonly" [value]="roc.balanceSocAmt" readonly />
             </div>
             <div class="sef__row">
-              <label class="sef__label">Rejection Code</label>
-              <select class="sef__select" [(ngModel)]="roc.rejectionCode">
+              <label class="sef__label" [for]="id + '-rejection-code'">Rejection Code</label>
+              <select [id]="id + '-rejection-code'" class="sef__select" [(ngModel)]="roc.rejectionCode">
                 <option value=""></option>
                 <option *ngFor="let r of rejectionCodes" [value]="r">{{ r }}</option>
               </select>
@@ -221,6 +221,10 @@ export interface ROCFormData {
   `],
 })
 export class AmexSOCROCEntryFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `socroc-entry-form-${++AmexSOCROCEntryFormComponent._idCounter}`;
+
+
   @Input() showSOC = true;
   @Input() showROC = true;
   @Input() rejectionCodes: string[] = ['001 - Invalid', '002 - Duplicate', '003 - Expired'];

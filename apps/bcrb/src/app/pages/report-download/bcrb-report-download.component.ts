@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexReportDownloadButtonComponent } from '@vn-core-ui-components/ui';
+import { AmexReportDownloadButtonComponent } from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

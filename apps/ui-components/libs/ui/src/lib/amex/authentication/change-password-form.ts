@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild} from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 
@@ -328,6 +328,10 @@ export interface ChangePasswordData {
   `]
 })
 export class AmexChangePasswordFormComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `change-password-form-${++AmexChangePasswordFormComponent._idCounter}`;
+
+
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() portalTitle = '';
   @Input() errorMessage = '';

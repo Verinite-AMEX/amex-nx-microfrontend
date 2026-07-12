@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface ApprovalRequestRow {
@@ -25,12 +25,12 @@ export interface ApprovalRequestRow {
       <table class="raq__table">
         <thead>
           <tr class="raq__head-row">
-            <th class="raq__th">Request ID</th>
-            <th class="raq__th">Reference No.</th>
-            <th class="raq__th">Customer Name</th>
-            <th class="raq__th">Emirates ID</th>
-            <th class="raq__th">Status</th>
-            <th class="raq__th raq__th--actions">Actions</th>
+            <th class="raq__th" scope="col">Request ID</th>
+            <th class="raq__th" scope="col">Reference No.</th>
+            <th class="raq__th" scope="col">Customer Name</th>
+            <th class="raq__th" scope="col">Emirates ID</th>
+            <th class="raq__th" scope="col">Status</th>
+            <th class="raq__th raq__th--actions" scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -81,6 +81,10 @@ export interface ApprovalRequestRow {
   `],
 })
 export class AmexRequestApprovalQueueComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `request-approval-queue-${++AmexRequestApprovalQueueComponent._idCounter}`;
+
+
   @Input() rows: ApprovalRequestRow[] = [];
   @Input() title = 'Approval Queue';
   @Output() actionClick = new EventEmitter<{ action: string; row: ApprovalRequestRow }>();

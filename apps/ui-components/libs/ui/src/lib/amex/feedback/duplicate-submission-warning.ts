@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
 
@@ -109,6 +109,10 @@ import { AmexPortalStyle } from './success-toast';
   `],
 })
 export class AmexDuplicateSubmissionWarningComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `duplicate-submission-warning-${++AmexDuplicateSubmissionWarningComponent._idCounter}`;
+
+
   @Input() portalStyle: AmexPortalStyle = 'oms';
   @Input() clientId = '';
   @Input() backLabel = 'Back';

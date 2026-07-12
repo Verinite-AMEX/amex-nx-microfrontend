@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface AmexTabItem { id: string; label: string; }
@@ -93,6 +93,10 @@ export interface AmexTabItem { id: string; label: string; }
   `],
 })
 export class AmexTabBarComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `tab-bar-${++AmexTabBarComponent._idCounter}`;
+
+
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() tabs: AmexTabItem[] = [];
   @Input() activeTabId = '';

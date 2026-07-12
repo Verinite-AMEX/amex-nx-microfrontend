@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export interface PaymentRegisterRow {
@@ -27,11 +27,11 @@ export interface PaymentRegisterRow {
       <table class="prt__table">
         <thead>
           <tr class="prt__head-row">
-            <th class="prt__th">Date</th>
-            <th class="prt__th">Location</th>
-            <th class="prt__th">Currency</th>
-            <th class="prt__th prt__th--num">Amount</th>
-            <th class="prt__th">Reference</th>
+            <th class="prt__th" scope="col">Date</th>
+            <th class="prt__th" scope="col">Location</th>
+            <th class="prt__th" scope="col">Currency</th>
+            <th class="prt__th prt__th--num" scope="col">Amount</th>
+            <th class="prt__th" scope="col">Reference</th>
           </tr>
         </thead>
         <tbody>
@@ -67,6 +67,10 @@ export interface PaymentRegisterRow {
   `],
 })
 export class AmexPaymentRegisterTableComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `payment-register-table-${++AmexPaymentRegisterTableComponent._idCounter}`;
+
+
   @Input() rows: PaymentRegisterRow[] = [];
   @Input() title = 'Payment Register';
   @Output() printClick = new EventEmitter<void>();

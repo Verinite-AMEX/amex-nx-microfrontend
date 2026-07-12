@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, forwardRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { NgIf } from '@angular/common';
 
@@ -33,6 +33,10 @@ import { NgIf } from '@angular/common';
   `],
 })
 export class SearchBarComponent implements ControlValueAccessor {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `ui-search-bar-${++SearchBarComponent._idCounter}`;
+
+
   @Input() placeholder = 'Search...';
   @Input() disabled = false;
   @Output() searched = new EventEmitter<string>();

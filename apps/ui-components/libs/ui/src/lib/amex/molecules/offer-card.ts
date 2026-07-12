@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexCardBadgeComponent, AmexCardType } from '../atoms/card-badge';
 
@@ -293,6 +293,10 @@ export interface AmexOffer {
   `],
 })
 export class AmexOfferCardComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `offer-card-${++AmexOfferCardComponent._idCounter}`;
+
+
   /** false = compact grid tile | true = full detail panel */
   @Input() detailMode = false;
   @Input() offer!: AmexOffer;

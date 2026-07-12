@@ -5,7 +5,7 @@ import {
   AmexOfferCardComponent, AmexOffer,
   AmexSuccessToastComponent,
   AmexConfirmationModalComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-offers-catalogue',

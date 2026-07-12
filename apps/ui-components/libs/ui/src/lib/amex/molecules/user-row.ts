@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
 
@@ -83,6 +83,10 @@ export interface AmexUser {
   `],
 })
 export class AmexUserRowComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `user-row-${++AmexUserRowComponent._idCounter}`;
+
+
   @Input() user!: AmexUser;
   @Output() edit = new EventEmitter<AmexUser>();
   @Output() resetPassword = new EventEmitter<AmexUser>();

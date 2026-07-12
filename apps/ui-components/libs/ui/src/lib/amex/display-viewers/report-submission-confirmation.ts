@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 /**
@@ -158,6 +158,10 @@ import { CommonModule } from '@angular/common';
   `],
 })
 export class AmexReportSubmissionConfirmationComponent {
+  private static _idCounter = 0;
+  @HostBinding('attr.id') readonly id = `report-submission-confirmation-${++AmexReportSubmissionConfirmationComponent._idCounter}`;
+
+
   /** 'bcrb' = BCRB dark bar style | 'default' = green success panel */
   @Input() variant: 'bcrb' | 'default' = 'default';
   @Input() title          = '';

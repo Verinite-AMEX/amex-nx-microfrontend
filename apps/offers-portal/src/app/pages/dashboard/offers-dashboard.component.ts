@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
-// ✅ All components imported from installed @vn-core-ui-components/ui package
+// ✅ All components imported from installed @ui-components/ui package
 import {
   AmexPageHeaderComponent,
   AmexBreadcrumbTrailComponent,
@@ -11,7 +11,7 @@ import {
   AmexOfferCardComponent, AmexOffer,
   AmexSuccessToastComponent,
   AmexConfirmationModalComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-offers-dashboard',
