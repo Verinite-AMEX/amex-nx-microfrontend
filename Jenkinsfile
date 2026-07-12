@@ -108,6 +108,12 @@ log: { type: stdout, format: pretty, level: warn }
         stage('Publish Shared UI Library') {
             steps {
                 echo '=========================== Publishing @ui-components/ui to Verdaccio... ==========================='
+                // npm publish refuses to even attempt a publish if it can't find ANY saved
+                // credentials for the target registry in .npmrc — this is a client-side check,
+                // separate from whether Verdaccio itself would accept an anonymous publish.
+                // A dummy token satisfies that check; Verdaccio's publish:$all config (set in
+                // the Start Verdaccio stage) means it doesn't actually validate this token.
+                bat 'npm config set //localhost:4873/:_authToken "anonymous"'
                 dir('apps/ui-components') {
                     bat 'npm run ui:publish'
                 }
