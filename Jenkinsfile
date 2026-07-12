@@ -80,7 +80,9 @@ pipeline {
         stage('Publish Shared UI Library') {
             steps {
                 echo '=========================== Publishing @ui-components/ui to Verdaccio... ==========================='
-                bat 'npm run ui:publish'
+                dir('apps/ui-components') {
+                    bat 'npm run ui:publish'
+                }
             }
         }
 
