@@ -13,13 +13,13 @@ export class RemoteEntry {
   private router: Router
 ) {}
 
-onTabChanged(
-  tabId: string
-) {
+// onTabChanged(
+//   tabId: string
+// ) {
 
-  this.router.navigate([
-    '/oms',
-    tabId
-  ]);
-}
+//   this.router.navigate([
+//     '/oms',
+//     tabId
+//   ]);
+// }
 }

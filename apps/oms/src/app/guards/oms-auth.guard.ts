@@ -23,7 +23,13 @@ export const omsAuthGuard: CanActivateFn = (route) => {
 
   // doesn't keep silently failing, and send them back through login
   // WITH returnUrl this time.
-  if (!auth.isMerchant()) {
+  if (
+  !auth.isMerchant() &&
+  !auth.isOmsAdmin() &&
+  !auth.isMrmUser() &&
+  !auth.isOmsSubUser() &&
+  !auth.isOmsVatUser()
+) {
     auth.clearSession();
     redirectToAuthApp();
     return false;
@@ -34,7 +40,7 @@ export const omsAuthGuard: CanActivateFn = (route) => {
   if (allowedRoles.length > 0 && !auth.hasRole(...allowedRoles)) {
     // Redirect to their first allowed page instead of a blank screen
     const fallback = getFallback(auth);
-    router.navigate([`/oms/${fallback}`]);
+    router.navigate([fallback]);
     return false;
   }
 
