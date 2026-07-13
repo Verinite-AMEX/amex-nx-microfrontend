@@ -228,8 +228,6 @@ export class AppComponent implements OnInit, OnDestroy {
     private bus: EventBusService,
   ) { }
 
-  // ── Lifecycle ─────────────────────────────────────────────────────
-
   ngOnInit(): void {
     this.secureForm.enable();
     // Set immediately from current URL so shell doesn't flash on first paint
@@ -416,8 +414,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onMenuToggle(): void { }
-
-  // ── Logout ───────────────────────────────────────────────────────
 
   onLogoutRequest(): void {
     this.showLogoutDialog = true;
