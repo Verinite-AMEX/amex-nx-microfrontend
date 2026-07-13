@@ -20,7 +20,6 @@ interface BtaCase {
 
     <div class="bta-page">
 
-      <!-- Case detail view -->
       <div *ngIf="selectedCase" class="bta-panel">
         <div class="bta-panel-hd">Case Details — {{ selectedCase.caseId }}</div>
         <div class="bta-panel-bd">
@@ -58,7 +57,6 @@ interface BtaCase {
         </div>
       </div>
 
-      <!-- Search + List -->
       <div *ngIf="!selectedCase" class="bta-panel">
         <div class="bta-panel-hd">BTA TMC Worklist</div>
         <div class="bta-panel-bd">
@@ -152,15 +150,11 @@ interface BtaCase {
 })
 export class BtaCaseManagementComponent {
   selectedCase: BtaCase | null = null;
-
-  // Search state
   searchTerm = '';
   lastSearchTerm = '';
   searched = false;
   searchSubmitted = false;
   searchError = '';
-
-  // Comment state
   comment = '';
   commentError = '';
   commentSuccess = '';
@@ -184,7 +178,6 @@ export class BtaCaseManagementComponent {
     return ({ 'Open':'active', 'Pending':'pending', 'Closed':'completed', 'Resolved':'approved' } as any)[s] || 'inactive';
   }
 
-  // ── Search validation ──────────────────────────────────────────
   search() {
     this.searchSubmitted = true;
     this.searchError = '';
@@ -206,7 +199,6 @@ export class BtaCaseManagementComponent {
     this.searchError = '';
   }
 
-  // ── Case detail ────────────────────────────────────────────────
   viewCase(c: BtaCase) {
     this.selectedCase = c;
     this.resetComment();
@@ -222,7 +214,6 @@ export class BtaCaseManagementComponent {
     this.resetComment();
   }
 
-  // ── Comment validation ─────────────────────────────────────────
   resetComment() {
     this.comment = '';
     this.commentError = '';
@@ -249,7 +240,6 @@ export class BtaCaseManagementComponent {
     this.commentSubmitted = false;
   }
 
-  // ── Close Case ─────────────────────────────────────────────────
   closeCase() {
     if (!this.selectedCase || this.selectedCase.status === 'Closed') return;
 

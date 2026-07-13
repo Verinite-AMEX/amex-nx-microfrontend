@@ -30,7 +30,6 @@ export class DetailsByCurrency {
   records: Record<string, any>[] = [];
 
   onSearch(): void {
-    // TODO: Replace with ReportService API call
     this.records = [];
     this.showTable = true;
   }

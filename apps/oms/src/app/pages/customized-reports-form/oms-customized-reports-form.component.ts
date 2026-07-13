@@ -318,8 +318,6 @@ implements OnInit, OnChanges {
   }
 
 }
-
-  // LOAD REPORTS
   loadGeneratedReports() {
 
     this.customizedReportsService
@@ -348,7 +346,6 @@ implements OnInit, OnChanges {
 
 }
 
-  // SUBMIT REPORT
 onSubmit(
   event: any
 ) {
@@ -384,7 +381,6 @@ console.log(
   event.reportType?.length
 );
 
-  // CHECK DATE VALUES
   console.log(
     'Date From:',
     event.dateFrom
@@ -405,7 +401,6 @@ console.log(
     typeof event.dateTo
   );
 
-  // REPORT TYPE
   if (
     !event.reportType
   ) {
@@ -417,7 +412,6 @@ console.log(
     return;
   }
 
-  // FROM DATE
   if (
     !event.dateFrom
   ) {
@@ -429,7 +423,6 @@ console.log(
     return;
   }
 
-  // TO DATE
   if (
     !event.dateTo
   ) {
@@ -441,7 +434,6 @@ console.log(
     return;
   }
 
-  // PARSE DATES
   const fromDate =
     new Date(
       event.dateFrom
@@ -472,7 +464,6 @@ console.log(
     toDate.getTime()
   );
 
-  // VALIDATE DATE RANGE
   if (
     fromDate.getTime() >
     toDate.getTime()
@@ -490,7 +481,6 @@ console.log(
   this.showSubscriptionWarning =
     !!event.emailSubscription;
 
-  // MOCK API DELAY
   setTimeout(() => {
 
     const newReport = {
@@ -549,7 +539,6 @@ console.log(
 
 }
 
-  // SEARCH REPORTS
   onSearchReports() {
 
     console.log(
@@ -557,7 +546,6 @@ console.log(
       this.searchKeyword
     );
 
-    // EMPTY SEARCH
     if (
       !this.searchKeyword
     ) {
@@ -580,7 +568,6 @@ console.log(
     );
   }
 
-  // BACK
   onBack() {
 
     console.log(

@@ -30,7 +30,6 @@ export class OmsSettlementSubmissionService {
     this.loadMockData();
   }
 
-  // LOAD MOCK DATA
   private loadMockData() {
 
     const storedData =
@@ -162,13 +161,11 @@ export class OmsSettlementSubmissionService {
     }
   }
 
-  // GET ALL DATA
   getRows() {
 
     return this.rows$;
   }
 
-  // FILTER DATA
   filterRows(
     months: number
   ) {

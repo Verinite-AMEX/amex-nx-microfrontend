@@ -16,13 +16,11 @@ import { filter, Subscription } from 'rxjs';
   template: `
     <div class="pwp-standalone">
 
-      <!-- TOP BAR -->
       <div class="top-bar">
         <span class="top-bar__country">(Change Country)</span>
         <button class="top-bar__logout" (click)="onLogout()">LOG OUT</button>
       </div>
 
-      <!-- HEADER -->
       <div class="header">
 
         <div class="header__logo">
@@ -65,7 +63,6 @@ import { filter, Subscription } from 'rxjs';
           </svg>
         </div>
 
-        <!-- NAV -->
         <nav class="nav">
 
           <span
@@ -78,7 +75,6 @@ import { filter, Subscription } from 'rxjs';
 
             {{ tab.label }}
 
-            <!-- DROPDOWN -->
             <div
               *ngIf="tab.dropdown && openTab === tab.id"
               class="dropdown"
@@ -109,14 +105,12 @@ import { filter, Subscription } from 'rxjs';
 
       </div>
 
-      <!-- BREADCRUMB -->
       <div class="breadcrumb" *ngIf="breadcrumb">
         <span>Misc</span>
         <span class="breadcrumb__sep"> › </span>
         <span class="breadcrumb__current">{{ breadcrumb }}</span>
       </div>
 
-      <!-- CONTENT -->
       <div class="content">
         <router-outlet></router-outlet>
       </div>
@@ -138,8 +132,6 @@ import { filter, Subscription } from 'rxjs';
       font-family: Arial, sans-serif;
       background: #fff;
     }
-
-    /* TOP BAR */
 
     .top-bar {
       background: #fff;
@@ -175,8 +167,6 @@ import { filter, Subscription } from 'rxjs';
       background: #003087;
     }
 
-    /* HEADER */
-
     .header {
       display: flex;
       align-items: center;
@@ -185,8 +175,6 @@ import { filter, Subscription } from 'rxjs';
       border-bottom: 1px solid #ddd;
       gap: 16px;
     }
-
-    /* NAV */
 
     .nav {
       display: flex;
@@ -215,8 +203,6 @@ import { filter, Subscription } from 'rxjs';
       color: #003087;
       border-bottom: 2px solid #006fcf;
     }
-
-    /* DROPDOWN */
 
     .dropdown {
       position: absolute;
@@ -259,8 +245,6 @@ import { filter, Subscription } from 'rxjs';
       color: #003087;
     }
 
-    /* BREADCRUMB */
-
     .breadcrumb {
       padding: 4px 12px;
       font-size: 11px;
@@ -277,8 +261,6 @@ import { filter, Subscription } from 'rxjs';
       color: #003087;
       font-weight: bold;
     }
-
-    /* CONTENT */
 
     .content {
       flex: 1;

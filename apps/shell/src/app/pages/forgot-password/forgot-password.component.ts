@@ -36,7 +36,6 @@ export class ForgotPasswordComponent implements OnInit {
       .subscribe({
 
         next: () => {
-          // success handled inside component
         },
 
         error: (err) => {

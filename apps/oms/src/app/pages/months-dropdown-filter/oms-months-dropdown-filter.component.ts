@@ -65,7 +65,6 @@ export class OmsMonthsDropdownFilterComponent {
 
   selectedMonths = 1;
 
-  // DROPDOWN CHANGE
   onMonthsSelected(
     months: number
   ) {
@@ -78,7 +77,6 @@ export class OmsMonthsDropdownFilterComponent {
     this.selectedMonths =
       Number(months);
 
-    // IMMEDIATELY SUBMIT
     this.submitClicked.emit(
       this.selectedMonths
     );

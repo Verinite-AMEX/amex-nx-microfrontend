@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-
-// ✅ From @vn-core-ui-components/ui
 import {
   AmexPageHeaderComponent, AmexBreadcrumbTrailComponent,
   AmexStatusBadgeComponent, AmexStatus,
@@ -43,7 +41,6 @@ interface Promotion {
         [autoDismiss]="true" [duration]="4000" (dismissed)="successMsg=''">
       </amex-success-toast>
 
-      <!-- KPI row using AmexPointsDisplayComponent -->
       <div class="kpi-row">
         <div class="kpi-card"><amex-points-display [points]="activeCount"   label="Active"    [compact]="true"></amex-points-display></div>
         <div class="kpi-card"><amex-points-display [points]="enrolledCount" label="Enrolled"  [compact]="true"></amex-points-display></div>
@@ -51,7 +48,6 @@ interface Promotion {
         <div class="kpi-card"><amex-points-display [points]="expiredCount"  label="Expired"   [compact]="true"></amex-points-display></div>
       </div>
 
-      <!-- Status filter -->
       <div class="filter-bar">
         <span class="filter-label">Status:</span>
         <button *ngFor="let f of statusFilters" class="filter-chip"
@@ -59,7 +55,6 @@ interface Promotion {
         <input class="search-input" [(ngModel)]="searchTerm" placeholder="Search promotions..."/>
       </div>
 
-      <!-- Promotions table using AmexStatusBadgeComponent + AmexCardBadgeComponent -->
       <div class="panel">
         <div class="panel-hd">
           Promotional Campaigns

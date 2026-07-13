@@ -15,7 +15,6 @@ import {
   AmexSubUserAdminTableComponent
 } from '@ui-components/ui';
 
-// Change path if required
 import {
   OmsPaginationComponent
 } from '../../shared/pagination/oms-pagination.component';
@@ -126,7 +125,6 @@ implements OnChanges {
 
   ];
 
-  // CURRENT PAGE DATA
   paginatedRows: any[] = [];
 
   ngOnChanges(
@@ -145,7 +143,6 @@ implements OnChanges {
 
   }
 
-  // PAGINATION CALLBACK
   onPageChanged(
     rows: any[]
   ) {
@@ -155,7 +152,6 @@ implements OnChanges {
 
   }
 
-  // TABLE ACTION
   handleAction(
     event: any
   ) {
@@ -165,7 +161,6 @@ implements OnChanges {
       event
     );
 
-    // EDIT
     if (
       event?.action === 'edit'
     ) {
@@ -176,7 +171,6 @@ implements OnChanges {
 
     }
 
-    // DELETE
     if (
       event?.action === 'delete'
     ) {

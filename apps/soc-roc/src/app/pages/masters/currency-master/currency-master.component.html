@@ -1,6 +1,4 @@
 <div class="cm-page">
-
-  <!-- DEFAULT VIEW -->
   <div *ngIf="view === 'default'" class="cm-form">
     <div class="cm-field-row">
       <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
@@ -30,8 +28,6 @@
       <button class="cm-btn cm-btn--blue" (click)="goToModify()">Modify</button>
     </div>
   </div>
-
-  <!-- ADD NEW VIEW -->
   <div *ngIf="view === 'add'" class="cm-form">
     <div class="cm-field-row">
       <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
@@ -57,8 +53,6 @@
       <button class="cm-btn cm-btn--cancel" (click)="goBack()">Cancel</button>
     </div>
   </div>
-
-  <!-- MODIFY VIEW -->
   <div *ngIf="view === 'modify'" class="cm-form">
     <div class="cm-field-row">
       <label class="cm-label">Currency Code <span class="cm-req">*</span></label>
@@ -101,5 +95,4 @@
       <button class="cm-btn cm-btn--blue" (click)="onModifyUpdate()">Modify</button>
     </div>
   </div>
-
 </div>

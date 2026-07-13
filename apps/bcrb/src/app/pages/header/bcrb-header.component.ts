@@ -16,8 +16,6 @@ export class BcrbHeaderComponent {
 
   onLogout() {
     console.log('Logout clicked');
-
-    // future-safe logout logic
     localStorage.clear();
     window.location.reload();
   }

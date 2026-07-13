@@ -22,13 +22,11 @@ export class OmsTaxInvoiceReportService {
   private STORAGE_KEY =
     'oms_tax_invoice_report';
 
-  // STATE
   private reportSubject =
     new BehaviorSubject<
       TaxInvoiceReportData
     >(MOCK_TAX_INVOICE_REPORT);
 
-  // OBSERVABLE
   report$ =
     this.reportSubject
       .asObservable();
@@ -38,7 +36,6 @@ export class OmsTaxInvoiceReportService {
     this.loadData();
   }
 
-  // LOAD DATA
   private loadData() {
 
     const storedData =
@@ -66,7 +63,6 @@ export class OmsTaxInvoiceReportService {
     }
   }
 
-  // SAVE REPORT
   saveReport(
     data: TaxInvoiceReportData
   ) {
@@ -87,13 +83,11 @@ export class OmsTaxInvoiceReportService {
     );
   }
 
-  // GET REPORT
   getReport() {
 
     return this.report$;
   }
 
-  // CLEAR
   clearReport() {
 
     localStorage.removeItem(

@@ -52,7 +52,6 @@ export class OmsUploadCertificateComponent {
 
     showComponent = true;
 
-  // FILE UPLOAD
   onUploadCertificate(
   file: File | null
 ) {
@@ -62,7 +61,6 @@ export class OmsUploadCertificateComponent {
     file
   );
 
-  // NO FILE
   if (!file) {
 
     this.status = 'error';
@@ -82,7 +80,6 @@ export class OmsUploadCertificateComponent {
     'image/jpg'
   ];
 
-  // INVALID FILE
   if (
     !validTypes.includes(
       file.type
@@ -97,7 +94,6 @@ export class OmsUploadCertificateComponent {
     return;
   }
 
-  // SUCCESS
   setTimeout(() => {
 
     this.status =
@@ -113,7 +109,6 @@ export class OmsUploadCertificateComponent {
   }, 1000);
 }
 
-  // BACK
   onBack() {
 
     console.log(

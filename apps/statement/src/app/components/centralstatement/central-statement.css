@@ -3,7 +3,6 @@
   background: #f7f7f7;
   width: 100%;
 }
-
 .statement-header {
   background: #cfe7f5;
   color: #2e7db7;
@@ -11,11 +10,9 @@
   padding: 8px 12px;
   font-size: 15px;
 }
-
 .statement-body {
   padding: 20px;
 }
-
 .search-row {
   display: flex;
   align-items: center;
@@ -23,46 +20,37 @@
   margin-bottom: 28px;
   flex-wrap: wrap;
 }
-
 .search-label {
   font-size: 16px;
   color: #333;
 }
-
 .card-input {
   width: 240px;
 }
-
 .statement-table {
   width: 370px;
   margin-left: 55px;
   border-collapse: collapse;
 }
-
 .table-row {
   display: grid;
   grid-template-columns: 140px 1fr;
 }
-
 .table-row:nth-child(odd) {
   background: #d9eef8;
 }
-
 .table-row:nth-child(even) {
   background: #edf7fc;
 }
-
 .header-row {
   font-weight: bold;
 }
-
 .left-col,
 .right-col {
   padding: 8px 10px;
   font-size: 15px;
   color: #244c73;
 }
-
 .bold {
   font-weight: bold;
 }

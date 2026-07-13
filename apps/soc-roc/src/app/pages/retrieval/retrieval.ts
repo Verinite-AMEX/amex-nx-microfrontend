@@ -7,7 +7,6 @@ import {
 } from '@ui-components/ui';
 import { NumbersOnlyDirective } from '../../core/directives/numbers-only.directive';
 
-
 interface RetField {
   label: string;
   type: 'text' | 'select';
@@ -15,14 +14,12 @@ interface RetField {
   value: string;
   options?: string[];
 }
-
 interface DateFilter {
   label: string;
   enabled: boolean;
   value: string;
   placeholder?: string;
 }
-
 interface ReportRecord {
   julianDay: string;
   batchNo: string;
@@ -35,7 +32,6 @@ interface ReportRecord {
   date: string;
   amount: number;
 }
-
 @Component({
   selector: 'app-retrieval',
   standalone: true,
@@ -55,7 +51,6 @@ export class Retrieval {
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage = '';
   reportRecords: ReportRecord[] = [];
-
   rocFields: RetField[] = [
     { label: 'Julian Day',    type: 'text',   enabled: false, value: '' },
     { label: 'Batch No.',     type: 'text',   enabled: false, value: '' },
@@ -66,33 +61,26 @@ export class Retrieval {
     { label: 'Card No.',      type: 'text',   enabled: false, value: '' },
     { label: 'ROC Ref.',      type: 'text',   enabled: false, value: '' },
   ];
-
   socFields: RetField[] = [
     { label: 'SOC Amount',    type: 'text', enabled: false, value: '' },
     { label: 'SOC No.',       type: 'text', enabled: false, value: '' },
   ];
-
   dateFilters: DateFilter[] = [
     { label: 'From Julian Date', enabled: false, value: '', placeholder: 'DD/MM/YYYY' },
     { label: 'To Julian Date',   enabled: false, value: '', placeholder: 'DD/MM/YYYY' },
     { label: 'From Date', enabled: false, value: '', placeholder: 'DD/MM/YYYY' },
     { label: 'To Date',   enabled: false, value: '', placeholder: 'DD/MM/YYYY' },
   ];
-
   onRetrieve(): void {
-    // TODO: Replace with actual API call
     this.reportRecords = [];
     this.showModal = true;
   }
-
   onPrint(): void {
     this.showModal = true;
   }
-
   onPrintReport(): void {
     window.print();
   }
-
   onCancel(): void {
     this.showModal = false;
   }

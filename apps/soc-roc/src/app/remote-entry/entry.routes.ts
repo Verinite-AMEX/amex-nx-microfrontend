@@ -1,4 +1,3 @@
-// apps/soc-roc/src/app/remote-entry/entry.routes.ts
 import { Routes } from '@angular/router';
 import { socRocAuthGuard } from '../core/guards/soc-roc-auth.guard'; 
 import { Dashboard } from '../pages/dashboard/dashboard.component';

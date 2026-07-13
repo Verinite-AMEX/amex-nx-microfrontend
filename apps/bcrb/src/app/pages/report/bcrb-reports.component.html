@@ -19,9 +19,6 @@
   *ngIf="currentView === 'sidebar'">
 </bcrb-sidebar> -->
 
-<!-- ========================= -->
-<!-- STEP 1: REPORT TABLE -->
-<!-- ========================= -->
 <amex-bcrb-reports-table
   *ngIf="currentView === 'reports'"
   [rows]="rows"
@@ -29,26 +26,15 @@
   (click)="handleClick($event)">
 </amex-bcrb-reports-table>
 
-
-<!-- ========================= -->
-<!-- STEP 2: SIDEBAR + CONTENT -->
-<!-- ========================= -->
 <div *ngIf="currentView === 'sidebar'" class="layout">
-
-  <!-- LEFT: SIDEBAR -->
   <div class="sidebar">
     <bcrb-sidebar (menuChanged)="onSidebarSelect($event)"></bcrb-sidebar>
   </div>
 
-  <!-- RIGHT: CONTENT -->
   <div class="content">
-
-    <!-- Default message -->
     <div *ngIf="!selectedMenu">
       Please select a report from left menu
     </div>
-
-    <!-- SHOW DOWNLOAD COMPONENT -->
     <bcrb-report-download
       *ngIf="selectedMenu"
       [reportType]="selectedMenu"

@@ -62,7 +62,6 @@ export class OmsCreateEditUserFormComponent {
       )
     );
 
-    // NAME
     if (
       !event.name?.trim()
     ) {
@@ -87,7 +86,6 @@ export class OmsCreateEditUserFormComponent {
       return;
     }
 
-    // EMAIL
     if (
       !event.email?.trim()
     ) {
@@ -112,7 +110,6 @@ export class OmsCreateEditUserFormComponent {
       return;
     }
 
-    // USERNAME
     if (
       !event.username?.trim()
     ) {
@@ -135,7 +132,6 @@ export class OmsCreateEditUserFormComponent {
       return;
     }
 
-    // ROLE
     if (
       !event.role?.trim()
     ) {
@@ -147,7 +143,6 @@ export class OmsCreateEditUserFormComponent {
       return;
     }
 
-    // MERCHANT ACCESS
     if (
       this.showMerchantAccess &&
       (

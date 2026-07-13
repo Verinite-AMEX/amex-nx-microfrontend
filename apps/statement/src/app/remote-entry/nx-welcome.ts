@@ -1,9 +1,7 @@
 import { Component, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import { Header } from '../components/header/header';
 import { Navbar } from '../components/navbar/navbar';
-
 import {
   AmexDashboardMenuBarComponent,
   AmexPageHeaderComponent,

@@ -24,7 +24,6 @@ interface ExpenseItem {
   template: `
     <div class="bta-dashboard">
 
-      <!-- Sub-navigation -->
       <div class="sub-nav">
         <div class="sub-nav-item active" (click)="navigate('')">Dashboard</div>
         <div class="sub-nav-item" (click)="navigate('travel')">Travel Requests</div>
@@ -32,11 +31,9 @@ interface ExpenseItem {
         <div class="sub-nav-item" (click)="navigate('settings')">Settings</div>
       </div>
 
-      <!-- Page header -->
       <div class="page-title">BTA Portal</div>
       <div class="page-subtitle">Business Travel & Expense Management</div>
 
-      <!-- KPI stats row -->
       <div class="grid-4">
         <div class="stat-card accent">
           <div class="label">Active Travel Requests</div>
@@ -62,7 +59,6 @@ interface ExpenseItem {
 
       <div class="grid-2">
 
-        <!-- Recent Travel Requests -->
         <div class="card">
           <div class="card-header">
             Recent Travel Requests
@@ -97,7 +93,6 @@ interface ExpenseItem {
           </table>
         </div>
 
-        <!-- Expense Breakdown -->
         <div class="card">
           <div class="card-header">Expense Breakdown — June 2025</div>
           <div class="card-body">
@@ -120,7 +115,6 @@ interface ExpenseItem {
 
       </div>
 
-      <!-- Recent Activity Timeline -->
       <div class="card">
         <div class="card-header">Recent Activity</div>
         <div class="card-body">

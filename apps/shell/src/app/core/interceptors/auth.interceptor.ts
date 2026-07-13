@@ -15,7 +15,6 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    // ✅ CORRECTED: Use updated token key name
     const token = this.auth.getToken();
 
     const authReq = token

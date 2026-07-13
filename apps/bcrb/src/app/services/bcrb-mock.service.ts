@@ -27,7 +27,6 @@ export class BcrbMockService {
     this.seedInitialData();
   }
 
-  // 👉 Initial mock data
   private seedInitialData() {
     this.reports = [
       this.createMockRow('cons-monthly', 'Completed'),
@@ -37,21 +36,16 @@ export class BcrbMockService {
     this.reportsSubject.next([...this.reports]);
   }
 
-  // 👉 Create new report (called on Submit)
   createReport(reportType: string) {
     const newReport = this.createMockRow(reportType, 'Processing');
 
     this.reports.unshift(newReport);
     this.reportsSubject.next([...this.reports]);
-
-    // 🔥 simulate backend processing
     setTimeout(() => {
       newReport.status = 'Completed';
       this.reportsSubject.next([...this.reports]);
     }, 4000);
   }
-
-  // 👉 Helper to generate row
   private createMockRow(reportType: string, status: any): BcrbReport {
     this.counter++;
 

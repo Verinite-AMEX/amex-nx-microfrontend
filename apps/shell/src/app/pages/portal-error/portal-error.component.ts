@@ -1,11 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-/**
- * Portal Error Component
- * Shown when a remote MFE is not running.
- * Reads the current route to show the correct start command.
- */
 @Component({
     selector: 'app-portal-error',
     template: `
@@ -47,7 +42,6 @@ export class PortalErrorComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   ngOnInit(): void {
-    // Walk up route tree to find the top-level segment
     let r = this.route;
     while (r.parent) r = r.parent;
     const segment = r.snapshot.firstChild?.url[0]?.path ?? '';

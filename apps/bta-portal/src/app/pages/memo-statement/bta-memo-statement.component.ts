@@ -24,7 +24,6 @@ import {
 
     <div class="bta-page">
 
-      <!-- Account selection -->
       <div *ngIf="!showStatement" class="bta-panel">
         <div class="bta-panel-hd">Memo Statement</div>
         <div class="bta-panel-bd">
@@ -43,7 +42,6 @@ import {
         </div>
       </div>
 
-      <!-- Statement view -->
       <div *ngIf="showStatement" class="bta-panel">
         <div class="bta-panel-hd">BTA Memo Statement</div>
         <div class="bta-panel-bd">
@@ -140,7 +138,6 @@ export class BtaMemoStatementComponent {
 
   transactions: any[] = [];
 
-  // ── View Statement ─────────────────────────────────────────────
   viewStatement() {
     this.submitted = true;
     this.errors    = {};
@@ -165,7 +162,6 @@ export class BtaMemoStatementComponent {
     this.downloadMsg   = '';
   }
 
-  // ── Download ───────────────────────────────────────────────────
   download() {
     this.downloadMsg = '';
     const safeName   = this.selectedAccount.replace(/[^a-zA-Z0-9]/g, '_');
@@ -182,7 +178,6 @@ export class BtaMemoStatementComponent {
     setTimeout(() => { this.downloadMsg = ''; }, 4000);
   }
 
-  // ── CSV ────────────────────────────────────────────────────────
   private downloadAsCsv(fileName: string) {
     const rows = [
       ['BTA Memo Statement'],
@@ -200,7 +195,6 @@ export class BtaMemoStatementComponent {
     this.triggerDownload(csv, `${fileName}.csv`, 'text/csv;charset=utf-8;');
   }
 
-  // ── Excel (.xls) ───────────────────────────────────────────────
   private downloadAsExcel(fileName: string) {
     const rows = [
       ['BTA Memo Statement', '', '', '', ''],
@@ -214,7 +208,6 @@ export class BtaMemoStatementComponent {
         : [['', 'There are no transactions available.', '', '', '']]),
     ];
 
-    // Build XLS-compatible XML (SpreadsheetML)
     const xmlRows = rows.map(r =>
       `<Row>${r.map(c => `<Cell><Data ss:Type="String">${c ?? ''}</Data></Cell>`).join('')}</Row>`
     ).join('');
@@ -230,7 +223,6 @@ export class BtaMemoStatementComponent {
     this.triggerDownload(xml, `${fileName}.xls`, 'application/vnd.ms-excel;charset=utf-8;');
   }
 
-  // ── PDF (print dialog) ─────────────────────────────────────────
   private downloadAsPdf(fileName: string) {
     const tableRows = this.transactions.length > 0
       ? this.transactions.map(t =>
@@ -288,7 +280,6 @@ export class BtaMemoStatementComponent {
     }
   }
 
-  // ── RTF ────────────────────────────────────────────────────────
   private downloadAsRtf(fileName: string) {
     const dataLines = this.transactions.length > 0
       ? this.transactions.map(t =>
@@ -314,7 +305,6 @@ ${dataLines}
     this.triggerDownload(rtf, `${fileName}.rtf`, 'application/rtf');
   }
 
-  // ── Shared trigger ─────────────────────────────────────────────
   private triggerDownload(content: string, fileName: string, mimeType: string) {
     const blob = new Blob([content], { type: mimeType });
     const url  = URL.createObjectURL(blob);

@@ -1,14 +1,10 @@
 <div class="dse-wrapper">
-
-  <!-- Row 1: S.E. No | S.E. Name -->
   <div class="dse-row">
     <label class="dse-label" >S.E. No.</label>
     <input type="text" class="dse-input" [(ngModel)]="seNo" appNumbersOnly />
     <label class="dse-label">S.E. Name</label>
     <input type="text" class="dse-input" [(ngModel)]="seName" />
   </div>
-
-  <!-- Row 2: Date | Country | Currency -->
   <div class="dse-row">
     <label class="dse-label">Date</label>
     <input type="text" class="dse-input" [(ngModel)]="date" appNumbersOnly/>
@@ -17,16 +13,12 @@
     <label class="dse-label">Currency</label>
     <input type="text" class="dse-input" [(ngModel)]="currency" />
   </div>
-
-  <!-- Row 3: Grand Total | Refund -->
   <div class="dse-row">
     <label class="dse-label">Grand Total</label>
     <input type="text" class="dse-input" [(ngModel)]="grandTotal" appNumbersOnly/>
     <label class="dse-label">Refund</label>
     <input type="checkbox" class="dse-checkbox" [(ngModel)]="refund" appNumbersOnly/>
   </div>
-
-  <!-- Row 4: No. of Charges | File Name -->
   <div class="dse-row">
     <label class="dse-label">No. of Charges</label>
     <input type="text" class="dse-input" [(ngModel)]="noOfCharges" appNumbersOnly/>
@@ -37,16 +29,12 @@
     </label>
     <span class="dse-file-label">{{ fileName || 'No file chosen' }}</span>
   </div>
-
-  <!-- Row 5: Soc. Ref. No. | Sheet No. -->
   <div class="dse-row">
     <label class="dse-label">Soc. Ref. No.</label>
     <input type="text" class="dse-input" [(ngModel)]="socRefNo" appNumbersOnly/>
     <label class="dse-label">Sheet No.</label>
     <input type="text" class="dse-input dse-input-sm" [(ngModel)]="sheetNo" appNumbersOnly/>
   </div>
-
-  <!-- vn-core Toasts -->
   @if (status === 'success') {
     <amex-success-toast [message]="statusMessage" [autoDismiss]="true" [duration]="4000"
       [dismissible]="true" (dismissed)="status = 'idle'">
@@ -57,8 +45,6 @@
       (dismissed)="status = 'idle'">
     </amex-error-toast>
   }
-
-  <!-- Buttons -->
   <div class="dse-btn-row">
     <button class="dse-btn" (click)="onRefreshData()" [disabled]="isRefreshing">
       {{ isRefreshing ? 'Refreshing...' : 'Refresh Data from XL' }}
@@ -67,5 +53,4 @@
       {{ isUploading ? 'Uploading...' : 'Upload to Server' }}
     </button>
   </div>
-
 </div>

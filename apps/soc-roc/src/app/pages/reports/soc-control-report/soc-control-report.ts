@@ -32,14 +32,11 @@ export class SocControlReport {
   records: Record<string, any>[] = [];
 
   onSearch(): void {
-    // TODO: Replace with ReportService API call
     this.records = [];
     this.showTable = true;
   }
-
   onPrint(): void { window.print(); }
   onExport(): void { /* TODO: export logic */ }
-
   onSortChange(event: { key: string; dir: any }): void {
     console.log('Sort:', event);
   }

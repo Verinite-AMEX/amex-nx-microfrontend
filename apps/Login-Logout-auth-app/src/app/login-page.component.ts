@@ -33,7 +33,7 @@ export class LoginPageComponent {
   onLoginSubmit(creds: LoginCredentials): void {
     this.auth.login(creds.username, creds.password).subscribe({
       next: (result) => {
-        this.auth.onLoginSuccess(result); // ADD THIS — saves token to localStorage
+        this.auth.onLoginSuccess(result);
 
         if (this.returnUrl) {
           const redirectUrl =

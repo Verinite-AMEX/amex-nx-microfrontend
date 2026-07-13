@@ -13,19 +13,13 @@ import { AmexPageShellComponent } from '@ui-components/ui';
 export class CurrencyMaster {
 
   view: 'default' | 'add' | 'modify' = 'default';
-
-  // Default view
   defaultCode = '';
   defaultName = '';
   showDefaultDrop = false;
-
-  // Add New fields
   addCode = '';
   addName = '';
   addShortName = '';
   addDecimals = '';
-
-  // Modify fields
   modifyCode = '';
   modifyName = '';
   modifyShortName = '';
@@ -59,22 +53,17 @@ export class CurrencyMaster {
     { name: 'UAE DIRHAM',         code: '784', shortName: 'AED', decimals: 2 },
     { name: 'YEMENI RIAL',        code: '886', shortName: 'YER', decimals: 2 },
   ];
-
-  // ---- Default dropdown ----
   defaultSuggestions: { name: string; code: string; shortName: string; decimals: number }[] = [];
 
   toggleDefaultDrop() {
     this.showDefaultDrop = !this.showDefaultDrop;
     if (this.showDefaultDrop) this.defaultSuggestions = [...this.currencyOptions];
   }
-
   onDefaultPick(c: { name: string; code: string; shortName: string; decimals: number }) {
     this.defaultName = c.name;
     this.defaultCode = c.code;
     this.showDefaultDrop = false;
   }
-
-  // ---- Navigation ----
   goToAddNew() {
     this.view = 'add';
     this.addCode = '';
@@ -84,7 +73,6 @@ export class CurrencyMaster {
     this.showDefaultDrop = false;
     this.clearMsg();
   }
-
   goToModify() {
     this.view = 'modify';
     this.modifyCode = '';
@@ -95,13 +83,10 @@ export class CurrencyMaster {
     this.showDrop = false;
     this.clearMsg();
   }
-
   goBack() {
     this.view = 'default';
     this.clearMsg();
   }
-
-  // ---- Add New ----
   onSave() {
     if (!this.addCode.trim())     { this.showMsg('Currency Code is required.', 'err'); return; }
     if (!this.addName.trim())     { this.showMsg('Currency Name is required.', 'err'); return; }
@@ -111,8 +96,6 @@ export class CurrencyMaster {
     this.showMsg('Currency added successfully.', 'ok');
     this.addCode = ''; this.addName = ''; this.addShortName = ''; this.addDecimals = '';
   }
-
-  // ---- Modify autocomplete ----
   onModifyInput(val: string) {
     this.modifyInput = val;
     this.modifyName = val;
@@ -131,12 +114,10 @@ export class CurrencyMaster {
       this.modifyDecimals = '';
     }
   }
-
   toggleModifyDrop() {
     this.showDrop = !this.showDrop;
     if (this.showDrop) this.suggestions = [...this.currencyOptions];
   }
-
   onPick(c: { name: string; code: string; shortName: string; decimals: number }) {
     this.modifyInput     = c.name;
     this.modifyName      = c.name;
@@ -145,14 +126,12 @@ export class CurrencyMaster {
     this.modifyDecimals  = String(c.decimals);
     this.showDrop        = false;
   }
-
   onModifyUpdate() {
     if (!this.modifyName.trim()) { this.showMsg('Please select a Currency.', 'err'); return; }
     if (!this.modifyCode.trim()) { this.showMsg('Currency Code could not be resolved.', 'err'); return; }
     console.log('Modify:', { code: this.modifyCode, name: this.modifyName, shortName: this.modifyShortName, decimals: this.modifyDecimals });
     this.showMsg('Currency updated successfully.', 'ok');
   }
-
   showMsg(m: string, t: 'ok' | 'err') { this.msg = m; this.msgType = t; }
   clearMsg() { this.msg = ''; }
 }

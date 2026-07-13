@@ -1,13 +1,10 @@
 <div class="alg-container">
-
   <div class="alg-fieldset">
     <span class="alg-legend">View Report</span>
-
     <div class="alg-row">
       <label class="alg-label">Julian Day</label>
       <input type="text" class="alg-input" [(ngModel)]="julianDay" maxlength="3" />
     </div>
-
     <div class="alg-row">
       <label class="alg-label">Year</label>
       <select class="alg-select" [(ngModel)]="year">
@@ -16,7 +13,6 @@
         }
       </select>
     </div>
-
     <div class="alg-row">
       <label class="alg-label">Country</label>
       <select class="alg-select" [(ngModel)]="country">
@@ -26,7 +22,6 @@
         }
       </select>
     </div>
-
     <div class="alg-row">
       <label class="alg-label">Currency</label>
       <select class="alg-select" [(ngModel)]="currency">
@@ -36,12 +31,10 @@
         }
       </select>
     </div>
-
     <div class="alg-row">
       <label class="alg-label">Reference Number</label>
       <input type="text" class="alg-input" [(ngModel)]="referenceNumber" />
     </div>
-
     @if (status === 'success') {
       <amex-success-toast [message]="statusMessage" [autoDismiss]="true" [duration]="4000"
         [dismissible]="true" (dismissed)="status = 'idle'">
@@ -52,14 +45,12 @@
         (dismissed)="status = 'idle'">
       </amex-error-toast>
     }
-
     <div class="alg-btn-row">
       <button class="alg-btn alg-btn--action" (click)="onViewReport()" [disabled]="isLoading">
         {{ isLoading ? 'Loading...' : 'View Report' }}
       </button>
     </div>
   </div>
-
   @if (records.length > 0) {
     <amex-payment-register-table
       title="Payment Register"
@@ -67,5 +58,4 @@
       (printClick)="onPrint()">
     </amex-payment-register-table>
   }
-
 </div>

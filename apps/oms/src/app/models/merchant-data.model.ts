@@ -1,6 +1,5 @@
 export interface MerchantData {
 
-  // MERCHANT INFORMATION
   merchantName: string;
 
   merchantNumber: string;
@@ -15,13 +14,11 @@ export interface MerchantData {
 
   businessLegalStructure: string;
 
-  // REPRESENTATIVE INFORMATION
   representativeName: string;
 
   email: string;
 
   phone: string;
 
-  // TERMS
   termsAccepted: boolean;
 }

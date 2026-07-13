@@ -4,27 +4,15 @@ import { FormsModule }  from '@angular/forms';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 
-/**
- * ChangePasswordComponent — standalone Change Password page.
- *
- * This is a STANDALONE component — it can be rendered:
- *   1. Directly at http://localhost:4212/change-password (standalone mode)
- *   2. Inside the shell at http://localhost:4200/change-password (MFE mode)
- *
- * It does NOT import Router or navigate programmatically — preventing
- * re-render conflicts with the shell router.
- */
 @Component({
   selector:   'app-change-password',
   standalone: true,
   imports: [CommonModule, FormsModule, HttpClientModule],
   template: `
-    <!-- Form section -->
     <div class="cp-form-section">
 
       <p class="cp-required-note"><span class="cp-req-star">*</span> All fields are required</p>
 
-      <!-- Current Password -->
       <div class="cp-field-row">
         <label class="cp-label">Current Password <span class="cp-req">*</span></label>
         <div class="cp-input-wrap">
@@ -60,7 +48,6 @@ import { HttpClientModule } from '@angular/common/http';
 
       <hr class="cp-divider"/>
 
-      <!-- New Password -->
       <div class="cp-field-row">
         <label class="cp-label">New Password <span class="cp-req">*</span></label>
         <div class="cp-input-wrap">
@@ -94,7 +81,6 @@ import { HttpClientModule } from '@angular/common/http';
       </div>
       <div class="cp-field-error" *ngIf="errors['new']">{{ errors['new'] }}</div>
 
-      <!-- Strength meter -->
       <div class="cp-strength" *ngIf="newPassword">
         <div class="cp-strength-bars">
           <div class="cp-strength-bar" [style.background]="strengthScore >= 1 ? strengthColor : '#ddd'"></div>
@@ -105,7 +91,6 @@ import { HttpClientModule } from '@angular/common/http';
         <div class="cp-strength-label" [style.color]="strengthColor">{{ strengthLabel }}</div>
       </div>
 
-      <!-- Password rules -->
       <div class="cp-rules" *ngIf="newPassword">
         <div class="cp-rule" [class.met]="rules.len">
           <span class="cp-rule-icon">{{ rules.len ? '✓' : '○' }}</span> Min 8 characters
@@ -127,7 +112,6 @@ import { HttpClientModule } from '@angular/common/http';
         </div>
       </div>
 
-      <!-- Re-enter New Password -->
       <div class="cp-field-row">
         <label class="cp-label">Re-enter New Password <span class="cp-req">*</span></label>
         <div class="cp-input-wrap">
@@ -166,7 +150,6 @@ import { HttpClientModule } from '@angular/common/http';
         <span *ngIf="newPassword !== confirmPassword" class="match-fail">✗ Passwords do not match</span>
       </div>
 
-      <!-- Submit button -->
       <div class="cp-btn-row">
         <button class="cp-submit-btn" [disabled]="loading" (click)="handleSubmit()">
           <span *ngIf="loading" class="cp-spinner"></span>
@@ -174,7 +157,6 @@ import { HttpClientModule } from '@angular/common/http';
         </button>
       </div>
 
-      <!-- Result message -->
       <div class="cp-result-msg success" *ngIf="successMsg">✓ {{ successMsg }}</div>
       <div class="cp-result-msg error"   *ngIf="errorMsg">✗ {{ errorMsg }}</div>
 
@@ -184,14 +166,11 @@ import { HttpClientModule } from '@angular/common/http';
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; background: #fff; min-height: 100%; }
 
-
-    /* Form section */
     .cp-form-section { padding: 20px 16px; max-width: 500px; }
 
     .cp-required-note { font-size: 11px; color: #555; margin-bottom: 14px; }
     .cp-req-star { color: red; }
 
-    /* Field row — label left, input right */
     .cp-field-row {
       display: flex;
       align-items: center;
@@ -206,7 +185,6 @@ import { HttpClientModule } from '@angular/common/http';
     }
     .cp-req { color: red; margin-left: 1px; }
 
-    /* Input wrapper */
     .cp-input-wrap { position: relative; display: inline-flex; align-items: center; }
     .cp-input {
       border: 1px solid #aaa;
@@ -222,7 +200,6 @@ import { HttpClientModule } from '@angular/common/http';
     .cp-input.is-error { border-color: red; background: #fff8f8; }
     .cp-input.is-valid { border-color: #00875a; }
 
-    /* Eye toggle */
     .cp-eye-btn {
       position: absolute; right: 4px;
       background: none; border: none; cursor: pointer;
@@ -231,19 +208,16 @@ import { HttpClientModule } from '@angular/common/http';
     }
     .cp-eye-btn:hover { color: #006fcf; }
 
-    /* Inline field error */
     .cp-field-error {
       font-size: 11px; color: red;
       margin-left: 198px; margin-bottom: 6px;
     }
 
-    /* Divider between current and new */
     .cp-divider {
       border: none; border-top: 1px solid #ddd;
       margin: 6px 0 12px 198px; width: 220px;
     }
 
-    /* Strength meter */
     .cp-strength {
       margin-left: 198px; margin-bottom: 8px;
     }
@@ -255,7 +229,6 @@ import { HttpClientModule } from '@angular/common/http';
     }
     .cp-strength-label { font-size: 10px; font-weight: bold; }
 
-    /* Password rules checklist */
     .cp-rules {
       margin-left: 198px; margin-bottom: 10px;
       background: #f5f8ff; border: 1px solid #d0dff5;
@@ -269,14 +242,12 @@ import { HttpClientModule } from '@angular/common/http';
     .cp-rule.met { color: #00875a; }
     .cp-rule-icon { font-size: 10px; }
 
-    /* Match hint */
     .cp-match-hint {
       margin-left: 198px; font-size: 11px; margin-bottom: 8px; min-height: 16px;
     }
     .match-ok   { color: #00875a; }
     .match-fail { color: red; }
 
-    /* Submit row */
     .cp-btn-row { margin-left: 198px; margin-top: 4px; }
     .cp-submit-btn {
       background: #1c3f72; color: #fff; border: none;
@@ -286,7 +257,6 @@ import { HttpClientModule } from '@angular/common/http';
     .cp-submit-btn:hover:not(:disabled) { background: #003087; }
     .cp-submit-btn:disabled { background: #aaa; cursor: not-allowed; }
 
-    /* Spinner */
     .cp-spinner {
       display: inline-block;
       width: 10px; height: 10px;
@@ -299,7 +269,6 @@ import { HttpClientModule } from '@angular/common/http';
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Result messages */
     .cp-result-msg {
       margin-left: 198px; margin-top: 10px;
       font-size: 12px; padding: 6px 10px;
@@ -312,28 +281,19 @@ import { HttpClientModule } from '@angular/common/http';
 export class ChangePasswordComponent {
 constructor(private http: HttpClient) {}
 
-  // ── Form state ──
   currentPassword = '';
   newPassword     = '';
   confirmPassword = '';
-
-  // ── Visibility toggles ──
   showCurrent = false;
   showNew     = false;
   showConfirm = false;
-
-  // ── UI state ──
   loading    = false;
   successMsg = '';
   errorMsg   = '';
   errors: Record<string, string> = {};
-
-  // ── Strength ──
   strengthScore = 0;
   strengthLabel = '';
   strengthColor = '#ddd';
-
-  // ── Rules ──
   rules = {
     len:     false,
     upper:   false,
@@ -346,7 +306,6 @@ constructor(private http: HttpClient) {}
   private readonly strengthColors = ['#ddd', '#D0021B', '#F5A623', '#0ea5e9', '#00875A'];
   private readonly strengthLabels = ['', 'Weak', 'Fair', 'Good', 'Strong'];
 
-  // ── Handlers ──
   onNewPasswordChange(val: string): void {
     this.clearError('new');
     this.evaluateStrength(val);
@@ -415,8 +374,6 @@ constructor(private http: HttpClient) {}
     }
 
     if (!valid) return;
-
-    // Get JWT token
     const token = localStorage.getItem('jwtToken')
                 || localStorage.getItem('authToken')
                 || localStorage.getItem('token')

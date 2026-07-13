@@ -17,25 +17,20 @@ import {
 })
 export class RejectionLetter {
   showTable = false;
-
   columns: AmexTableColumn[] = [
     { key: 'seNo',             label: 'SE No.' },
     { key: 'rejectionReason',  label: 'Rejection Reason' },
     { key: 'date',             label: 'Date' },
     { key: 'amount',           label: 'Amount' },
   ];
-
   records: Record<string, any>[] = [];
 
   onSearch(): void {
-    // TODO: Replace with ReportService API call
     this.records = [];
     this.showTable = true;
   }
-
   onPrint(): void { window.print(); }
   onExport(): void { /* TODO: export logic */ }
-
   onSortChange(event: { key: string; dir: any }): void {
     console.log('Sort:', event);
   }

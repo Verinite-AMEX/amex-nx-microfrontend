@@ -56,8 +56,6 @@ export class OmsVatRegistrationComponent {
     event.target?.innerText?.trim();
 
   console.log('Clicked:', text);
-
-  // TAX INVOICE DELIVERY
   if (
     text?.toLowerCase()
       .includes('tax invoice delivery')
@@ -66,7 +64,6 @@ export class OmsVatRegistrationComponent {
     this.onTaxInvoiceDelivery();
   }
 
-  // UPLOAD CERTIFICATE
   if (
     text?.toLowerCase()
       .includes('upload certificate')
@@ -75,7 +72,6 @@ export class OmsVatRegistrationComponent {
     this.onUploadCertificate();
   }
 
-   // DOWNLOAD TAX INVOICE
   if (
     text?.toLowerCase()
       .includes('download tax invoices')

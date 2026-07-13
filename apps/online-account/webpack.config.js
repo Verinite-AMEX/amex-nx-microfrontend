@@ -23,7 +23,6 @@ mfConfig.output = {
   scriptType: "text/javascript",
 };
 
-// Add this
 mfConfig.devServer = {
   ...mfConfig.devServer,
   headers: {

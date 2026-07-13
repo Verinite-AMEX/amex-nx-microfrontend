@@ -18,13 +18,11 @@ export class OmsUploadCertificateService {
   private STORAGE_KEY =
     'oms_upload_certificate';
 
-  // STATE
   private uploadSubject =
     new BehaviorSubject<
       UploadCertificateData | null
     >(null);
 
-  // OBSERVABLE
   upload$ =
     this.uploadSubject
       .asObservable();
@@ -34,7 +32,6 @@ export class OmsUploadCertificateService {
     this.loadData();
   }
 
-  // LOAD
   private loadData() {
 
     const storedData =
@@ -51,7 +48,6 @@ export class OmsUploadCertificateService {
     }
   }
 
-  // SAVE
   saveCertificate(
     data: UploadCertificateData
   ) {
@@ -72,13 +68,11 @@ export class OmsUploadCertificateService {
     );
   }
 
-  // GET
   getCertificate() {
 
     return this.upload$;
   }
 
-  // CLEAR
   clearCertificate() {
 
     localStorage.removeItem(

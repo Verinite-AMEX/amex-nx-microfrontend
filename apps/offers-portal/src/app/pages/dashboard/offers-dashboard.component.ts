@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-
-// ✅ All components imported from installed @vn-core-ui-components/ui package
 import {
   AmexPageHeaderComponent,
   AmexBreadcrumbTrailComponent,
@@ -27,23 +25,19 @@ import {
     AmexConfirmationModalComponent,
   ],
   template: `
-    <!-- ✅ AmexPageHeaderComponent — ONLS dark navy banner -->
     <amex-page-header portalStyle="onls" title="AEME OFFERS & BENEFITS — DASHBOARD"></amex-page-header>
 
-    <!-- ✅ AmexBreadcrumbTrailComponent -->
     <amex-breadcrumb-trail
       [items]="breadcrumbs"
       (itemClick)="onBreadcrumb($event)">
     </amex-breadcrumb-trail>
 
     <div class="page-body">
-      <!-- ✅ AmexSuccessToastComponent — ONLS green inline notification -->
       <amex-success-toast *ngIf="toastMsg" [message]="toastMsg"
         portalStyle="onls" [autoDismiss]="true" [duration]="4000"
         (dismissed)="toastMsg=''">
       </amex-success-toast>
 
-      <!-- ✅ AmexPointsDisplayComponent — KPI counters -->
       <div class="kpi-row">
         <div class="kpi-card">
           <amex-points-display [points]="48" label="Active Offers"></amex-points-display>
@@ -64,7 +58,6 @@ import {
       </div>
 
       <div class="two-col">
-        <!-- ✅ AmexOfferCardComponent — Featured offers -->
         <div class="panel">
           <div class="panel-hd">
             Featured Offers
@@ -77,7 +70,6 @@ import {
           </div>
         </div>
 
-        <!-- ✅ AmexStatusBadgeComponent — Benefits with status -->
         <div class="panel">
           <div class="panel-hd">
             Card Benefits Spotlight
@@ -97,7 +89,6 @@ import {
       </div>
     </div>
 
-    <!-- ✅ AmexConfirmationModalComponent — ONLS native-style confirm dialog -->
     <amex-confirmation-modal [visible]="showModal" portalStyle="onls"
       [message]="modalMsg" confirmLabel="OK" cancelLabel="Cancel"
       (confirm)="confirmEnroll()" (cancel)="showModal=false">
