@@ -41,18 +41,15 @@ import { AlertComponent }     from '@ui-components/ui';
     FormsModule,
     AppRoutingModule,
 
-    // ── Shell Chrome ──────────────────────────────────────────────
     AmexPageShellComponent,
     AmexTopNavBarComponent,
     AmexTabBarComponent,
     AmexLogoutConfirmationComponent,
 
-    // ── Auth Forms (vn-core standalone components) ─────────────────
     AmexLoginFormComponent,
     AmexForgotPasswordFormComponent,
     AmexRegisterFormComponent,
 
-    // ── VN-Core UI Components ──────────────────────────────────────
     CardComponent,
     FormFieldComponent,
     ButtonComponent,

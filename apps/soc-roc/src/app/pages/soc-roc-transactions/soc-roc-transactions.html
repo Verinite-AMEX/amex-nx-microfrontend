@@ -1,16 +1,11 @@
 <div class="sr-page">
-
   <div *ngIf="msg" class="sr-msg"
     [class.sr-msg--ok]="msgType==='ok'"
     [class.sr-msg--err]="msgType==='err'">{{ msg }}</div>
-
-  <!-- ======== SOC SECTION ======== -->
   <div class="sr-section">
     <div class="sr-section-legend">SOC's</div>
     <div class="sr-section-body">
       <div class="sr-two-col">
-
-        <!-- SOC LEFT -->
         <div class="sr-col">
           <div class="sr-field-row">
             <label class="sr-label">SE Number <span class="sr-req">*</span></label>
@@ -41,8 +36,6 @@
             <input type="checkbox" class="sr-checkbox" [(ngModel)]="soc.refund" appNumbersOnly/>
           </div>
         </div>
-
-        <!-- SOC RIGHT -->
         <div class="sr-col sr-col--right">
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">SE Name</label>
@@ -57,10 +50,7 @@
             <input type="text" class="sr-input sr-input--ro" [(ngModel)]="soc.country" readonly />
           </div>
         </div>
-
       </div>
-
-      <!-- SOC Buttons -->
       <div class="sr-action-btns">
         <button class="sr-btn sr-btn--blue"   (click)="onSocModify()">Modify</button>
         <button class="sr-btn sr-btn--red"    (click)="onSocDelete()">Delete</button>
@@ -69,14 +59,10 @@
       </div>
     </div>
   </div>
-
-  <!-- ======== ROC SECTION ======== -->
   <div class="sr-section sr-section--mt">
     <div class="sr-section-legend">ROC's</div>
     <div class="sr-section-body">
       <div class="sr-two-col">
-
-        <!-- ROC LEFT -->
         <div class="sr-col">
           <div class="sr-field-row">
             <label class="sr-label">Card Account No. <span class="sr-req">*</span></label>
@@ -103,8 +89,6 @@
             <input type="text" class="sr-input" [(ngModel)]="roc.rocRefNo" maxlength="30" appNumbersOnly/>
           </div>
         </div>
-
-        <!-- ROC RIGHT -->
         <div class="sr-col sr-col--right">
           <div class="sr-field-row">
             <label class="sr-label sr-label--sm">#</label>
@@ -122,17 +106,12 @@
             </select>
           </div>
         </div>
-
       </div>
-
-      <!-- ROC Buttons -->
       <div class="sr-action-btns">
         <button class="sr-btn sr-btn--blue"   (click)="onRocModify()">Modify</button>
         <button class="sr-btn sr-btn--blue"   (click)="onListRocs()">List ROCs</button>
         <button class="sr-btn sr-btn--cancel" (click)="onRocCancel()">Cancel</button>
       </div>
-
-      <!-- ROC List result -->
       <div *ngIf="showRocList" class="sr-roc-list">
         <div *ngIf="rocList.length === 0" class="sr-no-data">No ROC's found for this reference.</div>
         <table class="sr-table" *ngIf="rocList.length > 0">
@@ -156,8 +135,6 @@
           </tbody>
         </table>
       </div>
-
     </div>
   </div>
-
 </div>

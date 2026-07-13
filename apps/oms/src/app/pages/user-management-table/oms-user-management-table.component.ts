@@ -15,7 +15,6 @@ import {
   AmexUserManagementTableComponent
 } from '@ui-components/ui';
 
-// CHANGE THE PATH AS PER YOUR PROJECT
 import {
   OmsPaginationComponent
 } from '../../shared/pagination/oms-pagination.component';
@@ -151,7 +150,6 @@ implements OnChanges {
     }
   ];
 
-  // CURRENT PAGE DATA
   paginatedRows: any[] = [];
 
   ngOnChanges(
@@ -161,8 +159,6 @@ implements OnChanges {
     if (
       changes['rows']
     ) {
-
-      // DEFAULT FIRST PAGE
       this.paginatedRows = [
         ...this.rows
       ];
@@ -170,8 +166,6 @@ implements OnChanges {
     }
 
   }
-
-  // PAGINATION CALLBACK
   onPageChanged(
     rows: any[]
   ) {
@@ -193,7 +187,6 @@ implements OnChanges {
       text
     );
 
-    // CREATE
     if (
       text?.toLowerCase()
         .includes('create')
@@ -205,7 +198,6 @@ implements OnChanges {
 
     }
 
-    // EDIT
     if (
       text?.toLowerCase()
         .includes('edit')
@@ -226,8 +218,7 @@ implements OnChanges {
       return;
 
     }
-
-    // DELETE
+    
     if (
       text?.toLowerCase()
         .includes('delete')

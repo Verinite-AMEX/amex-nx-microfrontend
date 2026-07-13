@@ -315,7 +315,6 @@ export class NxWelcome
 
   ) {}
 
-  // INIT
   ngOnInit() {
     this.secureForm.enable(); 
     this.updateNav(this.router.url);
@@ -506,7 +505,6 @@ loadSubUsers() {
     });
 }
 
-// LOAD INITIAL TABLE
 loadSettlementRows() {
 
   this.settlementService
@@ -518,7 +516,6 @@ loadSettlementRows() {
     });
 }
 
-// FILTER TABLE
 onSettlementSubmit(
   months: number
 ) {
@@ -528,15 +525,12 @@ onSettlementSubmit(
     months
   );
 
-  // HIDE TABLE
   this.showSettlementTable =
     false;
 
-  // SHOW LOADING
   this.settlementLoading =
     true;
 
-  // FORCE UI REFRESH
   this.cdr.detectChanges();
 
   this.settlementService
@@ -553,30 +547,23 @@ onSettlementSubmit(
       this.settlementRows =
         [...rows];
 
-      // STOP LOADING
       this.settlementLoading =
         false;
 
-      // SHOW TABLE
       this.showSettlementTable =
         true;
 
-      // FORCE UI REFRESH
       this.cdr.detectChanges();
     });
 }
 
-  // TAB CLICK
-onTabChanged(tabId: string) {
+  onTabChanged(tabId: any) {
 
-  console.log('Selected Tab:', tabId);
+    console.log(
+      'Selected Tab:',
+      tabId
+    );
 
-  this.router.navigate([ tabId]).then(result => {
-    console.log('Navigation Result:', result);
-    console.log('Current URL:', this.router.url);
-  });
-
-  // RESET
   this.showSidebar = false;
 
   this.showTermsConditions = false;
@@ -611,67 +598,57 @@ onTabChanged(tabId: string) {
 
   this.selectedSidebarMenu = '';
 
-  // CLOSE POPUP ON TAB CHANGE
-  this.closeEditPopup();
+    this.closeEditPopup();
 
-  // MERCHANT ACCOUNT
-  if (tabId === 'merchantaccount') {
+    if (tabId === 'merchantaccount') {
 
     this.showSidebar = true;
 
   }
 
-  // TERMS
-  else if (tabId === 'termsandconditions') {
+    if (tabId === 'termsandconditions') {
 
     this.showTermsConditions = true;
 
   }
 
-  // PASSWORD
-  else if (tabId === 'password') {
+    if (tabId === 'password') {
 
     this.showChangePassword = true;
 
   }
 
-  // CUSTOMIZED REPORT
-  else if (tabId === 'customizedreports') {
+    if (tabId === 'customizedreports') {
 
     this.showCustomizedReport = true;
 
   }
 
-  // SETTLEMENT
-  else if (tabId === 'settlement') {
+    if (tabId === 'settlement') {
 
     this.showSettlementSubmission = true;
 
   }
 
-  // SUB USER
-  else if (tabId === 'subuseradministration') {
+    if (tabId === 'subuseradministration') {
 
     this.showSubUserAdmin = true;
 
   }
 
-  // MRM USER
-  else if (tabId === 'mrmusers') {
+    if (tabId === 'mrmusers') {
 
     this.showMrmUserAdmin = true;
 
   }
 
-  // OMS USER
-  else if (tabId === 'omsusers') {
+    if (tabId === 'omsusers') {
 
     this.showOmsUsers = true;
 
   }
 
-  // NEW OUTLET
-  else if (tabId === 'addnewoutlet') {
+    if (tabId === 'addnewoutlet') {
 
     this.showNewOutletPortal = true;
 
@@ -679,7 +656,6 @@ onTabChanged(tabId: string) {
 
 }
 
-  // SIDEBAR
   onMenuChanged(menuId: string) {
 
     console.log(
@@ -691,7 +667,6 @@ onTabChanged(tabId: string) {
       menuId;
   }
 
-  // TAX DELIVERY
   onTaxInvoiceDeliveryClicked() {
 
     this.showTaxInvoiceDelivery = true;
@@ -702,7 +677,6 @@ onTabChanged(tabId: string) {
     this.showTaxInvoiceDelivery = false;
   }
 
-  // UPLOAD CERTIFICATE
   onUploadCertificateClicked() {
 
     this.showUploadCertificate = true;
@@ -713,7 +687,6 @@ onTabChanged(tabId: string) {
     this.showUploadCertificate = false;
   }
 
-  // TAX REPORT
   onDownloadTaxInvoiceClicked() {
 
     this.showTaxInvoiceReport = true;
@@ -724,7 +697,6 @@ onTabChanged(tabId: string) {
     this.showTaxInvoiceReport = false;
   }
 
-  // CREATE OMS USER
   onCreateOmsUser() {
 
     this.showOmsUsers = false;
@@ -739,7 +711,6 @@ onTabChanged(tabId: string) {
     this.showOmsUsers = true;
   }
 
-  // SAVE OMS USER
   saveOmsUser(
   event: any
 ) {
@@ -751,15 +722,12 @@ onTabChanged(tabId: string) {
 
   const newUser = {
 
-    // TABLE FIELD
     userId:
       event.username,
 
-    // TABLE FIELD
     userName:
       event.name,
 
-    // TABLE FIELD
     emailAddress:
       event.email,
 
@@ -787,11 +755,9 @@ onTabChanged(tabId: string) {
       newUser
     );
 
-  // CLOSE FORM
   this.showCreateOmsUser =
     false;
 
-  // SHOW TABLE
   this.showOmsUsers =
     true;
 }
@@ -866,12 +832,10 @@ onUpdateOmsUser(
       updatedUser
     );
 
-  // CLOSE POPUP
   this.showEditUserPopup =
     false;
 }
 
-  // CREATE MRM USER
   onCreateMrmUser() {
 
     this.showMrmUserAdmin = false;
@@ -886,8 +850,6 @@ onUpdateOmsUser(
     this.showMrmUserAdmin = true;
   }
 
-  // EDIT MRM USER
-  // EDIT MRM USER
 onEditMrmUser(
   user: any
 ) {
@@ -897,18 +859,14 @@ onEditMrmUser(
     user
   );
 
-  // RESET POPUP
   this.showEditUserPopup =
     false;
 
-  // CLEAR OLD DATA
   this.selectedEditUser =
     null;
 
-  // FORCE REFRESH
   this.cdr.detectChanges();
 
-  // SET NEW DATA
   this.selectedEditUser = {
 
     ...user
@@ -917,12 +875,10 @@ onEditMrmUser(
   this.editPopupTitle =
     'EDIT MRM USER';
 
-  // OPEN POPUP
   this.showEditUserPopup =
     true;
 }
 
-  // EDIT OMS USER
 onEditOmsUser(
   user: any
 ) {
@@ -932,18 +888,14 @@ onEditOmsUser(
     user
   );
 
-  // RESET POPUP
   this.showEditUserPopup =
     false;
 
-  // CLEAR OLD DATA
   this.selectedEditUser =
     null;
 
-  // FORCE REFRESH
   this.cdr.detectChanges();
 
-  // SET NEW DATA
   this.selectedEditUser = {
 
     ...user
@@ -952,12 +904,10 @@ onEditOmsUser(
   this.editPopupTitle =
     'EDIT OMS USER';
 
-  // OPEN POPUP
   this.showEditUserPopup =
     true;
 }
 
-  // CLOSE POPUP
   closeEditPopup() {
 
   this.showEditUserPopup =
@@ -970,7 +920,6 @@ onEditOmsUser(
     '';
 }
 
-  // SUB USER
   onCreateSubUser() {
 
     this.showSubUserAdmin = false;
@@ -997,8 +946,6 @@ onEditOmsUser(
 
   setTimeout(() => {
 
-    // IMPORTANT:
-    // KEEP ORIGINAL ID
     this.selectedEditUser = {
 
       id:
@@ -1058,16 +1005,12 @@ onUpdateSubUser(
     id:
       this.selectedEditUser.id,
 
-    // IMPORTANT:
-    // TABLE EXPECTS name
     name:
 
       event.userName ||
 
       this.selectedEditUser.userName,
 
-    // IMPORTANT:
-    // TABLE EXPECTS email
     email:
 
       event.emailAddress ||
@@ -1115,7 +1058,6 @@ onDeleteSubUser(
     );
 }
 
-  // NEW OUTLET
   onCreateNewApplication() {
 
     this.showNewOutletPortal = false;

@@ -1,20 +1,14 @@
 <div class="ffu-container">
-
-  <!-- Julian Day -->
   <div class="ffu-row">
     <label class="ffu-label">Enter the Julian Day <span class="ffu-required">*</span></label>
     <input type="text" class="ffu-text-input" [(ngModel)]="julianDay"
       appNumbersOnly
       (ngModelChange)="onJulianDayInput()" maxlength="3">
   </div>
-
-  <!-- Today button -->
   <div class="ffu-row ffu-row-inline">
     <label class="ffu-label">or Select the capture date</label>
     <button class="ffu-today-btn" (click)="setToday()">Today</button>
   </div>
-
-  <!-- Calendar -->
   <div class="ffu-calendar">
     <div class="ffu-cal-header">
       <button class="ffu-cal-nav" (click)="prevMonth()">&#9664;</button>
@@ -32,16 +26,12 @@
       </div>
     </div>
   </div>
-
-  <!-- SE Number input -->
   <div class="ffu-row">
     <label class="ffu-label">SE Numbers <span class="ffu-required">*</span></label>
     <input type="text" class="ffu-text-input" [(ngModel)]="seNumber"
       appNumbersOnly
       placeholder="Enter SE Number">
   </div>
-
-  <!-- SOC Header radio -->
   <div class="ffu-row" style="align-items:flex-start;">
     <label class="ffu-label"></label>
     <div>
@@ -55,8 +45,6 @@
       </div>
     </div>
   </div>
-
-  <!-- vn-core Toast Messages -->
   @if (status === 'success') {
     <amex-success-toast
       [message]="statusMessage"
@@ -66,7 +54,6 @@
       (dismissed)="onDismissSuccess()">
     </amex-success-toast>
   }
-
   @if (status === 'error') {
     <amex-error-toast
       [message]="statusMessage"
@@ -74,12 +61,9 @@
       (dismissed)="onDismissError()">
     </amex-error-toast>
   }
-
-  <!-- Submit -->
   <div class="ffu-row">
     <button class="ffu-submit-btn" (click)="onExtractRejectedItems()" [disabled]="isLoading">
       {{ isLoading ? 'Processing...' : 'Do File Formation' }}
     </button>
   </div>
-
 </div>

@@ -18,8 +18,6 @@ import { AmexCardRow } from '@ui-components/ui';
     AmexEligibleTransactionsTableComponent,
   ],
   template: `
-
-    <!-- VIEW 1: Client code entry form -->
     <ng-container *ngIf="view === 'form'">
       <div class="pwp-page-header">Pay with Points - Agent Portal</div>
       <div class="pwp-form-section">
@@ -40,7 +38,6 @@ import { AmexCardRow } from '@ui-components/ui';
       <div class="pwp-footer">Copyright &copy; 2009 American Express Company</div>
     </ng-container>
 
-    <!-- VIEW 2: SELECT & PAY WITH POINTS table -->
     <ng-container *ngIf="view === 'select'">
       <div class="pwp-body">
         <amex-eligible-transactions-table
@@ -69,7 +66,6 @@ import { AmexCardRow } from '@ui-components/ui';
       font-size: 13px; font-weight: bold; padding: 8px 12px;
     }
 
-    /* Form */
     .pwp-form-section  { padding: 16px 12px; }
     .pwp-form-row      { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
     .pwp-label         { font-size: 12px; color: #333; white-space: nowrap; }
@@ -87,19 +83,15 @@ import { AmexCardRow } from '@ui-components/ui';
     .pwp-submit-btn:hover { background: #003087; }
     .pwp-form-error    { color: red; font-size: 12px; margin-top: 6px; }
 
-    /* Select view */
-
     .pwp-bureau-link   { color: #1a3a6b; cursor: pointer; font-weight: bold; }
     .pwp-bureau-link:hover { text-decoration: underline; }
     .pwp-body          { padding: 12px; display: flex; flex-direction: column; gap: 12px; }
 
-    /* Footer */
     .pwp-footer {
       font-size: 11px; color: #888; text-align: right;
       padding: 6px 12px; border-top: 1px solid #e0e0e0; margin-top: 16px;
     }
 
-    /* Fix inactive tab styling in amex-eligible-transactions-table */
     :host ::ng-deep .ett__tab:not(.ett__tab--active) {
       background: #888 !important; color: #fff !important;
     }
@@ -122,7 +114,6 @@ export class PayWithPointsComponent implements OnInit {
   totalPointsRedeemed = '0';
   cardRows:     AmexCardRow[]         = [];
 
-  // ── Mock data ────────────────────────────────────────────────────
   private mockDb: Record<string, {
     cards:        AmexCardRow[];
     transactions: EligibleTransaction[];
@@ -147,7 +138,7 @@ export class PayWithPointsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // No router interaction here — the parent (AppComponent or shell) owns routing.
+    
   }
 
   get cardOptions(): { value: string; label: string }[] {

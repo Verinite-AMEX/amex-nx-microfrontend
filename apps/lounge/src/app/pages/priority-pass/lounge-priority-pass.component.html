@@ -4,7 +4,6 @@
 
     <div class="lpp__body">
 
-        <!-- ── SEARCH (always visible, hides after customer found) e.g. C123456 ── -->
         <div class="lcs__wrap">
             <form [formGroup]="searchForm" (ngSubmit)="onSearch()" novalidate>
                 <div class="lcs__field-row">
@@ -22,7 +21,6 @@
             <div *ngIf="errorMsg" class="lcs__error-msg">{{ errorMsg }}</div>
         </div>
 
-        <!-- ── ENROLLMENT (shown after customer found) ── -->
         <ng-container *ngIf="customer">
 
             <div *ngIf="enrollSuccess" class="lpp__success-banner">
@@ -31,7 +29,6 @@
             </div>
             <div *ngIf="enrollError" class="lpp__error-msg">{{ enrollError }}</div>
 
-            <!-- ── Contact Details ── -->
             <div class="lpp__section">
                 <div class="lpp__section-title">Contact Details</div>
                 <p class="lpp__section-note">Please confirm we have the correct contact details for your new Priority
@@ -56,7 +53,6 @@
                 </div>
             </div>
 
-            <!-- ── Basic Card ── -->
             <div class="lpp__section">
                 <div class="lpp__section-title">Please select the Basic Card you wish to enroll</div>
                 <select class="lpp__card-select" [(ngModel)]="selectedBasicCard">
@@ -67,23 +63,19 @@
                 </select>
             </div>
 
-            <!-- ── Card Selection ── -->
             <div class="lpp__section">
                 <div class="lpp__section-title">Card Selection</div>
                 <p class="lpp__section-note">Please select the Card you wish to enroll</p>
 
                 <div *ngFor="let card of filteredCards" class="lpp__card-row">
 
-                    <!-- bullet + checkbox -->
                     <div class="lpp__card-bullet">
                         <span class="lpp__bullet">•</span>
                         <input type="checkbox" [(ngModel)]="card.selected" [id]="'card-' + card.cardNumber" />
                     </div>
 
-                    <!-- Card logo + details together -->
                     <div class="lpp__card-info-block">
 
-                        <!-- logo -->
                         <div class="lpp__card-art">
                             <div class="lpp__card-art-inner">
                                 <div class="lpp__card-chip"></div>
@@ -91,7 +83,6 @@
                             </div>
                         </div>
 
-                        <!-- details below logo Card Details -->
                         <div class="lpp__card-info">
                             <div class="lpp__card-type">{{ card.cardType }}</div>
                             <div class="lpp__card-num">{{ card.cardNumber }}</div>
@@ -100,7 +91,6 @@
 
                     </div>
 
-                    <!-- entitlements -->
                     <div class="lpp__card-ent">
                         <p class="lpp__ent-intro">As an American Express Corporate Cardmember you are entitled to:</p>
                         <ul class="lpp__ent-list">
@@ -115,7 +105,6 @@
                 </div>
             </div>
 
-            <!-- ── T&C ── -->
             <div class="lpp__tnc">
                 <p class="lpp__tnc-text">
                     <strong>To complete your enrolment please confirm that:</strong><br />
@@ -140,7 +129,6 @@
                 <br />
             </div>
 
-            <!-- ── MOBILE POPUP ── -->
             <div *ngIf="editMode === 'mobile'" class="lpp__overlay" (click)="cancelEdit()">
                 <div class="lpp__popup" (click)="$event.stopPropagation()">
                     <div class="lpp__popup-hd">Mobile Number</div>
@@ -173,7 +161,6 @@
                 </div>
             </div>
 
-            <!-- ── EMAIL POPUP ── -->
             <div *ngIf="editMode === 'email'" class="lpp__overlay" (click)="cancelEdit()">
                 <div class="lpp__popup" (click)="$event.stopPropagation()">
                     <div class="lpp__popup-hd">E-mail (e-statement)</div>

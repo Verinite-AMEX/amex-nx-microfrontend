@@ -19,14 +19,8 @@ import { AmexReportDownloadButtonComponent } from '@ui-components/ui';
   `]
 })
 export class BcrbReportDownloadComponent {
-
-  // 👉 Input from parent
   @Input() reportType = '';
-
-  // 👉 Outputs
   @Output() backToReports = new EventEmitter<void>();
-
-  // 🔥 THIS WAS MISSING
   @Output() submitRequest = new EventEmitter<string>();
 
   config = {
@@ -35,8 +29,6 @@ export class BcrbReportDownloadComponent {
     showBack: true,
     backLabel: 'Back to main page'
   };
-
-  // 👉 Dynamic Title
   get title(): string {
     switch (this.reportType) {
       case 'cons-monthly':
@@ -59,14 +51,10 @@ export class BcrbReportDownloadComponent {
         return 'Report';
     }
   }
-
-  // 👉 Submit Request
   download(event: any) {
     console.log('Submit clicked for:', this.reportType);
-    this.submitRequest.emit(this.reportType); // ✅ FIXED
+    this.submitRequest.emit(this.reportType);
   }
-
-  // 👉 Back Button
   back(event: any) {
     console.log('Back clicked');
     this.backToReports.emit();

@@ -17,7 +17,6 @@ import { Router } from '@angular/router';
 
       <div class="grid-2">
 
-        <!-- Policy Thresholds -->
         <div class="card">
           <div class="card-header">Approval Thresholds</div>
           <div class="card-body">
@@ -74,7 +73,6 @@ import { Router } from '@angular/router';
           </div>
         </div>
 
-        <!-- Notifications & Preferences -->
         <div class="card">
           <div class="card-header">Notifications & Preferences</div>
           <div class="card-body">
@@ -110,8 +108,7 @@ import { Router } from '@angular/router';
           </div>
         </div>
       </div>
-
-      <!-- Save button -->
+>
       <div style="display:flex;gap:10px;">
         <button class="btn-primary" (click)="save()">Save Changes</button>
         <button class="btn-secondary" (click)="reset()">Reset to Defaults</button>

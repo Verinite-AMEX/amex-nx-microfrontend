@@ -15,7 +15,6 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
     FormsModule,
   ],
   template: `
-    <!-- ════ LOGIN FORM ════ -->
     <div *ngIf="view === 'login'" class="form-card">
       <div class="form-card-hd">Log In</div>
       <div class="form-card-bd">
@@ -58,7 +57,6 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
       </div>
     </div>
 
-    <!-- ════ FORGOT STEP 1 — User ID + Email ════ -->
     <div *ngIf="view === 'forgot-step1'" class="form-card">
       <div class="form-card-hd">Reset Your Password</div>
       <div class="form-card-bd">
@@ -91,7 +89,6 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
       </div>
     </div>
 
-    <!-- ════ FORGOT STEP 2 — Security Questions ════ -->
     <div *ngIf="view === 'forgot-step2'" class="form-card">
       <div class="form-card-hd">Reset Your Password</div>
       <div class="form-card-bd">
@@ -110,7 +107,6 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
           </div>
         </ng-container>
 
-        <!-- Form: questions + answers + Cancel & Submit -->
         <ng-container *ngIf="!successMsg">
           <div class="question-row">
             <span class="question-label">Secret Question 1</span>
@@ -153,7 +149,6 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
       </div>
     </div>
 
-    <!-- ════ PASSWORD EXPIRED ════ -->
     <div *ngIf="view === 'password-expired'" class="form-card">
       <div class="form-card-hd">Password Expired</div>
       <div class="form-card-bd">
@@ -234,29 +229,20 @@ type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
 })
 export class BtaLoginComponent {
   view: LoginView = 'login';
-
-  // Kept for type compatibility — AppComponent owns the tab bar
   tabs: AmexTabItem[] = [
     { id: 'login', label: 'Login' },
   ];
 
-  // Login
   username = '';
   password = '';
-
-  // Forgot step 1
   forgotUsername = '';
   forgotEmail    = '';
-
-  // Forgot step 2
   securityQuestions: string[] = [
     'What is your mother maiden name?',
     'In what city were you born?',
     'What is the name of the college you went to?',
   ];
   answers: string[] = ['chennai', 'mary', 'anna university'];
-
-  // Password expired
   expiredOldPassword     = '';
   expiredNewPassword     = '';
   expiredConfirmPassword = '';

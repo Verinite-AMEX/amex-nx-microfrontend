@@ -14,11 +14,9 @@ export class MrmUserManagementService {
   private STORAGE_KEY =
     'mrm_users';
 
-  // STATE
   private usersSubject =
     new BehaviorSubject<any[]>([]);
 
-  // OBSERVABLE
   users$ =
     this.usersSubject
       .asObservable();
@@ -28,7 +26,6 @@ export class MrmUserManagementService {
     this.loadUsers();
   }
 
-  // LOAD
   private loadUsers() {
 
     const storedUsers =
@@ -81,7 +78,6 @@ export class MrmUserManagementService {
     }
   }
 
-  // SAVE
   private saveUsers(
     users: any[]
   ) {
@@ -98,13 +94,11 @@ export class MrmUserManagementService {
     );
   }
 
-  // GET
   getUsers() {
 
     return this.users$;
   }
 
-  // ADD
   addUser(user: any) {
 
     const updatedUsers = [
@@ -119,7 +113,6 @@ export class MrmUserManagementService {
     );
   }
 
-  // UPDATE
   updateUser(
     updatedUser: any
   ) {
@@ -146,7 +139,6 @@ export class MrmUserManagementService {
     );
   }
 
-  // DELETE
   deleteUser(id: number) {
 
     const updatedUsers =

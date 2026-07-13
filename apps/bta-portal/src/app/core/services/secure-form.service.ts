@@ -17,21 +17,21 @@ export class SecureFormService implements OnDestroy {
       const block = (e: Event) => {
         const target = e.target as HTMLInputElement;
         if (target?.tagName === 'INPUT') {
-          e.preventDefault();   // ← same as (paste)="$event.preventDefault()"
+          e.preventDefault();
         }
       };
 
       const disableAutocomplete = (e: Event) => {
         const target = e.target as HTMLInputElement;
         if (target?.tagName === 'INPUT') {
-          target.setAttribute('autocomplete', 'off');  // ← same as autocomplete="off"
+          target.setAttribute('autocomplete', 'off');
         }
       };
 
-      this.addListener('paste',  block);          // ← (paste)="$event.preventDefault()"
-      this.addListener('copy',   block);          // ← (copy)="$event.preventDefault()"
-      this.addListener('cut',    block);          // ← (cut)="$event.preventDefault()"
-      this.addListener('focus',  disableAutocomplete, true);  // ← autocomplete="off"
+      this.addListener('paste',  block);          
+      this.addListener('copy',   block);          
+      this.addListener('cut',    block);
+      this.addListener('focus',  disableAutocomplete, true);
     });
   }
 

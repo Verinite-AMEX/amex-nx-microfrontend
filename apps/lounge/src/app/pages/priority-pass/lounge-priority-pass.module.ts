@@ -6,7 +6,7 @@ import { LoungePriorityPassComponent } from './lounge-priority-pass.component';
 @NgModule({
   imports: [
     CommonModule,
-    LoungePriorityPassComponent,  // standalone component
+    LoungePriorityPassComponent,
     RouterModule.forChild([{ path: '', component: LoungePriorityPassComponent }]),
   ],
 })

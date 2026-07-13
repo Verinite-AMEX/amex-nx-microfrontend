@@ -38,15 +38,12 @@ import { BcrbMockService } from '../../services/bcrb-mock.service';
 export class BcrbReportsComponent implements OnInit {
 
   username = 'ssharaf_onlshelper';
-
-  // 👉 dynamic table data
   rows: any[] = [];
 
   // eslint-disable-next-line @angular-eslint/prefer-inject
   constructor(private mockService: BcrbMockService) {}
 
   ngOnInit() {
-    // 🔥 subscribe to mock data
     this.mockService.reports$.subscribe((data) => {
       this.rows = data.map(r => ({
         serialNo: r.id,
@@ -57,14 +54,9 @@ export class BcrbReportsComponent implements OnInit {
       }));
     });
   }
-
-  // 👉 controls UI
   currentView: 'reports' | 'sidebar' = 'reports';
-
-  // 👉 which sidebar item selected
   selectedMenu = '';
 
-  // 👉 detect "Request New Report +" click
   handleClick(event: any) {
     const text = event.target?.innerText?.trim();
 
@@ -77,16 +69,12 @@ export class BcrbReportsComponent implements OnInit {
     this.currentView = 'sidebar';
   }
 
-  // 👉 handle sidebar click
   onSidebarSelect(menuId: string) {
     this.selectedMenu = menuId;
   }
 
-  // 👉 🔥 NEW: handle submit from download component
   onSubmitRequest(reportType: string) {
     this.mockService.createReport(reportType);
-
-    // go back to table after submit
     this.currentView = 'reports';
     this.selectedMenu = '';
   }

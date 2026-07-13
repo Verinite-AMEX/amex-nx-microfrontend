@@ -1,23 +1,17 @@
 <div class="rpt-container">
-
   <div class="rpt-btn-row">
     <button class="rpt-btn rpt-btn--action" (click)="onSearch()">View Report</button>
   </div>
-
   @if (showTable) {
-
     <div class="rpt-actions">
       <button class="rpt-btn rpt-btn--action" (click)="onPrint()">Print</button>
       <button class="rpt-btn" (click)="onExport()">Export</button>
     </div>
-
     <amex-sortable-filterable-table
       title="Rejection Letter Details"
       [columns]="columns"
       [rows]="records"
       (sortChange)="onSortChange($event)">
     </amex-sortable-filterable-table>
-
   }
-
 </div>

@@ -122,8 +122,6 @@ export class BtaAuthService {
     localStorage.removeItem(BtaAuthService.USER_KEY);
   }
 
-  // ─── Getters ─────────────────────────────────────────────────────────────
-
   getToken(): string | null {
     return localStorage.getItem(BtaAuthService.TOKEN_KEY);
   }
@@ -149,8 +147,6 @@ export class BtaAuthService {
     const userRoles = this.getRoles();
     return roles.some(r => userRoles.includes(r));
   }
-
-  // ─── BTA Role Checks ─────────────────────────────────────────────────────
 
   isCorpAdmin(): boolean {
     return this.hasRole('ROLE_CORP_MASTER_ADMIN', 'ROLE_CORP_SUB_ADMIN');

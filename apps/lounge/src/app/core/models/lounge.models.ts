@@ -1,9 +1,7 @@
-// ─── Priority Pass Models ────────────────────────────────────────────────────
-
 export interface LoungeCard {
-  cardNumber: string;                // e.g. '3782 822463 10005'
-  cardType:   string;                // e.g. 'The American Express® Corporate Card'
-  variant:    string;                // e.g. 'BULLET P'
+  cardNumber: string;
+  cardType:   string;          
+  variant:    string;                
   enrolled:   boolean;
   entitlements: string[];
   selected?:  boolean;

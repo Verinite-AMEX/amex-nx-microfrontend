@@ -6,7 +6,6 @@ import {
   CenExcApplicationResult,
 } from '../models/cen-lcy-exc.models';
 
-// ─── Mock data (replace with real HTTP calls) ─────────────────────────────────
 const MOCK_CUSTOMERS: Record<string, CenCustomer> = {
   '20510409': {
     clientId:   '20510409',
@@ -28,7 +27,6 @@ const MOCK_CUSTOMERS: Record<string, CenCustomer> = {
   },
 };
 
-// Track submitted applications in-memory (replace with backend check)
 const SUBMITTED_APPLICATIONS: Record<string, string> = {};
 
 function genApplicationNo(): string {
@@ -38,26 +36,15 @@ function genApplicationNo(): string {
 @Injectable({ providedIn: 'root' })
 export class CenLcyExcService {
 
-  /**
-   * Lookup customer by Client ID.
-   * Returns null when not found.
-   */
   getCustomer(clientId: string): Observable<CenCustomer | null> {
     const found = MOCK_CUSTOMERS[clientId.trim()] ?? null;
     return of(found).pipe(delay(500));
   }
 
-  /**
-   * Check if an application has already been submitted for this Client ID.
-   * Returns the existing application number, or null.
-   */
   getExistingApplication(clientId: string): string | null {
     return SUBMITTED_APPLICATIONS[clientId.trim()] ?? null;
   }
 
-  /**
-   * Submit the currency exchange application.
-   */
   submitApplication(req: CenExcApplicationRequest): Observable<CenExcApplicationResult> {
     if (!req.termsAccepted) {
       return throwError(() => new Error('Terms & Conditions must be accepted.'));

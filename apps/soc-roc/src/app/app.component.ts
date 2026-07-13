@@ -16,7 +16,6 @@ interface MenuItem {
   label: string;
   route: string;
 }
-
 @Component({
   selector: 'app-soc-roc-portal-entry',
   standalone: true,
@@ -28,17 +27,14 @@ interface MenuItem {
     AmexTabBarComponent
   ],
   template: `
-
     @if (isPublicPage) {
       <router-outlet></router-outlet>
     }
-
     @if (!isPublicPage && isDashboardPage) {
       <amex-page-component
         portalStyle="onls"
         [showCustomHeader]="true"
         [showSidebar]="true">
-
         <div header>
           <amex-top-nav-bar
             portalStyle="onls"
@@ -46,7 +42,6 @@ interface MenuItem {
             [username]="loggedInUser"
             (logout)="onLogout()">
           </amex-top-nav-bar>
-
           <amex-tab-bar
             portalStyle="onls"
             [tabs]="dashboardTabs"
@@ -54,18 +49,14 @@ interface MenuItem {
             (tabClick)="onDashboardTabClick($event)">
           </amex-tab-bar>
         </div>
-
         <router-outlet></router-outlet>
-
       </amex-page-component>
     }
-
     @if (!isPublicPage && !isDashboardPage) {
       <amex-page-component
         portalStyle="onls"
         [showCustomHeader]="true"
         [showSidebar]="true">
-
         <div header>
           <amex-top-nav-bar
             portalStyle="onls"
@@ -73,14 +64,12 @@ interface MenuItem {
             [username]="loggedInUser"
             (logout)="onLogout()">
           </amex-top-nav-bar>
-
           <amex-tab-bar
             portalStyle="onls"
             [tabs]="tabs"
             [activeTabId]="activeTabId"
             (tabClick)="onTabClick($event)">
           </amex-tab-bar>
-
           @if (activeTabId === 'masters' && showSubMenu) {
             <div class="soc-submenu">
               @for (sub of mastersSubItems; track sub.id) {
@@ -88,8 +77,6 @@ interface MenuItem {
               }
             </div>
           }
-          
-          
           @if (activeTabId === 'utilities' && showSubMenu) {
             <div class="soc-submenu">
               @for (sub of utilitiesSubItems; track sub.id) {
@@ -105,9 +92,7 @@ interface MenuItem {
             </div>
           }
         </div>
-
         <router-outlet></router-outlet>
-
       </amex-page-component>
     }
   `,
@@ -128,20 +113,16 @@ interface MenuItem {
   `]
 })
 export class AppComponent implements OnInit {
-
   isPublicPage: boolean = true;
   isDashboardPage: boolean = false;
   loggedInUser: string = '';
-
   activeTabId = 'masters';
   showSubMenu = false;
-
   dashboardTabs: AmexTabItem[] = [
     { id: 'valueback', label: 'VALUEBACK' },
     { id: 'soc-roc', label: 'SOC & ROC' }
   ];
   activeDashboardTabId = 'valueback';
-
   tabs: AmexTabItem[] = [
     { id: 'masters', label: 'MASTERS' },
     { id: 'merchant-data', label: 'MERCHANT DATA' },
@@ -152,12 +133,10 @@ export class AppComponent implements OnInit {
     { id: 'algeria-payment', label: 'ALGERIA PAYMENT' },
     { id: 'payment-register', label: 'PAYMENT REGISTER' }
   ];
-
   mastersSubItems: MenuItem[] = [
     { id: 'country-master', label: 'Country Master', route: '/masters/country-master' },
     { id: 'currency-master', label: 'Currency Master', route: '/masters/currency-master' }
   ];
- 
   utilitiesSubItems: MenuItem[] = [
     { id: 'file-upload', label: 'File Formation and Upload the Data', route: '/utilities/file-formation-upload' },
     { id: 'extract-rejected', label: 'Extract Rejected Items', route: '/utilities/extract-rejected-items' },
@@ -173,7 +152,6 @@ export class AppComponent implements OnInit {
     { id: 'rejection-details', label: 'Rejection Letter Details', route: '/reports/rejection-letter-details' },
     { id: 'consolidated', label: 'Consolidated Rejection Report', route: '/reports/consolidated-rejection-report' }
   ];
-
   constructor(
     private router: Router,
   private secureForm: SecureFormService,
@@ -188,7 +166,6 @@ private auth: SocRocAuthService,) {}
         this.checkRoute(event.urlAfterRedirects);
       });
   }
-
   private checkRoute(url: string): void {
     // OLD:
   // this.isPublicPage = url === '/login' || url === '/' || url === '/signup';
@@ -202,7 +179,6 @@ private auth: SocRocAuthService,) {}
     this.loggedInUser = this.auth.getUsername() || 'User';
     }
   }
-
   onDashboardTabClick(tabId: string): void {
     this.activeDashboardTabId = tabId;
     if (tabId === 'soc-roc') {
@@ -211,11 +187,9 @@ private auth: SocRocAuthService,) {}
       this.router.navigateByUrl('/masters/country-master');
     }
   }
-
   navigate(route: string): void {
     this.router.navigateByUrl(route);
   }
-
   onTabClick(tabId: string): void {
     if (['masters', 'utilities', 'reports'].includes(tabId)) {
       if (this.activeTabId === tabId) {
@@ -237,7 +211,6 @@ private auth: SocRocAuthService,) {}
     };
     if (routeMap[tabId]) this.router.navigateByUrl(routeMap[tabId]);
   }
-
   onLogout(): void {
     // OLD:
   // localStorage.removeItem('soc_roc_token');

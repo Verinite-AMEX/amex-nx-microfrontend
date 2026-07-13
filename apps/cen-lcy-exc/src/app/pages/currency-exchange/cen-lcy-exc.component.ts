@@ -14,19 +14,14 @@ import { CenCustomer } from '../../core/models/cen-lcy-exc.models';
 })
 export class CenLcyExcComponent implements OnInit {
 
-  // ── Search ──────────────────────────────────────────────────────────────────
   searchForm!: FormGroup;
   submitted = false;
   searching = false;
   searchError = '';
 
-  // ── Already submitted (shown only when user tries to resubmit) ───────────────
   alreadySubmittedMsg = '';
-
-  // ── Customer / Result ───────────────────────────────────────────────────────
   customer: CenCustomer | null = null;
 
-  // ── Application submission ───────────────────────────────────────────────────
   termsAccepted = false;
   submitting = false;
   submitSuccess = false;
@@ -46,11 +41,10 @@ export class CenLcyExcComponent implements OnInit {
     });
   }
 
-  // ── Search ───────────────────────────────────────────────────────────────────
   onSearch(): void {
     this.submitted = true;
     this.searchError = '';
-    this.alreadySubmittedMsg = '';   // clear on every fresh search attempt
+    this.alreadySubmittedMsg = '';
     this.customer = null;
     this.submitSuccess = false;
     this.submitError = '';
@@ -59,8 +53,6 @@ export class CenLcyExcComponent implements OnInit {
     if (this.searchForm.invalid) return;
 
     const clientId = this.f['clientId'].value as string;
-
-    // Check for already-submitted application — show error, don't proceed
     const existing = this.svc.getExistingApplication(clientId);
     if (existing) {
       this.alreadySubmittedMsg =
@@ -86,7 +78,6 @@ export class CenLcyExcComponent implements OnInit {
     });
   }
 
-  // ── Submit Application ────────────────────────────────────────────────────────
   onSubmitApplication(): void {
     if (!this.customer || !this.termsAccepted) return;
 
@@ -109,13 +100,12 @@ export class CenLcyExcComponent implements OnInit {
     });
   }
 
-  // ── Ok button (after success) — clean reset, NO already-submitted banner ──────
   onOk(): void {
     this.customer = null;
     this.submitSuccess = false;
     this.successMessage = '';
     this.submitted = false;
-    this.alreadySubmittedMsg = '';   // ← clear — banner shows only on re-search
+    this.alreadySubmittedMsg = '';
     this.searchError = '';
     this.termsAccepted = false;
     this.searchForm.reset();

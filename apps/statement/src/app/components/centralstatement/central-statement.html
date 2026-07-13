@@ -1,10 +1,8 @@
 <div class="statement-wrapper">
   <div class="statement-header">View Corporate Central Statements</div>
-
   <div class="statement-body">
     <div class="search-row">
       <span class="search-label"> Please enter a Corporate number </span>
-
       <ui-input
         class="card-input"
         [type]="'text'"
@@ -12,7 +10,6 @@
         (input)="onCardInput($event)"
       >
       </ui-input>
-
       <ui-button
         [label]="'View Statement'"
         [variant]="'primary'"
@@ -21,25 +18,19 @@
       >
       </ui-button>
     </div>
-
     @if (errorMessage()) {
     <div class="error-text">{{ errorMessage() }}</div>
     } @if (showStatements()) {
     <div class="statement-table">
-      <!-- Latest Statement -->
       <div class="table-row">
         <div class="left-col header-row">Latest Statement</div>
-
         <div class="right-col">{{ statementData()[0] }}</div>
       </div>
-
-      <!-- Previous Statements -->
       @for ( item of statementData().slice(1); track item; let i = $index ) {
       <div class="table-row">
         <div class="left-col" [class.bold]="i === 0">
           {{ i === 0 ? 'Previous Statements' : '' }}
         </div>
-
         <div class="right-col">{{ item }}</div>
       </div>
       }

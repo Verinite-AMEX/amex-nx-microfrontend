@@ -44,7 +44,6 @@ import {
 })
 export class OmsNewOutletApplicationFormComponent {
 
-  // BUSINESS TYPES
   businessTypes = [
 
     'Retail',
@@ -75,7 +74,6 @@ export class OmsNewOutletApplicationFormComponent {
 
   ) {}
 
-  // SUBMIT
   onSubmit(
     event: any
   ) {
@@ -85,7 +83,6 @@ export class OmsNewOutletApplicationFormComponent {
       event
     );
 
-    // OUTLET NAME
     if (
       !event.outletName?.trim()
     ) {
@@ -97,7 +94,6 @@ export class OmsNewOutletApplicationFormComponent {
       return;
     }
 
-    // BUSINESS TYPE
     if (
       !event.businessType?.trim()
     ) {
@@ -109,7 +105,6 @@ export class OmsNewOutletApplicationFormComponent {
       return;
     }
 
-    // LOCATION
     if (
       !event.location?.trim()
     ) {
@@ -121,7 +116,6 @@ export class OmsNewOutletApplicationFormComponent {
       return;
     }
 
-    // CONTACT NAME
     if (
       !event.contactName?.trim()
     ) {
@@ -146,7 +140,6 @@ export class OmsNewOutletApplicationFormComponent {
       return;
     }
 
-    // EMAIL
     if (
       !event.contactEmail?.trim()
     ) {
@@ -171,7 +164,6 @@ export class OmsNewOutletApplicationFormComponent {
       return;
     }
 
-    // PHONE
     if (
       !event.contactPhone?.trim()
     ) {
@@ -236,7 +228,6 @@ export class OmsNewOutletApplicationFormComponent {
     }, 1500);
   }
 
-  // BACK
   onBack() {
 
   console.log(

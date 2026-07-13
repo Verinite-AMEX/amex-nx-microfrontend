@@ -18,13 +18,11 @@ export class OmsContactInformationService {
   private STORAGE_KEY =
     'oms_contact_information';
 
-  // STATE
   private contactInfoSubject =
     new BehaviorSubject<
       ContactInformation[]
     >([]);
 
-  // OBSERVABLE
   contactInfo$ =
     this.contactInfoSubject
       .asObservable();
@@ -34,7 +32,6 @@ export class OmsContactInformationService {
     this.loadData();
   }
 
-  // LOAD DATA
   private loadData() {
 
     const storedData =
@@ -55,7 +52,6 @@ export class OmsContactInformationService {
     }
   }
 
-  // SAVE DATA
   private saveData(
     data: ContactInformation[]
   ) {
@@ -72,13 +68,11 @@ export class OmsContactInformationService {
     );
   }
 
-  // GET ALL
   getContactInformation() {
 
     return this.contactInfo$;
   }
 
-  // GET BY SECTION
   getBySection(
     sectionTitle: string
   ) {
@@ -94,14 +88,12 @@ export class OmsContactInformationService {
       );
   }
 
-  // SAVE SECTION DATA
   saveSectionData(
     sectionTitle: string,
 
     contacts: any[]
   ) {
 
-    // REMOVE OLD SECTION DATA
     const remainingData =
       this.contactInfoSubject
         .value
@@ -112,7 +104,6 @@ export class OmsContactInformationService {
             sectionTitle
         );
 
-    // ADD NEW SECTION DATA
     const updatedSectionData =
       contacts.map(
         contact => ({
@@ -139,7 +130,6 @@ export class OmsContactInformationService {
     );
   }
 
-  // CLEAR ALL
   clearAll() {
 
     localStorage.removeItem(

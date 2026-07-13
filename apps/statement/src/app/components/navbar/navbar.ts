@@ -12,9 +12,7 @@ import { CentralStatement } from '../centralstatement/central-statement';
 })
 export class Navbar {
   activeSection = 'latestStatements';
-
   selectedTabText = 'Latest Statements';
-
   links = [
     { id: 'centralStatements', label: 'Central Statements' },
     { id: 'latestStatements', label: 'Latest Statements' },
@@ -23,12 +21,9 @@ export class Navbar {
     { id: 'statementsBeta', label: 'Statements (Beta)' },
     { id: 'centralStatementsOld', label: 'Central Statements (Old)' },
   ];
-
   onTabChange(tabId: string) {
     this.activeSection = tabId;
-
     const selectedTab = this.links.find((link) => link.id === tabId);
-
     this.selectedTabText = selectedTab?.label || '';
   }
 }

@@ -13,7 +13,6 @@ interface CardMember { name: string; cardEnding: string; selectedArtId: string |
   template: `
     <div class="pers-page">
 
-      <!-- Step 1: Client ID input -->
       <div class="client-id-section" *ngIf="!clientSubmitted">
         <div class="field-label">Client ID</div>
         <div class="field-row">
@@ -28,7 +27,6 @@ interface CardMember { name: string; cardEnding: string; selectedArtId: string |
         <div class="field-error" *ngIf="clientError">{{ clientError }}</div>
       </div>
 
-      <!-- Step 2: Card art selection grid -->
       <div class="art-section" *ngIf="clientSubmitted">
 
         <div class="art-grid-header">

@@ -46,8 +46,6 @@ export class AuthService {
 
   constructor(private http: HttpClient, private router: Router) {}
 
-  // ── AUTH ──────────────────────────────────────────────────────────
-
   login(credentials: LoginRequest): Observable<AuthData> {
     return this.http
       .post<AuthApiResponse>(`${this.AUTH_API}/login`, credentials)
@@ -66,12 +64,6 @@ export class AuthService {
       );
   }
 
-  /**
-   * Forgot password using BOTH userId and emailId
-   * forgot-password form and sends it to the backend.
-   * The backend receives it in both the username and email fields so it
-   * can match whichever one the user entered.
-   */
     forgotPassword(userId: string, emailId: string): Observable<any> {
 
       return this.http.post(
@@ -82,8 +74,6 @@ export class AuthService {
         }
       );
     }
-
-  // ── LOGOUT ────────────────────────────────────────────────────────
 
 logout(): void {
   const token = this.getToken();
@@ -97,7 +87,7 @@ logout(): void {
       )
       .subscribe({
         next:  () => this.clearSession(),
-        error: () => this.clearSession(), // clear locally even if the call fails
+        error: () => this.clearSession(),
       });
   } else {
     this.clearSession();
@@ -112,8 +102,6 @@ private clearSession(): void {
   this.router.navigate(['/login']);
 }
 
-  // ── GETTERS ───────────────────────────────────────────────────────
-
   getToken(): string | null         { return localStorage.getItem(AuthService.TOKEN_KEY); }
   hasToken(): boolean               { return !!this.getToken(); }
   isLoggedIn(): Observable<boolean> { return this.loggedIn$.asObservable(); }
@@ -123,8 +111,6 @@ private clearSession(): void {
     try   { return raw ? JSON.parse(raw) : null; }
     catch { return null; }
   }
-
-  // ── PRIVATE ───────────────────────────────────────────────────────
 
   private storeSession(data: AuthData): void {
     localStorage.setItem(AuthService.TOKEN_KEY,   data.accessToken);

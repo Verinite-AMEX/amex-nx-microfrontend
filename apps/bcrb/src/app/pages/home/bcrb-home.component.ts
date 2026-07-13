@@ -27,7 +27,6 @@ export class BcrbHomeComponent {
   onTabClick(tabId: string) {
     this.activeTabId = tabId;
     console.log('Tab clicked:', tabId);
-    // 🔥 send event to parent
     this.tabChanged.emit(tabId);
   }
 }

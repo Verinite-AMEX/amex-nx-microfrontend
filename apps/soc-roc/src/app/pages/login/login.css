@@ -10,7 +10,6 @@
   color: #333;
 }
 
-/* ── Header ── */
 .hub-header {
   background: #3d3d3d;
   height: 44px;
@@ -32,7 +31,7 @@
   letter-spacing: 3px;
   font-family: 'Arial Black', Arial, sans-serif;
   line-height: 1;
-  /* Striped IBM logo effect using CSS */
+
   background: repeating-linear-gradient(
     to bottom,
     #fff 0px,
@@ -72,13 +71,11 @@
   font-size: 13px;
 }
 
-/* Cyan accent line */
 .hub-accent-line {
   height: 3px;
   background: #00b4d8;
 }
 
-/* ── Body ── */
 .hub-body {
   flex: 1;
   display: flex;
@@ -191,7 +188,6 @@
 
 .hub-signup-link a:hover { text-decoration: underline; }
 
-/* ── Footer ── */
 .hub-footer {
   background: #e8e8e8;
   padding: 28px 16px 32px;

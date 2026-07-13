@@ -26,7 +26,7 @@ import {
             <button class="audit-tab" [class.active]="activeTab==='summary'"  (click)="switchTab('summary')">Summary Report</button>
           </div>
 
-          <!-- DETAILED REPORT -->
+         
           <div *ngIf="activeTab==='detailed'" class="tab-content">
             <div class="bta-field-row" style="margin-top:14px;">
               <label>View Audit Trail For:</label>
@@ -74,7 +74,6 @@ import {
             </div>
           </div>
 
-          <!-- SUMMARY REPORT -->
           <div *ngIf="activeTab==='summary'" class="tab-content">
             <div class="bta-field-row" style="margin-top:14px;">
               <label>Date From:</label>
@@ -162,10 +161,7 @@ export class BtaAuditTrailComponent {
   summaryTo   = '';
   today = new Date().toISOString().split('T')[0];
   summaryErrors: { from?: string; to?: string; range?: string } = {};
-
-  // 10 years back from current year
   years = Array.from({ length: 10 }, (_, i) => String(new Date().getFullYear() - i));
-
   months = [
     'January','February','March','April','May','June',
     'July','August','September','October','November','December',
@@ -180,7 +176,6 @@ export class BtaAuditTrailComponent {
 
   detailedRows: any[] = [];
 
-  // ── Tab switch ─────────────────────────────────────────────────
   switchTab(tab: string) {
     this.activeTab       = tab;
     this.submitted       = false;
@@ -190,7 +185,6 @@ export class BtaAuditTrailComponent {
     this.summaryErrors   = {};
   }
 
-  // ── Show trails ────────────────────────────────────────────────
   showDetailedTrail() {
     this.submitted = true;
     if (!this.detailYear || !this.detailMonth) return;
@@ -221,7 +215,6 @@ export class BtaAuditTrailComponent {
     this.summaryShown = true;
   }
 
-  // ── Download entry points ──────────────────────────────────────
   downloadDetailed() {
     const filename = `Audit_Trail_Detailed_${this.detailMonth}_${this.detailYear}`;
     const headers  = ['Date/Time', 'User ID', 'Action', 'Details', 'IP Address'];
@@ -250,7 +243,6 @@ export class BtaAuditTrailComponent {
     this.dispatch(this.summaryDownloadFormat, filename, headers, rows, meta);
   }
 
-  // ── Dispatcher ─────────────────────────────────────────────────
   private dispatch(
     format: string,
     filename: string,
@@ -267,7 +259,6 @@ export class BtaAuditTrailComponent {
     }
   }
 
-  // ── Trigger helper ─────────────────────────────────────────────
   private triggerDownload(blob: Blob, filename: string): void {
     const url = URL.createObjectURL(blob);
     const a   = document.createElement('a');
@@ -277,7 +268,6 @@ export class BtaAuditTrailComponent {
     URL.revokeObjectURL(url);
   }
 
-  // ── CSV ────────────────────────────────────────────────────────
   private downloadCSV(filename: string, headers: string[], rows: string[][], meta: string[]): void {
     const metaBlock = meta.map(m => `"${m}"`).join('\n');
     const headerRow = headers.map(h => `"${h}"`).join(',');
@@ -286,7 +276,6 @@ export class BtaAuditTrailComponent {
     this.triggerDownload(new Blob([content], { type: 'text/csv;charset=utf-8;' }), `${filename}.csv`);
   }
 
-  // ── Excel (SpreadsheetML — opens natively in Excel) ────────────
   private downloadExcel(filename: string, headers: string[], rows: string[][], meta: string[]): void {
     const metaRows = meta.map(m =>
       `<Row><Cell ss:MergeAcross="${headers.length - 1}"><Data ss:Type="String">${m}</Data></Cell></Row>`
@@ -319,7 +308,6 @@ export class BtaAuditTrailComponent {
     );
   }
 
-  // ── RTF ────────────────────────────────────────────────────────
   private downloadRTF(filename: string, headers: string[], rows: string[][], meta: string[]): void {
     const colWidth  = 1800;
     const tableRow  = (cells: string[]) =>
@@ -340,7 +328,6 @@ ${tableRow(headers)}${rows.map(r => tableRow(r)).join('')}
     this.triggerDownload(new Blob([rtf], { type: 'application/rtf' }), `${filename}.rtf`);
   }
 
-  // ── PDF (hidden iframe + browser print dialog) ─────────────────
   private downloadPDF(filename: string, headers: string[], rows: string[][], meta: string[]): void {
     const thCells = headers.map(h => `<th>${h}</th>`).join('');
     const tdRows  = rows.map(r =>
@@ -377,7 +364,6 @@ ${metaBlock}
     }, 500);
   }
 
-  // ── Navigation ─────────────────────────────────────────────────
   goBack() {
     this.detailShown     = false;
     this.summaryShown    = false;

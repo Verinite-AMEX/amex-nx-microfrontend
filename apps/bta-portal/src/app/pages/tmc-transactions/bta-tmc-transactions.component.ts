@@ -18,7 +18,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
         <div class="bta-panel-hd">BTA TMC Transactions</div>
         <div class="bta-panel-bd">
 
-          <!-- Filter row -->
           <div class="filter-row">
 
             <label>Select a date: <span class="req">*</span></label>
@@ -43,7 +42,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
 
           </div>
 
-          <!-- Results -->
           <div *ngIf="shown" style="margin-top:16px;">
             <div *ngIf="transactions.length === 0" class="no-records">
               No TMC transactions found for the selected date and index.
@@ -109,14 +107,12 @@ export class BtaTmcTransactionsComponent {
     this.submitted = true;
     this.errors = {};
 
-    // Date validation
     if (!this.selectedDate) {
       this.errors['date'] = 'Please select a valid Date.';
     } else if (this.selectedDate > this.today) {
       this.errors['date'] = 'Date cannot be a future date.';
     }
 
-    // Index validation
     if (!this.selectedIndex) {
       this.errors['index'] = 'Please select an index.';
     }

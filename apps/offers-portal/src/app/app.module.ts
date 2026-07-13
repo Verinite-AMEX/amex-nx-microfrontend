@@ -4,7 +4,6 @@ import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  // AppComponent is standalone:true — imported not declared
   imports: [
     BrowserModule,
     AppComponent,

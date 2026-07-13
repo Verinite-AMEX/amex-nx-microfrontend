@@ -1,9 +1,7 @@
 export interface ContactInformation {
 
-  // SECTION
   sectionTitle: string;
-
-  // CONTACT ROW
+  
   name: string;
 
   email: string;

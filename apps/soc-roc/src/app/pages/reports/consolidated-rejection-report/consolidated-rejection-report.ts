@@ -19,13 +19,10 @@ import {
 })
 export class ConsolidatedRejectionReport {
   showTable = false;
-
   fromDate: string = '';
   toDate: string = '';
-
   status: 'idle' | 'success' | 'error' = 'idle';
   statusMessage: string = '';
-
   columns: AmexTableColumn[] = [
     { key: 'julianDay',       label: 'Julian Day' },
     { key: 'socRefNo',        label: 'SOC Ref No.' },
@@ -37,9 +34,7 @@ export class ConsolidatedRejectionReport {
     { key: 'rejectionCode',   label: 'Rejection Code' },
     { key: 'rejectionReason', label: 'Rejection Reason' },
   ];
-
   records: Record<string, any>[] = [];
-
   onSearch(): void {
     if (!this.fromDate || !this.toDate) {
       this.status = 'error';
@@ -49,14 +44,11 @@ export class ConsolidatedRejectionReport {
     }
     this.statusMessage = '';
     this.status = 'idle';
-    // TODO: Replace with ReportService API call
     this.records = [];
     this.showTable = true;
   }
-
   onPrint(): void { window.print(); }
   onExport(): void { /* TODO: export logic */ }
-
   onSortChange(event: { key: string; dir: any }): void {
     console.log('Sort:', event);
   }

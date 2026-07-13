@@ -8,7 +8,6 @@ import { RegisterData }     from '@ui-components/ui';
 @Component({
     selector: 'app-login',
     template: `
-    <!-- LOGIN VIEW -->
     @if (mode === 'login') {
       <amex-login-form
         portalTitle="ONLS Helper Tool"
@@ -21,7 +20,6 @@ import { RegisterData }     from '@ui-components/ui';
       </amex-login-form>
     }
     
-    <!-- REGISTER VIEW -->
     @if (mode === 'register') {
       <amex-register-form
         portalTitle="ONLS Helper Tool"
@@ -49,7 +47,6 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Already logged in → redirect away
     if (this.auth.hasToken()) {
       this.router.navigate([this.returnUrl]);
       return;
@@ -57,15 +54,11 @@ export class LoginComponent implements OnInit {
     this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/misc/priority-pass';
   }
 
-  // ── Mode toggle ───────────────────────────────────────────────────
-
   setMode(m: 'login' | 'register'): void {
     this.mode    = m;
     this.error   = '';
     this.success = '';
   }
-
-  // ── Login ─────────────────────────────────────────────────────────
 
   onLogin(credentials: LoginCredentials): void {
     this.error   = '';
@@ -88,19 +81,15 @@ export class LoginComponent implements OnInit {
       });
   }
 
-  // ── Register ──────────────────────────────────────────────────────
-
   onRegister(data: RegisterData): void {
     this.error   = '';
     this.success = '';
 
-    // Validate passwords match
     if (data.password !== data.confirmPassword) {
       this.error = 'Passwords do not match.';
       return;
     }
 
-    // Map vn-core RegisterData → backend RegisterRequest
     const fullName = `${data.firstName} ${data.lastName}`.trim();
     const username = (data.firstName + data.lastName)
       .toLowerCase()
@@ -123,8 +112,6 @@ export class LoginComponent implements OnInit {
         },
       });
   }
-
-  // ── Navigation ────────────────────────────────────────────────────
 
   goToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);

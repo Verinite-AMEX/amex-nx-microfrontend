@@ -21,7 +21,6 @@ interface ExpenseReport {
       <div class="page-title">Expense Reports</div>
       <div class="page-subtitle">Review and process employee expense submissions</div>
 
-      <!-- Summary row -->
       <div class="grid-4" style="margin-bottom:24px;">
         <div class="stat-card accent">
           <div class="label">Total Submitted</div>
@@ -45,7 +44,6 @@ interface ExpenseReport {
         </div>
       </div>
 
-      <!-- Reports Table -->
       <div class="card">
         <div class="card-header">
           Expense Reports

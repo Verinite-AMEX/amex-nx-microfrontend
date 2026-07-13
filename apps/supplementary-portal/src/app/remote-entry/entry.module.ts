@@ -20,7 +20,6 @@ import { SuppSearchComponent } from '../pages/search/supp-search.component';
   `,
 })
 export class SuppEntryComponent {}
-
 const routes: Routes = [
   {
     path: '',
@@ -31,7 +30,6 @@ const routes: Routes = [
     ],
   },
 ];
-
 @NgModule({
   declarations: [SuppEntryComponent],
   imports: [
