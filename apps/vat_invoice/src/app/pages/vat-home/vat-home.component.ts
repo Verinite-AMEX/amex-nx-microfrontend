@@ -6,7 +6,6 @@ import {
 } from '@ui-components/ui';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'vat-home',
   standalone: true,
   imports: [
@@ -16,9 +15,7 @@ import {
   templateUrl: './vat-home.component.html',
 })
 export class VatHomeComponent {
-
   @Output() tabChanged = new EventEmitter<string>();
-
   tabs: AmexTabItem[] = [
     { id: 'misc', label: 'MISC' },
     { id: 'oas', label: 'ONLINE ACCOUNT SERVICES' },
@@ -29,15 +26,10 @@ export class VatHomeComponent {
     { id: 'centurion', label: 'CENTURION' },
     { id: 'vat', label: 'VAT INVOICE' }
   ];
-
   activeTabId = 'misc';
-
   onTabClick(tabId: string) {
-
     this.activeTabId = tabId;
-
     console.log('Clicked Tab:', tabId);
-
     this.tabChanged.emit(tabId);
   }
 }

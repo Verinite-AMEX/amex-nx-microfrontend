@@ -6,7 +6,6 @@ import { environment } from '../../environments/environment';
 
 type Step = 'search' | 'cards' | 'issue' | 'done';
 type IssueView = 'select' | 'review' | 'success';
-
 interface CardInfo { cardNumber: string; cardType: string; status: string; }
 interface WearableColor { hex: string; label: string; }
 interface WearableProduct {
@@ -15,10 +14,7 @@ interface WearableProduct {
   colors: WearableColor[];
   icon: string;
 }
-
 const API_BASE = `${environment.apiGatewayUrl}/api`;
-
-// ── Mock data matching V2__seed_data.sql exactly ─────────────────────────────
 const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
   '12345': {
     name: 'John Doe',
@@ -61,8 +57,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
   imports: [CommonModule, FormsModule],
   template: `
     <div class="wp">
-
-      <!-- ── Backend status banner ───────────────────────────────────────── -->
       <div class="wp__status-bar" *ngIf="backendStatus !== 'online'">
         <span class="wp__status-dot"
               [class.wp__status-dot--checking]="backendStatus === 'checking'"
@@ -74,10 +68,7 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
           Backend unavailable — showing demo data
         </span>
       </div>
-
-      <!-- ═══ STEP 1 & 2: Enter Client Number + Card Selection ═══ -->
       <ng-container *ngIf="step === 'search' || step === 'cards'">
-
         <div class="wp__section">
           <div class="wp__title">Enter Client Number</div>
           <div class="wp__divider"></div>
@@ -89,16 +80,12 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                     (click)="onEnterClient()">Enter</button>
           </div>
         </div>
-
         <ng-container *ngIf="step === 'cards'">
-
-          <!-- Member name row -->
           <div class="wp__member-row" *ngIf="memberName">
             <span class="wp__member-label">Member</span>
             <span class="wp__member-name">{{ memberName }}</span>
             <span class="wp__mock-badge" *ngIf="usingMockData">Demo</span>
           </div>
-
           <div class="wp__section">
             <div class="wp__title">Please Select Basic Card</div>
             <div class="wp__divider"></div>
@@ -109,7 +96,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
               </option>
             </select>
           </div>
-
           <div class="wp__section" *ngIf="selectedCard">
             <div class="wp__title">Card Selection</div>
             <div class="wp__divider"></div>
@@ -125,24 +111,17 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
               <div class="wp__card-masked">{{ selectedCard.cardNumber }}</div>
             </div>
           </div>
-
           <div class="wp__apply-row">
             <span class="wp__apply-text">Want to apply for a new wearable?</span>
             <button class="wp__apply-btn" (click)="onApply()">Apply</button>
           </div>
-
         </ng-container>
       </ng-container>
-
-      <!-- ═══ STEP 3: Select Amex Wearable ═══ -->
       <ng-container *ngIf="step === 'issue'">
-
         <div class="wp__section">
           <div class="wp__title">Select Amex Wearable</div>
           <div class="wp__divider"></div>
         </div>
-
-        <!-- Type icon tabs -->
         <div class="wp__type-tabs">
           <div *ngFor="let t of wearableTypes"
                class="wp__type-tab"
@@ -152,13 +131,8 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
             <span class="wp__type-label">{{ t.label }}</span>
           </div>
         </div>
-
-        <!-- Content area: single-col (select) or two-col (review/success) -->
         <div class="wp__issue-layout" [class.wp__issue-layout--split]="issueView !== 'select'">
-
-          <!-- LEFT: Product card -->
           <div class="wp__product-card" *ngIf="currentProduct">
-
             <div class="wp__product-card__top">
               <span class="wp__product-link">
                 The American Express {{ selectedCard?.cardType }} Credit Card
@@ -169,15 +143,11 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                 <span class="wp__faq-label">FAQ</span>
               </button>
             </div>
-
             <div class="wp__product-name">{{ currentProduct.name }}</div>
-
-            <!-- Carousel -->
             <div class="wp__carousel">
               <button class="wp__carousel-arrow"
                       (click)="prevProduct()"
                       [disabled]="selectedWearableIndex === 0">&#8592;</button>
-
               <div class="wp__product-img-area">
                 <div class="wp__product-img-shell">
                   <img *ngIf="selectedWearableType === 'Watch'"
@@ -191,21 +161,16 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                       alt="Amex Ring" class="wp__product-img" />
                 </div>
               </div>
-
               <button class="wp__carousel-arrow"
                       (click)="nextProduct()"
                       [disabled]="selectedWearableIndex >= currentProducts.length - 1">&#8594;</button>
             </div>
-
-            <!-- Pagination dots -->
             <div class="wp__dots">
               <span *ngFor="let p of currentProducts; let i = index"
                     class="wp__dot"
                     [class.wp__dot--active]="i === selectedWearableIndex"
                     (click)="selectedWearableIndex = i; selectedColorIndex = 0"></span>
             </div>
-
-            <!-- Select Color -->
             <div class="wp__attr-row">
               <span class="wp__attr-label">Select Color</span>
               <div class="wp__color-swatches">
@@ -217,25 +182,16 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                      [title]="c.label"></div>
               </div>
             </div>
-
-            <!-- Wearable Name -->
             <div class="wp__attr-row">
               <span class="wp__attr-label">Wearable Name</span>
               <input class="wp__name-input" [(ngModel)]="wearableName" maxlength="20" />
             </div>
-
-            <!-- Action buttons -->
             <div class="wp__action-btns">
               <button class="wp__create-btn" (click)="onCreateWearable()">Create My Amex Wearable</button>
               <button class="wp__goback-btn" (click)="step = 'cards'">Go Back</button>
             </div>
-
-          </div><!-- /wp__product-card -->
-
-          <!-- RIGHT PANEL: shown when issueView is review or success -->
+          </div>
           <div class="wp__right-panel" *ngIf="issueView !== 'select'">
-
-            <!-- Review -->
             <ng-container *ngIf="issueView === 'review'">
               <div class="wp__right-inner">
                 <div class="wp__rp-title">My Amex Wearable</div>
@@ -243,7 +199,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                   The American Express {{ selectedCard?.cardType }} Credit Card
                   &ndash; Card Ending {{ selectedCard?.cardNumber | slice:-4 }}
                 </div>
-
                 <table class="wp__rp-table">
                   <tr>
                     <td class="wp__rp-label">Wearable Type</td>
@@ -260,8 +215,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                     <td class="wp__rp-value wp__rp-value--blue">{{ wearableName }}</td>
                   </tr>
                 </table>
-
-                <!-- Thumbnail image -->
                 <div class="wp__rp-thumb-row">
                   <div class="wp__rp-thumb">
                     <img *ngIf="selectedWearableType === 'Watch'"
@@ -278,24 +231,19 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                     </ng-container>
                   </div>
                 </div>
-
                 <p class="wp__rp-notice">
                   Please make sure you are happy with your selection before submitting.
                   Your Wearable selection cannot be edited after submission.
                 </p>
-
                 <div class="wp__rp-tc-row">
                   <input type="checkbox" id="rp-tc" [(ngModel)]="tcAccepted" />
                   <label for="rp-tc"><span class="wp__rp-tc-link">Terms &amp; Conditions apply</span></label>
                 </div>
-
                 <button class="wp__rp-submit-btn" [disabled]="!tcAccepted || submitting" (click)="onSubmit()">
                   {{ submitting ? 'Submitting...' : 'Submit' }}
                 </button>
               </div>
             </ng-container>
-
-            <!-- Success -->
             <ng-container *ngIf="issueView === 'success'">
               <div class="wp__right-inner wp__right-inner--success">
                 <div class="wp__success-icon">
@@ -309,16 +257,10 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
                 <button class="wp__view-summary-btn" (click)="step = 'done'">View Summary</button>
               </div>
             </ng-container>
-
-          </div><!-- /wp__right-panel -->
-
-        </div><!-- /wp__issue-layout -->
-
+          </div>
+        </div>
       </ng-container>
-
-      <!-- ═══ STEP 4: YOUR AMEX WEARABLES (done) ═══ -->
       <ng-container *ngIf="step === 'done' && issuedDevice">
-
         <div class="wp__section">
           <div class="wp__title">Enter Client Number</div>
           <div class="wp__divider"></div>
@@ -327,7 +269,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
             <button class="wp__enter-btn wp__enter-btn--filled" (click)="onEnterClient()">Enter</button>
           </div>
         </div>
-
         <div class="wp__summary">
           <div class="wp__summary-title">YOUR AMEX WEARABLES</div>
           <table class="wp__summary-table">
@@ -357,21 +298,15 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
             </tr>
           </table>
         </div>
-
         <div style="padding: 12px 0;">
           <button class="wp__back-link" (click)="reset()">Search Another Client</button>
         </div>
-
       </ng-container>
-
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; background: #fff; }
-
     .wp { background: #fff; padding: 20px 24px; min-height: 400px; }
-
-    /* ── Backend status banner ── */
     .wp__status-bar {
       display: flex; align-items: center; gap: 8px;
       padding: 7px 14px; margin-bottom: 14px; border-radius: 3px;
@@ -393,8 +328,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     .wp__status-bar:has(.wp__status-msg--checking) { background: #fff8e1; border: 1px solid #f0c040; }
     .wp__status-msg--offline { color: #721c24; }
     .wp__status-bar:has(.wp__status-msg--offline) { background: #fdf0f0; border: 1px solid #f5c6cb; }
-
-    /* ── Member name row ── */
     .wp__member-row {
       display: flex; align-items: center; gap: 10px;
       padding: 6px 0 16px;
@@ -406,13 +339,9 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       padding: 2px 7px; border-radius: 10px; font-weight: bold;
       letter-spacing: 0.5px;
     }
-
-    /* ── Section ── */
     .wp__section { margin-bottom: 24px; }
     .wp__title { font-size: 22px; font-weight: normal; color: #1a1a1a; margin-bottom: 8px; }
     .wp__divider { height: 2px; background: #1a6cb8; margin-bottom: 16px; }
-
-    /* ── Input row ── */
     .wp__input-row { display: flex; align-items: stretch; }
     .wp__input {
       border: 1px solid #ccc; border-right: none;
@@ -427,15 +356,11 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     }
     .wp__enter-btn--filled { background: #1a6cb8; color: #fff; border-color: #1a6cb8; }
     .wp__enter-btn--filled:hover { background: #155a9e; }
-
-    /* ── Card dropdown ── */
     .wp__select {
       border: 1px solid #ccc; padding: 7px 10px; font-size: 14px;
       font-family: Arial, sans-serif; width: 420px; outline: none;
       background: #fff; cursor: pointer;
     }
-
-    /* ── Card art ── */
     .wp__card-art-row { display: flex; flex-direction: column; gap: 8px; }
     .wp__card-art {
       width: 210px; height: 130px;
@@ -453,8 +378,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     .wp__card-art__number { font-size: 11px; color: #fff; font-family: monospace; letter-spacing: 1px; }
     .wp__card-art__type { font-size: 10px; color: rgba(255,255,255,0.85); }
     .wp__card-masked { font-size: 14px; color: #333; font-family: monospace; letter-spacing: 1px; }
-
-    /* ── Apply row ── */
     .wp__apply-row {
       display: flex; align-items: center; gap: 14px;
       margin-top: 4px; padding: 6px 0;
@@ -466,8 +389,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       cursor: pointer; border-radius: 2px;
     }
     .wp__apply-btn:hover { background: #155a9e; }
-
-    /* ── Wearable type tabs ── */
     .wp__type-tabs {
       display: flex; gap: 40px; padding: 10px 0 0;
       border-bottom: 1px solid #e0e0e0; margin-bottom: 20px;
@@ -485,16 +406,12 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       display: flex; align-items: center; justify-content: center;
     }
     .wp__type-label { font-size: 13px; font-weight: bold; }
-
-    /* ── Issue layout (single vs split) ── */
     .wp__issue-layout { display: flex; gap: 0; align-items: flex-start; }
     .wp__issue-layout--split .wp__product-card { flex: 0 0 55%; max-width: 55%; }
     .wp__issue-layout--split .wp__right-panel {
       flex: 0 0 45%; max-width: 45%;
       border-left: 1px solid #e0e0e0; min-height: 480px;
     }
-
-    /* ── Product card ── */
     .wp__product-card { border: 1px solid #ddd; flex: 1; }
     .wp__product-card__top {
       display: flex; justify-content: space-between; align-items: flex-start;
@@ -510,8 +427,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     }
     .wp__faq-label { font-size: 8px; font-weight: normal; }
     .wp__product-name { font-size: 15px; font-weight: bold; color: #1a1a1a; padding: 10px 16px 6px; }
-
-    /* ── Carousel ── */
     .wp__carousel {
       display: flex; align-items: center; justify-content: space-between;
       padding: 0 4px; min-height: 200px;
@@ -532,22 +447,17 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       width: 100%; max-width: 300px;
       display: flex; align-items: center; justify-content: center;
     }
-    /* FIX: was missing — images were rendering broken */
     .wp__product-img {
       width: 100%; max-width: 260px; height: 180px;
       object-fit: contain; display: block;
     }
     .wp__product-svg { width: 100%; height: auto; }
-
-    /* ── Pagination dots ── */
     .wp__dots { display: flex; justify-content: center; gap: 8px; padding: 6px 0 14px; }
     .wp__dot {
       width: 9px; height: 9px; border-radius: 50%;
       background: #ccc; cursor: pointer; transition: background 0.15s;
     }
     .wp__dot--active { background: #555; }
-
-    /* ── Attr rows ── */
     .wp__attr-row { display: flex; align-items: center; gap: 14px; padding: 8px 16px; }
     .wp__attr-label { font-size: 13px; color: #333; min-width: 110px; font-weight: normal; }
     .wp__color-swatches { display: flex; gap: 8px; align-items: center; }
@@ -563,8 +473,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       padding: 2px 4px; background: transparent; width: 120px;
     }
     .wp__name-input:focus { border-bottom-color: #1a6cb8; }
-
-    /* ── Action buttons ── */
     .wp__action-btns { display: flex; gap: 10px; padding: 16px 16px 20px; align-items: center; }
     .wp__create-btn {
       background: #1a6cb8; color: #fff; border: none;
@@ -578,8 +486,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
       cursor: pointer; border-radius: 2px;
     }
     .wp__goback-btn:hover { background: #f5f5f5; }
-
-    /* ── Right panel ── */
     .wp__right-panel { display: flex; flex-direction: column; }
     .wp__right-inner { padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
     .wp__rp-title { font-size: 17px; font-weight: bold; color: #1a1a1a; margin-bottom: 2px; }
@@ -605,8 +511,6 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     }
     .wp__rp-submit-btn:hover:not(:disabled) { background: #16304f; }
     .wp__rp-submit-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-
-    /* ── Success ── */
     .wp__right-inner--success {
       align-items: center; justify-content: center;
       min-height: 300px; text-align: center;
@@ -614,22 +518,17 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
     .wp__success-icon { width: 72px; height: 72px; }
     .wp__success-icon svg { width: 100%; height: 100%; }
     .wp__success-text { font-size: 14px; color: #1a1a1a; margin-top: 12px; font-weight: normal; }
-    /* FIX: added button to reach the summary/done step which was previously unreachable */
     .wp__view-summary-btn {
       margin-top: 16px; background: #1a6cb8; color: #fff; border: none;
       padding: 10px 28px; font-size: 14px; font-family: Arial, sans-serif;
       cursor: pointer; border-radius: 2px;
     }
     .wp__view-summary-btn:hover { background: #155a9e; }
-
-    /* ── Back link ── */
     .wp__back-link {
       background: none; border: none; color: #006fcf;
       font-size: 13px; cursor: pointer; text-decoration: underline;
       font-family: Arial, sans-serif; padding: 0;
     }
-
-    /* ── Summary (done step) ── */
     .wp__summary { padding: 8px 0 16px; }
     .wp__summary-title {
       font-size: 16px; font-weight: bold; color: #1a1a1a;
@@ -644,18 +543,12 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
   `],
 })
 export class WearablesComponent implements OnInit {
-
   @Input() showPageHeader = true;
-
   constructor(private http: HttpClient) {}
-
   ngOnInit(): void { this.checkBackendHealth(); }
-
   step: Step = 'search';
   issueView: IssueView = 'select';
-  // FIX: was boolean | null (unused) — now 3-state so banner actually works
   backendStatus: 'checking' | 'online' | 'offline' = 'checking';
-  // FIX: new flag — shows Demo badge when falling back to mock data
   usingMockData = false;
   clientCode = '';
   memberName = '';
@@ -668,7 +561,6 @@ export class WearablesComponent implements OnInit {
   wearableName = 'QARR';
   tcAccepted = false;
   issuedDevice: any = null;
-
   wearableTypes = [
     {
       id: 'Watch', label: 'Watch',
@@ -697,7 +589,6 @@ export class WearablesComponent implements OnInit {
       </svg>`
     },
   ];
-
   wearableProducts: Record<string, WearableProduct[]> = {
     Watch: [
       {
@@ -776,7 +667,6 @@ export class WearablesComponent implements OnInit {
         this.step = 'cards';
       },
       error: () => {
-        // FIX: was only 3 hardcoded clients — now mirrors all 5 from V2__seed_data.sql
         this.usingMockData = true;
         const mock = MOCK_MEMBERS[this.clientCode.trim()];
         this.memberName = mock?.name ?? 'Unknown Member';
@@ -786,7 +676,6 @@ export class WearablesComponent implements OnInit {
       },
     });
   }
-
   onApply(): void {
     if (!this.selectedCard) return;
     this.selectedWearableType = 'Watch';
@@ -797,13 +686,11 @@ export class WearablesComponent implements OnInit {
     this.issueView = 'select';
     this.step = 'issue';
   }
-
   selectType(id: string): void {
     this.selectedWearableType = id;
     this.selectedWearableIndex = 0;
     this.selectedColorIndex = 0;
   }
-
   prevProduct(): void {
     if (this.selectedWearableIndex > 0) { this.selectedWearableIndex--; this.selectedColorIndex = 0; }
   }
@@ -811,13 +698,10 @@ export class WearablesComponent implements OnInit {
   nextProduct(): void {
     if (this.selectedWearableIndex < this.currentProducts.length - 1) { this.selectedWearableIndex++; this.selectedColorIndex = 0; }
   }
-
   onCreateWearable(): void { this.tcAccepted = false; this.issueView = 'review'; }
-
   onSubmit(): void {
     if (!this.tcAccepted || !this.currentProduct || !this.selectedCard) return;
     this.submitting = true;
-
     const payload = {
       clientCode:    this.clientCode,
       selectedCard:  this.selectedCard.cardNumber,
@@ -826,7 +710,6 @@ export class WearablesComponent implements OnInit {
       wearableName:  this.wearableName,
       tcAccepted:    true,
     };
-
     this.http.post<any>(`${API_BASE}/wearables/issue`, payload).subscribe({
       next: (res) => {
         const d = res.data;
@@ -855,7 +738,6 @@ export class WearablesComponent implements OnInit {
       },
     });
   }
-
   reset(): void {
     this.step = 'search';
     this.issueView = 'select';

@@ -1,31 +1,20 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
-
 import { VatInvoice } from '../models/vat-invoice.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class VatInvoiceMockService {
-
-  // 👉 selected invoice
   private invoiceSubject =
     new BehaviorSubject<VatInvoice | null>(null);
-
   invoice$ = this.invoiceSubject.asObservable();
-
-  // 👉 mock database
   private mockInvoices: VatInvoice[] = [
-
     {
       companyName: 'Al Mansouri Trading LLC',
-
       vatRegistrationNo: '100234567890003',
-
       invoiceNumber: 'INV-2024-00123',
-
       period: 'January 2024',
-
       lineItems: [
         {
           description: 'Annual Card Fee - Platinum',
@@ -39,16 +28,11 @@ export class VatInvoiceMockService {
         }
       ]
     },
-
     {
       companyName: 'Emirates Retail Group',
-
       vatRegistrationNo: '100987654321001',
-
       invoiceNumber: 'INV-2024-00124',
-
       period: 'February 2024',
-
       lineItems: [
         {
           description: 'Corporate Card Charges',
@@ -62,16 +46,11 @@ export class VatInvoiceMockService {
         }
       ]
     },
-
     {
       companyName: 'Dubai Logistics LLC',
-
       vatRegistrationNo: '100555888777002',
-
       invoiceNumber: 'INV-2024-00125',
-
       period: 'March 2024',
-
       lineItems: [
         {
           description: 'Business Platinum Annual Fee',
@@ -83,34 +62,22 @@ export class VatInvoiceMockService {
   ];
 
   constructor() { /* empty */ }
-
-  // 👉 search invoice
   generateInvoiceReport(invoiceNumber: string) {
-
     console.log('Searching Invoice:', invoiceNumber);
-
     setTimeout(() => {
-
       const foundInvoice = this.mockInvoices.find(
         invoice =>
           invoice.invoiceNumber
             .toLowerCase()
             .trim() === invoiceNumber.toLowerCase().trim()
       );
-
       if (foundInvoice) {
-
         console.log('Invoice Found');
-
         this.invoiceSubject.next(foundInvoice);
-
       } else {
-
         console.log('Invoice Not Found');
-
         this.invoiceSubject.next(null);
       }
-
     }, 1500);
   }
 }

@@ -1,8 +1,5 @@
-/* Reset */
 * { margin: 0; padding: 0; box-sizing: border-box; }
 body { font-family: Arial, sans-serif; background: #fff; color: #333; font-size: 13px; }
-
-/* Shell layout for standalone mode */
 .onls-shell  { display: flex; flex-direction: column; min-height: 100vh; background: #fff; }
 .onls-body   { display: flex; flex: 1; min-height: 0; }
 .onls-content{ flex: 1; overflow-y: auto; background: #fff; }
