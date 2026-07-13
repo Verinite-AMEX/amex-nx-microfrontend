@@ -353,32 +353,99 @@ export class NxWelcome
 
   private buildNav(): NavItem[] {
     if (this.auth.isMerchant()) {
-      return [
-        { id: 'settlement',   label: 'Settlement & Submission'    },
-        
-      ];
+
+  const merchantMenus = [
+
+    {
+      id: 'settlement',
+      label: 'Settlement & Submission'
+    },
+
+    {
+      id: 'merchantaccount',
+      label: 'Merchant Account'
+    },
+
+    {
+      id: 'subuseradministration',
+      label: 'Sub User Administration'
+    },
+
+    {
+      id: 'password',
+      label: 'Change Password'
+    },
+
+    {
+      id: 'termsandconditions',
+      label: 'Terms & Conditions'
+    },
+
+    {
+      id: 'customizedreports',
+      label: 'Customized Reports'
+    },
+
+    {
+      id: 'addnewoutlet',
+      label: 'Add New Outlet'
     }
+
+  ];
+
+  console.log(
+    'Merchant Navigation:',
+    merchantMenus
+  );
+
+  return merchantMenus;
+}
     if (this.auth.isOmsAdmin()) {
       return [
-        { id: 'settlement',   label: 'Settlement & Submission'    },
-        
-      ];
+
+      { id: 'settlement', label: 'Settlement & Submission' },
+
+      { id: 'merchantaccount', label: 'Merchant Account' },
+
+      { id: 'subuseradministration', label: 'Sub User Administration' },
+
+      { id: 'password', label: 'Change Password' },
+
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
+
+      { id: 'customizedreports', label: 'Customized Reports' },
+
+      { id: 'addnewoutlet', label: 'Add New Outlet' }
+
+    ];
     }
     if (this.auth.isOmsSubUser()) {
       return [
         { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'password', label: 'Change Password' },
+        { id: 'termsandconditions', label: 'Terms & Conditions' },
+        { id: 'addnewoutlet', label: 'Add New Outlet' }
       
       ];
     }
     if (this.auth.isMrmUser()) {
       return [
         { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'omsusers', label: 'OMS Users' },
+        { id: 'mrmusers', label: 'MRM Users' },
+        { id: 'password', label: 'Change Password' },
       
       ];
     }
     if (this.auth.isOmsVatUser()) {
       return [
         { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'password', label: 'Change Password' },
+        { id: 'termsandconditions', label: 'Terms & Conditions' },
+        { id: 'addnewoutlet', label: 'Add New Outlet' }
       
       ];
     }
@@ -387,14 +454,10 @@ export class NxWelcome
 
   onNavClick(id: string): void {
     this.activeId = id;
-    this.router.navigate(['/bta', id]);
+    this.router.navigate([id]);
   }
 
   onLogout(): void {
-  // OLD:
-  // this.auth.clearSession();
-  // this.router.navigate(['/bta/login']);
-
   // NEW — delegates to Login-Logout-auth-app
   this.auth.logout();
 }
@@ -509,105 +572,117 @@ onSettlementSubmit(
 }
 
   // TAB CLICK
-  onTabChanged(tabId: any) {
+onTabChanged(tabId: string) {
 
-    console.log(
-      'Selected Tab:',
-      tabId
-    );
+  console.log('Selected Tab:', tabId);
 
-    // RESET
-    this.showSidebar = false;
+  this.router.navigate([ tabId]).then(result => {
+    console.log('Navigation Result:', result);
+    console.log('Current URL:', this.router.url);
+  });
 
-    this.showTermsConditions = false;
+  // RESET
+  this.showSidebar = false;
 
-    this.showChangePassword = false;
+  this.showTermsConditions = false;
 
-    this.showCustomizedReport = false;
+  this.showChangePassword = false;
 
-    this.showSettlementSubmission = false;
+  this.showCustomizedReport = false;
 
-    this.showSubUserAdmin = false;
+  this.showSettlementSubmission = false;
 
-    this.showCreateSubUser = false;
+  this.showSubUserAdmin = false;
 
-    this.showMrmUserAdmin = false;
+  this.showCreateSubUser = false;
 
-    this.showOmsUsers = false;
+  this.showMrmUserAdmin = false;
 
-    this.showCreateOmsUser = false;
+  this.showOmsUsers = false;
 
-    this.showCreateMrmUser = false;
+  this.showCreateOmsUser = false;
 
-    this.showNewOutletPortal = false;
+  this.showCreateMrmUser = false;
 
-    this.showNewOutletApplicationForm = false;
+  this.showNewOutletPortal = false;
 
-    this.showTaxInvoiceDelivery = false;
+  this.showNewOutletApplicationForm = false;
 
-    this.showUploadCertificate = false;
+  this.showTaxInvoiceDelivery = false;
 
-    this.showTaxInvoiceReport = false;
+  this.showUploadCertificate = false;
 
-    this.selectedSidebarMenu = '';
+  this.showTaxInvoiceReport = false;
 
-    // CLOSE POPUP ON TAB CHANGE
-    this.closeEditPopup();
+  this.selectedSidebarMenu = '';
 
-    // MERCHANT ACCOUNT
-    if (tabId === 'merchantaccount') {
+  // CLOSE POPUP ON TAB CHANGE
+  this.closeEditPopup();
 
-      this.showSidebar = true;
-    }
+  // MERCHANT ACCOUNT
+  if (tabId === 'merchantaccount') {
 
-    // TERMS
-    if (tabId === 'termsandconditions') {
+    this.showSidebar = true;
 
-      this.showTermsConditions = true;
-    }
-
-    // PASSWORD
-    if (tabId === 'password') {
-
-      this.showChangePassword = true;
-    }
-
-    // CUSTOMIZED REPORT
-    if (tabId === 'customizedreports') {
-
-      this.showCustomizedReport = true;
-    }
-
-    // SETTLEMENT
-    if (tabId === 'settlement') {
-
-      this.showSettlementSubmission = true;
-    }
-
-    // SUB USER
-    if (tabId === 'subuseradministration') {
-
-      this.showSubUserAdmin = true;
-    }
-
-    // MRM USER
-    if (tabId === 'mrmusers') {
-
-      this.showMrmUserAdmin = true;
-    }
-
-    // OMS USER
-    if (tabId === 'omsusers') {
-
-      this.showOmsUsers = true;
-    }
-
-    // NEW OUTLET
-    if (tabId === 'addnewoutlet') {
-
-      this.showNewOutletPortal = true;
-    }
   }
+
+  // TERMS
+  else if (tabId === 'termsandconditions') {
+
+    this.showTermsConditions = true;
+
+  }
+
+  // PASSWORD
+  else if (tabId === 'password') {
+
+    this.showChangePassword = true;
+
+  }
+
+  // CUSTOMIZED REPORT
+  else if (tabId === 'customizedreports') {
+
+    this.showCustomizedReport = true;
+
+  }
+
+  // SETTLEMENT
+  else if (tabId === 'settlement') {
+
+    this.showSettlementSubmission = true;
+
+  }
+
+  // SUB USER
+  else if (tabId === 'subuseradministration') {
+
+    this.showSubUserAdmin = true;
+
+  }
+
+  // MRM USER
+  else if (tabId === 'mrmusers') {
+
+    this.showMrmUserAdmin = true;
+
+  }
+
+  // OMS USER
+  else if (tabId === 'omsusers') {
+
+    this.showOmsUsers = true;
+
+  }
+
+  // NEW OUTLET
+  else if (tabId === 'addnewoutlet') {
+
+    this.showNewOutletPortal = true;
+
+  }
+
+}
 
   // SIDEBAR
   onMenuChanged(menuId: string) {

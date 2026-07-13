@@ -91,7 +91,7 @@ export class OmsAuthService {
   // ─── OMS Role Checks ─────────────────────────────────────────────────────
 
   isMerchant(): boolean {
-    return this.hasRole('ROLE_MERCHANT_USER', 'ROLE_CORP_MASTER_ADMIN');
+    return this.hasRole('ROLE_MERCHANT_USER');
   }
 
   isMrmUser(): boolean {
