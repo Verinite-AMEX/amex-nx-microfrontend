@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AmexSidebarMenuComponent } from '@ui-components/ui';
 
 @Component({
-  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'vat-sidebar',
   standalone: true,
   imports: [

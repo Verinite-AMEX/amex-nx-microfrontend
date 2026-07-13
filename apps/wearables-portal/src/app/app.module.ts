@@ -20,7 +20,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
         },
         { path: '**', redirectTo: '' },
       ],
-      { bindToComponentInputs: true } // Angular 16+ — lets route data bind as @Input
+      { bindToComponentInputs: true }
     ),
   ],
   providers: [
