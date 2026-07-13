@@ -315,9 +315,13 @@ export class NxWelcome
 
   constructor(
     private secureForm: SecureFormService,
+
     private omsUserService: OmsUserManagementService,
+
     private mrmUserService: MrmUserManagementService,
+
     private cdr: ChangeDetectorRef,
+    
     private subUserService: SubUserManagementService,
     
     private settlementService: OmsSettlementSubmissionService,
@@ -572,10 +576,12 @@ onSettlementSubmit(
 
   onTabChanged(tabId: any) {
 
-    console.log(
-      'Selected Tab:',
-      tabId
-    );
+  console.log('Selected Tab:', tabId);
+
+  this.router.navigate([ tabId]).then(result => {
+    console.log('Navigation Result:', result);
+    console.log('Current URL:', this.router.url);
+  });
 
   this.showSidebar = false;
 
