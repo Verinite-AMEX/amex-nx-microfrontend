@@ -34,12 +34,10 @@
   (tabChanged)="onTabChanged($event)">
 </oms-home> -->
 
-<!-- OMS SECTION -->
 <div
   *ngIf="showSidebar"
   class="layout">
 
-  <!-- SIDEBAR -->
   <div class="sidebar">
 
     <oms-sidebar
@@ -48,10 +46,8 @@
 
   </div>
 
-  <!-- CONTENT -->
   <div class="content">
 
-    <!-- MERCHANT ACCOUNT -->
     <oms-merchant-panel
 
       *ngIf="
@@ -61,7 +57,6 @@
 
     </oms-merchant-panel>
 
-    <!-- MERCHANT DATA FORM -->
     <oms-merchant-data-form
 
       *ngIf="
@@ -71,7 +66,6 @@
 
     </oms-merchant-data-form>
 
-    <!-- CONTACT INFORMATION -->
     <oms-contact-information
       *ngIf="
         selectedSidebarMenu ===
@@ -109,7 +103,6 @@
       >
     </oms-contact-information>
 
-    <!-- REPORT FORMAT -->
     <oms-report-format
         *ngIf="
             selectedSidebarMenu ===
@@ -117,7 +110,6 @@
         ">
     </oms-report-format>
 
-    <!-- VAT REGISTRATION -->
     <oms-vat-registration
 
     *ngIf="
@@ -141,7 +133,6 @@
 
     </oms-vat-registration>
 
-    <!-- TAX INVOICE DELIVERY -->
     <oms-tax-invoice-delivery
 
     *ngIf="
@@ -157,7 +148,6 @@
 
     </oms-tax-invoice-delivery>
 
-    <!-- UPLOAD CERTIFICATE -->
     <oms-upload-certificate
 
     *ngIf="
@@ -169,7 +159,6 @@
     ">
     </oms-upload-certificate>
 
-    <!-- TAX INVOICE REPORT -->
     <oms-tax-invoice-report
 
     *ngIf="
@@ -186,27 +175,23 @@
 
 </div>
 
-<!-- TERMS & CONDITIONS -->
 <oms-terms-and-conditions
 
   *ngIf="showTermsConditions">
 
 </oms-terms-and-conditions>
 
-<!-- CHANGE PASSWORD -->
 <oms-change-password
 
   *ngIf="showChangePassword">   
 </oms-change-password>
 
-<!-- CUSTOMIZED REPORT -->
 <oms-customized-report
 
   *ngIf="showCustomizedReport">
 
 </oms-customized-report>
 
-<!-- SETTLEMENT & SUBMISSION -->
 <div
 
   *ngIf="
@@ -215,7 +200,6 @@
 
   class="settlement-container">
 
-  <!-- MONTH FILTER -->
   <oms-months-dropdown-filter
 
   (submitClicked)="
@@ -224,7 +208,6 @@
 
 </oms-months-dropdown-filter>
 
-  <!-- TABLE -->
   <oms-settlement-submissions-table
 
   *ngIf="
@@ -241,7 +224,6 @@
 
 </div>
 
-<!-- SUB USER ADMINISTRATION -->
 <oms-sub-user-admin-table
 
   *ngIf="
@@ -265,7 +247,6 @@
 
 </oms-sub-user-admin-table>
 
-<!-- CREATE SUB USER -->
 <oms-create-edit-user-form
 
   *ngIf="
@@ -282,7 +263,6 @@
 
 </oms-create-edit-user-form>
 
-<!-- MRM USER TABLE -->
 <oms-user-management-table
 
   *ngIf="
@@ -310,7 +290,6 @@
 
 </oms-user-management-table>
 
-<!-- CREATE MRM USER -->
 <oms-create-edit-user-form
 
   *ngIf="
@@ -327,8 +306,6 @@
 
 </oms-create-edit-user-form>
 
-
-<!-- OMS USER TABLE -->
 <oms-user-management-table
 
   *ngIf="
@@ -356,7 +333,6 @@
 
 </oms-user-management-table>
 
-<!-- CREATE OMS USER -->
 <oms-create-edit-user-form
 
   *ngIf="
@@ -371,7 +347,6 @@
 
 </oms-create-edit-user-form>
 
-<!-- EDIT USER POPUP -->
 <div
 
   *ngIf="showEditUserPopup"
@@ -428,7 +403,6 @@
 
 </div>
 
-<!-- NEW OUTLET PORTAL -->
 <oms-new-outlet-portal
 
   *ngIf="
@@ -442,7 +416,6 @@
 
 </oms-new-outlet-portal>
 
-<!-- NEW OUTLET APPLICATION FORM -->
 <oms-new-outlet-application-form
 
   *ngIf="
@@ -454,5 +427,3 @@
   ">
 
 </oms-new-outlet-application-form>
-
-<!-- </amex-page-shell> -->
