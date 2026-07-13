@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { AmexPageShellComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-currency-master',

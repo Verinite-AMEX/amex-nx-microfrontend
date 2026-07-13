@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { AmexRegisterFormComponent } from '@vn-core-ui-components/ui';
+import { AmexRegisterFormComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-signup',

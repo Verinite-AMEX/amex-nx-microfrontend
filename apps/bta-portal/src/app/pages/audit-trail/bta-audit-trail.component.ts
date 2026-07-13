@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import {
   AmexPageHeaderComponent,
   AmexBreadcrumbTrailComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-bta-audit-trail',

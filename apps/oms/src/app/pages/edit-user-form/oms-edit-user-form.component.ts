@@ -11,7 +11,7 @@ import {
 
 import {
   AmexEditUserFormComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

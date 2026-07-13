@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { InputComponent, ButtonComponent } from '@vn-core-ui-components/ui';
-import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { InputComponent, ButtonComponent } from '@ui-components/ui';
+import { AmexPageShellComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-contentbox',

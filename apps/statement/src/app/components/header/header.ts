@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AmexPageHeaderComponent } from '@vn-core-ui-components/ui';
+import { AmexPageHeaderComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-header',

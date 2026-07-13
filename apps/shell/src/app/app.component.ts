@@ -14,7 +14,7 @@ import { SecureFormService } from "./core/services/secure-form.service";
 import {
   AmexTabItem,
   AMEX_PORTAL_AUTH_ADAPTER,
-} from "@vn-core-ui-components/ui";
+} from "@ui-components/ui";
 import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.service";
 
 @Component({
@@ -185,6 +185,8 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: "centurion", label: "Centurion" },
     { id: "change-password", label: "Change Password" },
     { id: "statement", label: "Statement" },
+    { id: "bcrb", label: "BCRB" },
+    { id: "vat-invoice", label: "VAT Invoice" },
   ];
 
   readonly centurionSubItems: AmexTabItem[] = [
@@ -224,7 +226,7 @@ export class AppComponent implements OnInit, OnDestroy {
     private auth: AuthService,
     private secureForm: SecureFormService,
     private bus: EventBusService,
-  ) {}
+  ) { }
 
   // ── Lifecycle ─────────────────────────────────────────────────────
 
@@ -309,6 +311,11 @@ export class AppComponent implements OnInit, OnDestroy {
       this.activeSubId = "";
       return;
     }
+    if (url.startsWith("/bcrb")) {
+      this.activeTabId = "bcrb";
+      this.activeSubId = "";
+      return;
+    }
     if (url.startsWith("/change-password")) {
       this.activeTabId = "change-password";
       this.activeSubId = "";
@@ -362,6 +369,8 @@ export class AppComponent implements OnInit, OnDestroy {
       benefits: "/offers/benefits",
       "change-password": "/change-password",
       statement: "/statement",
+      bcrb: "/bcrb",
+      "vat-invoice": "/vat-invoice",
     };
     if (routeMap[tabId]) {
       this.router.navigate([routeMap[tabId]]);
@@ -400,7 +409,7 @@ export class AppComponent implements OnInit, OnDestroy {
     );
   }
 
-  onMenuToggle(): void {}
+  onMenuToggle(): void { }
 
   // ── Logout ───────────────────────────────────────────────────────
 

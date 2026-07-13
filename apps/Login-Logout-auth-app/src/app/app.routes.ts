@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { portalAuthGuard } from '@vn-core-ui-components/ui';
+import { portalAuthGuard } from '@ui-components/ui';
 import { LoginPageComponent } from './login-page.component';
 import { HomePageComponent } from './home-page.component';
 import { ForgotPasswordPageComponent } from './forgot-password-page.component'; // NEW

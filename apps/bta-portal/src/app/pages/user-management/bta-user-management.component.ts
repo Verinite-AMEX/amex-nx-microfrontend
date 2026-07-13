@@ -6,7 +6,7 @@ import {
   AmexPageHeaderComponent,
   AmexBreadcrumbTrailComponent,
   AmexStatusBadgeComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 interface BtaUser {
   userId: string;

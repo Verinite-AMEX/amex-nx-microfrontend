@@ -8,7 +8,7 @@ import {
   AmexTabBarComponent,
   AmexSidebarMenuComponent,
   AmexLogoutConfirmationComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @NgModule({
   imports: [

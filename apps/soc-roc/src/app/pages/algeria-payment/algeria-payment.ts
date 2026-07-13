@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AmexAlgeriaPaymentFormComponent } from '@vn-core-ui-components/ui';
+import { AmexAlgeriaPaymentFormComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-algeria-payment',

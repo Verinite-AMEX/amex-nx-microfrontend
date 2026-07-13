@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import {
   AmexPageShellComponent,
   AmexTabItem,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 import { CenLcyExcComponent } from './cen-lcy-exc.component';
 import { SHELL_HOSTED } from '../../core/tokens/shell.token';
 

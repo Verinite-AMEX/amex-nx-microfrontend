@@ -18,8 +18,9 @@ const mfConfig = withModuleFederationPlugin({
     lounge: "http://localhost:4209/remoteEntry.js",
     "cen-lcy-exc": "http://localhost:4210/remoteEntry.js",
     "centurion-portal": "http://localhost:4211/remoteEntry.js",
-    "ui-components": "http://localhost:4214/remoteEntry.js",
+    "change-password": "http://localhost:4214/remoteEntry.js",
     "soc-roc": "http://localhost:4215/remoteEntry.js",
+    bcrb: "http://localhost:4208/remoteEntry.js",
   },
   shared: {
     ...shareAll({

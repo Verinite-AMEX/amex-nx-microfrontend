@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexVATInvoiceReportViewComponent } from '@vn-core-ui-components/ui';
+import { AmexVATInvoiceReportViewComponent } from '@ui-components/ui';
 import { VatInvoiceMockService } from '../../services/vat-invoice-mock.service';
 import { VatInvoice } from '../../models/vat-invoice.model';
 

@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { BtaAuthService } from '../../core/services/auth.service';
-import { AmexTabItem } from '@vn-core-ui-components/ui';
+import { AmexTabItem } from '@ui-components/ui';
 
 type LoginView = 'login' | 'forgot-step1' | 'forgot-step2' | 'password-expired';
 

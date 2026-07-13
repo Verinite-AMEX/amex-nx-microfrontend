@@ -11,7 +11,7 @@ import {
   AmexPointsDisplayComponent,
   AmexSuccessToastComponent,
   AmexConfirmationModalComponent,
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 interface Promotion {
   id:string; title:string; description:string; category:string;

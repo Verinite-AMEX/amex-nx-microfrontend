@@ -2,7 +2,7 @@ import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
   AmexDashboardMenuBarComponent
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector

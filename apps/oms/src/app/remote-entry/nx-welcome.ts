@@ -66,7 +66,7 @@ import { MrmUserManagementService } from '../services/mrm-user-management.servic
 import { SubUserManagementService } from '../services/sub-user-management.service';
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
 import { SecureFormService } from '../services/secure-form.service'; 
-import { AmexPageShellComponent } from '@vn-core-ui-components/ui';
+import { AmexPageShellComponent } from '@ui-components/ui';
 
 
 @Component({

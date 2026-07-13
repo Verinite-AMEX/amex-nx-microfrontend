@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AmexBCRBReportsTableComponent } from '@vn-core-ui-components/ui';
+import { AmexBCRBReportsTableComponent } from '@ui-components/ui';
 import { BcrbSidebarComponent } from '../sidebar/bcrb-sidebar.component';
 import { BcrbReportDownloadComponent } from '../report-download/bcrb-report-download.component';
 import { BcrbMockService } from '../../services/bcrb-mock.service';

@@ -2320,7 +2320,7 @@
             "npm:@angular/forms",
             "npm:@angular/platform-browser",
             "npm:@angular/router",
-            "npm:@vn-core-ui-components/ui",
+            "npm:@ui-components/ui",
             "npm:rxjs",
             "npm:zone.js"
           ]

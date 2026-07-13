@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { InputComponent, ButtonComponent } from '@vn-core-ui-components/ui';
+import { InputComponent, ButtonComponent } from '@ui-components/ui';
 import { CommonModule } from '@angular/common';
 
 @Component({

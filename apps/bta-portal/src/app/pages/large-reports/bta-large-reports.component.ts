@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@vn-core-ui-components/ui';
+import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-components/ui';
 
 @Component({
   selector: 'app-bta-large-reports',

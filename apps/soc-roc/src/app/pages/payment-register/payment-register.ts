@@ -6,7 +6,7 @@ import {
   AmexSuccessToastComponent,
   AmexErrorToastComponent,
   PaymentRegisterRow
-} from '@vn-core-ui-components/ui';
+} from '@ui-components/ui';
 
 @Component({
   selector: 'app-payment-register',

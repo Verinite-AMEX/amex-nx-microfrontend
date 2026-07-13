@@ -1,9 +1,0 @@
-{
-  "extends": "../../tsconfig.base.json",
-  "compilerOptions": { "strict": true, "target": "es2022" },
-  "files": [],
-  "include": [],
-  "references": [
-    { "path": "./tsconfig.lib.json" }
-  ]
-}

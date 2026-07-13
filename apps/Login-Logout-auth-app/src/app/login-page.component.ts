@@ -1,6 +1,6 @@
 import { Component,ChangeDetectorRef  } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { AmexLoginFormComponent, LoginCredentials } from '@vn-core-ui-components/ui';
+import { AmexLoginFormComponent, LoginCredentials } from '@ui-components/ui';
 import { AuthService } from './auth.service';
 
 @Component({

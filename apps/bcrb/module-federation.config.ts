@@ -1,9 +1,9 @@
-import { ModuleFederationConfig } from '@nx/module-federation';
+import { ModuleFederationConfig } from "@nx/module-federation";
 
 const config: ModuleFederationConfig = {
-  name: 'bcrb',
+  name: "bcrb",
   exposes: {
-    './Routes': 'apps/bcrb/src/app/remote-entry/entry.routes.ts',
+    "./Routes": "apps/bcrb/src/app/remote-entry/entry.routes.ts",
   },
 };
 

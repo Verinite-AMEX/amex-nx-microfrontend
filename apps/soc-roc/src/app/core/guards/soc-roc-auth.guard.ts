@@ -1,14 +1,23 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, Router } from '@angular/router';
+import { CanActivateFn } from '@angular/router';
+import { SocRocAuthService } from '../services/auth.service';
+
+const AUTH_APP_URL = 'http://localhost:4216'; // move to environment.ts for UAT/Prod
 
 export const socRocAuthGuard: CanActivateFn = () => {
-  const router = inject(Router);
-  const token = localStorage.getItem('soc_roc_token');
+  const auth = inject(SocRocAuthService);
 
-  if (token) {
+  if (auth.isLoggedIn()) {
     return true;
   }
 
-  router.navigateByUrl('/login');
+  // OLD:
+  // const router = inject(Router);
+  // router.navigateByUrl('/login');
+  // return false;
+
+  // NEW — redirect to Login-Logout-auth-app with returnUrl
+  const returnUrl = encodeURIComponent(window.location.href);
+  window.location.href = `${AUTH_APP_URL}/login?returnUrl=${returnUrl}`;
   return false;
 };
