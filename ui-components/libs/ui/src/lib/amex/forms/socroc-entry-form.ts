@@ -6,6 +6,7 @@ import { InputComponent } from '../../atoms/input';
 import { SelectComponent } from '../../atoms/select';
 import { CheckboxComponent } from '../../atoms/checkbox';
 import { ButtonComponent } from '../../atoms/button';
+import { LabelComponent } from '../../atoms/label';
 
 export interface SOCFormData {
   seNumber: string;
@@ -41,7 +42,7 @@ export interface ROCFormData {
 @Component({
   selector: 'amex-socroc-entry-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent, LabelComponent],
   template: `
     <div class="sef">
 
@@ -71,7 +72,7 @@ export interface ROCFormData {
               <ui-input [id]="id + '-soc-ref-no'" class="sef__input sef__input--highlight" [(ngModel)]="soc.socRefNo"></ui-input>
             </ui-form-field>
             <div class="sef__row">
-              <label class="sef__label" [for]="id + '-refund'">Refund</label>
+              <ui-label class="sef__label" [forId]="id + '-refund'">Refund</ui-label>
               <ui-checkbox [id]="id + '-refund'" [(ngModel)]="soc.refund"></ui-checkbox>
             </div>
           </div>

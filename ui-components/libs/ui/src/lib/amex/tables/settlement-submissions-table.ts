@@ -1,6 +1,16 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LabelComponent } from '../../atoms/label';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
+import { BadgeComponent } from '../../atoms/badge';
 
 export interface SettlementRow {
   period: string;
@@ -18,88 +28,79 @@ export interface SettlementRow {
 @Component({
   selector: 'amex-settlement-submissions-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, FormsModule, LabelComponent, SelectComponent, ButtonComponent,
+    TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent, BadgeComponent,
+  ],
   template: `
     <div class="sst">
-      <!-- Months filter row -->
       <div class="sst__filter-bar" *ngIf="showMonthsFilter">
-        <label class="sst__filter-label" [for]="id + '-view-last'">View last</label>
-        <select [id]="id + '-view-last'" class="sst__months-select" [(ngModel)]="selectedMonths"
+        <ui-label class="sst__filter-label" [forId]="id + '-view-last'">View last</ui-label>
+        <ui-select [id]="id + '-view-last'" class="sst__months-select"
+          [options]="monthSelectOptions" [(ngModel)]="selectedMonths"
           (ngModelChange)="monthsChange.emit(+selectedMonths)">
-          <option *ngFor="let m of monthOptions" [value]="m">{{ m }} months</option>
-        </select>
-        <button class="sst__submit-btn" (click)="monthsChange.emit(+selectedMonths)">Submit</button>
+        </ui-select>
+        <ui-button class="sst__submit-btn" label="Submit" [size]="'sm'"
+          (click)="monthsChange.emit(+selectedMonths)"></ui-button>
       </div>
 
-      <table class="sst__table">
-        <thead>
-          <tr class="sst__head-row">
-            <th class="sst__th" scope="col">Period</th>
-            <th class="sst__th" scope="col">Merchant Account</th>
-            <th class="sst__th sst__th--num" scope="col">Settlement Amount</th>
-            <th class="sst__th sst__th--num" scope="col">Submissions</th>
-            <th class="sst__th" scope="col">Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="sst__row">
-            <td class="sst__td">{{ row.period }}</td>
-            <td class="sst__td">{{ row.merchantAccount }}</td>
-            <td class="sst__td sst__td--num">{{ row.settlementAmount }}</td>
-            <td class="sst__td sst__td--num">{{ row.submissionsCount }}</td>
-            <td class="sst__td">
-              <span class="sst__status sst__status--{{ row.status.toLowerCase() }}">
-                {{ row.status }}
-              </span>
-            </td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="5" class="sst__empty">No settlement data available.</td>
-          </tr>
-        </tbody>
-      </table>
+      <ui-table class="sst__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Period</ui-table-header-cell>
+            <ui-table-header-cell>Merchant Account</ui-table-header-cell>
+            <ui-table-header-cell [align]="'right'">Settlement Amount</ui-table-header-cell>
+            <ui-table-header-cell [align]="'right'">Submissions</ui-table-header-cell>
+            <ui-table-header-cell>Status</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.period }}</ui-table-cell>
+            <ui-table-cell>{{ row.merchantAccount }}</ui-table-cell>
+            <ui-table-cell [align]="'right'">{{ row.settlementAmount }}</ui-table-cell>
+            <ui-table-cell [align]="'right'">{{ row.submissionsCount }}</ui-table-cell>
+            <ui-table-cell>
+              <ui-badge [label]="row.status" [variant]="statusVariant(row.status)" [size]="'sm'"></ui-badge>
+            </ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="5" [align]="'center'" class="sst__empty">No settlement data available.</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .sst__filter-bar { display: flex; align-items: center; gap: 10px; padding: 10px 0 12px; }
-    .sst__filter-label { font-size: 13px; color: #333; }
-    .sst__months-select {
-      border: 1px solid #bbb; padding: 4px 8px; font-size: 13px;
-      font-family: Arial, sans-serif; border-radius: 2px;
-    }
-    .sst__submit-btn {
-      background: #7b1fa2; color: #fff; border: none; padding: 5px 18px;
-      font-size: 13px; cursor: pointer; font-family: Arial, sans-serif; border-radius: 3px;
-    }
-    .sst__submit-btn:hover { background: #6a1b9a; }
-
-    .sst__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .sst__head-row { background: #d6eaf8; }
-    .sst__th { padding: 8px 12px; text-align: left; font-size: 12px; font-weight: bold; color: #1a3a6b; border: 1px solid #b8d4ea; }
-    .sst__th--num { text-align: right; }
-    .sst__row { border-bottom: 1px solid #eee; }
-    .sst__row:hover { background: #f5f9ff; }
-    .sst__td { padding: 8px 12px; border: 1px solid #e8eef4; font-size: 13px; color: #333; }
-    .sst__td--num { text-align: right; }
-
-    .sst__status { font-size: 12px; font-weight: bold; }
-    .sst__status--completed { color: #2e7d32; }
-    .sst__status--pending   { color: #f57f17; }
-    .sst__status--failed    { color: #c62828; }
-    .sst__status--processing { color: #1565c0; }
-
-    .sst__empty { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .sst__months-select { min-width: 120px; }
+    .sst__submit-btn { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px; }
+    .sst__submit-btn:hover { --btn-bg: #6a1b9a; }
+    .sst__empty { color: #888; font-size: 13px; padding: 24px 0; }
   `],
 })
 export class AmexSettlementSubmissionsTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `settlement-submissions-table-${++AmexSettlementSubmissionsTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `settlement-submissions-table-${++AmexSettlementSubmissionsTableComponent._idCounter}`;
 
   @Input() rows: SettlementRow[] = [];
   @Input() showMonthsFilter = true;
   @Input() monthOptions = [1, 3, 6, 12];
   selectedMonths = '3';
   @Output() monthsChange = new EventEmitter<number>();
+
+  get monthSelectOptions(): SelectOption[] {
+    return this.monthOptions.map(m => ({ label: `${m} months`, value: m }));
+  }
+
+  statusVariant(status: string): 'success' | 'error' | 'warning' | 'primary' | 'neutral' {
+    const s = (status || '').toLowerCase();
+    if (s === 'completed') return 'success';
+    if (s === 'pending') return 'warning';
+    if (s === 'failed') return 'error';
+    if (s === 'processing') return 'primary';
+    return 'neutral';
+  }
 }

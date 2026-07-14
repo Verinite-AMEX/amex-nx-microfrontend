@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export type RowActionType = 'modify' | 'delete' | 'print' | 'view' | 'reset-password' | 'edit' | 'comment';
 
@@ -26,7 +32,10 @@ export interface TableRowActionEvent {
 @Component({
   selector: 'amex-table-with-row-actions',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, ButtonComponent, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="tra">
 
@@ -35,78 +44,76 @@ export interface TableRowActionEvent {
 
       <!-- Export/Print top bar (ONLS portal style - PDF icon | Print | Export | Back) -->
       <div class="tra__top-bar" *ngIf="showTopBar">
-        <span class="tra__top-link" *ngIf="showPdf" (click)="topAction.emit('pdf')">
-          <span class="tra__pdf-icon">&#9113;</span>
-        </span>
+        <ui-button class="tra__top-link tra__pdf-icon" *ngIf="showPdf" label="&#9113;" variant="ghost" [size]="'sm'" (click)="topAction.emit('pdf')"></ui-button>
         <span class="tra__sep" *ngIf="showPdf && showPrint"> | </span>
-        <span class="tra__top-link" *ngIf="showPrint" (click)="topAction.emit('print')">&#128438;</span>
+        <ui-button class="tra__top-link" *ngIf="showPrint" label="&#128438;" variant="ghost" [size]="'sm'" (click)="topAction.emit('print')"></ui-button>
         <span class="tra__sep" *ngIf="showExport"> | </span>
-        <span class="tra__top-link" *ngIf="showExport" (click)="topAction.emit('export')">Export</span>
+        <ui-button class="tra__top-link" *ngIf="showExport" label="Export" variant="ghost" [size]="'sm'" (click)="topAction.emit('export')"></ui-button>
         <span class="tra__sep" *ngIf="showBack"> | </span>
-        <span class="tra__top-link" *ngIf="showBack" (click)="topAction.emit('back')">Back</span>
+        <ui-button class="tra__top-link" *ngIf="showBack" label="Back" variant="ghost" [size]="'sm'" (click)="topAction.emit('back')"></ui-button>
       </div>
 
       <!-- Table -->
       <div class="tra__scroll">
-        <table class="tra__table">
-          <thead>
-            <tr class="tra__head-row">
-              <th *ngFor="let col of columns" class="tra__th" [style.width]="col.width || 'auto'" scope="col">
+        <ui-table class="tra__table" [bordered]="true">
+          <ui-table-head>
+            <ui-table-row [header]="true" [hoverable]="false">
+              <ui-table-header-cell *ngFor="let col of columns" [style.width]="col.width || 'auto'">
                 {{ col.label }}
-              </th>
-              <th class="tra__th tra__th--actions" *ngIf="actions.length > 0" scope="col">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
+              </ui-table-header-cell>
+              <ui-table-header-cell class="tra__th--actions" *ngIf="actions.length > 0">Actions</ui-table-header-cell>
+            </ui-table-row>
+          </ui-table-head>
+          <ui-table-body>
             <!-- Data rows -->
-            <tr *ngFor="let row of rows; let i = index"
-                class="tra__row"
+            <ui-table-row *ngFor="let row of rows; let i = index"
+                [hoverable]="true"
                 [class.tra__row--alt]="i % 2 === 1"
                 [class.tra__row--selected]="selectedIndex === i"
                 (click)="onRowClick(row, i)">
 
-              <td *ngFor="let col of columns"
-                  class="tra__td"
-                  [class.tra__td--link]="col.isLink">
+              <ui-table-cell *ngFor="let col of columns" [class.tra__td--link]="col.isLink">
                 <span *ngIf="col.isLink" class="tra__link" (click)="$event.stopPropagation(); cellClick.emit({col: col.key, row: row})">
                   {{ row[col.key] }}
                 </span>
                 <span *ngIf="!col.isLink">{{ row[col.key] }}</span>
-              </td>
+              </ui-table-cell>
 
               <!-- Action buttons column -->
-              <td class="tra__td tra__td--actions" *ngIf="actions.length > 0">
+              <ui-table-cell class="tra__td--actions" *ngIf="actions.length > 0">
                 <div class="tra__action-group">
-                  <button
+                  <ui-button
                     *ngFor="let act of actions"
                     class="tra__btn"
                     [class.tra__btn--primary]="act.variant === 'primary'"
                     [class.tra__btn--danger]="act.variant === 'danger'"
                     [class.tra__btn--default]="!act.variant || act.variant === 'default'"
+                    [label]="act.label"
+                    [variant]="act.variant === 'danger' ? 'danger' : 'primary'"
+                    [size]="'sm'"
                     (click)="$event.stopPropagation(); onAction(act.action, row, i)">
-                    {{ act.label }}
-                  </button>
+                  </ui-button>
                 </div>
-              </td>
-            </tr>
+              </ui-table-cell>
+            </ui-table-row>
 
             <!-- Empty state -->
-            <tr *ngIf="rows.length === 0">
-              <td [attr.colspan]="columns.length + (actions.length > 0 ? 1 : 0)" class="tra__empty">
+            <ui-table-row *ngIf="rows.length === 0" [hoverable]="false">
+              <ui-table-cell [colspan]="columns.length + (actions.length > 0 ? 1 : 0)" [align]="'center'" class="tra__empty">
                 <strong>No Data Found</strong>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </ui-table-cell>
+            </ui-table-row>
+          </ui-table-body>
+        </ui-table>
       </div>
 
       <!-- Pagination (ONLS style: |&lt; &lt; &gt; &gt;|) -->
       <div class="tra__pagination" *ngIf="showPagination && totalPages > 1">
-        <button class="tra__page-btn" [disabled]="currentPage === 1" (click)="goFirst()">|&lt;</button>
-        <button class="tra__page-btn" [disabled]="currentPage === 1" (click)="goPrev()">&lt;</button>
+        <ui-button class="tra__page-btn" label="|&lt;" variant="secondary" [size]="'sm'" [disabled]="currentPage === 1" (click)="goFirst()"></ui-button>
+        <ui-button class="tra__page-btn" label="&lt;" variant="secondary" [size]="'sm'" [disabled]="currentPage === 1" (click)="goPrev()"></ui-button>
         <span class="tra__page-info">Page {{ currentPage }} of {{ totalPages }}</span>
-        <button class="tra__page-btn" [disabled]="currentPage === totalPages" (click)="goNext()">&gt;</button>
-        <button class="tra__page-btn" [disabled]="currentPage === totalPages" (click)="goLast()">&gt;|</button>
+        <ui-button class="tra__page-btn" label="&gt;" variant="secondary" [size]="'sm'" [disabled]="currentPage === totalPages" (click)="goNext()"></ui-button>
+        <ui-button class="tra__page-btn" label="&gt;|" variant="secondary" [size]="'sm'" [disabled]="currentPage === totalPages" (click)="goLast()"></ui-button>
       </div>
 
     </div>
@@ -125,48 +132,20 @@ export interface TableRowActionEvent {
       display: flex; align-items: center; gap: 2px;
       padding: 4px 0 10px; font-size: 12px;
     }
-    .tra__top-link {
-      color: #006fcf; cursor: pointer; font-size: 12px;
-    }
+    .tra__top-link { --btn-bg: transparent; --btn-color: #006fcf; --btn-font-weight: normal; padding: 0; }
     .tra__top-link:hover { text-decoration: underline; }
-    .tra__pdf-icon { color: #cc0000; font-weight: bold; }
+    .tra__pdf-icon { --btn-color: #cc0000; --btn-font-weight: bold; }
     .tra__sep { color: #666; padding: 0 4px; }
 
     /* Table scroll wrapper */
     .tra__scroll { overflow-x: auto; }
 
-    /* Table */
-    .tra__table {
-      width: 100%; border-collapse: collapse;
-      border: 1px solid #ccc;
-      font-size: 12px;
-    }
-
-    /* Header row — ONLS style: white bg, bold, bordered */
-    .tra__head-row { background: #fff; }
-    .tra__th {
-      border: 1px solid #aaa;
-      padding: 5px 8px;
-      text-align: left;
-      font-weight: bold;
-      color: #333;
-      white-space: nowrap;
-      background: #f0f0f0;
-    }
     .tra__th--actions { text-align: center; min-width: 160px; }
 
     /* Body rows */
-    .tra__row { cursor: default; }
     .tra__row--alt { background: #f9f9f9; }
     .tra__row--selected { background: #d6eaf8 !important; }
-    .tra__row:hover { background: #eaf3fb; }
 
-    .tra__td {
-      border: 1px solid #ccc;
-      padding: 4px 8px;
-      vertical-align: middle;
-      color: #333;
-    }
     .tra__td--link .tra__link {
       color: #006fcf; cursor: pointer; text-decoration: none;
     }
@@ -178,36 +157,28 @@ export interface TableRowActionEvent {
       display: flex; flex-wrap: wrap; gap: 4px;
       justify-content: center;
     }
-    .tra__btn {
-      padding: 3px 10px;
-      font-size: 11px;
-      border-radius: 3px;
-      cursor: pointer;
-      border: 1px solid #005aa5;
-      white-space: nowrap;
-    }
+    .tra__btn { --btn-radius: 3px; --btn-border: 1px solid #005aa5; }
     .tra__btn--default, .tra__btn--primary {
-      background: linear-gradient(to bottom, #4d9de0, #006fcf);
-      color: #fff;
-      border-color: #005aa5;
+      --btn-bg: linear-gradient(to bottom, #4d9de0, #006fcf);
+      --btn-color: #fff;
+      --btn-border-color: #005aa5;
     }
     .tra__btn--default:hover, .tra__btn--primary:hover {
-      background: linear-gradient(to bottom, #3a8fce, #005bb5);
+      --btn-bg: linear-gradient(to bottom, #3a8fce, #005bb5);
     }
     .tra__btn--danger {
-      background: linear-gradient(to bottom, #e05555, #c00);
-      color: #fff;
-      border-color: #990000;
+      --btn-bg: linear-gradient(to bottom, #e05555, #c00);
+      --btn-color: #fff;
+      --btn-border-color: #990000;
     }
     .tra__btn--danger:hover {
-      background: linear-gradient(to bottom, #cc3333, #a00);
+      --btn-bg: linear-gradient(to bottom, #cc3333, #a00);
     }
 
     /* Empty state */
     .tra__empty {
-      text-align: center; padding: 24px;
       color: #555; font-size: 13px;
-      border: 1px solid #ccc;
+      padding: 24px 0;
     }
 
     /* Pagination */
@@ -215,20 +186,14 @@ export interface TableRowActionEvent {
       display: flex; align-items: center; gap: 4px;
       padding: 8px 0; font-size: 12px;
     }
-    .tra__page-btn {
-      padding: 2px 8px; font-size: 11px;
-      border: 1px solid #999; background: #f5f5f5;
-      cursor: pointer; border-radius: 2px;
-    }
-    .tra__page-btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .tra__page-btn:hover:not(:disabled) { background: #e0e0e0; }
+    .tra__page-btn { --btn-bg: #f5f5f5; --btn-color: #333; --btn-border: 1px solid #999; --btn-radius: 2px; }
+    .tra__page-btn:hover { --btn-bg: #e0e0e0; }
     .tra__page-info { padding: 0 8px; color: #555; }
   `]
 })
 export class AmexTableWithRowActionsComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `table-with-row-actions-${++AmexTableWithRowActionsComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `table-with-row-actions-${++AmexTableWithRowActionsComponent._idCounter}`;
 
   @Input() sectionTitle = '';
   @Input() columns: TableWithRowActionsColumn[] = [];

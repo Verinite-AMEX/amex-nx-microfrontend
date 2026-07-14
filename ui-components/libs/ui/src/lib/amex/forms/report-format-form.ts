@@ -6,6 +6,7 @@ import { CheckboxComponent } from '../../atoms/checkbox';
 import { RadioGroupComponent } from '../../atoms/radio-group';
 import { InputComponent } from '../../atoms/input';
 import { ButtonComponent } from '../../atoms/button';
+import { LabelComponent } from '../../atoms/label';
 
 export interface ReportFormatData {
   receiveByEmail: boolean;
@@ -23,7 +24,7 @@ export interface ReportFormatData {
 @Component({
   selector: 'amex-report-format-form',
   standalone: true,
-  imports: [CommonModule, FormsModule, PanelComponent, CheckboxComponent, RadioGroupComponent, InputComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, PanelComponent, CheckboxComponent, RadioGroupComponent, InputComponent, ButtonComponent, LabelComponent],
   template: `
     <ui-panel title="Select your report formats" variant="accent">
       <!-- Email checkbox -->
@@ -51,7 +52,7 @@ export interface ReportFormatData {
 
       <!-- Add Email section -->
       <div class="rff__email-section">
-        <label class="rff__email-label" [for]="id + '-new-email'">Add Email Address:</label>
+        <ui-label class="rff__email-label" [forId]="id + '-new-email'">Add Email Address:</ui-label>
         <div class="rff__email-row">
           <ui-input [id]="id + '-new-email'" class="rff__email-input" [(ngModel)]="newEmail"></ui-input>
           <ui-button class="rff__btn rff__btn--add" variant="secondary" label="Add" (click)="addEmail()"></ui-button>

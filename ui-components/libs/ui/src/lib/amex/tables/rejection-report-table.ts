@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface RejectionReportRow {
   seNo: string;
@@ -17,36 +23,39 @@ export interface RejectionReportRow {
 @Component({
   selector: 'amex-rejection-report-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, ButtonComponent, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="rrt">
       <!-- Export / Print links above table — matches SOC/ROC screenshot -->
       <div class="rrt__top-bar">
-        <span class="rrt__link" (click)="exportClick.emit()">Export</span>
-        <span class="rrt__link" (click)="printClick.emit()">&#128438; Print</span>
+        <ui-button class="rrt__link-btn" label="Export" variant="ghost" [size]="'sm'" (click)="exportClick.emit()"></ui-button>
+        <ui-button class="rrt__link-btn" label="🖨 Print" variant="ghost" [size]="'sm'" (click)="printClick.emit()"></ui-button>
       </div>
 
-      <table class="rrt__table">
-        <thead>
-          <tr class="rrt__head-row">
-            <th class="rrt__th" scope="col">SE No.</th>
-            <th class="rrt__th" scope="col">Rejection Reason</th>
-            <th class="rrt__th" scope="col">Date</th>
-            <th class="rrt__th rrt__th--num" scope="col">Amount</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="rrt__row">
-            <td class="rrt__td">{{ row.seNo }}</td>
-            <td class="rrt__td">{{ row.rejectionReason }}</td>
-            <td class="rrt__td">{{ row.date }}</td>
-            <td class="rrt__td rrt__td--num">{{ row.amount }}</td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="4" class="rrt__empty">No Data Found</td>
-          </tr>
-        </tbody>
-      </table>
+      <ui-table class="rrt__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>SE No.</ui-table-header-cell>
+            <ui-table-header-cell>Rejection Reason</ui-table-header-cell>
+            <ui-table-header-cell>Date</ui-table-header-cell>
+            <ui-table-header-cell [align]="'right'">Amount</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.seNo }}</ui-table-cell>
+            <ui-table-cell>{{ row.rejectionReason }}</ui-table-cell>
+            <ui-table-cell>{{ row.date }}</ui-table-cell>
+            <ui-table-cell [align]="'right'">{{ row.amount }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="4" [align]="'center'" class="rrt__empty">No Data Found</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
@@ -55,23 +64,14 @@ export interface RejectionReportRow {
       display: flex; gap: 16px; padding: 6px 0 8px;
       border-bottom: 1px dotted #ccc; margin-bottom: 4px;
     }
-    .rrt__link { color: #006fcf; font-size: 13px; cursor: pointer; }
-    .rrt__link:hover { text-decoration: underline; }
-    .rrt__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .rrt__head-row { background: #f0f0f0; }
-    .rrt__th { padding: 6px 10px; border: 1px solid #ccc; font-size: 12px; font-weight: bold; color: #333; text-align: left; }
-    .rrt__th--num { text-align: right; }
-    .rrt__row { background: #fff; }
-    .rrt__row:hover { background: #eef6ff; }
-    .rrt__td { padding: 6px 10px; border: 1px solid #ddd; font-size: 13px; color: #333; }
-    .rrt__td--num { text-align: right; }
-    .rrt__empty { text-align: center; padding: 32px; font-weight: bold; font-size: 14px; color: #333; border: 1px solid #ddd; }
+    .rrt__link-btn { --btn-bg: transparent; --btn-color: #006fcf; --btn-font-weight: normal; --btn-border: none; padding: 0; }
+    .rrt__link-btn:hover { text-decoration: underline; }
+    .rrt__empty { font-weight: bold; font-size: 14px; color: #333; padding: 32px 0; }
   `],
 })
 export class AmexRejectionReportTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `rejection-report-table-${++AmexRejectionReportTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `rejection-report-table-${++AmexRejectionReportTableComponent._idCounter}`;
 
   @Input() rows: RejectionReportRow[] = [];
   @Output() exportClick = new EventEmitter<void>();

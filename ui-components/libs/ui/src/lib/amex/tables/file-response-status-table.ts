@@ -1,5 +1,13 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
+import { BadgeComponent } from '../../atoms/badge';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export type FileResponseStatus = 'Pending' | 'Processing' | 'Completed' | 'Failed';
 
@@ -20,75 +28,68 @@ export interface FileResponseRow {
 @Component({
   selector: 'amex-file-response-status-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, ButtonComponent, BadgeComponent, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="frst">
       <div class="frst__title" *ngIf="title">{{ title }}</div>
-      <table class="frst__table">
-        <thead>
-          <tr class="frst__head-row">
-            <th class="frst__th" scope="col">Submission Date</th>
-            <th class="frst__th" scope="col">File Name</th>
-            <th class="frst__th" scope="col">Status</th>
-            <th class="frst__th frst__th--actions" scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="frst__row">
-            <td class="frst__td">{{ row.submissionDate }}</td>
-            <td class="frst__td frst__td--file">{{ row.fileName }}</td>
-            <td class="frst__td">
-              <span class="frst__badge frst__badge--{{ row.status.toLowerCase() }}">
-                {{ row.status }}
-              </span>
-            </td>
-            <td class="frst__td frst__td--actions">
-              <span *ngIf="row.canView"
-                class="frst__action-link"
-                (click)="actionClick.emit({action:'view', row})">View</span>
-              <span *ngIf="row.canDownload"
-                class="frst__action-link"
-                (click)="actionClick.emit({action:'download', row})">Download</span>
-            </td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="4" class="frst__empty">No files found.</td>
-          </tr>
-        </tbody>
-      </table>
+      <ui-table class="frst__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Submission Date</ui-table-header-cell>
+            <ui-table-header-cell>File Name</ui-table-header-cell>
+            <ui-table-header-cell>Status</ui-table-header-cell>
+            <ui-table-header-cell class="frst__th--actions">Actions</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.submissionDate }}</ui-table-cell>
+            <ui-table-cell class="frst__td--file">{{ row.fileName }}</ui-table-cell>
+            <ui-table-cell>
+              <ui-badge [label]="row.status" [variant]="statusVariant(row.status)" [size]="'sm'"></ui-badge>
+            </ui-table-cell>
+            <ui-table-cell class="frst__td--actions">
+              <ui-button *ngIf="row.canView" class="frst__action-link" label="View" variant="ghost" [size]="'sm'"
+                (click)="actionClick.emit({action:'view', row})"></ui-button>
+              <ui-button *ngIf="row.canDownload" class="frst__action-link" label="Download" variant="ghost" [size]="'sm'"
+                (click)="actionClick.emit({action:'download', row})"></ui-button>
+            </ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="4" [align]="'center'" class="frst__empty">No files found.</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .frst__title { font-size: 14px; font-weight: bold; color: #1a3a6b; padding: 0 0 8px; }
-    .frst__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .frst__head-row { background: #d6eaf8; }
-    .frst__th { padding: 8px 12px; text-align: left; font-size: 12px; font-weight: bold; color: #1a3a6b; border: 1px solid #b8d4ea; }
     .frst__th--actions { text-align: center; }
-    .frst__row { border-bottom: 1px solid #eee; }
-    .frst__row:hover { background: #f5f9ff; }
-    .frst__td { padding: 8px 12px; border: 1px solid #e8eef4; font-size: 13px; color: #333; }
     .frst__td--file { color: #1a3a6b; }
     .frst__td--actions { text-align: center; white-space: nowrap; }
-
-    /* Status badges */
-    .frst__badge { padding: 2px 10px; border-radius: 10px; font-size: 11px; font-weight: bold; white-space: nowrap; }
-    .frst__badge--pending    { background: #fff8e1; color: #f57f17; }
-    .frst__badge--processing { background: #e8eaf6; color: #3949ab; }
-    .frst__badge--completed  { background: #e8f5e9; color: #2e7d32; }
-    .frst__badge--failed     { background: #ffebee; color: #c62828; }
-
-    .frst__action-link { color: #1a3a6b; cursor: pointer; font-size: 12px; margin: 0 4px; }
+    .frst__action-link { --btn-bg: transparent; --btn-color: #1a3a6b; --btn-font-weight: normal; margin: 0 4px; }
     .frst__action-link:hover { text-decoration: underline; }
-    .frst__empty { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .frst__empty { color: #888; font-size: 13px; padding: 24px 0; }
   `],
 })
 export class AmexFileResponseStatusTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `file-response-status-table-${++AmexFileResponseStatusTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `file-response-status-table-${++AmexFileResponseStatusTableComponent._idCounter}`;
 
   @Input() title = '';
   @Input() rows: FileResponseRow[] = [];
   @Output() actionClick = new EventEmitter<{ action: string; row: FileResponseRow }>();
+
+  statusVariant(status: string): 'success' | 'error' | 'warning' | 'primary' | 'neutral' {
+    const s = (status || '').toLowerCase();
+    if (s === 'pending') return 'warning';
+    if (s === 'processing') return 'primary';
+    if (s === 'completed') return 'success';
+    if (s === 'failed') return 'error';
+    return 'neutral';
+  }
 }

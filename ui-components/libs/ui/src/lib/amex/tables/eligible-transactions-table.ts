@@ -1,6 +1,16 @@
-import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LabelComponent } from '../../atoms/label';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface EligibleTransaction {
   id: string;
@@ -22,7 +32,10 @@ export interface PointsHistoryRow {
 @Component({
   selector: 'amex-eligible-transactions-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, FormsModule, LabelComponent, SelectComponent, CheckboxComponent, ButtonComponent,
+    TableComponent, TableHeadComponent, TableHeaderCellComponent, TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="ett">
       <!-- Navy page header — "SELECT & PAY WITH POINTS" matches screenshot image5 -->
@@ -30,29 +43,28 @@ export interface PointsHistoryRow {
 
       <!-- Teal/gray tab switcher — matches screenshot exactly -->
       <div class="ett__tabs">
-        <button class="ett__tab"
+        <ui-button class="ett__tab"
           [class.ett__tab--active]="activeTab === 'eligible'"
+          label="Eligible Transactions"
           (click)="activeTab='eligible'">
-          Eligible Transactions
-        </button>
-        <button class="ett__tab"
+        </ui-button>
+        <ui-button class="ett__tab"
           [class.ett__tab--inactive]="activeTab === 'eligible'"
           [class.ett__tab--active]="activeTab === 'history'"
+          label="History"
           (click)="activeTab='history'">
-          History
-        </button>
+        </ui-button>
       </div>
 
       <!-- Eligible Transactions tab -->
       <div *ngIf="activeTab === 'eligible'" class="ett__content">
         <!-- Card selector dropdown -->
         <div class="ett__card-selector">
-          <label class="ett__card-label" [for]="id + '-select-a-card'">Select a Card</label>
-          <select [id]="id + '-select-a-card'" class="ett__card-select" [(ngModel)]="selectedCard"
+          <ui-label class="ett__card-label" [forId]="id + '-select-a-card'">Select a Card</ui-label>
+          <ui-select [id]="id + '-select-a-card'" class="ett__card-select"
+            [options]="cards" [placeholder]="'-- Select --'" [(ngModel)]="selectedCard"
             (ngModelChange)="cardChange.emit(selectedCard)">
-            <option value="">-- Select --</option>
-            <option *ngFor="let c of cards" [value]="c.value">{{ c.label }}</option>
-          </select>
+          </ui-select>
         </div>
 
         <!-- Error state — matches screenshot red error box -->
@@ -69,38 +81,36 @@ export interface PointsHistoryRow {
         </div>
 
         <!-- Transactions table -->
-        <table *ngIf="eligibleRows.length" class="ett__table">
-          <thead>
-            <tr class="ett__head-row">
-              <th class="ett__th ett__th--check" scope="col"></th>
-              <th class="ett__th" scope="col">Transaction Date</th>
-              <th class="ett__th" scope="col">Description</th>
-              <th class="ett__th ett__th--num" scope="col">Amount</th>
-              <th class="ett__th ett__th--num" scope="col">Points Value</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of eligibleRows" class="ett__row"
+        <ui-table *ngIf="eligibleRows.length" class="ett__table" [bordered]="false">
+          <ui-table-head>
+            <ui-table-row [header]="true" [hoverable]="false">
+              <ui-table-header-cell class="ett__th--check"></ui-table-header-cell>
+              <ui-table-header-cell>Transaction Date</ui-table-header-cell>
+              <ui-table-header-cell>Description</ui-table-header-cell>
+              <ui-table-header-cell [align]="'right'">Amount</ui-table-header-cell>
+              <ui-table-header-cell [align]="'right'">Points Value</ui-table-header-cell>
+            </ui-table-row>
+          </ui-table-head>
+          <ui-table-body>
+            <ui-table-row *ngFor="let row of eligibleRows" [hoverable]="true"
               [class.ett__row--selected]="row.selected">
-              <td class="ett__td ett__td--check">
-                <input type="checkbox" [(ngModel)]="row.selected"
-                  (ngModelChange)="onSelectionChange()" />
-              </td>
-              <td class="ett__td">{{ row.transactionDate }}</td>
-              <td class="ett__td">{{ row.description }}</td>
-              <td class="ett__td ett__td--num">{{ row.amount }}</td>
-              <td class="ett__td ett__td--num">{{ row.pointsValue }}</td>
-            </tr>
-          </tbody>
-        </table>
+              <ui-table-cell class="ett__td--check">
+                <ui-checkbox [(ngModel)]="row.selected" (ngModelChange)="onSelectionChange()"></ui-checkbox>
+              </ui-table-cell>
+              <ui-table-cell>{{ row.transactionDate }}</ui-table-cell>
+              <ui-table-cell>{{ row.description }}</ui-table-cell>
+              <ui-table-cell [align]="'right'">{{ row.amount }}</ui-table-cell>
+              <ui-table-cell [align]="'right'">{{ row.pointsValue }}</ui-table-cell>
+            </ui-table-row>
+          </ui-table-body>
+        </ui-table>
 
         <!-- Redeem button -->
         <div *ngIf="eligibleRows.length" class="ett__redeem-bar">
           <span class="ett__selected-info">{{ selectedCount }} transaction(s) selected</span>
-          <button class="ett__redeem-btn" [disabled]="!selectedCount"
+          <ui-button class="ett__redeem-btn" label="Redeem Points" [disabled]="!selectedCount"
             (click)="redeemClick.emit(selectedRows)">
-            Redeem Points
-          </button>
+          </ui-button>
         </div>
       </div>
 
@@ -120,30 +130,30 @@ export interface PointsHistoryRow {
 
         <div class="ett__history-detail-title">History Details (Past 1 year)</div>
 
-        <table class="ett__table ett__table--history">
-          <thead>
-          <tr class="ett__head-row">
-              <th class="ett__th" style="width: 20%;" scope="col">Transaction Date</th>
-              <th class="ett__th" style="width: 35%;" scope="col">Description</th>
-              <th class="ett__th" style="width: 22%;" scope="col">Transaction Amount</th>
-              <th class="ett__th" style="width: 23%;" scope="col">Redemption Date</th>
-          </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of historyRows" class="ett__row">
-              <td class="ett__td">{{ row.transactionDate }}</td>
-              <td class="ett__td">{{ row.description }}</td>
-              <td class="ett__td">{{ row.amountOffset }}</td>
-              <td class="ett__td">{{ row.redemptionDate }}</td>
-            </tr>
-            <tr *ngIf="!historyRows.length">
-              <td colspan="4" class="ett__empty-history">
+        <ui-table class="ett__table ett__table--history" [bordered]="false">
+          <ui-table-head>
+            <ui-table-row [header]="true" [hoverable]="false">
+              <ui-table-header-cell style="width: 20%;">Transaction Date</ui-table-header-cell>
+              <ui-table-header-cell style="width: 35%;">Description</ui-table-header-cell>
+              <ui-table-header-cell style="width: 22%;">Transaction Amount</ui-table-header-cell>
+              <ui-table-header-cell style="width: 23%;">Redemption Date</ui-table-header-cell>
+            </ui-table-row>
+          </ui-table-head>
+          <ui-table-body>
+            <ui-table-row *ngFor="let row of historyRows" [hoverable]="true">
+              <ui-table-cell>{{ row.transactionDate }}</ui-table-cell>
+              <ui-table-cell>{{ row.description }}</ui-table-cell>
+              <ui-table-cell>{{ row.amountOffset }}</ui-table-cell>
+              <ui-table-cell>{{ row.redemptionDate }}</ui-table-cell>
+            </ui-table-row>
+            <ui-table-row *ngIf="!historyRows.length" [hoverable]="false">
+              <ui-table-cell [colspan]="4" [align]="'center'" class="ett__empty-history">
                 It appears that you have not placed any redemption order(s) on this Card.
                 Please click on the 'Eligible Transactions' tab on the top left and place your first redemption.
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </ui-table-cell>
+            </ui-table-row>
+          </ui-table-body>
+        </ui-table>
 
         <div class="ett__showing" *ngIf="historyRows.length">
           Showing {{ historyRows.length }} to {{ historyRows.length }} of {{ historyRows.length }} entries
@@ -155,37 +165,26 @@ export interface PointsHistoryRow {
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
 
-    /* Navy page header — matches screenshot exactly */
     .ett__page-header {
       background: #1a3a6b; color: #fff;
       font-size: 15px; font-weight: bold;
       padding: 12px 16px; text-transform: uppercase; letter-spacing: 0.5px;
     }
 
-    /* Teal/gray tab switcher — matches screenshot image5/image6 */
     .ett__tabs { display: flex; }
     .ett__tab {
-      flex: 1; padding: 11px 0; text-align: center;
-      font-size: 14px; font-weight: bold; color: #fff;
-      border: none; cursor: pointer;
-      font-family: Arial, sans-serif;
+      --btn-width: 100%; --btn-justify-content: center; --btn-radius: 0;
+      --btn-color: #fff; --btn-padding: 11px 0; flex: 1;
     }
-    .ett__tab--active   { background: #1a7a9a; }   /* teal — active tab */
-    .ett__tab--inactive { background: #888; }       /* gray — inactive tab */
+    .ett__tab--active   { --btn-bg: #1a7a9a; }
+    .ett__tab--inactive { --btn-bg: #888; }
 
     .ett__content { padding: 16px; background: #fff; }
 
-    /* Card selector */
     .ett__card-selector { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
     .ett__card-label { font-size: 14px; font-weight: bold; color: #1a3a6b; }
-    .ett__card-select {
-      border: 1px solid #ccc; border-bottom: 2px solid #1a3a6b;
-      padding: 5px 28px 5px 8px; font-size: 13px;
-      font-family: Arial, sans-serif; min-width: 280px;
-      background: #fff; cursor: pointer;
-    }
+    .ett__card-select { --input-border: 1px solid #ccc; min-width: 280px; }
 
-    /* Error — matches screenshot pink/red error box */
     .ett__error {
       display: flex; align-items: center; gap: 8px;
       background: #fce4e4; border: 1px solid #f5c6c6;
@@ -194,7 +193,6 @@ export interface PointsHistoryRow {
     }
     .ett__error-icon { font-size: 14px; }
 
-    /* Points balance bar */
     .ett__points-bar {
       display: flex; align-items: center; gap: 12px;
       padding: 8px 12px; background: #f5f9ff;
@@ -205,43 +203,21 @@ export interface PointsHistoryRow {
     .ett__points-value { font-size: 16px; font-weight: bold; color: #1a3a6b; }
     .ett__points-aed   { color: #888; }
 
-    /* Table */
-    .ett__table { width: 100%; border-collapse: collapse; font-size: 13px; table-layout: fixed; }
+    .ett__table { table-layout: fixed; }
     .ett__table--history { margin-top: 12px; }
 
-    .ett__head-row { border-bottom: 2px solid #1a3a6b; }
-    .ett__th {
-      padding: 8px 12px; text-align: left; font-weight: bold;
-      font-size: 13px; color: #1a3a6b; border-bottom: 2px solid #1a3a6b;
-    }
     .ett__th--check { width: 30px; }
-    .ett__th--num   { text-align: right; }
-
-    .ett__row { border-bottom: 1px solid #e8eef4; }
-    .ett__row:hover { background: #f5f9ff; }
     .ett__row--selected { background: #eaf4fb; }
-    .ett__td {
-      padding: 8px 12px; font-size: 13px; color: #333;
-      border-bottom: 1px solid #e8eef4;
-    }
     .ett__td--check { text-align: center; width: 30px; }
-    .ett__td--num   { text-align: right; }
 
-    /* Redeem bar */
     .ett__redeem-bar {
       display: flex; align-items: center; justify-content: space-between;
       padding: 12px 0 0; margin-top: 8px;
     }
     .ett__selected-info { font-size: 13px; color: #555; }
-    .ett__redeem-btn {
-      background: #1a3a6b; color: #fff; border: none;
-      padding: 8px 22px; font-size: 13px; font-weight: bold;
-      cursor: pointer; border-radius: 3px; font-family: Arial, sans-serif;
-    }
-    .ett__redeem-btn:disabled { opacity: 0.45; cursor: default; }
-    .ett__redeem-btn:hover:not([disabled]) { background: #16304f; }
+    .ett__redeem-btn { --btn-bg: #1a3a6b; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 8px 22px; }
+    .ett__redeem-btn:hover { --btn-bg: #16304f; }
 
-    /* History tab */
     .ett__history-title {
       font-size: 13px; font-weight: normal; color: #1a3a6b;
       padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 10px;
@@ -255,19 +231,17 @@ export interface PointsHistoryRow {
       padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 4px;
     }
     .ett__empty-history {
-      text-align: center; padding: 20px; color: #1a3a6b;
-      font-size: 13px; border-bottom: 1px solid #e8eef4;
+      color: #1a3a6b; font-size: 13px; padding: 20px 0;
     }
     .ett__showing { font-size: 12px; color: #888; padding: 8px 0; }
   `],
 })
 export class AmexEligibleTransactionsTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `eligible-transactions-table-${++AmexEligibleTransactionsTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `eligible-transactions-table-${++AmexEligibleTransactionsTableComponent._idCounter}`;
 
   @Input() pageTitle = 'SELECT & PAY WITH POINTS';
-  @Input() cards: { value: string; label: string }[] = [];
+  @Input() cards: SelectOption[] = [];
   @Input() eligibleRows: EligibleTransaction[] = [];
   @Input() historyRows: PointsHistoryRow[] = [];
   @Input() pointsBalance = '';

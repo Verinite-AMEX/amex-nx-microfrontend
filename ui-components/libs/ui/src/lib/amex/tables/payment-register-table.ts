@@ -1,5 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface PaymentRegisterRow {
   date: string;
@@ -17,59 +24,54 @@ export interface PaymentRegisterRow {
 @Component({
   selector: 'amex-payment-register-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, ButtonComponent, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="prt">
       <div class="prt__top-bar">
         <span class="prt__title">{{ title }}</span>
-        <button class="prt__print-btn" (click)="printClick.emit()">&#128438; Print</button>
+        <ui-button class="prt__print-btn" label="🖨 Print" variant="secondary" [size]="'sm'"
+          (click)="printClick.emit()"></ui-button>
       </div>
-      <table class="prt__table">
-        <thead>
-          <tr class="prt__head-row">
-            <th class="prt__th" scope="col">Date</th>
-            <th class="prt__th" scope="col">Location</th>
-            <th class="prt__th" scope="col">Currency</th>
-            <th class="prt__th prt__th--num" scope="col">Amount</th>
-            <th class="prt__th" scope="col">Reference</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="prt__row">
-            <td class="prt__td">{{ row.date }}</td>
-            <td class="prt__td">{{ row.location }}</td>
-            <td class="prt__td">{{ row.currency }}</td>
-            <td class="prt__td prt__td--num">{{ row.amount }}</td>
-            <td class="prt__td">{{ row.reference }}</td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="5" class="prt__empty">No Data Found</td>
-          </tr>
-        </tbody>
-      </table>
+      <ui-table class="prt__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Date</ui-table-header-cell>
+            <ui-table-header-cell>Location</ui-table-header-cell>
+            <ui-table-header-cell>Currency</ui-table-header-cell>
+            <ui-table-header-cell [align]="'right'">Amount</ui-table-header-cell>
+            <ui-table-header-cell>Reference</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.date }}</ui-table-cell>
+            <ui-table-cell>{{ row.location }}</ui-table-cell>
+            <ui-table-cell>{{ row.currency }}</ui-table-cell>
+            <ui-table-cell [align]="'right'">{{ row.amount }}</ui-table-cell>
+            <ui-table-cell>{{ row.reference }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="5" [align]="'center'" class="prt__empty">No Data Found</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .prt__top-bar { display: flex; justify-content: space-between; align-items: center; padding: 6px 0 8px; border-bottom: 1px solid #ddd; margin-bottom: 6px; }
     .prt__title { font-size: 13px; font-weight: bold; color: #333; }
-    .prt__print-btn { background: none; border: 1px solid #006fcf; color: #006fcf; padding: 3px 12px; font-size: 12px; cursor: pointer; font-family: Arial, sans-serif; border-radius: 2px; }
-    .prt__print-btn:hover { background: #e8f0ff; }
-    .prt__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .prt__head-row { background: #f0f0f0; }
-    .prt__th { padding: 6px 10px; border: 1px solid #ccc; font-size: 12px; font-weight: bold; color: #333; text-align: left; }
-    .prt__th--num { text-align: right; }
-    .prt__row { background: #fff; }
-    .prt__row:hover { background: #eef6ff; }
-    .prt__td { padding: 6px 10px; border: 1px solid #ddd; font-size: 13px; color: #333; }
-    .prt__td--num { text-align: right; }
-    .prt__empty { text-align: center; padding: 24px; font-weight: bold; font-size: 14px; color: #333; border: 1px solid #ddd; }
+    .prt__print-btn { --btn-bg: transparent; --btn-color: #006fcf; --btn-border: 1px solid #006fcf; --btn-radius: 2px; }
+    .prt__print-btn:hover { --btn-bg: #e8f0ff; }
+    .prt__empty { font-weight: bold; font-size: 14px; color: #333; padding: 24px 0; }
   `],
 })
 export class AmexPaymentRegisterTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `payment-register-table-${++AmexPaymentRegisterTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `payment-register-table-${++AmexPaymentRegisterTableComponent._idCounter}`;
 
   @Input() rows: PaymentRegisterRow[] = [];
   @Input() title = 'Payment Register';

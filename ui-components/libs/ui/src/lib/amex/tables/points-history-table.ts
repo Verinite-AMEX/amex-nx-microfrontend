@@ -1,5 +1,11 @@
 import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface PointsHistoryRowModel{
   transactionDate: string;
@@ -17,7 +23,10 @@ export interface PointsHistoryRowModel{
 @Component({
   selector: 'amex-points-history-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="pht">
       <!-- Summary bar -->
@@ -34,30 +43,30 @@ export interface PointsHistoryRowModel{
 
       <div class="pht__detail-title">History Details (Past 1 year)</div>
 
-      <table class="pht__table">
-        <thead>
-          <tr class="pht__head-row">
-            <th class="pht__th" scope="col">Transaction Date</th>
-            <th class="pht__th" scope="col">Description</th>
-            <th class="pht__th pht__th--num" scope="col">Transaction Amount</th>
-            <th class="pht__th" scope="col">Redemption Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="pht__row">
-            <td class="pht__td">{{ row.transactionDate }}</td>
-            <td class="pht__td">{{ row.description }}</td>
-            <td class="pht__td pht__td--num">{{ row.amountOffset }}</td>
-            <td class="pht__td">{{ row.redemptionDate }}</td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="4" class="pht__empty">
+      <ui-table class="pht__table" [bordered]="false">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Transaction Date</ui-table-header-cell>
+            <ui-table-header-cell>Description</ui-table-header-cell>
+            <ui-table-header-cell [align]="'right'">Transaction Amount</ui-table-header-cell>
+            <ui-table-header-cell>Redemption Date</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.transactionDate }}</ui-table-cell>
+            <ui-table-cell>{{ row.description }}</ui-table-cell>
+            <ui-table-cell [align]="'right'">{{ row.amountOffset }}</ui-table-cell>
+            <ui-table-cell>{{ row.redemptionDate }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="4" [align]="'center'" class="pht__empty">
               It appears that you have not placed any redemption order(s) on this Card.
               Please click on the 'Eligible Transactions' tab on the top left and place your first redemption.
-            </td>
-          </tr>
-        </tbody>
-      </table>
+            </ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
 
       <div class="pht__showing">
         Showing {{ rows.length ? '1' : '0' }} to {{ rows.length }} of {{ rows.length }} entries
@@ -72,22 +81,13 @@ export interface PointsHistoryRowModel{
     .pht__summary-value { margin-left: 8px; }
     .pht__null { color: #888; }
     .pht__detail-title { font-size: 13px; font-weight: bold; color: #333; padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 4px; }
-    .pht__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .pht__head-row { border-bottom: 1px solid #1a3a6b; }
-    .pht__th { padding: 8px 12px; text-align: left; font-weight: bold; font-size: 13px; color: #1a3a6b; border-bottom: 1px solid #1a3a6b; }
-    .pht__th--num { text-align: right; }
-    .pht__row { border-bottom: 1px solid #e8eef4; }
-    .pht__row:hover { background: #f5f9ff; }
-    .pht__td { padding: 8px 12px; border-bottom: 1px solid #e8eef4; font-size: 13px; color: #333; }
-    .pht__td--num { text-align: right; }
-    .pht__empty { text-align: center; padding: 20px; color: #1a3a6b; font-size: 13px; border-bottom: 1px solid #eee; }
+    .pht__empty { color: #1a3a6b; font-size: 13px; padding: 20px 0; }
     .pht__showing { font-size: 12px; color: #888; padding: 8px 0; }
   `],
 })
 export class AmexPointsHistoryTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `points-history-table-${++AmexPointsHistoryTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `points-history-table-${++AmexPointsHistoryTableComponent._idCounter}`;
 
   @Input() rows: PointsHistoryRowModel[] = [];
   @Input() totalCredit = '';

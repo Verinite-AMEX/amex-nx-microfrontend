@@ -1,5 +1,13 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
+import { BadgeComponent } from '../../atoms/badge';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface ApprovalRequestRow {
   requestId: string;
@@ -18,74 +26,74 @@ export interface ApprovalRequestRow {
 @Component({
   selector: 'amex-request-approval-queue',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, ButtonComponent, BadgeComponent, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="raq">
       <div class="raq__header">{{ title }}</div>
-      <table class="raq__table">
-        <thead>
-          <tr class="raq__head-row">
-            <th class="raq__th" scope="col">Request ID</th>
-            <th class="raq__th" scope="col">Reference No.</th>
-            <th class="raq__th" scope="col">Customer Name</th>
-            <th class="raq__th" scope="col">Emirates ID</th>
-            <th class="raq__th" scope="col">Status</th>
-            <th class="raq__th raq__th--actions" scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="raq__row">
-            <td class="raq__td raq__td--id">{{ row.requestId }}</td>
-            <td class="raq__td">{{ row.referenceNo }}</td>
-            <td class="raq__td">{{ row.customerName }}</td>
-            <td class="raq__td">{{ row.emiratesId }}</td>
-            <td class="raq__td">
-              <span class="raq__status raq__status--{{ row.status.toLowerCase() }}">
-                {{ row.status }}
-              </span>
-            </td>
-            <td class="raq__td raq__td--actions">
-              <button class="raq__btn raq__btn--accept" (click)="actionClick.emit({action:'accept',row})">Accept</button>
-              <button class="raq__btn raq__btn--reject" (click)="actionClick.emit({action:'reject',row})">Reject</button>
-            </td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="6" class="raq__empty">No pending requests.</td>
-          </tr>
-        </tbody>
-      </table>
+      <ui-table class="raq__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Request ID</ui-table-header-cell>
+            <ui-table-header-cell>Reference No.</ui-table-header-cell>
+            <ui-table-header-cell>Customer Name</ui-table-header-cell>
+            <ui-table-header-cell>Emirates ID</ui-table-header-cell>
+            <ui-table-header-cell>Status</ui-table-header-cell>
+            <ui-table-header-cell class="raq__th--actions">Actions</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell class="raq__td--id">{{ row.requestId }}</ui-table-cell>
+            <ui-table-cell>{{ row.referenceNo }}</ui-table-cell>
+            <ui-table-cell>{{ row.customerName }}</ui-table-cell>
+            <ui-table-cell>{{ row.emiratesId }}</ui-table-cell>
+            <ui-table-cell>
+              <ui-badge [label]="row.status" [variant]="statusVariant(row.status)" [size]="'sm'"></ui-badge>
+            </ui-table-cell>
+            <ui-table-cell class="raq__td--actions">
+              <ui-button class="raq__btn raq__btn--accept" label="Accept" [size]="'sm'"
+                (click)="actionClick.emit({action:'accept',row})"></ui-button>
+              <ui-button class="raq__btn raq__btn--reject" label="Reject" [size]="'sm'"
+                (click)="actionClick.emit({action:'reject',row})"></ui-button>
+            </ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="6" [align]="'center'" class="raq__empty">No pending requests.</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .raq__header { background: #1a3a6b; color: #fff; padding: 10px 16px; font-size: 14px; font-weight: bold; }
-    .raq__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .raq__head-row { background: #d6eaf8; }
-    .raq__th { padding: 8px 12px; border: 1px solid #b8d4ea; font-size: 12px; font-weight: bold; color: #1a3a6b; text-align: left; }
     .raq__th--actions { text-align: center; }
-    .raq__row { border-bottom: 1px solid #eee; }
-    .raq__row:hover { background: #f5f9ff; }
-    .raq__td { padding: 9px 12px; border: 1px solid #e8eef4; font-size: 13px; color: #333; }
     .raq__td--id { font-weight: bold; color: #1a3a6b; }
     .raq__td--actions { text-align: center; white-space: nowrap; }
-    .raq__status { font-size: 11px; font-weight: bold; padding: 2px 8px; border-radius: 10px; }
-    .raq__status--pending  { background: #fff8e1; color: #f57f17; }
-    .raq__status--approved { background: #e8f5e9; color: #2e7d32; }
-    .raq__status--rejected { background: #ffebee; color: #c62828; }
-    .raq__btn { border: none; padding: 5px 14px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; margin: 2px; font-family: Arial, sans-serif; }
-    .raq__btn--accept { background: #2e7d32; color: #fff; }
-    .raq__btn--accept:hover { background: #1b5e20; }
-    .raq__btn--reject { background: #c62828; color: #fff; }
-    .raq__btn--reject:hover { background: #b71c1c; }
-    .raq__empty { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .raq__btn { --btn-radius: 3px; margin: 2px; }
+    .raq__btn--accept { --btn-bg: #2e7d32; --btn-color: #fff; }
+    .raq__btn--accept:hover { --btn-bg: #1b5e20; }
+    .raq__btn--reject { --btn-bg: #c62828; --btn-color: #fff; }
+    .raq__btn--reject:hover { --btn-bg: #b71c1c; }
+    .raq__empty { color: #888; font-size: 13px; padding: 24px 0; }
   `],
 })
 export class AmexRequestApprovalQueueComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `request-approval-queue-${++AmexRequestApprovalQueueComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `request-approval-queue-${++AmexRequestApprovalQueueComponent._idCounter}`;
 
   @Input() rows: ApprovalRequestRow[] = [];
   @Input() title = 'Approval Queue';
   @Output() actionClick = new EventEmitter<{ action: string; row: ApprovalRequestRow }>();
+
+  statusVariant(status: string): 'success' | 'error' | 'warning' | 'primary' | 'neutral' {
+    const s = (status || '').toLowerCase();
+    if (s === 'pending') return 'warning';
+    if (s === 'approved') return 'success';
+    if (s === 'rejected') return 'error';
+    return 'neutral';
+  }
 }
