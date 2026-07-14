@@ -1,0 +1,159 @@
+.page-body {
+  padding: 16px;
+  background: #f5f7fa;
+  min-height: calc(100vh - 120px);
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.kpi-card {
+  background: #ffffff;
+  border: 1px solid #dde4ed;
+  border-top: 4px solid #1e3a6e;
+  border-radius: 4px;
+  padding: 18px;
+  transition: all 0.25s ease;
+}
+
+.kpi-card:hover {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.kpi-sub {
+  margin-top: 10px;
+  color: #777;
+  font-size: 12px;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.panel {
+  background: #ffffff;
+  border: 1px solid #dde4ed;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.panel-hd {
+  background: #eaf2fb;
+  border-bottom: 1px solid #d2dfef;
+  padding: 12px 18px;
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  color: #1e3a6e;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.panel-bd {
+  padding: 16px;
+}
+
+.link-btn {
+  background: transparent;
+  border: none;
+  color: #006fcf;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.link-btn:hover {
+  text-decoration: underline;
+}
+
+.offer-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.benefit-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid #ececec;
+}
+
+.benefit-row:last-child {
+  border-bottom: none;
+}
+
+.benefit-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.benefit-info {
+  flex: 1;
+}
+
+.benefit-name {
+  color: #1e3a6e;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+.benefit-desc {
+  color: #777;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+@media (max-width: 1200px) {
+  .kpi-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-body {
+    padding: 12px;
+  }
+
+  .kpi-row {
+    grid-template-columns: 1fr;
+  }
+
+  .panel-hd {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .benefit-row {
+    align-items: flex-start;
+  }
+
+  .benefit-icon {
+    width: 42px;
+    height: 42px;
+    font-size: 20px;
+  }
+}

@@ -1,0 +1,23 @@
+@if (mode === "login") {
+  <amex-login-form
+    portalTitle="ONLS Helper Tool"
+    [errorMessage]="error"
+    [successMessage]="success"
+    [showRegister]="true"
+    (loginSubmit)="onLogin($event)"
+    (forgotPassword)="goToForgotPassword()"
+    (registerClick)="setMode('register')"
+  >
+  </amex-login-form>
+}
+
+@if (mode === "register") {
+  <amex-register-form
+    portalTitle="ONLS Helper Tool"
+    [errorMessage]="error"
+    [successMessage]="success"
+    (registerSubmit)="onRegister($event)"
+    (cancel)="setMode('login')"
+  >
+  </amex-register-form>
+}

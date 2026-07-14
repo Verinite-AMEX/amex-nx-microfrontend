@@ -1,33 +1,41 @@
-import { NgModule }        from '@angular/core';
-import { BrowserModule }   from '@angular/platform-browser';
+import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { RouterModule }    from '@angular/router';
-import { AppComponent }    from './app.component';
+import { RouterModule } from '@angular/router';
+
+import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
+  declarations: [
+    AppComponent
+  ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    AppComponent,
     RouterModule.forRoot(
       [
         {
           path: '',
           loadComponent: () =>
-            import('./wearables/wearables-shell-wrapper.component')
+            import('./wearables/wearables-shell-wrapper/wearables-shell-wrapper.component')
               .then(m => m.WearablesShellWrapperComponent),
         },
-        { path: '**', redirectTo: '' },
+        {
+          path: '**',
+          redirectTo: '',
+        },
       ],
-      { bindToComponentInputs: true }
+      {
+        bindToComponentInputs: true,
+      }
     ),
   ],
   providers: [
     {
-      provide:  HTTP_INTERCEPTORS,
+      provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi:    true,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],

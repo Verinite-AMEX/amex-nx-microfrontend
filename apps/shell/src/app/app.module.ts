@@ -11,19 +11,19 @@ import { ForgotPasswordComponent } from './pages/forgot-password/forgot-password
 import { AuthInterceptor }   from './core/interceptors/auth.interceptor';
 import { ErrorInterceptor }  from './core/interceptors/error.interceptor';
 
-import { AmexPageShellComponent }         from '@vn-core-ui-components/ui';
-import { AmexTopNavBarComponent }         from '@vn-core-ui-components/ui';
-import { AmexTabBarComponent }            from '@vn-core-ui-components/ui';
-import { AmexLogoutConfirmationComponent } from '@vn-core-ui-components/ui';
+import { AmexPageShellComponent }         from '@ui-components/ui';
+import { AmexTopNavBarComponent }         from '@ui-components/ui';
+import { AmexTabBarComponent }            from '@ui-components/ui';
+import { AmexLogoutConfirmationComponent } from '@ui-components/ui';
 
-import { AmexLoginFormComponent }          from '@vn-core-ui-components/ui';
-import { AmexForgotPasswordFormComponent } from '@vn-core-ui-components/ui';
-import { AmexRegisterFormComponent }       from '@vn-core-ui-components/ui';
+import { AmexLoginFormComponent }          from '@ui-components/ui';
+import { AmexForgotPasswordFormComponent } from '@ui-components/ui';
+import { AmexRegisterFormComponent }       from '@ui-components/ui';
 
-import { CardComponent }      from '@vn-core-ui-components/ui';
-import { FormFieldComponent } from '@vn-core-ui-components/ui';
-import { ButtonComponent }    from '@vn-core-ui-components/ui';
-import { AlertComponent }     from '@vn-core-ui-components/ui';
+import { CardComponent }      from '@ui-components/ui';
+import { FormFieldComponent } from '@ui-components/ui';
+import { ButtonComponent }    from '@ui-components/ui';
+import { AlertComponent }     from '@ui-components/ui';
 
 @NgModule({
   declarations: [

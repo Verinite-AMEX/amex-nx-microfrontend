@@ -1,0 +1,161 @@
+.benefits-page {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  min-height: 100%;
+}
+
+.card-hero {
+  display: flex;
+  justify-content: center;
+  padding: 28px 0 20px;
+}
+
+.amex-card {
+  width: 240px;
+  height: 152px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #9ca3af, #d1d5db, #9ca3af);
+  padding: 14px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .2);
+}
+
+.card-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-logo-sq {
+  background: #006fcf;
+  border-radius: 3px;
+  padding: 3px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-am,
+.card-ex {
+  color: white;
+  font-size: 6px;
+  font-weight: bold;
+  line-height: 1.3;
+}
+
+.card-nfc {
+  font-size: 18px;
+  color: #555;
+}
+
+.card-chip {
+  width: 28px;
+  height: 20px;
+  border-radius: 3px;
+  background: linear-gradient(135deg, #c8a951, #e8c96d, #c8a951);
+}
+
+.card-number {
+  font-family: monospace;
+  font-size: 11px;
+}
+
+.benefits-section {
+  padding: 20px;
+}
+
+.benefits-heading {
+  color: #006fcf;
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 18px;
+  border-bottom: 1px solid #f0f0f0;
+  padding-bottom: 8px;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.benefit-card {
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  background: white;
+  transition: .2s;
+}
+
+.benefit-card:hover {
+  box-shadow: 0 4px 14px rgba(0, 0, 0, .08);
+}
+
+.benefit-img {
+  height: 140px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.benefit-img-lbl {
+  color: rgba(255,255,255,.5);
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.benefit-body {
+  padding: 14px;
+}
+
+.benefit-title {
+  color: #006fcf;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 8px;
+}
+
+.benefit-desc {
+  text-align: center;
+  color: #555;
+  font-size: 12px;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.benefit-action {
+  display: flex;
+  justify-content: center;
+}
+
+.enrolled-badge {
+  color: green;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+}
+
+.tick {
+  margin-right: 4px;
+}
+
+.enroll-btn {
+  background: #006fcf;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 8px 28px;
+  cursor: pointer;
+}
+
+.enroll-btn:hover {
+  background: #0057a8;
+}
+
+.page-footer {
+  text-align: right;
+  padding: 15px;
+  color: #777;
+  font-size: 11px;
+}

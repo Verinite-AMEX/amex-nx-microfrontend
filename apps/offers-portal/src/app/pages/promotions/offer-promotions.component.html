@@ -1,0 +1,152 @@
+<amex-page-header portalStyle="onls" title="PROMOTIONS"></amex-page-header>
+<amex-breadcrumb-trail
+  [items]="[
+    { id: 'home', label: 'Home' },
+    { id: 'offers', label: 'Offers & Benefits' },
+    { id: 'promos', label: 'Promotions' },
+  ]"
+  [showBack]="true"
+  (backClick)="router.navigate(['/offers'])"
+  (itemClick)="onBreadcrumb($event)"
+>
+</amex-breadcrumb-trail>
+
+<div class="page-body">
+  <amex-success-toast
+    *ngIf="successMsg"
+    [message]="successMsg"
+    portalStyle="onls"
+    [autoDismiss]="true"
+    [duration]="4000"
+    (dismissed)="successMsg = ''"
+  >
+  </amex-success-toast>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <amex-points-display
+        [points]="activeCount"
+        label="Active"
+        [compact]="true"
+      ></amex-points-display>
+    </div>
+    <div class="kpi-card">
+      <amex-points-display
+        [points]="enrolledCount"
+        label="Enrolled"
+        [compact]="true"
+      ></amex-points-display>
+    </div>
+    <div class="kpi-card">
+      <amex-points-display
+        [points]="upcomingCount"
+        label="Upcoming"
+        [compact]="true"
+      ></amex-points-display>
+    </div>
+    <div class="kpi-card">
+      <amex-points-display
+        [points]="expiredCount"
+        label="Expired"
+        [compact]="true"
+      ></amex-points-display>
+    </div>
+  </div>
+
+  <div class="filter-bar">
+    <span class="filter-label">Status:</span>
+    <button
+      *ngFor="let f of statusFilters"
+      class="filter-chip"
+      [class.active]="activeFilter === f"
+      (click)="activeFilter = f"
+    >
+      {{ f }}
+    </button>
+    <input
+      class="search-input"
+      [(ngModel)]="searchTerm"
+      placeholder="Search promotions..."
+    />
+  </div>
+
+  <div class="panel">
+    <div class="panel-hd">
+      Promotional Campaigns
+      <span class="count">{{ filteredPromotions.length }} results</span>
+    </div>
+    <table class="tbl">
+      <thead>
+        <tr>
+          <th>Promotion</th>
+          <th>Reward</th>
+          <th>Eligible Cards</th>
+          <th>Period</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let p of filteredPromotions">
+          <td>
+            <div class="p-title">{{ p.title }}</div>
+            <div class="p-desc">{{ p.description }}</div>
+            <div *ngIf="p.merchant" class="p-merchant">{{ p.merchant }}</div>
+          </td>
+          <td>
+            <span *ngIf="p.pointsMultiplier" class="pill pts"
+              >{{ p.pointsMultiplier }}× Points</span
+            >
+            <span *ngIf="p.cashbackPercent" class="pill cb"
+              >{{ p.cashbackPercent }}% Back</span
+            >
+          </td>
+          <td>
+            <div class="badge-row">
+              <amex-card-badge
+                *ngFor="let c of p.eligibleCards"
+                [type]="c"
+              ></amex-card-badge>
+            </div>
+          </td>
+          <td>
+            <div class="pd-from">{{ p.startDate }}</div>
+            <div class="pd-to">to {{ p.endDate }}</div>
+          </td>
+          <td><amex-status-badge [status]="p.status"></amex-status-badge></td>
+          <td>
+            <button
+              *ngIf="!p.enrolled && p.status === 'active'"
+              class="act-btn enroll"
+              (click)="onEnroll(p)"
+            >
+              Enroll
+            </button>
+            <button
+              *ngIf="p.enrolled && p.status === 'active'"
+              class="act-btn unenroll"
+              (click)="onUnenroll(p)"
+            >
+              Unenroll
+            </button>
+            <span *ngIf="p.status !== 'active'" class="na">—</span>
+          </td>
+        </tr>
+        <tr *ngIf="!filteredPromotions.length">
+          <td colspan="6" class="empty">No promotions match your filter.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<amex-confirmation-modal
+  [visible]="showModal"
+  portalStyle="onls"
+  [message]="modalMsg"
+  confirmLabel="OK"
+  cancelLabel="Cancel"
+  (confirm)="confirmAction()"
+  (cancel)="showModal = false"
+>
+</amex-confirmation-modal>

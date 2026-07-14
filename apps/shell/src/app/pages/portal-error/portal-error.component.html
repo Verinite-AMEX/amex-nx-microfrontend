@@ -1,0 +1,34 @@
+<div class="portal-error">
+  <h3>⚠ Portal Not Available</h3>
+
+  <p>
+    The
+    <strong>{{ portalName }}</strong>
+    remote application is not running.
+
+    <br /><br />
+
+    The shell, authentication and Module Federation configuration are working
+    correctly.
+
+    <br /><br />
+
+    <strong>Start the portal using the command below:</strong>
+  </p>
+
+  <div class="portal-error-cmds">
+    @for (cmd of startCmds; track cmd) {
+      <div class="portal-error-cmd">
+        <span class="cmd-label">
+          {{ cmd.label }}
+        </span>
+
+        <code>
+          {{ cmd.command }}
+        </code>
+      </div>
+    }
+  </div>
+
+  <p class="refresh-msg">After starting the portal, refresh this page.</p>
+</div>
