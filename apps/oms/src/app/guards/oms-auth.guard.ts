@@ -20,11 +20,6 @@ export const omsAuthGuard: CanActivateFn = (route) => {
     return false;
   }
 
-<<<<<<< HEAD
-=======
-  // doesn't keep silently failing, and send them back through login
-  // WITH returnUrl this time.
->>>>>>> 60ac801 (role base login implemented for oms portal)
   if (
   !auth.isMerchant() &&
   !auth.isOmsAdmin() &&
