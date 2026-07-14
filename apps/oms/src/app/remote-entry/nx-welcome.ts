@@ -69,16 +69,6 @@ import { SubUserManagementService } from '../services/sub-user-management.servic
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
 import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@ui-components/ui';
-
-import { OmsAuthService } from '../services/auth.service';
-import { filter, Subscription } from 'rxjs';
-
-interface NavItem { id: string; label: string; }
-
-interface AmexTabItem {
-    id: string;
-    label: string;
-}
 import { OmsAuthService } from '../services/auth.service';
 import { filter, Subscription } from 'rxjs';
 
