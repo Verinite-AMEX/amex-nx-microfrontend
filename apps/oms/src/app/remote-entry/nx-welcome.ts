@@ -125,7 +125,7 @@ interface AmexTabItem {
 
     RouterOutlet,
 
-    AmexPageComponent
+    AmexPageShellComponent
   ],
 
   templateUrl: './remote-entry.html',
@@ -317,11 +317,6 @@ export class NxWelcome
 
   // INIT
   ngOnInit() {
-    // this.secureForm.enable(); 
-    // this.loadOmsUsers();
-    // this.loadMrmUsers();
-    // this.loadSubUsers();
-
     this.secureForm.enable(); 
     this.updateNav(this.router.url);
 
