@@ -8,40 +8,28 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => TextareaComponent), multi: true }],
   template: `
-    <div class="textarea-wrapper" [class.has-error]="error" [class.disabled]="disabled">
-      <label *ngIf="label" [for]="id" class="textarea-label">
-        {{ label }}
-        <span *ngIf="required" class="required-indicator" aria-label="required">*</span>
-      </label>
-      <textarea
-        [id]="id"
-        [placeholder]="placeholder"
-        [disabled]="disabled"
-        [rows]="rows"
-        [required]="required"
-        [attr.aria-invalid]="error ? 'true' : null"
-        [attr.aria-describedby]="getDescriptionId()"
-        [attr.aria-required]="required"
-        [attr.aria-label]="ariaLabel"
-        [attr.aria-labelledby]="ariaLabelledBy"
-        (input)="onInput($event)"
-        (blur)="onTouched()"
-        class="textarea"
-      >{{ value }}</textarea>
-      <span *ngIf="error" class="textarea-error" [id]="id + '-error'" role="alert">{{ error }}</span>
-      <span *ngIf="helperText && !error" class="textarea-helper" [id]="id + '-helper'">{{ helperText }}</span>
-    </div>
+    <textarea
+      [id]="id"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [rows]="rows"
+      [required]="required"
+      [readonly]="readonly"
+      [class.invalid]="invalid"
+      [class.disabled]="disabled"
+      [class.readonly]="readonly"
+      [attr.aria-invalid]="invalid ? 'true' : null"
+      [attr.aria-describedby]="ariaDescribedBy || null"
+      [attr.aria-required]="required"
+      [attr.aria-readonly]="readonly ? 'true' : null"
+      [attr.aria-label]="ariaLabel || null"
+      [attr.aria-labelledby]="ariaLabelledBy || null"
+      (input)="onInput($event)"
+      (blur)="onTouched()"
+      class="textarea"
+    >{{ value }}</textarea>
   `,
   styles: [`
-    .textarea-wrapper { display: flex; flex-direction: column; gap: 4px; }
-    .textarea-label {
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 4px;
-    }
-    .required-indicator { color: #f44336; margin-left: 2px; }
     .textarea {
       padding: 8px 12px;
       font-size: 14px;
@@ -56,31 +44,25 @@ import { CommonModule } from '@angular/common';
       color: #333;
     }
     .textarea:focus { border-color: #1976d2; box-shadow: 0 0 0 2px rgba(25,118,210,0.15); }
-    .has-error .textarea { border-color: #f44336; }
-    .disabled .textarea { background: #f5f5f5; cursor: not-allowed; color: #999; }
-    .textarea-error { font-size: 12px; color: #f44336; }
-    .textarea-helper { font-size: 12px; color: #666; }
+    .textarea.invalid { border-color: #f44336; }
+    .textarea.disabled { background: #f5f5f5; cursor: not-allowed; color: #999; }
+    .textarea.readonly { background: #f5f5f5; cursor: default; color: #666; }
+    .textarea.readonly:focus { border-color: #e0e0e0; box-shadow: none; }
   `],
 })
 export class TextareaComponent implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() disabled = false;
   @Input() rows = 4;
-  @Input() error = '';
+  @Input() invalid = false;
   private static _idCounter = 0;
   @HostBinding('attr.id') @Input() id = `ui-textarea-${++TextareaComponent._idCounter}`;
-  @Input() label = '';
   @Input() required = false;
-  @Input() helperText = '';
+  /** Value is visible, focusable, and included in form submission, but not editable. Distinct from `disabled`. */
+  @Input() readonly = false;
   @Input() ariaLabel = '';
   @Input() ariaLabelledBy = '';
-
-  getDescriptionId(): string {
-    const ids = [];
-    if (this.error) ids.push(this.id + '-error');
-    if (this.helperText && !this.error) ids.push(this.id + '-helper');
-    return ids.join(' ') || '';
-  }
+  @Input() ariaDescribedBy = '';
 
   value = '';
   onChange = (_: string) => {};

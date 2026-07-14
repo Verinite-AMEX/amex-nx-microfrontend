@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AmexDropdownOption { value: string; label: string; }
 
@@ -12,81 +15,57 @@ export interface AmexDropdownOption { value: string; label: string; }
 @Component({
   selector: 'amex-dropdown-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, SelectComponent, ButtonComponent],
   template: `
     <div class="df-wrap">
       <div class="df-row">
-        <label class="df-label" [for]="id + '-field'">{{ label }}</label>
-        <select [id]="id + '-field'" class="df-select" [(ngModel)]="selectedValue">
-          <option value="">{{ placeholder }}</option>
-          <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
-        </select>
-        <button class="df-btn" (click)="onApply()">{{ buttonLabel }}</button>
-        <button *ngIf="selectedValue" class="df-reset" (click)="onReset()">Reset</button>
+        <ui-form-field class="df-field" [label]="label" [forId]="id + '-field'">
+          <ui-select
+            [id]="id + '-field'"
+            [options]="selectOptions"
+            [placeholder]="placeholder"
+            [ariaLabel]="label"
+            [(ngModel)]="selectedValue">
+          </ui-select>
+        </ui-form-field>
+        <ui-button variant="primary" size="sm" [label]="buttonLabel" (click)="onApply()"></ui-button>
+        <ui-button *ngIf="selectedValue" class="df-reset" variant="ghost" size="sm" label="Reset" (click)="onReset()"></ui-button>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
+      --btn-color: #fff;
+      --btn-border: 1px solid #1050a0;
+      --btn-radius: 2px;
+      --btn-padding: 4px 14px;
+      --btn-font-size: 12px;
+    }
 
     .df-wrap { padding: 8px 0; }
 
     .df-row {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .df-label {
-      font-size: 13px;
-      color: #333;
-      white-space: nowrap;
-      min-width: 80px;
-    }
-
-    .df-select {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      min-width: 160px;
-      cursor: pointer;
-    }
-    .df-select:focus { outline: none; border-color: #006fcf; }
-
-    .df-btn {
-      background: linear-gradient(to bottom, #2a84e0, #1462b8);
-      color: #fff;
-      border: 1px solid #1050a0;
-      border-radius: 2px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .df-btn:hover { background: linear-gradient(to bottom, #1e78d0, #0e50a0); }
+    .df-field { min-width: 160px; }
 
     .df-reset {
-      background: none;
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 10px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #555;
-      cursor: pointer;
+      --btn-bg: none;
+      --btn-color: #555;
+      --btn-border: 1px solid #bbb;
     }
-    .df-reset:hover { background: #f5f5f5; }
   `],
 })
 export class AmexDropdownFilterComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `dropdown-filter-${++AmexDropdownFilterComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `dropdown-filter-${++AmexDropdownFilterComponent._idCounter}`;
 
   @Input() label = 'Filter';
   @Input() placeholder = '-- Select --';
@@ -98,8 +77,12 @@ export class AmexDropdownFilterComponent {
 
   selectedValue = '';
 
+  get selectOptions(): SelectOption[] {
+    return this.options.map(o => ({ label: o.label, value: o.value }));
+  }
+
   onApply() {
-    this.filterApplied.emit(this.selectedValue);
+    this.filterApplied.emit(this.selectedValue as string);
   }
 
   onReset() {

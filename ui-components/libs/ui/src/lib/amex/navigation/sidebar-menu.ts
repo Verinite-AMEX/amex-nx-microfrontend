@@ -95,7 +95,7 @@ export interface AmexSidebarMenuItem { id: string; label: string; }
 })
 export class AmexSidebarMenuComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `sidebar-menu-${++AmexSidebarMenuComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `sidebar-menu-${++AmexSidebarMenuComponent._idCounter}`;
 
 
   @Input() portalStyle: 'onls' | 'bcrb' | 'oms' = 'onls';

@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ButtonComponent } from '../../atoms/button';
+import { LabelComponent } from '../../atoms/label';
+import { SelectComponent } from '../../atoms/select';
+import { ImageComponent } from '../../atoms/image';
 
 /**
  * PointsBalanceSummaryCard
@@ -15,7 +19,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'amex-points-balance-summary-card',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, ButtonComponent, LabelComponent, SelectComponent, ImageComponent],
   template: `
     <div class="pbsc">
 
@@ -24,31 +28,25 @@ import { FormsModule } from '@angular/forms';
 
       <!-- Sub-tabs -->
       <div class="pbsc__tabs">
-        <button class="pbsc__tab"
+        <ui-button class="pbsc__tab"
                 [class.pbsc__tab--active]="activeTab === 'eligible'"
-                (click)="activeTab = 'eligible'">
-          Eligible Transactions
-        </button>
-        <button class="pbsc__tab pbsc__tab--grey"
+                variant="secondary" label="Eligible Transactions" [fullWidth]="true"
+                (click)="activeTab = 'eligible'"></ui-button>
+        <ui-button class="pbsc__tab pbsc__tab--grey"
                 [class.pbsc__tab--active]="activeTab === 'history'"
-                (click)="activeTab = 'history'">
-          History
-        </button>
+                variant="secondary" label="History" [fullWidth]="true"
+                (click)="activeTab = 'history'"></ui-button>
       </div>
 
       <!-- Card selector -->
       <div class="pbsc__selector-row">
-        <label class="pbsc__selector-label" [for]="id + '-select-a-card'">Select a Card</label>
-        <select [id]="id + '-select-a-card'" class="pbsc__card-select" [(ngModel)]="selectedCardNumber"
-                (change)="cardSelected.emit(selectedCardNumber)">
-          <option value="">-- Select --</option>
-          <option *ngFor="let c of cards" [value]="c.cardNumber">
-            {{ c.cardNumber }}
-          </option>
-        </select>
-        <img *ngIf="selectedCardNumber" class="pbsc__card-img"
-             src="https://via.placeholder.com/60x40/006fcf/ffffff?text=AMEX"
-             alt="Card" />
+        <ui-label class="pbsc__selector-label" [forId]="id + '-select-a-card'">Select a Card</ui-label>
+        <ui-select [id]="id + '-select-a-card'" class="pbsc__card-select" [options]="cardOptions"
+                placeholder="-- Select --" [(ngModel)]="selectedCardNumber"
+                (ngModelChange)="cardSelected.emit(selectedCardNumber)"></ui-select>
+            <ui-image *ngIf="selectedCardNumber" class="pbsc__card-img"
+            src="https://via.placeholder.com/60x40/006fcf/ffffff?text=AMEX"
+            alt="Card" objectFit="contain"></ui-image>
       </div>
 
       <!-- Error -->
@@ -98,15 +96,20 @@ import { FormsModule } from '@angular/forms';
       display: flex; background: #e0e0e0;
     }
     .pbsc__tab {
-      flex: 1; padding: 8px 0;
-      font-size: 13px; font-weight: bold;
-      color: #fff; background: #2a7fa8;
-      border: none; cursor: pointer;
-      font-family: Arial, sans-serif;
+      flex: 1;
+      --btn-bg: #2a7fa8;
+      --btn-color: #fff;
+      --btn-radius: 0;
+      --btn-padding: 8px 0;
+      --btn-font-size: 13px;
+      --btn-border: none;
+      --btn-border-bottom-color: inherit;
+      --btn-width: 100%;
+      --btn-justify-content: center;
       border-right: 1px solid #1c6a8a;
     }
-    .pbsc__tab--grey { background: #888; border-right: none; }
-    .pbsc__tab--active { background: #1c5f84; }
+    .pbsc__tab--grey { --btn-bg: #888; border-right: none; }
+    .pbsc__tab--active { --btn-bg: #1c5f84; }
     .pbsc__tab:hover { opacity: 0.9; }
 
     .pbsc__selector-row {
@@ -115,17 +118,20 @@ import { FormsModule } from '@angular/forms';
       border-bottom: 1px solid #e0e0e0;
     }
     .pbsc__selector-label {
-      font-size: 13px; font-weight: bold; color: #1c3f72;
+      --label-font-size: 13px;
+      --label-font-weight: bold;
+      --label-color: #1c3f72;
       white-space: nowrap;
     }
     .pbsc__card-select {
-      border: 1px solid #aaa; border-bottom: 2px solid #1c3f72;
-      padding: 4px 8px; font-size: 12px;
-      font-family: Arial, sans-serif; background: #fff;
+      --select-border: 1px solid #aaa;
+      --select-padding: 4px 24px 4px 8px;
+      --select-font-size: 12px;
+      border-bottom: 2px solid #1c3f72;
       min-width: 220px;
     }
     .pbsc__card-img {
-      width: 60px; height: 40px; object-fit: contain; border: 1px solid #ddd;
+      width: 60px; height: 40px; border: 1px solid #ddd; flex-shrink: 0;
     }
 
     .pbsc__error {
@@ -163,8 +169,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AmexPointsBalanceSummaryCardComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `points-balance-summary-card-${++AmexPointsBalanceSummaryCardComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `points-balance-summary-card-${++AmexPointsBalanceSummaryCardComponent._idCounter}`;
 
   @Input() cards: { cardNumber: string }[] = [];
   @Input() selectedCardNumber = '';
@@ -174,4 +179,8 @@ export class AmexPointsBalanceSummaryCardComponent {
   @Input() activeTab: 'eligible' | 'history' = 'eligible';
 
   @Output() cardSelected = new EventEmitter<string>();
+
+  get cardOptions() {
+    return this.cards.map(c => ({ value: c.cardNumber, label: c.cardNumber }));
+  }
 }

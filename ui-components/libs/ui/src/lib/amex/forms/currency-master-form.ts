@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface CurrencyMasterData {
   action: 'addNew' | 'modify';
@@ -18,107 +22,104 @@ export interface CurrencyMasterData {
 @Component({
   selector: 'amex-currency-master-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, SelectComponent, ButtonComponent],
   template: `
     <div class="cumf">
       <div class="cumf__form">
 
-        <div class="cumf__row">
-          <label class="cumf__label" [for]="id + '-currency-code'">Currency Code <span class="cumf__req">*</span></label>
-          <input [id]="id + '-currency-code'" class="cumf__input"
+        <ui-form-field class="cumf__row" layout="horizontal" labelWidth="140px" label="Currency Code" [required]="true" [forId]="id + '-currency-code'">
+          <ui-input
+            [id]="id + '-currency-code'"
+            [required]="true"
+            [readonly]="form.action === 'modify'"
             [(ngModel)]="form.currencyCode"
+            placeholder="e.g. 001">
+          </ui-input>
+        </ui-form-field>
+
+        <ui-form-field class="cumf__row" layout="horizontal" labelWidth="140px" label="Currency Name" [forId]="id + '-currency-name'">
+          <ui-input
+            *ngIf="form.action === 'addNew'"
+            [id]="id + '-currency-name'"
+            [(ngModel)]="form.currencyName"
+            placeholder="Enter currency name">
+          </ui-input>
+          <ui-select
+            *ngIf="form.action === 'modify'"
+            [id]="id + '-currency-name'"
+            [options]="currencySelectOptions"
+            placeholder="-- Select --"
+            [(ngModel)]="form.currencyName"
+            (ngModelChange)="onNameSelect($event)">
+          </ui-select>
+        </ui-form-field>
+
+        <ui-form-field class="cumf__row" layout="horizontal" labelWidth="140px" label="Short Name" [required]="true" [forId]="id + '-short-name'">
+          <ui-input
+            [id]="id + '-short-name'"
+            [required]="true"
             [readonly]="form.action === 'modify'"
-            [class.cumf__input--readonly]="form.action === 'modify'"
-            placeholder="e.g. 001" />
-        </div>
-
-        <div class="cumf__row">
-          <label class="cumf__label" [for]="id + '-currency-name'">Currency Name</label>
-          <ng-container *ngIf="form.action === 'addNew'">
-            <input [id]="id + '-currency-name'" class="cumf__input" [(ngModel)]="form.currencyName" placeholder="Enter currency name" />
-          </ng-container>
-          <ng-container *ngIf="form.action === 'modify'">
-            <select class="cumf__select" [(ngModel)]="form.currencyName" (ngModelChange)="onNameSelect($event)">
-              <option value="">-- Select --</option>
-              <option *ngFor="let c of currencyOptions" [value]="c.name">{{ c.name }}</option>
-            </select>
-          </ng-container>
-        </div>
-
-        <div class="cumf__row">
-          <label class="cumf__label" [for]="id + '-short-name'">Short Name <span class="cumf__req">*</span></label>
-          <input [id]="id + '-short-name'" class="cumf__input"
             [(ngModel)]="form.shortName"
-            [readonly]="form.action === 'modify'"
-            [class.cumf__input--readonly]="form.action === 'modify'"
-            placeholder="e.g. USD" />
-        </div>
+            placeholder="e.g. USD">
+          </ui-input>
+        </ui-form-field>
 
-        <div class="cumf__row">
-          <label class="cumf__label" [for]="id + '-no-of-decimals'">No. of Decimals <span class="cumf__req">*</span></label>
-          <input [id]="id + '-no-of-decimals'" class="cumf__input"
-            [(ngModel)]="form.noOfDecimals"
+        <ui-form-field class="cumf__row" layout="horizontal" labelWidth="140px" label="No. of Decimals" [required]="true" [forId]="id + '-no-of-decimals'">
+          <ui-input
+            [id]="id + '-no-of-decimals'"
+            [required]="true"
             [readonly]="form.action === 'modify'"
-            [class.cumf__input--readonly]="form.action === 'modify'"
-            placeholder="e.g. 2" />
-        </div>
+            [(ngModel)]="form.noOfDecimals"
+            placeholder="e.g. 2">
+          </ui-input>
+        </ui-form-field>
 
         <div class="cumf__actions">
-          <button class="cumf__btn cumf__btn--addnew"
-            [class.cumf__btn--active]="form.action === 'addNew'"
-            (click)="setAction('addNew')">Add New</button>
-          <button class="cumf__btn cumf__btn--modify"
-            [class.cumf__btn--active]="form.action === 'modify'"
-            (click)="setAction('modify')">Modify</button>
-          <button class="cumf__btn cumf__btn--save" (click)="saveClick.emit(form)">Save</button>
-          <button class="cumf__btn cumf__btn--cancel" (click)="cancelClick.emit()">Cancel</button>
+          <ui-button class="cumf__btn cumf__btn--addnew" variant="primary"
+            [style.--btn-bg]="form.action === 'addNew' ? activeGradient : defaultGradient"
+            [style.--btn-border]="form.action === 'addNew' ? '1px solid #002a6a' : '1px solid #005fba'"
+            label="Add New"
+            (click)="setAction('addNew')">
+          </ui-button>
+          <ui-button class="cumf__btn cumf__btn--modify" variant="primary"
+            [style.--btn-bg]="form.action === 'modify' ? activeGradient : defaultGradient"
+            [style.--btn-border]="form.action === 'modify' ? '1px solid #002a6a' : '1px solid #005fba'"
+            label="Modify"
+            (click)="setAction('modify')">
+          </ui-button>
+          <ui-button class="cumf__btn cumf__btn--save" variant="primary" label="Save" (click)="saveClick.emit(form)"></ui-button>
+          <ui-button class="cumf__btn cumf__btn--cancel" variant="secondary" label="Cancel" (click)="cancelClick.emit()"></ui-button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --input-border: 1px solid #aaa;
+      --input-radius: 0px;
+      --input-padding: 4px 8px;
+      --input-focus-border-color: #006fcf;
+    }
     .cumf__form { display: flex; flex-direction: column; }
-    .cumf__row { display: flex; align-items: center; gap: 12px; padding: 6px 0; }
-    .cumf__label { width: 140px; flex-shrink: 0; text-align: right; font-size: 13px; color: #333; }
-    .cumf__req { color: #c62828; margin-left: 2px; }
-    .cumf__input {
-      border: 1px solid #aaa; padding: 4px 8px; font-size: 13px;
-      font-family: Arial, sans-serif; width: 200px; outline: none;
-    }
-    .cumf__input:focus { border-color: #006fcf; }
-    .cumf__input--readonly { background: #f0f0f0; color: #888; cursor: not-allowed; }
-    .cumf__select {
-      border: 1px solid #aaa; padding: 4px 8px; font-size: 13px;
-      font-family: Arial, sans-serif; width: 200px; background: #fff; outline: none;
-    }
-    .cumf__select:focus { border-color: #006fcf; }
+    .cumf__row { padding: 6px 0; }
+
     .cumf__actions { display: flex; gap: 6px; padding: 10px 0 4px 152px; flex-wrap: wrap; }
-    .cumf__btn {
-      padding: 4px 14px; font-size: 13px; cursor: pointer;
-      font-family: Arial, sans-serif; border-radius: 2px;
-    }
     .cumf__btn--addnew, .cumf__btn--modify, .cumf__btn--save {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      color: #fff; border: 1px solid #005fba;
-    }
-    .cumf__btn--addnew:hover, .cumf__btn--modify:hover, .cumf__btn--save:hover {
-      background: linear-gradient(to bottom, #4a92cf, #0058a6);
-    }
-    .cumf__btn--active {
-      background: linear-gradient(to bottom, #1a4a8a, #003a7a) !important;
-      border-color: #002a6a !important;
+      --btn-color: #fff; --btn-radius: 2px; --btn-padding: 4px 14px; --btn-font-size: 13px;
+      --btn-border: 1px solid #005fba;
     }
     .cumf__btn--cancel {
-      background: linear-gradient(to bottom, #f5f5f5, #ddd);
-      color: #333; border: 1px solid #bbb;
+      --btn-bg: linear-gradient(to bottom, #f5f5f5, #ddd);
+      --btn-color: #333; --btn-border: 1px solid #bbb;
+      --btn-radius: 2px; --btn-padding: 4px 14px; --btn-font-size: 13px;
     }
   `],
 })
 export class AmexCurrencyMasterFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `currency-master-form-${++AmexCurrencyMasterFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `currency-master-form-${++AmexCurrencyMasterFormComponent._idCounter}`;
 
   @Input() currencyOptions: { name: string; code: string; shortName: string; decimals: string }[] = [
     { name: 'US DOLLAR',      code: '001', shortName: 'USD', decimals: '2' },
@@ -128,10 +129,17 @@ export class AmexCurrencyMasterFormComponent {
     { name: 'OMANI RIYAL',    code: '005', shortName: 'OMR', decimals: '3' },
   ];
 
+  readonly defaultGradient = 'linear-gradient(to bottom, #5ba3e0, #006fcf)';
+  readonly activeGradient = 'linear-gradient(to bottom, #1a4a8a, #003a7a)';
+
   form: CurrencyMasterData = { action: 'addNew', currencyCode: '', currencyName: '', shortName: '', noOfDecimals: '' };
 
   @Output() saveClick   = new EventEmitter<CurrencyMasterData>();
   @Output() cancelClick = new EventEmitter<void>();
+
+  get currencySelectOptions(): SelectOption[] {
+    return this.currencyOptions.map(c => ({ value: c.name, label: c.name }));
+  }
 
   setAction(action: 'addNew' | 'modify') {
     this.form.action = action;

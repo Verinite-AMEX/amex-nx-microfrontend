@@ -1,5 +1,7 @@
-import { Component, Input, ElementRef, ViewChildren, QueryList, AfterViewInit, HostBinding } from '@angular/core';
+import { Component, Input, ViewChildren, QueryList, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../atoms/button';
+import { IconComponent } from '../atoms/icon';
 
 export interface AccordionItem {
   id: string;
@@ -10,20 +12,22 @@ export interface AccordionItem {
 @Component({
   selector: 'ui-accordion',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, IconComponent],
   template: `
     <div class="accordion">
       <div *ngFor="let item of items; let i = index" class="accordion-item" [class.open]="isOpen(item.id)">
-        <button class="accordion-header" #headerBtn
-          id="{{item.id}}-header"
-          aria-controls="{{item.id}}-panel"
+        <ui-button class="accordion-header-btn"
+          variant="ghost"
+          [fullWidth]="true"
+          [label]="item.title"
+          [id]="item.id + '-header'"
+          [ariaControls]="item.id + '-panel'"
+          [ariaExpanded]="isOpen(item.id)"
           (click)="toggle(item.id)"
-          (keydown)="onKeydown($event, i)"
-          [attr.aria-expanded]="isOpen(item.id)">
-          <span>{{ item.title }}</span>
-          <span class="accordion-icon">{{ isOpen(item.id) ? '▲' : '▼' }}</span>
-        </button>
-        <div class="accordion-body" *ngIf="isOpen(item.id)" #panelRef id="{{item.id}}-panel" role="region" [attr.aria-labelledby]="item.id + '-header'">
+          (keydown)="onKeydown($event, i)">
+          <ui-icon slot="icon-end" [glyph]="isOpen(item.id) ? '▲' : '▼'" size="sm" [decorative]="true"></ui-icon>
+        </ui-button>
+        <div class="accordion-body" *ngIf="isOpen(item.id)" id="{{item.id}}-panel" role="region" [attr.aria-labelledby]="item.id + '-header'">
           <p>{{ item.content }}</p>
         </div>
       </div>
@@ -33,34 +37,30 @@ export interface AccordionItem {
     .accordion { font-family: Arial, sans-serif; border: 1px solid #e0e0e0; border-radius: 6px; overflow: hidden; }
     .accordion-item { border-bottom: 1px solid #e0e0e0; }
     .accordion-item:last-child { border-bottom: none; }
-    .accordion-header {
-      width: 100%; display: flex; justify-content: space-between; align-items: center;
-      padding: 14px 16px; background: #fff; border: none; cursor: pointer;
-      font-size: 14px; font-weight: 600; color: #333; text-align: left;
-      transition: background 0.15s;
+    .accordion-header-btn {
+      --btn-bg: #fff;
+      --btn-color: #333;
+      --btn-radius: 0;
+      --btn-padding: 14px 16px;
+      --btn-font-size: 14px;
     }
-    .accordion-header:hover { background: #f9f9f9; }
-    .accordion-item.open .accordion-header { background: #f5f9ff; color: #1976d2; }
-    .accordion-icon { font-size: 11px; color: #888; }
+    .accordion-item.open .accordion-header-btn {
+      --btn-bg: #f5f9ff;
+      --btn-color: #1976d2;
+    }
     .accordion-body { padding: 12px 16px 16px; font-size: 14px; color: #555; line-height: 1.6; background: #fff; }
   `],
 })
-export class AccordionComponent implements AfterViewInit {
+export class AccordionComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-accordion-${++AccordionComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-accordion-${++AccordionComponent._idCounter}`;
 
   @Input() items: AccordionItem[] = [];
   @Input() multiple = false;
 
   openIds = new Set<string>();
 
-  @ViewChildren('headerBtn', { read: ElementRef }) headerButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-  @ViewChildren('panelRef', { read: ElementRef }) panels!: QueryList<ElementRef<HTMLElement>>;
-
-  ngAfterViewInit() {
-    // ensure headers are focusable; nothing to init now but available for keyboard ops
-  }
+  @ViewChildren(ButtonComponent) headerButtons!: QueryList<ButtonComponent>;
 
   isOpen(id: string) { return this.openIds.has(id); }
 
@@ -70,16 +70,6 @@ export class AccordionComponent implements AfterViewInit {
     } else {
       if (!this.multiple) this.openIds.clear();
       this.openIds.add(id);
-      // after opening, move focus into first focusable element inside panel (if any)
-      setTimeout(() => {
-        const panel = document.getElementById(`${id}-panel`);
-        if (panel) {
-          const focusable = panel.querySelector<HTMLElement>(
-            'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), [tabindex]:not([tabindex="-1"])'
-          );
-          if (focusable) focusable.focus();
-        }
-      });
     }
   }
 
@@ -104,7 +94,6 @@ export class AccordionComponent implements AfterViewInit {
   }
 
   private focusHeader(idx: number) {
-    const btn = this.headerButtons?.toArray()[idx];
-    if (btn && btn.nativeElement) btn.nativeElement.focus();
+    this.headerButtons?.toArray()[idx]?.focus();
   }
 }

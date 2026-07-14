@@ -1,8 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
+import { ButtonComponent } from '../../atoms/button';
 
 export type AmexWearableType = 'ring' | 'bracelet' | 'band' | 'watch' | 'other';
+export type AmexWearableButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type AmexWearableButtonSize = 'sm' | 'md' | 'lg';
 
 export interface AmexWearable {
   id: string;
@@ -14,10 +17,18 @@ export interface AmexWearable {
   nfcEnabled: boolean;
 }
 
+const DEFAULT_TYPE_ICONS: Record<AmexWearableType, string> = {
+  ring: '💍',
+  bracelet: '⌚',
+  band: '🔗',
+  watch: '⌚',
+  other: '📟',
+};
+
 @Component({
   selector: 'amex-wearable-tile',
   standalone: true,
-  imports: [CommonModule, AmexStatusBadgeComponent],
+  imports: [CommonModule, AmexStatusBadgeComponent, ButtonComponent],
   template: `
     <div class="amex-wearable">
       <div class="amex-wearable__icon">{{ typeIcon }}</div>
@@ -32,8 +43,24 @@ export interface AmexWearable {
       <div class="amex-wearable__right">
         <amex-status-badge [status]="wearable.status"></amex-status-badge>
         <div class="amex-wearable__actions" *ngIf="showActions">
-          <button class="amex-wearable__action-btn" (click)="activate.emit(wearable)">Activate</button>
-          <button class="amex-wearable__action-btn amex-wearable__action-btn--danger" (click)="suspend.emit(wearable)">Suspend</button>
+          <ui-button
+            [id]="id + '-activate'"
+            [label]="activateLabel"
+            [variant]="activateVariant"
+            [size]="buttonSize"
+            [disabled]="disabled || wearable.status === activatedStatus"
+            [ariaLabel]="activateAriaLabel || (activateLabel + ' ' + wearable.deviceName)"
+            (click)="activate.emit(wearable)">
+          </ui-button>
+          <ui-button
+            [id]="id + '-suspend'"
+            [label]="suspendLabel"
+            [variant]="suspendVariant"
+            [size]="buttonSize"
+            [disabled]="disabled || wearable.status === suspendedStatus"
+            [ariaLabel]="suspendAriaLabel || (suspendLabel + ' ' + wearable.deviceName)"
+            (click)="suspend.emit(wearable)">
+          </ui-button>
         </div>
       </div>
     </div>
@@ -70,29 +97,42 @@ export interface AmexWearable {
     .amex-wearable__date { font-size: 11px; color: #aaa; }
     .amex-wearable__right { display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
     .amex-wearable__actions { display: flex; gap: 6px; }
-    .amex-wearable__action-btn {
-      padding: 4px 10px; border-radius: 4px; font-size: 12px;
-      border: 1px solid #d0d0d0; background: #fff; cursor: pointer;
-    }
-    .amex-wearable__action-btn:hover { background: #f5f5f5; }
-    .amex-wearable__action-btn--danger { color: #c62828; border-color: #f5c6c6; }
-    .amex-wearable__action-btn--danger:hover { background: #ffebee; }
   `],
 })
 export class AmexWearableTileComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `wearable-tile-${++AmexWearableTileComponent._idCounter}`;
 
+  @HostBinding('attr.id') @Input() id = `amex-wearable-tile-${++AmexWearableTileComponent._idCounter}`;
 
   @Input() wearable!: AmexWearable;
   @Input() showActions = false;
+  @Input() disabled = false;
+
+  /**
+   * Optional status value(s) that should disable the corresponding action (e.g. don't show
+   * "Activate" as clickable if already active). Left undefined by default — this component
+   * doesn't assume a specific status lifecycle; callers opt in with real AmexStatus values.
+   */
+  @Input() activatedStatus?: AmexStatus;
+  @Input() suspendedStatus?: AmexStatus;
+
+  /** Fully configurable action button copy, styling and a11y — nothing hardcoded. */
+  @Input() activateLabel = 'Activate';
+  @Input() suspendLabel = 'Suspend';
+  @Input() activateVariant: AmexWearableButtonVariant = 'ghost';
+  @Input() suspendVariant: AmexWearableButtonVariant = 'danger';
+  @Input() buttonSize: AmexWearableButtonSize = 'sm';
+  @Input() activateAriaLabel = '';
+  @Input() suspendAriaLabel = '';
+
+  /** Optional override/extension of the built-in type→icon glyph map, merged over the defaults. */
+  @Input() typeIcons: Partial<Record<AmexWearableType, string>> = {};
+
   @Output() activate = new EventEmitter<AmexWearable>();
   @Output() suspend = new EventEmitter<AmexWearable>();
 
   get typeIcon(): string {
-    const icons: Record<AmexWearableType, string> = {
-      ring: '💍', bracelet: '⌚', band: '🔗', watch: '⌚', other: '📟',
-    };
-    return icons[this.wearable?.type ?? 'other'];
+    const type = this.wearable?.type ?? 'other';
+    return this.typeIcons[type] ?? DEFAULT_TYPE_ICONS[type];
   }
 }

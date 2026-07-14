@@ -82,7 +82,7 @@ export type AmexStatus =
 })
 export class AmexStatusBadgeComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `status-badge-${++AmexStatusBadgeComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `status-badge-${++AmexStatusBadgeComponent._idCounter}`;
 
 
   @Input() status: AmexStatus = 'pending';

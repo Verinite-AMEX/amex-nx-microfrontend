@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * PageHeader
@@ -18,7 +19,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'amex-page-header',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <!-- ── ONLS: solid blue banner ─────────────────────────────── -->
     <div *ngIf="portalStyle === 'onls'" class="onls-header">
@@ -26,9 +27,9 @@ import { CommonModule } from '@angular/common';
         <span class="onls-header__title">{{ title }}</span>
         <span *ngIf="subtitle" class="onls-header__subtitle">{{ subtitle }}</span>
       </div>
-      <button *ngIf="ctaLabel" class="onls-header__cta" (click)="ctaClick.emit()">
-        {{ ctaLabel }}
-      </button>
+      <ui-button *ngIf="ctaLabel" [id]="id + '-cta'" class="onls-header__cta-wrap"
+        [label]="ctaLabel" size="sm" (click)="ctaClick.emit()">
+      </ui-button>
     </div>
 
     <!-- ── OMS: title + purple rule ────────────────────────────── -->
@@ -38,9 +39,9 @@ import { CommonModule } from '@angular/common';
           <div class="oms-header__title">{{ title }}</div>
           <div *ngIf="subtitle" class="oms-header__subtitle">{{ subtitle }}</div>
         </div>
-        <button *ngIf="ctaLabel" class="oms-header__cta" (click)="ctaClick.emit()">
-          {{ ctaLabel }}
-        </button>
+        <ui-button *ngIf="ctaLabel" [id]="id + '-cta'" class="oms-header__cta-wrap"
+          [label]="ctaLabel" size="sm" variant="ghost" (click)="ctaClick.emit()">
+        </ui-button>
       </div>
       <div class="oms-header__rule"></div>
     </div>
@@ -82,20 +83,13 @@ import { CommonModule } from '@angular/common';
       color: rgba(255,255,255,0.80);
       text-transform: none;
     }
-    .onls-header__cta {
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .onls-header__cta-wrap {
       flex-shrink: 0;
-      background: #fff;
-      color: #1c4f8c;
-      border: none;
-      padding: 5px 14px;
-      font-size: 13px;
-      font-weight: bold;
-      font-family: Arial, sans-serif;
-      border-radius: 2px;
-      cursor: pointer;
-      white-space: nowrap;
+      --btn-bg: #fff; --btn-color: #1c4f8c; --btn-radius: 2px;
+      --btn-padding: 5px 14px; --btn-font-size: 13px;
     }
-    .onls-header__cta:hover { background: #e8f0fb; }
+    .onls-header__cta-wrap:hover { --btn-bg: #e8f0fb; }
 
     /* ── OMS ───────────────────────────────────────────────────
        Unchanged from screenshots — dark navy title, 3px purple rule.
@@ -130,26 +124,19 @@ import { CommonModule } from '@angular/common';
       background: #7b1fa2;
       width: 100%;
     }
-    .oms-header__cta {
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .oms-header__cta-wrap {
       flex-shrink: 0;
-      background: transparent;
-      color: #006fcf;
-      border: 1px solid #006fcf;
-      padding: 4px 12px;
-      font-size: 13px;
-      font-family: Arial, sans-serif;
-      border-radius: 3px;
-      cursor: pointer;
-      white-space: nowrap;
       margin-top: 2px;
+      --btn-color: #006fcf; --btn-border: 1px solid #006fcf; --btn-radius: 3px;
+      --btn-padding: 4px 12px; --btn-font-size: 13px;
     }
-    .oms-header__cta:hover { background: #e3f0ff; }
+    .oms-header__cta-wrap:hover { --btn-bg: #e3f0ff; }
   `],
 })
 export class AmexPageHeaderComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `page-header-${++AmexPageHeaderComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `page-header-${++AmexPageHeaderComponent._idCounter}`;
 
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() title = '';

@@ -385,7 +385,7 @@ export interface AmexPortalLayoutConfig {
 })
 export class AmexPageComponent implements OnInit, OnChanges, OnDestroy {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `page-component-${++AmexPageComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `page-component-${++AmexPageComponent._idCounter}`;
 
 
 

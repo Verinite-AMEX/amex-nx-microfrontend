@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface MyDetailsFormData {
   name: string;
@@ -16,32 +19,36 @@ export interface MyDetailsFormData {
 @Component({
   selector: 'amex-edit-my-details-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="emdf">
       <div class="emdf__panel-header">{{ panelTitle }}</div>
       <div class="emdf__body">
-        <div class="emdf__field">
-          <label class="emdf__label" [for]="id + '-name'">Name <span class="emdf__req">*</span></label>
-          <input [id]="id + '-name'" class="emdf__input" [(ngModel)]="form.name" placeholder="Enter your name" />
-        </div>
-        <div class="emdf__field">
-          <label class="emdf__label" [for]="id + '-email'">Email <span class="emdf__req">*</span></label>
-          <input [id]="id + '-email'" class="emdf__input" [(ngModel)]="form.email" type="email" placeholder="Enter your email" />
-        </div>
-        <div class="emdf__field" *ngIf="showPhone">
-          <label class="emdf__label" [for]="id + '-phone'">Phone</label>
-          <input [id]="id + '-phone'" class="emdf__input" [(ngModel)]="form.phone" placeholder="Enter your phone number" />
-        </div>
+        <ui-form-field class="emdf__field" label="Name" [required]="true" [forId]="id + '-name'">
+          <ui-input [id]="id + '-name'" [required]="true" [(ngModel)]="form.name" placeholder="Enter your name"></ui-input>
+        </ui-form-field>
+        <ui-form-field class="emdf__field" label="Email" [required]="true" [forId]="id + '-email'">
+          <ui-input [id]="id + '-email'" type="email" [required]="true" [(ngModel)]="form.email" placeholder="Enter your email"></ui-input>
+        </ui-form-field>
+        <ui-form-field class="emdf__field" *ngIf="showPhone" label="Phone" [forId]="id + '-phone'">
+          <ui-input [id]="id + '-phone'" [(ngModel)]="form.phone" placeholder="Enter your phone number"></ui-input>
+        </ui-form-field>
         <div class="emdf__actions">
-          <button class="emdf__btn emdf__btn--cancel" (click)="cancelClick.emit()">Cancel</button>
-          <button class="emdf__btn emdf__btn--save" (click)="saveClick.emit(form)">Save Changes</button>
+          <ui-button class="emdf__btn emdf__btn--cancel" variant="secondary" label="Cancel" (click)="cancelClick.emit()"></ui-button>
+          <ui-button class="emdf__btn emdf__btn--save" variant="primary" label="Save Changes" (click)="saveClick.emit(form)"></ui-button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --input-border: 1px solid #aaa;
+      --input-radius: 0px;
+      --input-padding: 6px 10px;
+      --input-focus-border-color: #006fcf;
+    }
     .emdf__panel-header {
       background: #b8d8f0; padding: 8px 14px;
       font-size: 13px; font-weight: bold; color: #1a3a6b;
@@ -52,33 +59,22 @@ export interface MyDetailsFormData {
       padding: 16px 20px; max-width: 480px;
     }
     .emdf__field { margin-bottom: 14px; }
-    .emdf__label { display: block; font-size: 13px; color: #333; margin-bottom: 5px; font-weight: bold; }
-    .emdf__req { color: #c62828; }
-    .emdf__input {
-      width: 100%; box-sizing: border-box; border: 1px solid #aaa;
-      padding: 6px 10px; font-size: 13px; font-family: Arial, sans-serif; outline: none;
-    }
-    .emdf__input:focus { border-color: #006fcf; }
     .emdf__actions { display: flex; gap: 10px; margin-top: 16px; }
-    .emdf__btn {
-      padding: 6px 20px; font-size: 13px; cursor: pointer;
-      border-radius: 2px; font-family: Arial, sans-serif;
-    }
     .emdf__btn--cancel {
-      background: linear-gradient(to bottom, #f5f5f5, #ddd);
-      border: 1px solid #bbb; color: #333;
+      --btn-bg: linear-gradient(to bottom, #f5f5f5, #ddd);
+      --btn-color: #333; --btn-border: 1px solid #bbb;
+      --btn-radius: 2px; --btn-padding: 6px 20px; --btn-font-size: 13px;
     }
     .emdf__btn--save {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      border: 1px solid #005fba; color: #fff;
+      --btn-bg: linear-gradient(to bottom, #5ba3e0, #006fcf);
+      --btn-color: #fff; --btn-border: 1px solid #005fba;
+      --btn-radius: 2px; --btn-padding: 6px 20px; --btn-font-size: 13px;
     }
-    .emdf__btn--save:hover { background: linear-gradient(to bottom, #4a92cf, #0058a6); }
   `],
 })
 export class AmexEditMyDetailsFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `edit-my-details-form-${++AmexEditMyDetailsFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `edit-my-details-form-${++AmexEditMyDetailsFormComponent._idCounter}`;
 
   @Input() panelTitle = 'Edit My Details';
   @Input() showPhone = true;

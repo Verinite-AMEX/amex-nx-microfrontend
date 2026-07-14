@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface RegisterData {
   firstName: string;
@@ -14,7 +17,7 @@ export interface RegisterData {
 @Component({
   selector: 'amex-register-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="amex-shell">
       <div class="top-bar">
@@ -44,34 +47,28 @@ export interface RegisterData {
 
             <p class="required-note">* All fields are required</p>
 
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-first-name'">First Name <span class="req">*</span></label>
-              <input [id]="id + '-first-name'" type="text" class="field-input" [(ngModel)]="data.firstName" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-last-name'">Last Name <span class="req">*</span></label>
-              <input [id]="id + '-last-name'" type="text" class="field-input" [(ngModel)]="data.lastName" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-email-address'">Email Address <span class="req">*</span></label>
-              <input [id]="id + '-email-address'" type="email" class="field-input" [(ngModel)]="data.email" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-password'">Password <span class="req">*</span></label>
-              <input [id]="id + '-password'" type="password" class="field-input" [(ngModel)]="data.password" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-confirm-password'">Confirm Password <span class="req">*</span></label>
-              <input [id]="id + '-confirm-password'" type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-business-name'">Business Name <span class="req">*</span></label>
-              <input [id]="id + '-business-name'" type="text" class="field-input" [(ngModel)]="data.businessName" />
-            </div>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="First Name" [required]="true" [forId]="id + '-first-name'">
+              <ui-input class="field-input" [id]="id + '-first-name'" type="text" [required]="true" [(ngModel)]="data.firstName"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="Last Name" [required]="true" [forId]="id + '-last-name'">
+              <ui-input class="field-input" [id]="id + '-last-name'" type="text" [required]="true" [(ngModel)]="data.lastName"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="Email Address" [required]="true" [forId]="id + '-email-address'">
+              <ui-input class="field-input" [id]="id + '-email-address'" type="email" [required]="true" [(ngModel)]="data.email"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="Password" [required]="true" [forId]="id + '-password'">
+              <ui-input class="field-input" [id]="id + '-password'" type="password" [required]="true" [(ngModel)]="data.password"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="Confirm Password" [required]="true" [forId]="id + '-confirm-password'">
+              <ui-input class="field-input" [id]="id + '-confirm-password'" type="password" [required]="true" [(ngModel)]="data.confirmPassword"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="150px" label="Business Name" [required]="true" [forId]="id + '-business-name'">
+              <ui-input class="field-input" [id]="id + '-business-name'" type="text" [required]="true" [(ngModel)]="data.businessName"></ui-input>
+            </ui-form-field>
 
             <div class="btn-row">
-              <button class="btn-back" (click)="cancel.emit()">Back</button>
-              <button class="btn-submit" (click)="onSubmit()">Submit</button>
+              <ui-button class="btn-back" variant="primary" label="Back" (click)="cancel.emit()"></ui-button>
+              <ui-button class="btn-submit" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
             </div>
           </div>
 
@@ -106,22 +103,24 @@ export interface RegisterData {
     .error-box { background: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; }
     .success-box { background: #dff0d8; border: 1px solid #c3e6cb; color: #3c763d; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; }
 
-    .panel { background: #fff; padding: 20px 24px; border-radius: 2px; max-width: 520px; }
+    .panel {
+      background: #fff; padding: 20px 24px; border-radius: 2px; max-width: 520px;
+      --input-border: 1px solid #bbb;
+      --input-padding: 2px 6px;
+      --input-radius: 2px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: 0 0 0 1px #006fcf;
+    }
     .panel-title { font-size: 16px; font-weight: bold; color: #222; letter-spacing: 0.5px; }
     .panel-accent { height: 3px; background: #7b1fa2; margin: 8px 0 16px 0; }
     .required-note { font-size: 11px; color: #555; margin: 0 0 12px 0; }
 
-    .field-row { display: flex; align-items: center; margin-bottom: 10px; }
-    .field-label { width: 150px; text-align: right; padding-right: 12px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .req { color: #cc0000; }
-    .field-input { flex: 1; max-width: 260px; height: 28px; border: 1px solid #bbb; padding: 2px 6px; font-size: 12px; border-radius: 2px; }
-    .field-input:focus { outline: none; border-color: #006fcf; box-shadow: 0 0 0 1px #006fcf; }
+    .field-row { margin-bottom: 10px; }
+    .field-input { width: 260px; height: 28px; font-size: 12px; }
 
     .btn-row { display: flex; gap: 12px; margin-top: 20px; }
-    .btn-back { background: #1e3a5f; color: #fff; border: none; padding: 7px 24px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
-    .btn-back:hover { background: #0e2a4f; }
-    .btn-submit { background: #7b1fa2; color: #fff; border: none; padding: 7px 24px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
-    .btn-submit:hover { background: #6a0f91; }
+    .btn-back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 24px; --btn-font-size: 12px; }
+    .btn-submit { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 24px; --btn-font-size: 12px; }
 
     .footer-links { background: #f5f5f5; border-top: 1px solid #ddd; padding: 5px 10px; font-size: 10px; color: #666; display: flex; align-items: center; flex-wrap: wrap; gap: 4px; }
     .footer-link { color: #006fcf; cursor: pointer; }
@@ -130,8 +129,7 @@ export interface RegisterData {
 })
 export class AmexRegisterFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `register-form-${++AmexRegisterFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `register-form-${++AmexRegisterFormComponent._idCounter}`;
 
   @Input() portalTitle = '';
   @Input() errorMessage = '';

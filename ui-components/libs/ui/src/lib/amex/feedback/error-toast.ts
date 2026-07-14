@@ -1,11 +1,13 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
+import { IconButtonComponent } from '../../atoms/icon-button';
 import { AmexPortalStyle } from './success-toast';
 
 @Component({
   selector: 'amex-error-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, IconButtonComponent],
   template: `
     <ng-container *ngIf="visible">
 
@@ -13,16 +15,28 @@ import { AmexPortalStyle } from './success-toast';
       <div *ngIf="portalStyle === 'onls'" class="onls-error" role="alert">
         <span class="onls-error__icon">✕</span>
         <span class="onls-error__msg">{{ message }}</span>
-        <button *ngIf="showRetry" class="onls-error__retry" (click)="retry.emit()">Try Again</button>
-        <button *ngIf="dismissible" class="onls-error__close" (click)="dismiss()">×</button>
+        <ui-button *ngIf="showRetry" class="onls-error__retry-wrap"
+          label="Try Again" size="sm" variant="ghost"
+          (click)="retry.emit()">
+        </ui-button>
+        <ui-icon-button *ngIf="dismissible" class="onls-error__close-wrap"
+          icon="✕" size="sm" variant="ghost" ariaLabel="Dismiss"
+          (clicked)="dismiss()">
+        </ui-icon-button>
       </div>
 
       <!-- OMS/BCRB style: red text banner (matches BCRB "NO RESPONSE FROM BACKEND" red text) -->
       <div *ngIf="portalStyle === 'oms'" class="oms-error" role="alert">
         <span class="oms-error__icon">!</span>
         <span class="oms-error__msg">{{ message }}</span>
-        <button *ngIf="showRetry" class="oms-error__retry" (click)="retry.emit()">Retry</button>
-        <button *ngIf="dismissible" class="oms-error__close" (click)="dismiss()">×</button>
+        <ui-button *ngIf="showRetry" class="oms-error__retry-wrap"
+          label="Retry" size="sm" variant="ghost"
+          (click)="retry.emit()">
+        </ui-button>
+        <ui-icon-button *ngIf="dismissible" class="oms-error__close-wrap"
+          icon="✕" size="sm" variant="ghost" ariaLabel="Dismiss"
+          (clicked)="dismiss()">
+        </ui-icon-button>
       </div>
 
     </ng-container>
@@ -50,17 +64,16 @@ import { AmexPortalStyle } from './success-toast';
       font-weight: bold; flex-shrink: 0;
     }
     .onls-error__msg { flex: 1; }
-    .onls-error__retry {
-      background: none; border: 1px solid #c0392b; border-radius: 2px;
-      color: #c0392b; font-size: 12px; padding: 2px 8px; cursor: pointer;
-      white-space: nowrap; font-family: Arial, sans-serif;
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .onls-error__retry-wrap {
+      --btn-color: #c0392b; --btn-border: 1px solid #c0392b; --btn-bg: transparent;
+      --btn-radius: 2px; --btn-padding: 2px 8px; --btn-font-size: 12px;
     }
-    .onls-error__retry:hover { background: #c0392b; color: #fff; }
-    .onls-error__close {
-      background: none; border: none; font-size: 16px;
-      color: #c0392b; cursor: pointer; padding: 0; opacity: 0.7; flex-shrink: 0;
+    .onls-error__retry-wrap:hover { --btn-bg: #c0392b; --btn-color: #fff; }
+    /* Themed via ui-icon-button's exposed CSS custom properties — no ::ng-deep. */
+    .onls-error__close-wrap {
+      --icon-btn-color: #c0392b; --icon-btn-bg: transparent; --icon-btn-size: 20px;
     }
-    .onls-error__close:hover { opacity: 1; }
 
     /* OMS/BCRB: solid red banner matching BCRB "NO RESPONSE FROM BACKEND" status */
     .oms-error {
@@ -81,23 +94,21 @@ import { AmexPortalStyle } from './success-toast';
       font-size: 11px; font-weight: bold; flex-shrink: 0;
     }
     .oms-error__msg { flex: 1; }
-    .oms-error__retry {
-      background: #fff; border: none; border-radius: 2px;
-      color: #c62828; font-size: 12px; padding: 3px 10px; cursor: pointer;
-      font-family: Arial, sans-serif; white-space: nowrap;
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .oms-error__retry-wrap {
+      --btn-bg: #fff; --btn-color: #c62828; --btn-border: none;
+      --btn-radius: 2px; --btn-padding: 3px 10px; --btn-font-size: 12px;
     }
-    .oms-error__retry:hover { background: #fce4e4; }
-    .oms-error__close {
-      background: none; border: none; font-size: 18px;
-      color: #fff; cursor: pointer; padding: 0; opacity: 0.8;
+    .oms-error__retry-wrap:hover { --btn-bg: #fce4e4; }
+    /* Themed via ui-icon-button's exposed CSS custom properties — no ::ng-deep. */
+    .oms-error__close-wrap {
+      --icon-btn-color: #fff; --icon-btn-bg: transparent; --icon-btn-size: 20px;
     }
-    .oms-error__close:hover { opacity: 1; }
   `],
 })
 export class AmexErrorToastComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `error-toast-${++AmexErrorToastComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `error-toast-${++AmexErrorToastComponent._idCounter}`;
 
   @Input() message = 'An error occurred. Please try again.';
   @Input() portalStyle: AmexPortalStyle = 'onls';

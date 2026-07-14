@@ -1,97 +1,75 @@
-import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
+import { ButtonComponent } from '../../atoms/button';
+import { RadioComponent } from '../../atoms/radio';
 
 export interface MasterDataRow {
   code: string;
   name: string;
 }
 
-/**
- * MasterDataTable
- * SOC/ROC Country Master / Currency Master list.
- * Radio per row, Add New + Modify buttons above.
- * Source: SOC/ROC (image7/image8) — ONLS portal style, bordered cells
- */
 @Component({
   selector: 'amex-master-data-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent, ButtonComponent, RadioComponent,
+  ],
   template: `
     <div class="mdt">
-      <!-- Add New / Modify buttons — exact match to SOC/ROC screenshots -->
       <div class="mdt__toolbar">
-        <button class="mdt__btn mdt__btn--add"    (click)="addNew.emit()">Add New</button>
-        <button class="mdt__btn mdt__btn--modify" (click)="modify.emit(selectedRow)"
-          [disabled]="!selectedRow">Modify</button>
+        <ui-button class="mdt__btn mdt__btn--add" label="Add New" [size]="'sm'" (click)="addNew.emit()"></ui-button>
+        <ui-button class="mdt__btn mdt__btn--modify" label="Modify" [size]="'sm'"
+          [disabled]="!selectedRow" (click)="modify.emit(selectedRow)"></ui-button>
       </div>
 
-      <table class="mdt__table">
-        <thead>
-          <tr class="mdt__head-row">
-            <th class="mdt__th mdt__th--radio" scope="col"></th>
-            <th class="mdt__th" scope="col">{{ nameLabel }}</th>
-            <th class="mdt__th" scope="col">{{ codeLabel }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows"
-            class="mdt__row"
-            [class.mdt__row--selected]="selectedRow?.code === row.code"
-            (click)="selectedRow = row; rowSelect.emit(row)">
-            <td class="mdt__td mdt__td--radio">
-              <input type="radio" name="masterSelect"
+      <ui-table class="mdt__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell class="mdt__th--radio"></ui-table-header-cell>
+            <ui-table-header-cell>{{ nameLabel }}</ui-table-header-cell>
+            <ui-table-header-cell>{{ codeLabel }}</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows"
+            [hoverable]="true"
+            [selected]="selectedRow?.code === row.code"
+            [clickable]="true"
+            (rowClick)="selectedRow = row; rowSelect.emit(row)">
+            <ui-table-cell class="mdt__td--radio">
+              <ui-radio name="masterSelect" [value]="row.code"
                 [checked]="selectedRow?.code === row.code"
-                (change)="selectedRow = row; rowSelect.emit(row)" />
-            </td>
-            <td class="mdt__td">{{ row.name }}</td>
-            <td class="mdt__td">{{ row.code }}</td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="3" class="mdt__empty">No records found.</td>
-          </tr>
-        </tbody>
-      </table>
+                (checkedChange)="selectedRow = row; rowSelect.emit(row)">
+              </ui-radio>
+            </ui-table-cell>
+            <ui-table-cell>{{ row.name }}</ui-table-cell>
+            <ui-table-cell>{{ row.code }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="3" [align]="'center'" class="mdt__empty">No records found.</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .mdt__toolbar { display: flex; gap: 8px; margin-bottom: 8px; }
-    .mdt__btn {
-      padding: 4px 16px; font-size: 13px; cursor: pointer;
-      font-family: Arial, sans-serif; border-radius: 2px;
-    }
-    .mdt__btn--add {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      color: #fff; border: 1px solid #005fba;
-    }
-    .mdt__btn--add:hover { background: linear-gradient(to bottom, #4a92cf, #0058a6); }
-    .mdt__btn--modify {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      color: #fff; border: 1px solid #005fba;
-    }
-    .mdt__btn--modify:hover { background: linear-gradient(to bottom, #4a92cf, #0058a6); }
-    .mdt__btn--modify[disabled] { opacity: 0.4; cursor: default; }
-
-    .mdt__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .mdt__head-row { background: #f0f0f0; }
-    .mdt__th {
-      padding: 6px 10px; text-align: left; font-size: 12px;
-      font-weight: bold; color: #333; border: 1px solid #ccc;
-    }
     .mdt__th--radio { width: 36px; }
-    .mdt__row { background: #fff; cursor: pointer; }
-    .mdt__row:hover { background: #eef6ff; }
-    .mdt__row--selected { background: #d8eaf8; }
-    .mdt__td { padding: 5px 10px; border: 1px solid #ddd; font-size: 13px; color: #333; }
     .mdt__td--radio { text-align: center; }
-    .mdt__empty { text-align: center; padding: 20px; color: #888; border: 1px solid #ddd; }
+    .mdt__empty { text-align: center; color: #888; padding: 20px 0; }
   `],
 })
 export class AmexMasterDataTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `master-data-table-${++AmexMasterDataTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `master-data-table-${++AmexMasterDataTableComponent._idCounter}`;
 
   @Input() rows: MasterDataRow[] = [];
   @Input() nameLabel = 'Name';

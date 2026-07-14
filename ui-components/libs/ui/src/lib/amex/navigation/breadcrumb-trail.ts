@@ -51,7 +51,7 @@ export interface AmexBreadcrumbItem { id: string; label: string; }
 })
 export class AmexBreadcrumbTrailComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `breadcrumb-trail-${++AmexBreadcrumbTrailComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `breadcrumb-trail-${++AmexBreadcrumbTrailComponent._idCounter}`;
 
 
   @Input() items: AmexBreadcrumbItem[] = [];

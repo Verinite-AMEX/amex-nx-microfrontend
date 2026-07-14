@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface ContactRow {
   name: string;
@@ -21,53 +25,71 @@ export interface ContactRow {
 @Component({
   selector: 'amex-contact-information-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, InputComponent, SelectComponent, ButtonComponent],
   template: `
-    <div class="cif">
-      <!-- Section header with purple accent — matches image20 exactly -->
-      <div class="cif__section-header">{{ sectionTitle }}</div>
-      <div class="cif__accent"></div>
-
-      <div class="cif__panel">
-        <!-- Contact rows — each has Name, Job Title, then Email/Country/Landline/Mobile -->
-        <div *ngFor="let contact of contacts; let i = index" class="cif__contact-row">
-          <input class="cif__input cif__input--full" [(ngModel)]="contact.name"
-            [placeholder]="'Name'" />
-          <input class="cif__input cif__input--full" [(ngModel)]="contact.jobTitle"
-            [placeholder]="'Job Title'" style="margin-top:6px" />
-          <div class="cif__contact-bottom">
-            <input class="cif__input cif__input--email" [(ngModel)]="contact.email"
-              [placeholder]="'Email ' + (i + 1)" />
-            <select class="cif__select cif__select--country" [(ngModel)]="contact.countryCode">
-              <option value="">--</option>
-              <option *ngFor="let c of countryCodes" [value]="c.value">{{ c.label }}</option>
-            </select>
-            <input class="cif__input cif__input--phone" [(ngModel)]="contact.landline" placeholder="Landline" />
-            <input class="cif__input cif__input--phone" [(ngModel)]="contact.mobile" placeholder="Mobile" />
-          </div>
-        </div>
-
-        <!-- Action buttons — navy Back + purple Save matching screenshot -->
-        <div class="cif__actions">
-          <button class="cif__btn cif__btn--back" (click)="backClick.emit()">{{ backLabel }}</button>
-          <button class="cif__btn cif__btn--save" (click)="saveClick.emit(contacts)">{{ saveLabel }}</button>
+    <ui-panel [title]="sectionTitle">
+      <!-- Contact rows — each has Name, Job Title, then Email/Country/Landline/Mobile -->
+      <div *ngFor="let contact of contacts; let i = index" class="cif__contact-row">
+        <ui-input class="cif__input cif__input--full"
+          [id]="id + '-contact-' + i + '-name'"
+          [(ngModel)]="contact.name"
+          ariaLabel="Name"
+          placeholder="Name">
+        </ui-input>
+        <ui-input class="cif__input cif__input--full" style="margin-top:6px"
+          [id]="id + '-contact-' + i + '-job-title'"
+          [(ngModel)]="contact.jobTitle"
+          ariaLabel="Job Title"
+          placeholder="Job Title">
+        </ui-input>
+        <div class="cif__contact-bottom">
+          <ui-input class="cif__input cif__input--email"
+            [id]="id + '-contact-' + i + '-email'"
+            [(ngModel)]="contact.email"
+            [ariaLabel]="'Email ' + (i + 1)"
+            [placeholder]="'Email ' + (i + 1)">
+          </ui-input>
+          <ui-select class="cif__select cif__select--country"
+            [id]="id + '-contact-' + i + '-country-code'"
+            [options]="countrySelectOptions"
+            placeholder="--"
+            ariaLabel="Country code"
+            [(ngModel)]="contact.countryCode">
+          </ui-select>
+          <ui-input class="cif__input cif__input--phone"
+            [id]="id + '-contact-' + i + '-landline'"
+            [(ngModel)]="contact.landline"
+            ariaLabel="Landline"
+            placeholder="Landline">
+          </ui-input>
+          <ui-input class="cif__input cif__input--phone"
+            [id]="id + '-contact-' + i + '-mobile'"
+            [(ngModel)]="contact.mobile"
+            ariaLabel="Mobile"
+            placeholder="Mobile">
+          </ui-input>
         </div>
       </div>
-    </div>
+
+      <!-- Action buttons — navy Back + purple Save matching screenshot -->
+      <div class="cif__actions">
+        <ui-button class="cif__btn cif__btn--back" variant="primary" [label]="backLabel" (click)="backClick.emit()"></ui-button>
+        <ui-button class="cif__btn cif__btn--save" variant="primary" [label]="saveLabel" (click)="saveClick.emit(contacts)"></ui-button>
+      </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-
-    /* Section header + purple accent — matches OMS image20 */
-    .cif__section-header {
-      font-size: 14px; font-weight: bold; color: #1a3a6b;
-      padding: 0 0 6px; text-transform: uppercase;
-    }
-    .cif__accent { height: 3px; background: #7b1fa2; margin-bottom: 12px; }
-
-    .cif__panel {
-      background: #fff; border: 1px solid #e0e0e0;
-      border-radius: 3px; padding: 16px 20px;
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-title-size: 14px;
+      --panel-title-transform: uppercase;
+      --panel-accent-color: #7b1fa2;
+      --panel-padding: 16px 20px;
+      --input-border: 1px solid #ccc;
+      --input-radius: 3px;
+      --input-padding: 7px 10px;
+      --input-focus-border-color: #7b1fa2;
     }
 
     /* Each contact block — matches image20 structure */
@@ -78,46 +100,32 @@ export interface ContactRow {
     }
     .cif__contact-row:last-of-type { border-bottom: none; }
 
-    .cif__input {
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 7px 10px; font-size: 13px;
-      font-family: Arial, sans-serif; color: #333; outline: none;
-      box-sizing: border-box;
-    }
-    .cif__input:focus { border-color: #7b1fa2; }
     .cif__input--full { width: 100%; display: block; }
     .cif__input--email { flex: 2; min-width: 0; }
     .cif__input--phone { flex: 1.2; min-width: 0; }
 
     .cif__contact-bottom {
       display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap;
+      align-items: flex-start;
     }
 
-    .cif__select {
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 7px 6px; font-size: 13px;
-      font-family: Arial, sans-serif; background: #fff; outline: none;
-    }
     .cif__select--country { flex: 1; min-width: 100px; }
-    .cif__select:focus { border-color: #7b1fa2; }
 
     /* Buttons — navy Back + purple Save */
     .cif__actions { display: flex; justify-content: flex-end; gap: 12px; margin-top: 16px; }
-    .cif__btn {
-      padding: 9px 28px; font-size: 14px; font-weight: bold;
-      border: none; border-radius: 3px; cursor: pointer;
-      font-family: Arial, sans-serif;
+    .cif__btn--back {
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 9px 28px; --btn-font-size: 14px;
     }
-    .cif__btn--back   { background: #1e3a5f; color: #fff; }
-    .cif__btn--back:hover { background: #16304f; }
-    .cif__btn--save   { background: #7b1fa2; color: #fff; }
-    .cif__btn--save:hover { background: #6a1b9a; }
+    .cif__btn--save {
+      --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 9px 28px; --btn-font-size: 14px;
+    }
   `],
 })
 export class AmexContactInformationFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `contact-information-form-${++AmexContactInformationFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `contact-information-form-${++AmexContactInformationFormComponent._idCounter}`;
 
   @Input() sectionTitle = 'Operations';
   @Input() backLabel = 'Back';
@@ -137,4 +145,8 @@ export class AmexContactInformationFormComponent {
   ];
   @Output() saveClick = new EventEmitter<ContactRow[]>();
   @Output() backClick = new EventEmitter<void>();
+
+  get countrySelectOptions(): SelectOption[] {
+    return this.countryCodes.map(c => ({ value: c.value, label: c.label }));
+  }
 }

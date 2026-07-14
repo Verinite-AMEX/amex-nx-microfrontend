@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AmexPortalTile {
   id: string;
@@ -37,14 +38,16 @@ export interface AmexPortalTile {
 @Component({
   selector: 'amex-portal-home-tiles',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div class="portal-shell">
 
       <!-- ── Top strip: Global Sites | Log Out ──────────────── -->
       <div class="portal-strip">
         <span class="portal-strip__global">Global Sites</span>
-        <button class="portal-strip__logout" (click)="logout.emit()">Log Out</button>
+        <ui-button [id]="id + '-logout'" class="portal-strip__logout-wrap"
+          label="Log Out" size="sm" variant="ghost" (click)="logout.emit()">
+        </ui-button>
       </div>
 
       <!-- ── Header: AMEX logo + portal title ───────────────── -->
@@ -127,17 +130,12 @@ export interface AmexPortalTile {
       text-decoration: underline;
       cursor: pointer;
     }
-    .portal-strip__logout {
-      background: #f0f0f0;
-      border: 1px solid #bbb;
-      color: #333;
-      font-size: 11px;
-      font-family: Arial, sans-serif;
-      padding: 1px 10px;
-      cursor: pointer;
-      border-radius: 1px;
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .portal-strip__logout-wrap {
+      --btn-bg: #f0f0f0; --btn-border: 1px solid #bbb; --btn-color: #333;
+      --btn-radius: 1px; --btn-padding: 1px 10px; --btn-font-size: 11px;
     }
-    .portal-strip__logout:hover { background: #e0e0e0; }
+    .portal-strip__logout-wrap:hover { --btn-bg: #e0e0e0; }
 
     /* ── Header ─────────────────────────────────────────────────
        FIXED: title now plain bold black (was implied blue).
@@ -299,8 +297,7 @@ export interface AmexPortalTile {
 })
 export class AmexPortalHomeTilesComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `portal-home-tiles-${++AmexPortalHomeTilesComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `portal-home-tiles-${++AmexPortalHomeTilesComponent._idCounter}`;
 
   @Input() portalTitle = 'ONLS Helper Tool';
 

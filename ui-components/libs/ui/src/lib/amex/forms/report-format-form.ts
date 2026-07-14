@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { RadioGroupComponent } from '../../atoms/radio-group';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface ReportFormatData {
   receiveByEmail: boolean;
@@ -18,116 +23,90 @@ export interface ReportFormatData {
 @Component({
   selector: 'amex-report-format-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, CheckboxComponent, RadioGroupComponent, InputComponent, ButtonComponent],
   template: `
-    <div class="rff">
-      <div class="rff__title">Select your report formats</div>
-      <div class="rff__accent"></div>
+    <ui-panel title="Select your report formats" variant="accent">
+      <!-- Email checkbox -->
+      <div class="rff__email-check">
+        <ui-checkbox [id]="id + '-email'" [(ngModel)]="form.receiveByEmail"
+          label="I would like to receive payment details by email."></ui-checkbox>
+      </div>
 
-      <div class="rff__panel">
-        <!-- Email checkbox -->
-        <div class="rff__email-check">
-          <input type="checkbox" [id]="id + '-email'" [(ngModel)]="form.receiveByEmail" />
-          <label [for]="id + '-email'" class="rff__check-label">
-            I would like to receive payment details by email.
-          </label>
+      <!-- Settlement Advice radios -->
+      <div class="rff__group">
+        <ui-radio-group name="settle" legend="Settlement Advice:" [options]="settlementOptions" [(ngModel)]="form.settlementAdviceFormat"></ui-radio-group>
+      </div>
+
+      <!-- Submission Details radios -->
+      <div class="rff__group">
+        <ui-radio-group name="submit" legend="Submission Details:" [options]="submissionOptions" [(ngModel)]="form.submissionDetailsFormat"></ui-radio-group>
+      </div>
+
+      <!-- Submit button -->
+      <div class="rff__submit-row">
+        <ui-button class="rff__btn rff__btn--submit" variant="primary" label="Submit" (click)="submitClick.emit(form)"></ui-button>
+      </div>
+
+      <div class="rff__divider"></div>
+
+      <!-- Add Email section -->
+      <div class="rff__email-section">
+        <label class="rff__email-label" [for]="id + '-new-email'">Add Email Address:</label>
+        <div class="rff__email-row">
+          <ui-input [id]="id + '-new-email'" class="rff__email-input" [(ngModel)]="newEmail"></ui-input>
+          <ui-button class="rff__btn rff__btn--add" variant="secondary" label="Add" (click)="addEmail()"></ui-button>
         </div>
-
-        <!-- Settlement Advice radios -->
-        <div class="rff__group">
-          <div class="rff__group-title">Settlement Advice:</div>
-          <label *ngFor="let opt of settlementOptions" class="rff__radio-row">
-            <input type="radio" [name]="'settle'" [value]="opt.value"
-              [(ngModel)]="form.settlementAdviceFormat" />
-            <span class="rff__radio-label">{{ opt.label }}</span>
-          </label>
+        <div class="rff__email-note">
+          Email address(es) registered for receiving payment details via email are
         </div>
-
-        <!-- Submission Details radios -->
-        <div class="rff__group">
-          <div class="rff__group-title">Submission Details:</div>
-          <label *ngFor="let opt of submissionOptions" class="rff__radio-row">
-            <input type="radio" [name]="'submit'" [value]="opt.value"
-              [(ngModel)]="form.submissionDetailsFormat" />
-            <span class="rff__radio-label">{{ opt.label }}</span>
-          </label>
-        </div>
-
-        <!-- Submit button -->
-        <div class="rff__submit-row">
-          <button class="rff__btn rff__btn--submit" (click)="submitClick.emit(form)">Submit</button>
-        </div>
-
-        <div class="rff__divider"></div>
-
-        <!-- Add Email section -->
-        <div class="rff__email-section">
-          <label class="rff__email-label" [for]="id + '-new-email'">Add Email Address:</label>
-          <div class="rff__email-row">
-            <input [id]="id + '-new-email'" class="rff__email-input" [(ngModel)]="newEmail" placeholder="" />
-            <button class="rff__btn rff__btn--add" (click)="addEmail()">Add</button>
+        <div class="rff__email-list">
+          <div *ngFor="let e of form.emailAddresses; let i = index" class="rff__email-item">
+            <span>{{ e }}</span>
+            <span class="rff__email-remove" (click)="removeEmail(i)">×</span>
           </div>
-          <div class="rff__email-note">
-            Email address(es) registered for receiving payment details via email are
-          </div>
-          <div class="rff__email-list">
-            <div *ngFor="let e of form.emailAddresses; let i = index" class="rff__email-item">
-              <span>{{ e }}</span>
-              <span class="rff__email-remove" (click)="removeEmail(i)">×</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Back button -->
-        <div class="rff__back-row">
-          <button class="rff__btn rff__btn--back" (click)="backClick.emit()">Back</button>
         </div>
       </div>
-    </div>
+
+      <!-- Back button -->
+      <div class="rff__back-row">
+        <ui-button class="rff__btn rff__btn--back" variant="primary" label="Back" (click)="backClick.emit()"></ui-button>
+      </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-    .rff__title { font-size: 15px; font-weight: bold; color: #1a3a6b; padding: 0 0 6px; }
-    .rff__accent { height: 3px; background: #7b1fa2; margin-bottom: 14px; }
-    .rff__panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 3px; padding: 18px 22px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-title-size: 15px;
+      --panel-padding: 18px 22px;
+      --input-border: 1px solid #ccc;
+      --input-padding: 6px 10px;
+      --input-focus-border-color: #7b1fa2;
+    }
 
-    .rff__email-check { display: flex; align-items: center; gap: 8px; margin-bottom: 18px; }
-    .rff__check-label { font-size: 13px; color: #333; cursor: pointer; }
-
+    .rff__email-check { margin-bottom: 18px; }
     .rff__group { margin-bottom: 18px; }
-    .rff__group-title { font-size: 14px; font-weight: bold; color: #1a3a6b; margin-bottom: 8px; }
-    .rff__radio-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; cursor: pointer; }
-    .rff__radio-label { font-size: 13px; color: #333; }
-
     .rff__submit-row { display: flex; justify-content: flex-end; margin-bottom: 14px; }
     .rff__divider { height: 3px; background: #7b1fa2; margin-bottom: 14px; }
 
     .rff__email-section { border: 1px solid #e0e0e0; padding: 14px 16px; margin-bottom: 14px; }
-    .rff__email-label { font-size: 12px; color: #555; margin-bottom: 8px; }
-    .rff__email-row { display: flex; gap: 8px; margin-bottom: 8px; }
-    .rff__email-input {
-      flex: 1; border: 1px solid #ccc; padding: 6px 10px;
-      font-size: 13px; font-family: Arial, sans-serif; outline: none;
-    }
-    .rff__email-input:focus { border-color: #7b1fa2; }
+    .rff__email-label { display: block; font-size: 12px; color: #555; margin-bottom: 8px; }
+    .rff__email-row { display: flex; gap: 8px; margin-bottom: 8px; align-items: flex-start; }
+    .rff__email-input { flex: 1; }
     .rff__email-note { font-size: 13px; color: #1a3a6b; margin-bottom: 8px; }
     .rff__email-list { display: flex; flex-direction: column; gap: 4px; }
     .rff__email-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #333; padding: 3px 0; }
     .rff__email-remove { color: #c62828; cursor: pointer; font-size: 16px; padding: 0 4px; }
 
     .rff__back-row { display: flex; justify-content: flex-end; }
-    .rff__btn { padding: 8px 28px; font-size: 13px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; }
-    .rff__btn--submit { background: #7b1fa2; color: #fff; }
-    .rff__btn--submit:hover { background: #6a1b9a; }
-    .rff__btn--add { background: #5a7abf; color: #fff; padding: 6px 16px; }
-    .rff__btn--add:hover { background: #4a6aaf; }
-    .rff__btn--back { background: #1e3a5f; color: #fff; }
-    .rff__btn--back:hover { background: #16304f; }
+    .rff__btn--submit { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 8px 28px; --btn-font-size: 13px; }
+    .rff__btn--add { --btn-bg: #5a7abf; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 6px 16px; --btn-font-size: 13px; }
+    .rff__btn--back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 8px 28px; --btn-font-size: 13px; }
   `],
 })
 export class AmexReportFormatFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `report-format-form-${++AmexReportFormatFormComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `report-format-form-${++AmexReportFormatFormComponent._idCounter}`;
 
   @Input() settlementOptions = [
     { value: 'pdf', label: 'Adobe PDF' },

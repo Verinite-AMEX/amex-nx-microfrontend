@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
+import { ImageComponent } from '../../atoms/image';
 
 export interface PriorityPassCard {
   cardNumber: string;
@@ -20,11 +25,16 @@ export interface PriorityPassCard {
  * - Empty state: red error message when no eligible cards
  * Source: Lounge Rationalization (Priority Pass)
  * Style: Dark navy header #1c3f72, bordered card rows, blue CONFIRM & ENROLL button.
+ *
+ * NOTE: enroll button's disabled state uses a solid grey (#aaa) background,
+ * not just dimmed opacity — ui-button's disabled rule only exposes an
+ * opacity var today, not a background-color override, so that one rule is
+ * scoped locally via ::ng-deep — see flag below.
  */
 @Component({
   selector: 'amex-priority-pass-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [NgIf, NgFor, FormsModule, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent, ImageComponent],
   template: `
     <div class="ppv">
       <!-- Navy header -->
@@ -34,7 +44,7 @@ export interface PriorityPassCard {
         <!-- Client code search -->
         <div class="ppv__search-row">
           <span class="ppv__client-code">{{ clientCode || '&nbsp;' }}</span>
-          <button class="ppv__submit-btn" (click)="search.emit(clientCode)">SUBMIT</button>
+          <ui-button class="ppv__submit-btn" variant="primary" label="SUBMIT" (click)="search.emit(clientCode)"></ui-button>
         </div>
 
         <!-- No eligible cards error -->
@@ -57,22 +67,20 @@ export interface PriorityPassCard {
             </p>
             <div class="ppv__contact-row">
               <span class="ppv__contact-label">Mobile</span>
-              <input class="ppv__contact-input" [value]="mobile" readonly />
-              <button class="ppv__edit-btn">EDIT</button>
+              <ui-input class="ppv__contact-input" [ngModel]="mobile" [readonly]="true"></ui-input>
+              <ui-button class="ppv__edit-btn" variant="primary" label="EDIT" (click)="editMobile.emit()"></ui-button>
             </div>
             <div class="ppv__contact-row">
               <span class="ppv__contact-label">Email</span>
-              <input class="ppv__contact-input" [value]="email" readonly />
-              <button class="ppv__edit-btn">EDIT</button>
+              <ui-input class="ppv__contact-input" [ngModel]="email" [readonly]="true"></ui-input>
+              <ui-button class="ppv__edit-btn" variant="primary" label="EDIT" (click)="editEmail.emit()"></ui-button>
             </div>
           </div>
 
           <!-- Basic Card dropdown -->
           <div class="ppv__section">
             <div class="ppv__section-title">Please select the Basic Card you wish to enroll</div>
-            <select class="ppv__card-select" [(ngModel)]="selectedBasicCard">
-              <option *ngFor="let c of cards" [value]="c.cardNumber">{{ c.cardNumber }}</option>
-            </select>
+            <ui-select class="ppv__card-select" [options]="basicCardOptions" [(ngModel)]="selectedBasicCard"></ui-select>
           </div>
 
           <!-- Card Selection list -->
@@ -81,12 +89,10 @@ export interface PriorityPassCard {
             <p class="ppv__section-note">Please select the Card you wish to enroll</p>
             <div *ngFor="let c of cards" class="ppv__card-row">
               <div class="ppv__card-check">
-                <input type="checkbox" [(ngModel)]="c.selected" />
+                <ui-checkbox [(ngModel)]="c.selected" [ariaLabel]="'Select ' + c.cardNumber"></ui-checkbox>
               </div>
               <div class="ppv__card-img-wrap">
-                <div class="ppv__card-img-placeholder">
-                  <span>AMEX</span>
-                </div>
+                <ui-image class="ppv__card-img" src="" alt="" fallbackText="AMEX"></ui-image>
               </div>
               <div class="ppv__card-info">
                 <div class="ppv__card-type">{{ c.cardType }}</div>
@@ -116,18 +122,16 @@ export interface PriorityPassCard {
               You accept the Terms &amp; Conditions of Priority Pass and of the American Express Lounge Benefit.<br/>
               <em>If a customer asks about the terms, they should be redirected to the terms online.</em>
             </p>
-            <label class="ppv__tnc-check">
-              <input type="checkbox" [(ngModel)]="termsAccepted" />
+            <ui-checkbox class="ppv__tnc-check" [(ngModel)]="termsAccepted">
               I accept the <a class="ppv__tnc-link" href="#">Terms &amp; Conditions</a>
-            </label>
+            </ui-checkbox>
           </div>
 
           <div class="ppv__actions">
-            <button class="ppv__enroll-btn"
+            <ui-button class="ppv__enroll-btn"
+                    variant="primary" label="CONFIRM &amp; ENROLL"
                     [disabled]="!termsAccepted"
-                    (click)="onConfirmEnroll()">
-              CONFIRM &amp; ENROLL
-            </button>
+                    (click)="onConfirmEnroll()"></ui-button>
           </div>
 
         </ng-container>
@@ -138,7 +142,15 @@ export interface PriorityPassCard {
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; font-size: 12px; }
+    :host {
+      display: block; font-family: Arial, sans-serif; font-size: 12px;
+      --input-border: 1px solid #aaa;
+      --input-padding: 4px 8px;
+      --select-border: 1px solid #aaa;
+      --select-padding: 4px 32px 4px 8px;
+      --select-radius: 0px;
+      --select-font-size: 12px;
+    }
 
     .ppv { background: #fff; max-width: 600px; }
 
@@ -159,11 +171,9 @@ export interface PriorityPassCard {
     }
     .ppv__client-code { font-size: 14px; color: #1a1a1a; }
     .ppv__submit-btn {
-      background: #1c3f72; color: #fff; border: none;
-      padding: 6px 20px; font-size: 12px; font-weight: bold;
-      font-family: Arial, sans-serif; cursor: pointer;
+      --btn-bg: #1c3f72; --btn-bg-hover: #153060; --btn-color: #fff;
+      --btn-radius: 0px; --btn-padding: 6px 20px; --btn-font-size: 12px;
     }
-    .ppv__submit-btn:hover { background: #153060; }
 
     /* No eligible cards */
     .ppv__no-cards {
@@ -184,21 +194,15 @@ export interface PriorityPassCard {
       display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
     }
     .ppv__contact-label { font-size: 12px; color: #333; min-width: 50px; }
-    .ppv__contact-input {
-      border: 1px solid #aaa; padding: 4px 8px; font-size: 12px;
-      font-family: Arial, sans-serif; width: 180px;
-    }
+    .ppv__contact-input { width: 180px; }
+    .ppv__contact-input ::ng-deep .input { width: 180px; font-size: 12px; }
     .ppv__edit-btn {
-      background: #006fcf; color: #fff; border: none;
-      padding: 4px 12px; font-size: 11px; font-weight: bold;
-      font-family: Arial, sans-serif; cursor: pointer;
+      --btn-bg: #006fcf; --btn-color: #fff;
+      --btn-radius: 0px; --btn-padding: 4px 12px; --btn-font-size: 11px;
     }
 
     /* Card select */
-    .ppv__card-select {
-      border: 1px solid #aaa; padding: 4px 8px;
-      font-size: 12px; font-family: Arial, sans-serif; width: 100%;
-    }
+    .ppv__card-select { width: 100%; }
 
     /* Card rows */
     .ppv__card-row {
@@ -206,12 +210,14 @@ export interface PriorityPassCard {
       border-bottom: 1px solid #e0e8f0; padding-bottom: 12px; margin-bottom: 12px;
     }
     .ppv__card-check { padding-top: 4px; }
-    .ppv__card-img-wrap { flex-shrink: 0; }
-    .ppv__card-img-placeholder {
-      width: 70px; height: 44px; background: #1a1a1a; border-radius: 4px;
-      display: flex; align-items: center; justify-content: center;
+    .ppv__card-img-wrap {
+      flex-shrink: 0; width: 70px; height: 44px;
+      --image-fallback-bg: #1a1a1a;
+      --image-fallback-color: #fff;
+      --image-fallback-font-size: 10px;
+      --image-fallback-letter-spacing: normal;
     }
-    .ppv__card-img-placeholder span { color: #fff; font-size: 10px; font-weight: bold; }
+    .ppv__card-img ::ng-deep .ui-image-fallback { border-radius: 4px; }
 
     .ppv__card-info { min-width: 160px; }
     .ppv__card-type    { font-size: 12px; color: #006fcf; font-weight: bold; margin-bottom: 2px; }
@@ -233,20 +239,17 @@ export interface PriorityPassCard {
       font-size: 12px; color: #1a1a1a; margin-bottom: 8px; line-height: 1.6;
     }
     .ppv__tnc-check {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12px; color: #1a1a1a; cursor: pointer;
+      --label-font-size: 12px; --label-font-weight: normal; --label-color: #1a1a1a;
     }
     .ppv__tnc-link { color: #006fcf; }
 
     /* Actions */
     .ppv__actions { text-align: right; }
     .ppv__enroll-btn {
-      background: #006fcf; color: #fff; border: none;
-      padding: 9px 28px; font-size: 13px; font-weight: bold;
-      font-family: Arial, sans-serif; cursor: pointer;
+      --btn-bg: #006fcf; --btn-bg-hover: #005baa; --btn-color: #fff;
+      --btn-radius: 0px; --btn-padding: 9px 28px; --btn-font-size: 13px;
     }
-    .ppv__enroll-btn:hover:not(:disabled) { background: #005baa; }
-    .ppv__enroll-btn:disabled { background: #aaa; cursor: not-allowed; }
+    .ppv__enroll-btn ::ng-deep button:disabled { background: #aaa; opacity: 1; }
 
     .ppv__copyright {
       font-size: 11px; color: #888; text-align: right; padding: 8px 16px;
@@ -256,8 +259,7 @@ export interface PriorityPassCard {
 })
 export class AmexPriorityPassViewerComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `priority-pass-viewer-${++AmexPriorityPassViewerComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `priority-pass-viewer-${++AmexPriorityPassViewerComponent._idCounter}`;
 
   @Input() clientCode    = '';
   @Input() noEligibleCards = false;
@@ -269,6 +271,12 @@ export class AmexPriorityPassViewerComponent {
 
   @Output() search        = new EventEmitter<string>();
   @Output() confirmEnroll = new EventEmitter<PriorityPassCard[]>();
+  @Output() editMobile    = new EventEmitter<void>();
+  @Output() editEmail     = new EventEmitter<void>();
+
+  get basicCardOptions(): SelectOption[] {
+    return this.cards.map(c => ({ value: c.cardNumber, label: c.cardNumber }));
+  }
 
   onConfirmEnroll() {
     this.confirmEnroll.emit(this.cards.filter(c => c.selected));

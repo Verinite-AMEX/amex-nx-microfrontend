@@ -73,7 +73,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AmexAmountComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `amount-${++AmexAmountComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `amount-${++AmexAmountComponent._idCounter}`;
 
 
   @Input() amount = 0;

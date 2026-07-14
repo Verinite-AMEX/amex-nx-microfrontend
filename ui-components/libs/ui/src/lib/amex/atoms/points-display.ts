@@ -41,7 +41,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AmexPointsDisplayComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `points-display-${++AmexPointsDisplayComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `points-display-${++AmexPointsDisplayComponent._idCounter}`;
 
 
   @Input() points = 0;

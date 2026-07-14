@@ -1,13 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexPortalStyle } from './success-toast';
+import { ButtonComponent } from '../../atoms/button';
 
 export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'failed';
 
 @Component({
   selector: 'amex-file-upload-progress',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div [class]="portalStyle === 'onls' ? 'onls-upload' : 'oms-upload'">
 
@@ -19,8 +20,14 @@ export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'faile
           <span class="onls-upload__status" [ngClass]="'onls-upload__status--' + status">
             {{ statusLabel }}
           </span>
-          <button *ngIf="showCancel && status === 'uploading'"
-            class="onls-btn-cancel" (click)="cancel.emit()">Cancel</button>
+              <ui-button
+                *ngIf="showCancel && status === 'uploading'"
+                class="onls-btn-cancel"
+                label="Cancel"
+                size="sm"
+                variant="ghost"
+                (click)="cancel.emit()">
+              </ui-button>
         </div>
         <div class="onls-upload__bar-track">
           <div class="onls-upload__bar-fill"
@@ -50,8 +57,14 @@ export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'faile
           </div>
         </div>
         <div class="oms-upload__footer">
-          <button *ngIf="showCancel && status === 'uploading'"
-            class="oms-btn-cancel" (click)="cancel.emit()">Cancel Upload</button>
+          <ui-button
+            *ngIf="showCancel && status === 'uploading'"
+            class="oms-btn-cancel"
+            label="Cancel Upload"
+            size="sm"
+            variant="ghost"
+            (click)="cancel.emit()">
+          </ui-button>
         </div>
       </ng-container>
 
@@ -81,12 +94,7 @@ export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'faile
     .onls-upload__bar-fill--completed  { background: #2e7d32; }
     .onls-upload__bar-fill--failed     { background: #c0392b; }
     .onls-upload__pct { font-size: 11px; color: #888; margin-top: 4px; }
-    .onls-btn-cancel {
-      background: none; border: 1px solid #c0392b; color: #c0392b;
-      font-size: 11px; padding: 2px 8px; cursor: pointer; border-radius: 2px;
-      font-family: Arial, sans-serif;
-    }
-
+   
     /* OMS: white card panel */
     .oms-upload {
       background: #fff;
@@ -115,17 +123,30 @@ export type AmexUploadStatus = 'uploading' | 'processing' | 'completed' | 'faile
     .oms-upload__bar-fill--completed  { background: #2e7d32; }
     .oms-upload__bar-fill--failed     { background: #c62828; }
     .oms-upload__footer { margin-top: 8px; }
-    .oms-btn-cancel {
-      background: none; border: 1px solid #c62828; color: #c62828; font-size: 12px;
-      padding: 3px 12px; cursor: pointer; border-radius: 3px; font-family: Arial, sans-serif;
+
+        .onls-btn-cancel {
+      --btn-bg: transparent;
+      --btn-color: #c0392b;
+      --btn-border: 1px solid #c0392b;
+      --btn-padding: 2px 8px;
+      --btn-radius: 2px;
+      --btn-font-size: 11px;
     }
-    .oms-btn-cancel:hover { background: #c62828; color: #fff; }
+
+    .oms-btn-cancel {
+      --btn-bg: transparent;
+      --btn-color: #c62828;
+      --btn-border: 1px solid #c62828;
+      --btn-padding: 3px 12px;
+      --btn-radius: 3px;
+      --btn-font-size: 12px;
+    }
+
   `],
 })
 export class AmexFileUploadProgressComponent implements OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `file-upload-progress-${++AmexFileUploadProgressComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `file-upload-progress-${++AmexFileUploadProgressComponent._idCounter}`;
 
   @Input() fileName = '';
   @Input() percent = 0;

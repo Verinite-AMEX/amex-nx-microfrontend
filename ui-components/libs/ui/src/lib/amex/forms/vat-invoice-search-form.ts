@@ -1,6 +1,10 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface VATInvoiceSearchData {
   customerType: 'corporate' | 'consumer';
@@ -17,85 +21,72 @@ export interface VATInvoiceSearchData {
 @Component({
   selector: 'amex-vat-invoice-search-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
-    <div class="visf">
-      <div class="visf__title">VAT Invoice Search</div>
-      <div class="visf__accent"></div>
-
-      <div class="visf__panel">
-        <!-- Customer type toggle -->
-        <div class="visf__toggle-row">
-          <button class="visf__toggle-btn"
-            [class.visf__toggle-btn--active]="form.customerType === 'corporate'"
-            (click)="form.customerType = 'corporate'">Corporate</button>
-          <button class="visf__toggle-btn"
-            [class.visf__toggle-btn--active]="form.customerType === 'consumer'"
-            (click)="form.customerType = 'consumer'">Consumer</button>
-        </div>
-
-        <!-- Search mode tabs -->
-        <div class="visf__mode-tabs">
-          <button class="visf__mode-tab"
-            [class.visf__mode-tab--active]="form.searchMode === 'vatReg'"
-            (click)="form.searchMode = 'vatReg'">VAT Reg No</button>
-          <button class="visf__mode-tab"
-            [class.visf__mode-tab--active]="form.searchMode === 'invoiceNo'"
-            (click)="form.searchMode = 'invoiceNo'">Invoice No</button>
-          <button class="visf__mode-tab"
-            [class.visf__mode-tab--active]="form.searchMode === 'basicControl'"
-            (click)="form.searchMode = 'basicControl'">Basic Control Account</button>
-        </div>
-
-        <!-- Dynamic input label based on mode -->
-        <div class="visf__input-row">
-          <label class="visf__label" [for]="id + '-field'">{{ inputLabel }}</label>
-          <input [id]="id + '-field'" class="visf__input" [(ngModel)]="form.searchValue"
-            [placeholder]="inputPlaceholder" />
-        </div>
-
-        <div class="visf__actions">
-          <button class="visf__btn visf__btn--back" (click)="backClick.emit()">Back</button>
-          <button class="visf__btn visf__btn--submit" (click)="submitClick.emit(form)">Submit</button>
-        </div>
+    <ui-panel title="VAT Invoice Search" variant="accent">
+      <!-- Customer type toggle -->
+      <div class="visf__toggle-row">
+        <ui-button class="visf__toggle-btn" [class.visf__toggle-btn--active]="form.customerType === 'corporate'"
+          variant="secondary" label="Corporate" (click)="form.customerType = 'corporate'"></ui-button>
+        <ui-button class="visf__toggle-btn" [class.visf__toggle-btn--active]="form.customerType === 'consumer'"
+          variant="secondary" label="Consumer" (click)="form.customerType = 'consumer'"></ui-button>
       </div>
-    </div>
+
+      <!-- Search mode tabs -->
+      <div class="visf__mode-tabs">
+        <ui-button class="visf__mode-tab" [class.visf__mode-tab--active]="form.searchMode === 'vatReg'"
+          variant="secondary" label="VAT Reg No" (click)="form.searchMode = 'vatReg'"></ui-button>
+        <ui-button class="visf__mode-tab" [class.visf__mode-tab--active]="form.searchMode === 'invoiceNo'"
+          variant="secondary" label="Invoice No" (click)="form.searchMode = 'invoiceNo'"></ui-button>
+        <ui-button class="visf__mode-tab" [class.visf__mode-tab--active]="form.searchMode === 'basicControl'"
+          variant="secondary" label="Basic Control Account" (click)="form.searchMode = 'basicControl'"></ui-button>
+      </div>
+
+      <!-- Dynamic input based on mode -->
+      <ui-form-field class="visf__field" [label]="inputLabel" [forId]="id + '-field'" layout="horizontal">
+        <ui-input [id]="id + '-field'" [(ngModel)]="form.searchValue" [placeholder]="inputPlaceholder"></ui-input>
+      </ui-form-field>
+
+      <div class="visf__actions">
+        <ui-button class="visf__btn visf__btn--back" variant="primary" label="Back" (click)="backClick.emit()"></ui-button>
+        <ui-button class="visf__btn visf__btn--submit" variant="primary" label="Submit" (click)="submitClick.emit(form)"></ui-button>
+      </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-    .visf__title { font-size: 15px; font-weight: bold; color: #1a3a6b; padding: 0 0 6px; }
-    .visf__accent { height: 3px; background: #7b1fa2; margin-bottom: 14px; }
-    .visf__panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 3px; padding: 18px 22px; max-width: 480px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-max-width: 480px;
+      --panel-padding: 18px 22px;
+      --input-border: 1px solid #ccc;
+      --input-radius: 3px;
+      --input-padding: 8px 12px;
+      --input-focus-border-color: #7b1fa2;
+    }
 
     /* Customer type toggle — two side-by-side buttons */
     .visf__toggle-row { display: flex; margin-bottom: 16px; border: 1px solid #ccc; border-radius: 4px; overflow: hidden; width: fit-content; }
-    .visf__toggle-btn { padding: 7px 24px; font-size: 13px; border: none; cursor: pointer; background: #f5f5f5; color: #555; font-family: Arial, sans-serif; }
-    .visf__toggle-btn--active { background: #1e3a5f; color: #fff; }
+    .visf__toggle-btn { --btn-bg: #f5f5f5; --btn-color: #555; --btn-radius: 0px; --btn-padding: 7px 24px; --btn-font-size: 13px; }
+    .visf__toggle-btn--active { --btn-bg: #1e3a5f; --btn-color: #fff; }
 
     /* Mode tabs */
     .visf__mode-tabs { display: flex; gap: 2px; margin-bottom: 16px; flex-wrap: wrap; }
-    .visf__mode-tab { padding: 6px 14px; font-size: 12px; border: 1px solid #ccc; background: #f5f5f5; color: #555; cursor: pointer; font-family: Arial, sans-serif; border-radius: 3px; }
-    .visf__mode-tab--active { background: #1e3a5f; color: #fff; border-color: #1e3a5f; }
+    .visf__mode-tab { --btn-bg: #f5f5f5; --btn-color: #555; --btn-radius: 3px; --btn-padding: 6px 14px; --btn-font-size: 12px; }
+    .visf__mode-tab--active { --btn-bg: #1e3a5f; --btn-color: #fff; }
 
     /* Input row */
-    .visf__input-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
-    .visf__label { font-size: 13px; color: #1a3a6b; white-space: nowrap; min-width: 120px; }
-    .visf__input { flex: 1; border: 1px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 13px; font-family: Arial, sans-serif; outline: none; }
-    .visf__input:focus { border-color: #7b1fa2; }
+    .visf__field { margin-bottom: 16px; }
 
     /* Buttons */
     .visf__actions { display: flex; gap: 10px; }
-    .visf__btn { padding: 9px 28px; font-size: 13px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; }
-    .visf__btn--back   { background: #1e3a5f; color: #fff; }
-    .visf__btn--back:hover { background: #16304f; }
-    .visf__btn--submit { background: #7b1fa2; color: #fff; }
-    .visf__btn--submit:hover { background: #6a1b9a; }
+    .visf__btn--back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 28px; --btn-font-size: 13px; }
+    .visf__btn--submit { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 28px; --btn-font-size: 13px; }
   `],
 })
 export class AmexVATInvoiceSearchFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `vat-invoice-search-form-${++AmexVATInvoiceSearchFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `vat-invoice-search-form-${++AmexVATInvoiceSearchFormComponent._idCounter}`;
 
   form: VATInvoiceSearchData = { customerType: 'corporate', searchMode: 'vatReg', searchValue: '' };
 

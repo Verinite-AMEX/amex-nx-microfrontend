@@ -116,7 +116,7 @@ export interface AmexCardInfo {
 })
 export class AmexCardTileComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `card-tile-${++AmexCardTileComponent._idCounter}`;
+  @HostBinding('attr.id') @Input()readonly id = `card-tile-${++AmexCardTileComponent._idCounter}`;
 
 
   @Input() card!: AmexCardInfo;

@@ -1,6 +1,10 @@
-import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, Input, Output, EventEmitter, HostBinding, OnInit, OnChanges } from '@angular/core';
+import { NgIf, NgFor, UpperCasePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
+import { IconButtonComponent } from '../../atoms/icon-button';
+import { ImageComponent } from '../../atoms/image';
 
 export interface OfferItem {
   id: string;
@@ -22,11 +26,18 @@ export interface OfferItem {
  * Clicking a card opens detail view inline: hero, title, Not Enrolled/Enrolled, Enroll button, T&C.
  * Source: Offers & Benefits Helper, Supplementary Access
  * Style: ONLS portal — white background, blue #006FCF accents, offer grid cards.
+ *
+ * NOTE: category buttons use ui-button with --btn-flex-direction: column (new
+ * additive var) to get the icon-over-label stacked layout. The favorite-heart
+ * button uses ui-icon-button's new content-projection passthrough to render
+ * the exact original SVG path, not a text-glyph approximation. Hero images use
+ * ui-image (src-or-fallback-text pattern), with loading="eager" to match the
+ * original raw <img> tags' default (non-lazy) network behavior exactly.
  */
 @Component({
   selector: 'amex-offers-panel',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [NgIf, NgFor, UpperCasePipe, FormsModule, InputComponent, ButtonComponent, IconButtonComponent, ImageComponent],
   template: `
     <div class="op">
 
@@ -34,23 +45,23 @@ export interface OfferItem {
       <div class="op__cat-bar">
         <div class="op__cat-label">Browse by Category</div>
         <div class="op__cats">
-          <button *ngFor="let cat of categories"
+          <ui-button *ngFor="let cat of categories"
                   class="op__cat-btn"
                   [class.op__cat-btn--active]="selectedCategory === cat.key"
+                  variant="ghost" [label]="cat.label"
                   (click)="selectedCategory = cat.key; filterOffers()">
-            <span class="op__cat-icon">{{ cat.icon }}</span>
-            <span class="op__cat-name">{{ cat.label }}</span>
-          </button>
+            <span slot="icon-start" class="op__cat-icon">{{ cat.icon }}</span>
+          </ui-button>
         </div>
       </div>
 
       <!-- Search bar -->
       <div class="op__search-row">
         <span class="op__search-icon">&#128269;</span>
-        <input class="op__search-input"
+        <ui-input class="op__search-input"
                placeholder="Search Offers"
                [(ngModel)]="searchQuery"
-               (input)="filterOffers()" />
+               (ngModelChange)="filterOffers()"></ui-input>
       </div>
 
       <!-- Offer grid -->
@@ -62,10 +73,8 @@ export interface OfferItem {
 
           <!-- Hero image -->
           <div class="op__card-img-wrap">
-            <img *ngIf="offer.imageUrl" [src]="offer.imageUrl" [alt]="offer.title" class="op__card-img" />
-            <div *ngIf="!offer.imageUrl" class="op__card-img-placeholder">
-              <span>AMERICAN EXPRESS</span>
-            </div>
+            <ui-image class="op__card-img" [src]="offer.imageUrl ?? ''" [alt]="offer.title"
+              fallbackText="AMERICAN EXPRESS" objectFit="cover" loading="eager"></ui-image>
             <span *ngIf="offer.enrolled" class="op__enrolled-badge">Enrolled</span>
           </div>
 
@@ -82,9 +91,11 @@ export interface OfferItem {
           <div class="op__card-footer">
             <span *ngIf="offer.expiryDate" class="op__expiry">Expiring: {{ offer.expiryDate }}</span>
             <span *ngIf="!offer.expiryDate"></span>
-            <button class="op__fav-btn"
+            <ui-icon-button class="op__fav-btn"
                     [class.op__fav-btn--on]="offer.isFavorite"
-                    (click)="$event.stopPropagation(); toggleFav(offer)">
+                    ariaLabel="Toggle favorite"
+                    (click)="$event.stopPropagation()"
+                    (clicked)="toggleFav(offer)">
               <svg width="16" height="16" viewBox="0 0 24 24">
                 <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5
                          2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09
@@ -94,7 +105,7 @@ export interface OfferItem {
                   [attr.stroke]="offer.isFavorite ? '#d32f2f' : '#bbb'"
                   stroke-width="1.8"/>
               </svg>
-            </button>
+            </ui-icon-button>
           </div>
         </div>
 
@@ -107,16 +118,18 @@ export interface OfferItem {
       <div *ngIf="selectedOffer" class="op__detail">
         <!-- Hero -->
         <div class="op__detail-img-wrap">
-          <img *ngIf="selectedOffer.imageUrl" [src]="selectedOffer.imageUrl" [alt]="selectedOffer.title" class="op__detail-img" />
-          <div *ngIf="!selectedOffer.imageUrl" class="op__detail-img-fallback">
-            <span>AMERICAN EXPRESS</span>
-          </div>
-          <button class="op__detail-close" (click)="closeDetail()" aria-label="Close">&#x2715;</button>
+          <ui-image class="op__detail-img" [src]="selectedOffer.imageUrl ?? ''" [alt]="selectedOffer.title"
+            fallbackText="AMERICAN EXPRESS" objectFit="cover" loading="eager"></ui-image>
+          <ui-icon-button class="op__detail-close" icon="✕" ariaLabel="Close" (clicked)="closeDetail()"></ui-icon-button>
         </div>
 
         <!-- Nav arrows -->
-        <button class="op__detail-nav op__detail-nav--left" (click)="prevOffer()" aria-label="Previous">&#8249;</button>
-        <button class="op__detail-nav op__detail-nav--right" (click)="nextOffer()" aria-label="Next">&#8250;</button>
+        <ui-icon-button class="op__detail-nav op__detail-nav--left" ariaLabel="Previous" (clicked)="prevOffer()">
+          <span aria-hidden="true">&#8249;</span>
+        </ui-icon-button>
+        <ui-icon-button class="op__detail-nav op__detail-nav--right" ariaLabel="Next" (clicked)="nextOffer()">
+          <span aria-hidden="true">&#8250;</span>
+        </ui-icon-button>
 
         <!-- Info -->
         <div class="op__detail-info">
@@ -134,12 +147,12 @@ export interface OfferItem {
           </div>
 
           <div class="op__detail-right">
-            <button *ngIf="!selectedOffer.enrolled"
-                    class="op__detail-enroll-btn"
-                    (click)="enroll.emit(selectedOffer)">Enroll</button>
-            <button *ngIf="selectedOffer.enrolled"
-                    class="op__detail-unenroll-btn"
-                    (click)="unenroll.emit(selectedOffer)">Unenroll</button>
+            <ui-button *ngIf="!selectedOffer.enrolled"
+                    class="op__detail-enroll-btn" variant="primary" label="Enroll"
+                    (click)="enroll.emit(selectedOffer)"></ui-button>
+            <ui-button *ngIf="selectedOffer.enrolled"
+                    class="op__detail-unenroll-btn" variant="secondary" label="Unenroll"
+                    (click)="unenroll.emit(selectedOffer)"></ui-button>
 
             <div *ngIf="selectedOffer.termsAndConditions" class="op__detail-tnc">
               <span class="op__detail-lbl">Terms &amp; Conditions</span>
@@ -161,9 +174,9 @@ export interface OfferItem {
     .op__cat-label { font-size: 14px; font-weight: bold; color: #1a1a1a; margin-bottom: 10px; }
     .op__cats { display: flex; gap: 12px; flex-wrap: wrap; }
     .op__cat-btn {
-      display: flex; flex-direction: column; align-items: center;
-      background: none; border: none; cursor: pointer;
-      padding: 6px 8px; gap: 4px;
+      --btn-bg: none; --btn-border: none; --btn-padding: 6px 8px;
+      --btn-flex-direction: column; --btn-gap: 4px; --btn-align-items: center;
+      --btn-font-size: 11px; --btn-color: #555;
     }
     .op__cat-icon {
       width: 36px; height: 36px;
@@ -174,20 +187,20 @@ export interface OfferItem {
     .op__cat-btn--active .op__cat-icon {
       border-color: #006fcf; background: #006fcf; color: #fff;
     }
-    .op__cat-name { font-size: 11px; color: #555; }
-    .op__cat-btn--active .op__cat-name { color: #006fcf; font-weight: bold; }
+    .op__cat-btn--active { --btn-color: #006fcf; }
+    .op__cat-btn--active ::ng-deep .btn-label { font-weight: bold; }
 
     /* Search */
     .op__search-row {
       display: flex; align-items: center; gap: 8px;
       border: 1px solid #ccc; padding: 6px 12px;
       background: #fafafa; margin-bottom: 14px;
+      --input-border: none; --input-padding: 0; --input-bg: transparent;
+      --input-focus-shadow: none; --input-focus-border-color: transparent;
     }
     .op__search-icon { font-size: 14px; color: #888; }
-    .op__search-input {
-      border: none; background: none; font-size: 13px;
-      width: 100%; outline: none; font-family: Arial, sans-serif;
-    }
+    .op__search-input { flex: 1; }
+    .op__search-input ::ng-deep .input { font-size: 13px; }
 
     /* Grid */
     .op__grid {
@@ -209,14 +222,10 @@ export interface OfferItem {
     .op__card-img-wrap {
       position: relative; width: 100%; height: 158px;
       background: #b8d4ef; overflow: hidden; flex-shrink: 0;
-    }
-    .op__card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .op__card-img-placeholder {
-      width: 100%; height: 100%; background: #006fcf;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .op__card-img-placeholder span {
-      color: rgba(255,255,255,0.75); font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+      --image-fallback-bg: #006fcf;
+      --image-fallback-color: rgba(255,255,255,0.75);
+      --image-fallback-font-size: 12px;
+      --image-fallback-letter-spacing: 0.08em;
     }
     .op__enrolled-badge {
       position: absolute; top: 10px; right: 0;
@@ -236,7 +245,7 @@ export interface OfferItem {
       padding: 8px 14px; border-top: 1px solid #f0f0f0; margin-top: 6px;
     }
     .op__expiry { font-size: 11px; color: #888; }
-    .op__fav-btn { background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; }
+    .op__fav-btn { --icon-btn-size: 20px; --icon-btn-bg: transparent; --icon-btn-hover-bg: transparent; }
 
     .op__empty { grid-column: 1/-1; text-align: center; padding: 40px; color: #888; font-size: 13px; }
 
@@ -248,30 +257,23 @@ export interface OfferItem {
 
     .op__detail-img-wrap {
       position: relative; width: 100%; height: 280px; background: #b8d4ef; overflow: hidden;
-    }
-    .op__detail-img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .op__detail-img-fallback {
-      width: 100%; height: 100%; background: #006fcf;
-      display: flex; align-items: center; justify-content: center;
-    }
-    .op__detail-img-fallback span {
-      color: rgba(255,255,255,0.75); font-size: 15px; font-weight: 700; letter-spacing: 0.1em;
+      --image-fallback-bg: #006fcf;
+      --image-fallback-color: rgba(255,255,255,0.75);
+      --image-fallback-font-size: 15px;
+      --image-fallback-letter-spacing: 0.1em;
     }
     .op__detail-close {
       position: absolute; top: 10px; right: 10px;
-      width: 28px; height: 28px; border-radius: 50%;
-      background: rgba(255,255,255,0.92); border: 1px solid #ccc;
-      font-size: 12px; cursor: pointer; color: #333;
-      display: flex; align-items: center; justify-content: center;
+      --icon-btn-size: 28px; --icon-btn-bg: rgba(255,255,255,0.92); --icon-btn-color: #333;
+      --icon-btn-hover-bg: rgba(255,255,255,0.92);
+      border: 1px solid #ccc; font-size: 12px;
     }
 
     .op__detail-nav {
       position: absolute; top: calc(140px - 18px);
-      background: rgba(255,255,255,0.9);
-      border: 1px solid #ddd; border-radius: 50%;
-      width: 36px; height: 36px; font-size: 22px;
-      cursor: pointer; color: #555;
-      display: flex; align-items: center; justify-content: center;
+      --icon-btn-size: 36px; --icon-btn-bg: rgba(255,255,255,0.9); --icon-btn-color: #555;
+      --icon-btn-hover-bg: rgba(255,255,255,0.9);
+      border: 1px solid #ddd; font-size: 22px;
     }
     .op__detail-nav--left  { left: 10px; }
     .op__detail-nav--right { right: 10px; }
@@ -298,25 +300,23 @@ export interface OfferItem {
     }
 
     .op__detail-enroll-btn {
-      padding: 8px 28px; background: #006fcf; color: #fff;
-      border: none; border-radius: 4px; font-size: 14px; font-weight: 700;
-      cursor: pointer; align-self: flex-start;
+      --btn-bg: #006fcf; --btn-bg-hover: #005baa; --btn-color: #fff;
+      --btn-radius: 4px; --btn-padding: 8px 28px; --btn-font-size: 14px;
+      align-self: flex-start;
     }
-    .op__detail-enroll-btn:hover { background: #005baa; }
 
     .op__detail-unenroll-btn {
-      padding: 7px 20px; background: #fff; color: #555;
-      border: 1px solid #ccc; border-radius: 4px;
-      font-size: 13px; font-weight: 600; cursor: pointer; align-self: flex-start;
+      --btn-bg: #fff; --btn-color: #555; --btn-border: 1px solid #ccc;
+      --btn-radius: 4px; --btn-padding: 7px 20px; --btn-font-size: 13px; --btn-font-weight: 600;
+      align-self: flex-start;
     }
     .op__detail-tnc { display: flex; flex-direction: column; gap: 4px; }
     .op__detail-tnc-text { font-size: 12px; color: #444; margin: 0; line-height: 1.5; }
   `],
 })
-export class AmexOffersPanelComponent {
+export class AmexOffersPanelComponent implements OnInit, OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `offers-panel-${++AmexOffersPanelComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `offers-panel-${++AmexOffersPanelComponent._idCounter}`;
 
   @Input() offers: OfferItem[] = [];
   @Input() categories = [

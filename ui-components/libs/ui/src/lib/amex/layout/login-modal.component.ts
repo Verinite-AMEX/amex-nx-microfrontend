@@ -6,126 +6,135 @@ import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { catchError, of, finalize } from 'rxjs';
 import { AmexNavPortalStyle } from '../navigation/top-nav-bar';
+import { LabelComponent } from '../../atoms/label';
+import { InputComponent } from '../../atoms/input';
+import { IconButtonComponent } from '../../atoms/icon-button';
+import { ButtonComponent } from '../../atoms/button';
+import { AlertComponent } from '../../atoms/alert';
+import { SpinnerComponent } from '../../atoms/spinner';
 
-interface LoginPayload {
-  username: string;
-  password: string;
-}
-
-interface AuthApiResponse {
-  success: boolean;
-  message?: string;
-  data?: {
-    accessToken: string;
-    refreshToken?: string;
-    username?: string;
-    role?: string;
-  };
-}
+export type AmexLoginModalButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 
 @Component({
   selector: 'amex-login-modal',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    LabelComponent,
+    InputComponent,
+    IconButtonComponent,
+    ButtonComponent,
+    AlertComponent,
+    SpinnerComponent,
+  ],
   template: `
     <div class="lm-overlay">
-      <div class="lm-card" [attr.data-style]="portalStyle">
+      <div [id]="id + '-card'" class="lm-card" [attr.data-style]="portalStyle">
 
         <!-- Logo / Branding -->
         <div class="lm-header">
           <div class="lm-logo">
-            <span class="lm-logo__am">AMERICAN</span>
-            <span class="lm-logo__ex">EXPRESS</span>
+            <span class="lm-logo__am">{{ brandNameLine1 }}</span>
+            <span class="lm-logo__ex">{{ brandNameLine2 }}</span>
           </div>
           <div class="lm-title">{{ portalTitle }}</div>
-          <div class="lm-subtitle">Please sign in to continue</div>
+          <div class="lm-subtitle">{{ subtitle }}</div>
         </div>
 
         <!-- Form -->
         <div class="lm-body">
 
           <!-- Demo mode hint -->
-          <div class="lm-demo-hint" *ngIf="demoMode">
-            🔑 Demo mode — sign in with
-            <strong>{{ demoCredentials.username }}</strong> /
-            <strong>{{ demoCredentials.password }}</strong>
-            (no backend call is made)
-          </div>
+          <ui-alert
+            *ngIf="demoMode"
+            variant="warning"
+            [message]="demoHintPrefix + demoCredentials.username + ' / ' + demoCredentials.password + demoHintSuffix">
+          </ui-alert>
 
           <!-- Error banner -->
-          <div class="lm-error" *ngIf="errorMsg()">
-            <span class="lm-error__icon">⚠</span>
-            {{ errorMsg() }}
-          </div>
+          <ui-alert
+            *ngIf="errorMsg()"
+            variant="error"
+            [message]="errorMsg()">
+          </ui-alert>
 
           <!-- Username -->
           <div class="lm-field">
-            <label class="lm-label" for="lm-username">Username</label>
-            <input
-              id="lm-username"
-              class="lm-input"
+            <ui-label [forId]="id + '-username'" [required]="true">{{ usernameLabel }}</ui-label>
+            <ui-input
+              [id]="id + '-username'"
               type="text"
+              [placeholder]="usernamePlaceholder"
               [(ngModel)]="username"
-              placeholder="Enter your username"
               [disabled]="loading()"
-              (keyup.enter)="onSubmit()"
-              autocomplete="username"
-            />
+              [ariaLabel]="usernameLabel"
+              (keyup.enter)="onSubmit()">
+            </ui-input>
           </div>
 
           <!-- Password -->
           <div class="lm-field">
-            <label class="lm-label" for="lm-password">Password</label>
+            <ui-label [forId]="id + '-password'" [required]="true">{{ passwordLabel }}</ui-label>
             <div class="lm-input-wrap">
-              <input
-                id="lm-password"
-                class="lm-input"
+              <ui-input
+                [id]="id + '-password'"
                 [type]="showPassword() ? 'text' : 'password'"
+                [placeholder]="passwordPlaceholder"
                 [(ngModel)]="password"
-                placeholder="Enter your password"
                 [disabled]="loading()"
-                (keyup.enter)="onSubmit()"
-                autocomplete="current-password"
-              />
-              <button
-                type="button"
+                [ariaLabel]="passwordLabel"
+                [style.--input-padding]="'9px 40px 9px 12px'"
+                (keyup.enter)="onSubmit()">
+              </ui-input>
+              <ui-icon-button
+                [id]="id + '-toggle-password'"
                 class="lm-eye-btn"
-                (click)="showPassword.set(!showPassword())"
-                [title]="showPassword() ? 'Hide password' : 'Show password'"
-              >
-                {{ showPassword() ? '🙈' : '👁' }}
-              </button>
+                [icon]="showPassword() ? hidePasswordIcon : showPasswordIcon"
+                variant="ghost"
+                size="sm"
+                [ariaLabel]="showPassword() ? hidePasswordAriaLabel : showPasswordAriaLabel"
+                (clicked)="showPassword.set(!showPassword())">
+              </ui-icon-button>
             </div>
           </div>
 
           <!-- Submit -->
-          <button
+          <ui-button
+            [id]="id + '-submit'"
             class="lm-submit"
-            (click)="onSubmit()"
+            [label]="loading() ? '' : submitLabel"
+            [variant]="submitVariant"
+            size="lg"
+            [fullWidth]="true"
+            [ariaLabel]="submitLabel"
             [disabled]="loading() || !username.trim() || !password.trim()"
-          >
-            <span *ngIf="!loading()">Sign In</span>
-            <span *ngIf="loading()" class="lm-spinner"></span>
-          </button>
+            (click)="onSubmit()">
+            <ui-spinner *ngIf="loading()" slot="icon-start" size="sm" color="#fff"></ui-spinner>
+          </ui-button>
 
           <!-- Forgot password -->
           <div class="lm-forgot">
-            <button
-              type="button"
-              class="lm-link-btn"
-              (click)="onForgotPassword()"
+            <ui-button
+              [id]="id + '-forgot'"
+              [label]="forgotPasswordLabel"
+              variant="ghost"
+              size="sm"
+              [ariaLabel]="forgotPasswordLabel"
               [disabled]="loading()"
-            >
-              Forgot password?
-            </button>
+              [style.--btn-border]="'none'"
+              [style.--btn-bg]="'transparent'"
+              [style.--btn-color]="'#006fcf'"
+              (click)="onForgotPassword()">
+            </ui-button>
           </div>
 
         </div>
 
         <!-- Footer -->
         <div class="lm-footer">
-          <span>© American Express. All rights reserved.</span>
+          <span>{{ footerText }}</span>
         </div>
 
       </div>
@@ -153,7 +162,6 @@ interface AuthApiResponse {
       to   { transform: translateY(0);    opacity: 1; }
     }
 
-    /* HEADER */
     .lm-header {
       background: #006fcf; padding: 28px 28px 20px;
       display: flex; flex-direction: column; align-items: center; gap: 8px;
@@ -168,82 +176,17 @@ interface AuthApiResponse {
     .lm-title    { color: #fff; font-size: 17px; font-weight: bold; text-align: center; }
     .lm-subtitle { color: rgba(255,255,255,0.8); font-size: 13px; }
 
-    /* BCRB / OMS variant header */
     .lm-card[data-style="bcrb"] .lm-header { background: #3d4dac; }
     .lm-card[data-style="oms"]  .lm-header { background: #1a3a6b; }
 
-    /* BODY */
     .lm-body { padding: 24px 28px 16px; display: flex; flex-direction: column; gap: 14px; }
 
-    /* Demo hint */
-    .lm-demo-hint {
-      background: #fff8e1; border: 1px solid #ffe082;
-      padding: 10px 12px; border-radius: 3px;
-      font-size: 12.5px; color: #5d4037; line-height: 1.5;
-    }
-
-    /* Error */
-    .lm-error {
-      display: flex; align-items: center; gap: 8px;
-      background: #fff3f3; border: 1px solid #f5c6c6;
-      padding: 10px 12px; border-radius: 3px;
-      font-size: 13px; color: #c62828;
-    }
-    .lm-error__icon { font-size: 15px; flex-shrink: 0; }
-
-    /* Field */
     .lm-field { display: flex; flex-direction: column; gap: 5px; }
-    .lm-label  { font-size: 13px; color: #333; font-weight: bold; }
     .lm-input-wrap { position: relative; display: flex; }
-    .lm-input {
-      border: 1px solid #ccc; padding: 9px 12px; font-size: 14px;
-      font-family: Arial, sans-serif; outline: none;
-      width: 100%; box-sizing: border-box; border-radius: 2px;
-    }
-    .lm-input:focus { border-color: #006fcf; }
-    .lm-input:disabled { background: #f5f5f5; color: #999; }
-    .lm-input-wrap .lm-input { padding-right: 40px; }
+    .lm-eye-btn { position: absolute; right: 2px; top: 2px; }
 
-    .lm-eye-btn {
-      position: absolute; right: 0; top: 0; bottom: 0;
-      width: 38px; background: none; border: none;
-      cursor: pointer; font-size: 16px; display: flex;
-      align-items: center; justify-content: center;
-      color: #666;
-    }
-    .lm-eye-btn:hover { color: #006fcf; }
-
-    /* Submit */
-    .lm-submit {
-      background: #006fcf; color: #fff; border: none;
-      padding: 12px; font-size: 15px; font-weight: bold;
-      font-family: Arial, sans-serif; cursor: pointer;
-      border-radius: 2px; width: 100%;
-      display: flex; align-items: center; justify-content: center;
-      min-height: 44px; margin-top: 4px;
-    }
-    .lm-submit:hover:not(:disabled) { background: #005bb5; }
-    .lm-submit:disabled { opacity: 0.5; cursor: not-allowed; }
-
-    /* Spinner */
-    .lm-spinner {
-      width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.4);
-      border-top-color: #fff; border-radius: 50%;
-      animation: lm-spin 0.7s linear infinite;
-    }
-    @keyframes lm-spin { to { transform: rotate(360deg); } }
-
-    /* Forgot */
     .lm-forgot { text-align: center; }
-    .lm-link-btn {
-      background: none; border: none; color: #006fcf;
-      font-size: 13px; cursor: pointer; text-decoration: underline;
-      font-family: Arial, sans-serif; padding: 0;
-    }
-    .lm-link-btn:hover { color: #005bb5; }
-    .lm-link-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* FOOTER */
     .lm-footer {
       padding: 12px 28px; background: #f5f5f5;
       border-top: 1px solid #e0e0e0;
@@ -253,12 +196,32 @@ interface AuthApiResponse {
 })
 export class AmexLoginModalComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `login-modal-${++AmexLoginModalComponent._idCounter}`;
 
-
+  /** Overridable so parent screens can supply a stable id for aria-* wiring; falls back to an auto-generated one. */
+  @HostBinding('attr.id') @Input() id = `amex-login-modal-${++AmexLoginModalComponent._idCounter}`;
 
   @Input() portalTitle = 'American Express Portal';
   @Input() portalStyle: AmexNavPortalStyle = 'onls';
+
+  /** Fully configurable copy — nothing hardcoded. */
+  @Input() brandNameLine1 = 'AMERICAN';
+  @Input() brandNameLine2 = 'EXPRESS';
+  @Input() subtitle = 'Please sign in to continue';
+  @Input() usernameLabel = 'Username';
+  @Input() usernamePlaceholder = 'Enter your username';
+  @Input() passwordLabel = 'Password';
+  @Input() passwordPlaceholder = 'Enter your password';
+  @Input() submitLabel = 'Sign In';
+  @Input() submitVariant: AmexLoginModalButtonVariant = 'primary';
+  @Input() forgotPasswordLabel = 'Forgot password?';
+  @Input() footerText = '© American Express. All rights reserved.';
+  @Input() demoHintPrefix = '🔑 Demo mode — sign in with ';
+  @Input() demoHintSuffix = ' (no backend call is made)';
+
+  @Input() showPasswordIcon = '👁';
+  @Input() hidePasswordIcon = '🙈';
+  @Input() showPasswordAriaLabel = 'Show password';
+  @Input() hidePasswordAriaLabel = 'Hide password';
 
   /**
    * Auth service login URL. NO DEFAULT — the real app/portal must pass
@@ -298,13 +261,11 @@ export class AmexLoginModalComponent {
     if (this.loading() || !this.username.trim() || !this.password.trim()) return;
     this.errorMsg.set('');
 
-    // ── DEMO MODE — zero network calls, ever. ──────────────────────────────
     if (this.demoMode || !this.loginUrl) {
       this.loading.set(true);
       const u = this.username.trim();
       const p = this.password.trim();
 
-      // Tiny artificial delay so the spinner is visible, same UX as real login.
       setTimeout(() => {
         this.loading.set(false);
         if (u === this.demoCredentials.username && p === this.demoCredentials.password) {
@@ -320,7 +281,6 @@ export class AmexLoginModalComponent {
       return;
     }
 
-    // ── REAL MODE — actual backend call (production portals only). ────────
     this.loading.set(true);
 
     this.http

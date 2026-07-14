@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AmexStatusBadgeComponent, AmexStatus } from '../atoms/status-badge';
+import { ButtonComponent } from '../../atoms/button';
 
 export type AmexUserRole =
   | 'master-admin'
@@ -10,6 +11,9 @@ export type AmexUserRole =
   | 'vat-user'
   | 'travel-agent'
   | 'internal-admin';
+
+export type AmexUserRowButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type AmexUserRowButtonSize = 'sm' | 'md' | 'lg';
 
 export interface AmexUser {
   id: string;
@@ -21,10 +25,20 @@ export interface AmexUser {
   accountNumber?: string;
 }
 
+const DEFAULT_ROLE_LABELS: Record<AmexUserRole, string> = {
+  'master-admin': 'Master Admin',
+  'sub-admin': 'Sub Admin',
+  'user': 'User',
+  'mrm': 'MRM',
+  'vat-user': 'VAT User',
+  'travel-agent': 'Travel Agent',
+  'internal-admin': 'Internal Admin',
+};
+
 @Component({
   selector: 'amex-user-row',
   standalone: true,
-  imports: [CommonModule, AmexStatusBadgeComponent],
+  imports: [CommonModule, AmexStatusBadgeComponent, ButtonComponent],
   template: `
     <div class="amex-user-row">
       <div class="amex-user-row__avatar">{{ initials }}</div>
@@ -36,10 +50,46 @@ export interface AmexUser {
       <amex-status-badge [status]="user.status"></amex-status-badge>
       <div *ngIf="user.lastLogin" class="amex-user-row__login">{{ user.lastLogin }}</div>
       <div class="amex-user-row__actions">
-        <button class="amex-user-row__btn" (click)="edit.emit(user)">Edit</button>
-        <button class="amex-user-row__btn" (click)="resetPassword.emit(user)">Reset Pwd</button>
-        <button *ngIf="user.status === 'active'" class="amex-user-row__btn amex-user-row__btn--warn" (click)="toggleStatus.emit(user)">Lock</button>
-        <button *ngIf="user.status !== 'active'" class="amex-user-row__btn amex-user-row__btn--ok" (click)="toggleStatus.emit(user)">Unlock</button>
+        <ui-button
+          *ngIf="showEdit"
+          [id]="id + '-edit'"
+          [label]="editLabel"
+          [variant]="editVariant"
+          [size]="buttonSize"
+          [disabled]="disabled"
+          [ariaLabel]="editAriaLabel || (editLabel + ' ' + user.name)"
+          (click)="edit.emit(user)">
+        </ui-button>
+        <ui-button
+          *ngIf="showResetPassword"
+          [id]="id + '-reset-password'"
+          [label]="resetPasswordLabel"
+          [variant]="resetPasswordVariant"
+          [size]="buttonSize"
+          [disabled]="disabled"
+          [ariaLabel]="resetPasswordAriaLabel || (resetPasswordLabel + ' ' + user.name)"
+          (click)="resetPassword.emit(user)">
+        </ui-button>
+        <ui-button
+          *ngIf="showToggleStatus && user.status === activeStatus"
+          [id]="id + '-lock'"
+          [label]="lockLabel"
+          [variant]="lockVariant"
+          [size]="buttonSize"
+          [disabled]="disabled"
+          [ariaLabel]="lockAriaLabel || (lockLabel + ' ' + user.name)"
+          (click)="toggleStatus.emit(user)">
+        </ui-button>
+        <ui-button
+          *ngIf="showToggleStatus && user.status !== activeStatus"
+          [id]="id + '-unlock'"
+          [label]="unlockLabel"
+          [variant]="unlockVariant"
+          [size]="buttonSize"
+          [disabled]="disabled"
+          [ariaLabel]="unlockAriaLabel || (unlockLabel + ' ' + user.name)"
+          (click)="toggleStatus.emit(user)">
+        </ui-button>
       </div>
     </div>
   `,
@@ -73,21 +123,45 @@ export interface AmexUser {
     }
     .amex-user-row__login { font-size: 11px; color: #aaa; white-space: nowrap; }
     .amex-user-row__actions { display: flex; gap: 6px; }
-    .amex-user-row__btn {
-      padding: 4px 10px; border-radius: 4px; font-size: 12px;
-      border: 1px solid #d0d0d0; background: #fff; cursor: pointer;
-    }
-    .amex-user-row__btn:hover { background: #f5f5f5; }
-    .amex-user-row__btn--warn { color: #c62828; border-color: #f5c6c6; }
-    .amex-user-row__btn--ok  { color: #2e7d32; border-color: #c8e6c9; }
   `],
 })
 export class AmexUserRowComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `user-row-${++AmexUserRowComponent._idCounter}`;
 
+  /** Overridable so parent tables/screens can supply a stable id for aria-* wiring; falls back to an auto-generated one. */
+  @HostBinding('attr.id') @Input() id = `amex-user-row-${++AmexUserRowComponent._idCounter}`;
 
   @Input() user!: AmexUser;
+  @Input() disabled = false;
+
+  /** Which status value counts as "active" for the Lock/Unlock toggle — configurable, not assumed elsewhere. */
+  @Input() activeStatus: AmexStatus = 'active';
+
+  /** Per-action visibility toggles. */
+  @Input() showEdit = true;
+  @Input() showResetPassword = true;
+  @Input() showToggleStatus = true;
+
+  /** Fully configurable action button copy, styling and a11y — nothing hardcoded. */
+  @Input() editLabel = 'Edit';
+  @Input() resetPasswordLabel = 'Reset Pwd';
+  @Input() lockLabel = 'Lock';
+  @Input() unlockLabel = 'Unlock';
+
+  @Input() editVariant: AmexUserRowButtonVariant = 'ghost';
+  @Input() resetPasswordVariant: AmexUserRowButtonVariant = 'ghost';
+  @Input() lockVariant: AmexUserRowButtonVariant = 'danger';
+  @Input() unlockVariant: AmexUserRowButtonVariant = 'secondary';
+  @Input() buttonSize: AmexUserRowButtonSize = 'sm';
+
+  @Input() editAriaLabel = '';
+  @Input() resetPasswordAriaLabel = '';
+  @Input() lockAriaLabel = '';
+  @Input() unlockAriaLabel = '';
+
+  /** Optional override/extension of the built-in role→label map, merged over the defaults. */
+  @Input() roleLabels: Partial<Record<AmexUserRole, string>> = {};
+
   @Output() edit = new EventEmitter<AmexUser>();
   @Output() resetPassword = new EventEmitter<AmexUser>();
   @Output() toggleStatus = new EventEmitter<AmexUser>();
@@ -97,15 +171,7 @@ export class AmexUserRowComponent {
   }
 
   get roleLabel(): string {
-    const map: Record<AmexUserRole, string> = {
-      'master-admin': 'Master Admin',
-      'sub-admin': 'Sub Admin',
-      'user': 'User',
-      'mrm': 'MRM',
-      'vat-user': 'VAT User',
-      'travel-agent': 'Travel Agent',
-      'internal-admin': 'Internal Admin',
-    };
-    return map[this.user?.role] ?? this.user?.role;
+    const role = this.user?.role;
+    return this.roleLabels[role] ?? DEFAULT_ROLE_LABELS[role] ?? role;
   }
 }

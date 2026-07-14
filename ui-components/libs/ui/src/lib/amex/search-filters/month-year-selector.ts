@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, OnInit, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AmexMonthYear { year: number; month: number; }
 
@@ -12,28 +15,31 @@ export interface AmexMonthYear { year: number; month: number; }
 @Component({
   selector: 'amex-month-year-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, SelectComponent, ButtonComponent],
   template: `
     <div class="mys-wrap">
       <div class="mys-row">
-        <div class="mys-field">
-          <label class="mys-label" [for]="id + '-year'">Year</label>
-          <select [id]="id + '-year'" class="mys-select" [(ngModel)]="selectedYear">
-            <option *ngFor="let y of years" [value]="y">{{ y }}</option>
-          </select>
-        </div>
-        <div class="mys-field">
-          <label class="mys-label" [for]="id + '-month'">Month</label>
-          <select [id]="id + '-month'" class="mys-select" [(ngModel)]="selectedMonth">
-            <option *ngFor="let m of months" [value]="m.value">{{ m.label }}</option>
-          </select>
-        </div>
-        <button class="mys-btn" (click)="onSubmit()">{{ buttonLabel }}</button>
+        <ui-form-field class="mys-field" label="Year" [forId]="id + '-year'">
+          <ui-select [id]="id + '-year'" [options]="yearOptions" ariaLabel="Year" [(ngModel)]="selectedYear"></ui-select>
+        </ui-form-field>
+        <ui-form-field class="mys-field" label="Month" [forId]="id + '-month'">
+          <ui-select [id]="id + '-month'" [options]="monthOptions" ariaLabel="Month" [(ngModel)]="selectedMonth"></ui-select>
+        </ui-form-field>
+        <ui-button variant="primary" size="sm" [label]="buttonLabel" (click)="onSubmit()"></ui-button>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
+      --btn-color: #fff;
+      --btn-border: 1px solid #1050a0;
+      --btn-radius: 2px;
+      --btn-padding: 5px 14px;
+      --btn-font-size: 12px;
+    }
 
     .mys-wrap { padding: 8px 0; }
 
@@ -44,46 +50,12 @@ export interface AmexMonthYear { year: number; month: number; }
       flex-wrap: wrap;
     }
 
-    .mys-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .mys-label {
-      font-size: 12px;
-      color: #555;
-    }
-
-    .mys-select {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      cursor: pointer;
-    }
-    .mys-select:focus { outline: none; border-color: #006fcf; }
-
-    .mys-btn {
-      background: linear-gradient(to bottom, #2a84e0, #1462b8);
-      color: #fff;
-      border: 1px solid #1050a0;
-      border-radius: 2px;
-      padding: 5px 14px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .mys-btn:hover { background: linear-gradient(to bottom, #1e78d0, #0e50a0); }
+    .mys-field { width: 140px; }
   `],
 })
 export class AmexMonthYearSelectorComponent implements OnInit {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `month-year-selector-${++AmexMonthYearSelectorComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `month-year-selector-${++AmexMonthYearSelectorComponent._idCounter}`;
 
   @Input() buttonLabel = 'Submit';
   @Input() startYear = 2020;
@@ -91,11 +63,11 @@ export class AmexMonthYearSelectorComponent implements OnInit {
 
   @Output() selected = new EventEmitter<AmexMonthYear>();
 
-  years: number[] = [];
-  selectedYear = new Date().getFullYear();
-  selectedMonth = new Date().getMonth() + 1;
+  yearOptions: SelectOption[] = [];
+  selectedYear: number = new Date().getFullYear();
+  selectedMonth: number = new Date().getMonth() + 1;
 
-  months = [
+  monthOptions: SelectOption[] = [
     { value: 1, label: 'January' }, { value: 2, label: 'February' },
     { value: 3, label: 'March' }, { value: 4, label: 'April' },
     { value: 5, label: 'May' }, { value: 6, label: 'June' },
@@ -105,12 +77,14 @@ export class AmexMonthYearSelectorComponent implements OnInit {
   ];
 
   ngOnInit() {
+    const years: SelectOption[] = [];
     for (let y = this.endYear; y >= this.startYear; y--) {
-      this.years.push(y);
+      years.push({ value: y, label: String(y) });
     }
+    this.yearOptions = years;
   }
 
   onSubmit() {
-    this.selected.emit({ year: this.selectedYear, month: this.selectedMonth });
+    this.selected.emit({ year: Number(this.selectedYear), month: Number(this.selectedMonth) });
   }
 }

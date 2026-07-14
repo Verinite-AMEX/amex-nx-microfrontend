@@ -1,6 +1,14 @@
 import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { InputComponent } from '../../atoms/input';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
+import { PaginationComponent } from '../../atoms/pagination';
 
 export interface BCRBReportRow {
   serialNo: number;
@@ -13,7 +21,18 @@ export interface BCRBReportRow {
 @Component({
   selector: 'amex-bcrb-reports-table',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputComponent,
+    TableComponent,
+    TableHeadComponent,
+    TableHeaderCellComponent,
+    TableBodyComponent,
+    TableRowComponent,
+    TableCellComponent,
+    PaginationComponent,
+  ],
   template: `
     <div class="bcrb">
       <!-- Indigo header bar — exact match to screenshot -->
@@ -38,51 +57,52 @@ export interface BCRBReportRow {
       <!-- Filter input -->
       <div class="bcrb__filter-row">
         <span class="bcrb__filter-label">Filter:</span>
-        <input class="bcrb__filter-input" [(ngModel)]="filterText"
-          (ngModelChange)="applyFilter()" />
+        <ui-input class="bcrb__filter-input" [(ngModel)]="filterText"
+          (ngModelChange)="applyFilter()" ariaLabel="Filter reports"></ui-input>
       </div>
 
       <!-- Table -->
-      <table class="bcrb__table">
-        <thead>
-          <tr class="bcrb__head-row">
-            <th class="bcrb__th" scope="col">Serial No.</th>
-            <th class="bcrb__th bcrb__th--link" scope="col">Process ID</th>
-            <th class="bcrb__th bcrb__th--link" scope="col">File Name</th>
-            <th class="bcrb__th" scope="col">Report Creation Time</th>
-            <th class="bcrb__th bcrb__th--status" scope="col">Processing Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of pageRows" class="bcrb__row">
-            <td class="bcrb__td">{{ row.serialNo }}</td>
-            <td class="bcrb__td bcrb__td--link" (click)="rowClick.emit(row)">{{ row.processId }}</td>
-            <td class="bcrb__td bcrb__td--link" (click)="rowClick.emit(row)">{{ row.fileName }}</td>
-            <td class="bcrb__td">{{ row.reportCreationTime }}</td>
-            <td class="bcrb__td" [ngClass]="statusClass(row.processingStatus)">
+      <ui-table class="bcrb__table">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Serial No.</ui-table-header-cell>
+            <ui-table-header-cell class="bcrb__th--link">Process ID</ui-table-header-cell>
+            <ui-table-header-cell class="bcrb__th--link">File Name</ui-table-header-cell>
+            <ui-table-header-cell>Report Creation Time</ui-table-header-cell>
+            <ui-table-header-cell class="bcrb__th--status">Processing Status</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of pageRows" [hoverable]="true">
+            <ui-table-cell>{{ row.serialNo }}</ui-table-cell>
+            <ui-table-cell class="bcrb__td--link" (click)="rowClick.emit(row)">{{ row.processId }}</ui-table-cell>
+            <ui-table-cell class="bcrb__td--link" (click)="rowClick.emit(row)">{{ row.fileName }}</ui-table-cell>
+            <ui-table-cell>{{ row.reportCreationTime }}</ui-table-cell>
+            <ui-table-cell [ngClass]="statusClass(row.processingStatus)">
               {{ row.processingStatus }}
-            </td>
-          </tr>
-          <tr *ngIf="!pageRows.length">
-            <td colspan="5" class="bcrb__empty">No Data Found</td>
-          </tr>
-        </tbody>
-      </table>
+            </ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!pageRows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="5" [align]="'center'" class="bcrb__empty">No Data Found</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
 
       <!-- Pagination — matches screenshot: Items per page: 5 ▼  0 of 0  |< < > >| -->
-      <div class="bcrb__pager">
-        <span class="bcrb__pager-label">Items per page:</span>
-        <select class="bcrb__pager-select" [(ngModel)]="pageSize" (ngModelChange)="page=1">
-          <option *ngFor="let s of [5,10,20]" [value]="s">{{ s }}</option>
-        </select>
-        <span class="bcrb__pager-range">{{ rangeLabel }}</span>
-        <div class="bcrb__pager-btns">
-          <button class="bcrb__pager-btn" (click)="page=1"         [disabled]="page===1">|&lt;</button>
-          <button class="bcrb__pager-btn" (click)="page=page-1"    [disabled]="page===1">&lt;</button>
-          <button class="bcrb__pager-btn" (click)="page=page+1"    [disabled]="page===totalPages">&gt;</button>
-          <button class="bcrb__pager-btn" (click)="page=totalPages"[disabled]="page===totalPages">&gt;|</button>
-        </div>
-      </div>
+      <ui-pagination
+        class="bcrb__pager"
+        variant="compact"
+        [currentPage]="page"
+        [totalPages]="totalPages"
+        [showFirstLast]="true"
+        [showRangeLabel]="true"
+        [rangeLabel]="rangeLabel"
+        [showPageSizeSelector]="true"
+        [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions"
+        (pageChange)="onPageNav($event)"
+        (pageSizeChange)="onPageSizeChange($event)">
+      </ui-pagination>
     </div>
   `,
   styles: [`
@@ -119,29 +139,14 @@ export interface BCRBReportRow {
     }
     .bcrb__filter-label { white-space: nowrap; }
     .bcrb__filter-input {
-      border: none; border-bottom: 1px solid #aaa; outline: none;
-      font-size: 13px; width: 160px; padding: 2px 4px;
-      font-family: Arial, sans-serif;
+      --input-border: none; --input-radius: 0;
+      border-bottom: 1px solid #aaa;
+      width: 160px;
     }
 
-    /* Table */
-    .bcrb__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-
-    .bcrb__head-row { border-bottom: 1px solid #ddd; }
-    .bcrb__th {
-      padding: 8px 16px; text-align: left;
-      color: #333; font-weight: normal; font-size: 13px;
-      border-bottom: 1px solid #ddd;
-    }
     .bcrb__th--link  { color: #1a3a6b; }
     .bcrb__th--status { color: #1a3a6b; }
 
-    .bcrb__row { border-bottom: 1px solid #f0f0f0; }
-    .bcrb__row:hover { background: #f5f7ff; }
-    .bcrb__td {
-      padding: 8px 16px; font-size: 13px; color: #333;
-      border-bottom: 1px solid #f0f0f0;
-    }
     .bcrb__td--link {
       color: #1a3a6b; cursor: pointer;
     }
@@ -154,37 +159,18 @@ export interface BCRBReportRow {
     .bcrb__status--process { color: #1565c0; }
 
     .bcrb__empty {
-      padding: 32px; text-align: center;
-      font-weight: bold; font-size: 14px; color: #333;
+      font-weight: bold; font-size: 14px; color: #333; padding: 32px 0;
     }
 
-    /* Pagination — right-aligned, matches screenshot exactly */
     .bcrb__pager {
-      display: flex; align-items: center; justify-content: flex-end;
-      gap: 8px; padding: 8px 16px;
-      border-top: 1px solid #eee; font-size: 13px; color: #555;
+      display: flex; justify-content: flex-end;
+      padding: 8px 16px; border-top: 1px solid #eee;
     }
-    .bcrb__pager-label { white-space: nowrap; }
-    .bcrb__pager-select {
-      border: 1px solid #ccc; padding: 2px 6px;
-      font-size: 12px; font-family: Arial, sans-serif; border-radius: 2px;
-    }
-    .bcrb__pager-range { min-width: 60px; text-align: right; }
-    .bcrb__pager-btns { display: flex; gap: 1px; }
-    .bcrb__pager-btn {
-      background: none; border: 1px solid #ccc; color: #555;
-      width: 26px; height: 26px; font-size: 12px; cursor: pointer;
-      display: flex; align-items: center; justify-content: center;
-      font-family: Arial, sans-serif; padding: 0;
-    }
-    .bcrb__pager-btn:hover:not([disabled]) { background: #e8f0fe; border-color: #1a3a6b; }
-    .bcrb__pager-btn[disabled] { opacity: 0.35; cursor: default; }
   `],
 })
 export class AmexBCRBReportsTableComponent implements OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `bcrb-reports-table-${++AmexBCRBReportsTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-bcrb-reports-table-${++AmexBCRBReportsTableComponent._idCounter}`;
 
   @Input() rows: BCRBReportRow[] = [];
   @Input() username = '';
@@ -196,6 +182,7 @@ export class AmexBCRBReportsTableComponent implements OnChanges {
   page = 1;
   pageSize = 5;
   filteredRows: BCRBReportRow[] = [];
+  pageSizeOptions = [5, 10, 20];
 
   get totalPages() { return Math.max(1, Math.ceil(this.filteredRows.length / this.pageSize)); }
   get pageRows() {
@@ -221,6 +208,9 @@ export class AmexBCRBReportsTableComponent implements OnChanges {
       : [...this.rows];
     this.page = 1;
   }
+
+  onPageNav(p: number) { this.page = p; }
+  onPageSizeChange(size: number) { this.pageSize = size; this.page = 1; }
 
   statusClass(status: string) {
     const s = status.toLowerCase();

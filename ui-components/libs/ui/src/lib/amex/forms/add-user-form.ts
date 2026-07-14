@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AddUserFormData {
   userId?: string;
@@ -22,149 +27,99 @@ export interface AddUserFormData {
 @Component({
   selector: 'amex-add-user-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, FormFieldComponent, InputComponent, SelectComponent, ButtonComponent],
   template: `
-    <div class="auf">
-      <!-- Title + purple accent line — matches OMS image42 exactly -->
-      <div class="auf__title">{{ title }}</div>
-      <div class="auf__accent"></div>
+    <ui-panel [title]="title">
+      <!-- User ID (read-only in edit mode) -->
+      <ui-form-field class="auf__field" *ngIf="showUserId" label="User ID" [forId]="id + '-user-id'">
+        <ui-input
+          [id]="id + '-user-id'"
+          [readonly]="userIdReadonly"
+          [(ngModel)]="form.userId"
+          placeholder="Enter User ID">
+        </ui-input>
+      </ui-form-field>
 
-      <div class="auf__panel">
-        <!-- User ID (read-only in edit mode) -->
-        <div class="auf__field" *ngIf="showUserId">
-          <label class="auf__label" [for]="id + '-user-id'">User ID</label>
-          <input [id]="id + '-user-id'" class="auf__input"
-            [class.auf__input--readonly]="userIdReadonly"
-            [(ngModel)]="form.userId"
-            [readonly]="userIdReadonly"
-            placeholder="Enter User ID" />
+      <!-- User Name -->
+      <ui-form-field class="auf__field" label="User Name" [forId]="id + '-user-name'">
+        <div class="auf__input-wrap">
+          <ui-input [id]="id + '-user-name'" [(ngModel)]="form.userName" placeholder="Enter user name"></ui-input>
+          <span class="auf__info-icon" *ngIf="showInfoIcon" title="Username must be unique">&#9432;</span>
         </div>
+      </ui-form-field>
 
-        <!-- User Name -->
-        <div class="auf__field">
-          <label class="auf__label" [for]="id + '-user-name'">User Name</label>
-          <div class="auf__input-wrap">
-            <input [id]="id + '-user-name'" class="auf__input" [(ngModel)]="form.userName" placeholder="Enter user name" />
-            <span class="auf__info-icon" *ngIf="showInfoIcon" title="Username must be unique">&#9432;</span>
-          </div>
-        </div>
+      <!-- Email Address -->
+      <ui-form-field class="auf__field" label="Email Address" [forId]="id + '-email-address'">
+        <ui-input [id]="id + '-email-address'" type="email" [(ngModel)]="form.emailAddress" placeholder="Enter email address"></ui-input>
+      </ui-form-field>
 
-        <!-- Email Address -->
-        <div class="auf__field">
-          <label class="auf__label" [for]="id + '-email-address'">Email Address</label>
-          <input [id]="id + '-email-address'" class="auf__input" [(ngModel)]="form.emailAddress" type="email" placeholder="Enter email address" />
-        </div>
+      <!-- Password (hidden in edit mode) -->
+      <ui-form-field class="auf__field" *ngIf="showPassword" label="Password" [forId]="id + '-password'">
+        <ui-input [id]="id + '-password'" type="password" [(ngModel)]="form.password" placeholder="Enter password"></ui-input>
+      </ui-form-field>
 
-        <!-- Password (hidden in edit mode) -->
-        <div class="auf__field" *ngIf="showPassword">
-          <label class="auf__label" [for]="id + '-password'">Password</label>
-          <input [id]="id + '-password'" class="auf__input" [(ngModel)]="form.password" type="password" placeholder="Enter password" />
-        </div>
+      <!-- Role dropdown -->
+      <ui-form-field class="auf__field" *ngIf="showRole" label="Role" [forId]="id + '-role'">
+        <ui-select [id]="id + '-role'" [options]="roleOptions" placeholder="-- Select Role --" [(ngModel)]="form.role"></ui-select>
+      </ui-form-field>
 
-        <!-- Role dropdown -->
-        <div class="auf__field" *ngIf="showRole">
-          <label class="auf__label" [for]="id + '-role'">Role</label>
-          <select [id]="id + '-role'" class="auf__select" [(ngModel)]="form.role">
-            <option value="">-- Select Role --</option>
-            <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
-          </select>
-        </div>
+      <!-- Status dropdown -->
+      <ui-form-field class="auf__field" label="Status" [forId]="id + '-status'">
+        <ui-select [id]="id + '-status'" [options]="statusOptions" [(ngModel)]="form.status"></ui-select>
+      </ui-form-field>
 
-        <!-- Status dropdown -->
-        <div class="auf__field">
-          <label class="auf__label" [for]="id + '-status'">Status</label>
-          <select [id]="id + '-status'" class="auf__select" [(ngModel)]="form.status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
+      <!-- Merchant Account (OMS specific) -->
+      <ui-form-field class="auf__field" *ngIf="showMerchantAccount" label="Merchant Account" [forId]="id + '-merchant-account'">
+        <ui-input [id]="id + '-merchant-account'" [(ngModel)]="form.merchantAccount" placeholder="Enter merchant account number"></ui-input>
+      </ui-form-field>
 
-        <!-- Merchant Account (OMS specific) -->
-        <div class="auf__field" *ngIf="showMerchantAccount">
-          <label class="auf__label" [for]="id + '-merchant-account'">Merchant Account</label>
-          <input [id]="id + '-merchant-account'" class="auf__input" [(ngModel)]="form.merchantAccount" placeholder="Enter merchant account number" />
-        </div>
+      <!-- Corporate Account (BTA specific) -->
+      <ui-form-field class="auf__field" *ngIf="showCorporateAccount" label="Corporate Account" [forId]="id + '-corporate-account'">
+        <ui-input [id]="id + '-corporate-account'" [(ngModel)]="form.corporateAccount" placeholder="Enter corporate account"></ui-input>
+      </ui-form-field>
 
-        <!-- Corporate Account (BTA specific) -->
-        <div class="auf__field" *ngIf="showCorporateAccount">
-          <label class="auf__label" [for]="id + '-corporate-account'">Corporate Account</label>
-          <input [id]="id + '-corporate-account'" class="auf__input" [(ngModel)]="form.corporateAccount" placeholder="Enter corporate account" />
-        </div>
-
-        <!-- Actions — navy Back + purple Submit matching screenshot exactly -->
-        <div class="auf__actions">
-          <button class="auf__btn auf__btn--back" (click)="backClick.emit()">{{ backLabel }}</button>
-          <button class="auf__btn auf__btn--submit" (click)="submitClick.emit(form)">{{ submitLabel }}</button>
-        </div>
+      <!-- Actions — navy Back + purple Submit matching screenshot exactly -->
+      <div class="auf__actions">
+        <ui-button class="auf__btn auf__btn--back" variant="primary" [label]="backLabel" (click)="backClick.emit()"></ui-button>
+        <ui-button class="auf__btn auf__btn--submit" variant="primary" [label]="submitLabel" (click)="submitClick.emit(form)"></ui-button>
       </div>
-    </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-
-    /* Title + purple accent — exact OMS image42 */
-    .auf__title {
-      font-size: 16px; font-weight: bold; color: #1a3a6b;
-      text-transform: uppercase; letter-spacing: 0.5px;
-      padding: 0 0 6px;
-    }
-    .auf__accent { height: 3px; background: #7b1fa2; margin-bottom: 16px; }
-
-    /* White card panel */
-    .auf__panel {
-      background: #fff;
-      border: 1px solid #e0e0e0;
-      border-radius: 3px;
-      padding: 20px 24px;
-      max-width: 460px;
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-accent-color: #7b1fa2;
+      --panel-max-width: 460px;
+      --input-border: 1px solid #ccc;
+      --input-radius: 3px;
+      --input-padding: 8px 12px;
+      --input-focus-border-color: #7b1fa2;
+      --input-focus-shadow: 0 0 0 2px rgba(123,31,162,0.1);
     }
 
-    /* Field layout — label above input */
     .auf__field { margin-bottom: 16px; }
-    .auf__label {
-      display: block; font-size: 13px; color: #1a3a6b;
-      margin-bottom: 6px; font-weight: normal;
-    }
     .auf__input-wrap { position: relative; display: flex; align-items: center; }
-    .auf__input {
-      width: 100%; box-sizing: border-box;
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 12px; font-size: 13px;
-      font-family: Arial, sans-serif; color: #333;
-      outline: none;
-    }
-    .auf__input:focus { border-color: #7b1fa2; box-shadow: 0 0 0 2px rgba(123,31,162,0.1); }
-    .auf__input--readonly { background: #f5f5f5; color: #888; cursor: not-allowed; }
     .auf__info-icon {
       position: absolute; right: 10px;
       color: #1a7abf; font-size: 16px; cursor: help;
     }
-    .auf__select {
-      width: 100%; box-sizing: border-box;
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 12px; font-size: 13px;
-      font-family: Arial, sans-serif; color: #333;
-      background: #fff; outline: none; cursor: pointer;
-    }
-    .auf__select:focus { border-color: #7b1fa2; }
 
     /* Buttons — navy Back + purple Submit (exact OMS screenshot) */
     .auf__actions { display: flex; gap: 12px; margin-top: 20px; }
-    .auf__btn {
-      padding: 10px 32px; font-size: 14px; font-weight: bold;
-      border: none; border-radius: 3px; cursor: pointer;
-      font-family: Arial, sans-serif; min-width: 120px;
+    .auf__btn--back {
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 10px 32px; --btn-font-size: 14px;
     }
-    .auf__btn--back   { background: #1e3a5f; color: #fff; }
-    .auf__btn--back:hover { background: #16304f; }
-    .auf__btn--submit { background: #7b1fa2; color: #fff; }
-    .auf__btn--submit:hover { background: #6a1b9a; }
+    .auf__btn--submit {
+      --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 10px 32px; --btn-font-size: 14px;
+    }
   `],
 })
 export class AmexAddUserFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `add-user-form-${++AmexAddUserFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `add-user-form-${++AmexAddUserFormComponent._idCounter}`;
 
   @Input() title = 'CREATE USER';
   @Input() showUserId = false;
@@ -183,6 +138,11 @@ export class AmexAddUserFormComponent {
     { value: 'mrm',     label: 'MRM User' },
   ];
   @Input() initialData: Partial<AddUserFormData> = {};
+
+  readonly statusOptions = [
+    { value: 'Active', label: 'Active' },
+    { value: 'Inactive', label: 'Inactive' },
+  ];
 
   form: AddUserFormData = {
     userId: '', userName: '', emailAddress: '',

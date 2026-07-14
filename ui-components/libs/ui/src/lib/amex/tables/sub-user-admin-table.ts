@@ -1,5 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface SubUserRow {
   name: string;
@@ -8,88 +15,72 @@ export interface SubUserRow {
   status: string;
 }
 
-/**
- * SubUserAdminTable
- * OMS sub-user list under a Merchant account. Edit/Delete per row.
- * Source: OMS Portal — OMS style, light blue header, purple accent
- */
 @Component({
   selector: 'amex-sub-user-admin-table',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule, TableComponent, TableHeadComponent, TableHeaderCellComponent,
+    TableBodyComponent, TableRowComponent, TableCellComponent, ButtonComponent,
+  ],
   template: `
     <div class="suat">
       <div class="suat__toolbar">
         <span class="suat__title">{{ title }}</span>
-        <button *ngIf="showCreate" class="suat__create-btn" (click)="createClick.emit()">
-          {{ createLabel }}
-        </button>
+        <ui-button *ngIf="showCreate" class="suat__create-btn" [label]="createLabel" (click)="createClick.emit()"></ui-button>
       </div>
       <div class="suat__accent"></div>
 
-      <table class="suat__table">
-        <thead>
-          <tr class="suat__head-row">
-            <th class="suat__th" scope="col">Name</th>
-            <th class="suat__th" scope="col">Email</th>
-            <th class="suat__th" scope="col">Role</th>
-            <th class="suat__th" scope="col">Status</th>
-            <th class="suat__th suat__th--actions" scope="col">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let row of rows" class="suat__row">
-            <td class="suat__td">{{ row.name }}</td>
-            <td class="suat__td suat__td--email">{{ row.email }}</td>
-            <td class="suat__td">{{ row.role }}</td>
-            <td class="suat__td">
+      <ui-table class="suat__table" [bordered]="true">
+        <ui-table-head>
+          <ui-table-row [header]="true" [hoverable]="false">
+            <ui-table-header-cell>Name</ui-table-header-cell>
+            <ui-table-header-cell>Email</ui-table-header-cell>
+            <ui-table-header-cell>Role</ui-table-header-cell>
+            <ui-table-header-cell>Status</ui-table-header-cell>
+            <ui-table-header-cell class="suat__th--actions">Actions</ui-table-header-cell>
+          </ui-table-row>
+        </ui-table-head>
+        <ui-table-body>
+          <ui-table-row *ngFor="let row of rows" [hoverable]="true">
+            <ui-table-cell>{{ row.name }}</ui-table-cell>
+            <ui-table-cell class="suat__td--email">{{ row.email }}</ui-table-cell>
+            <ui-table-cell>{{ row.role }}</ui-table-cell>
+            <ui-table-cell>
               <span [class.suat__active]="row.status==='Active'"
                     [class.suat__inactive]="row.status==='Inactive'">
                 {{ row.status }}
               </span>
-            </td>
-            <td class="suat__td suat__td--actions">
-              <button class="suat__btn suat__btn--edit"   (click)="actionClick.emit({action:'edit',row})">Edit</button>
-              <button class="suat__btn suat__btn--delete" (click)="actionClick.emit({action:'delete',row})">Delete</button>
-            </td>
-          </tr>
-          <tr *ngIf="!rows.length">
-            <td colspan="5" class="suat__empty">No sub-users found.</td>
-          </tr>
-        </tbody>
-      </table>
+            </ui-table-cell>
+            <ui-table-cell class="suat__td--actions">
+              <ui-button class="suat__btn suat__btn--edit" label="Edit" [size]="'sm'" [variant]="'primary'"
+                (click)="actionClick.emit({action:'edit',row})"></ui-button>
+              <ui-button class="suat__btn suat__btn--delete" label="Delete" [size]="'sm'" [variant]="'danger'"
+                (click)="actionClick.emit({action:'delete',row})"></ui-button>
+            </ui-table-cell>
+          </ui-table-row>
+          <ui-table-row *ngIf="!rows.length" [hoverable]="false">
+            <ui-table-cell [colspan]="5" [align]="'center'" class="suat__empty">No sub-users found.</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
   `,
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .suat__toolbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 0 8px; }
     .suat__title { font-size: 15px; font-weight: bold; color: #1a1a1a; text-transform: uppercase; }
-    .suat__create-btn { background: #1e3a5f; color: #fff; border: none; padding: 7px 16px; font-size: 13px; font-weight: bold; cursor: pointer; border-radius: 3px; font-family: Arial, sans-serif; }
-    .suat__create-btn:hover { background: #16304f; }
     .suat__accent { height: 3px; background: #7b1fa2; margin-bottom: 12px; }
-    .suat__table { width: 100%; border-collapse: collapse; font-size: 13px; }
-    .suat__head-row { background: #d6eaf8; }
-    .suat__th { padding: 8px 12px; text-align: left; font-size: 12px; font-weight: bold; color: #1a3a6b; border: 1px solid #b8d4ea; }
     .suat__th--actions { text-align: center; }
-    .suat__row { border-bottom: 1px solid #eee; }
-    .suat__row:hover { background: #f5f9ff; }
-    .suat__td { padding: 9px 12px; border: 1px solid #e8eef4; font-size: 13px; color: #333; text-align: center; }
     .suat__td--email { color: #1a3a6b; }
     .suat__td--actions { white-space: nowrap; }
     .suat__active { color: #333; }
     .suat__inactive { color: #c62828; }
-    .suat__btn { border: none; padding: 4px 12px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; margin: 2px; font-family: Arial, sans-serif; }
-    .suat__btn--edit   { background: #1976d2; color: #fff; }
-    .suat__btn--edit:hover { background: #1565c0; }
-    .suat__btn--delete { background: #1976d2; color: #fff; }
-    .suat__btn--delete:hover { background: #c62828; }
-    .suat__empty { text-align: center; padding: 24px; color: #888; font-size: 13px; }
+    .suat__empty { text-align: center; color: #888; font-size: 13px; padding: 24px 0; }
   `],
 })
 export class AmexSubUserAdminTableComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `sub-user-admin-table-${++AmexSubUserAdminTableComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `sub-user-admin-table-${++AmexSubUserAdminTableComponent._idCounter}`;
 
   @Input() rows: SubUserRow[] = [];
   @Input() title = 'SUB USER ADMINISTRATION';

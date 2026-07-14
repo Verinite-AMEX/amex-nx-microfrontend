@@ -1,26 +1,29 @@
 import { Component, Input, Output, EventEmitter, ElementRef, ViewChild, OnChanges, SimpleChanges, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IconButtonComponent } from '../atoms/icon-button';
 
 @Component({
   selector: 'ui-modal',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconButtonComponent],
   template: `
     <div *ngIf="open" class="modal-backdrop" (click)="onBackdropClick($event)" role="presentation">
-      <div #dialog class="modal modal-{{size}}" 
-        role="dialog" 
-        aria-modal="true" 
-        tabindex="-1" 
+      <div #dialog class="modal modal-{{size}}"
+        role="dialog"
+        aria-modal="true"
+        tabindex="-1"
         [attr.aria-label]="ariaLabel || title"
         [attr.aria-describedby]="ariaDescribedBy">
         <div class="modal-header">
           <h2 class="modal-title" id="modal-title-{{uniqueId}}">{{ title }}</h2>
-          <button class="modal-close" 
-            (click)="closed.emit()" 
-            aria-label="Close modal"
-            [attr.aria-describedby]="title ? 'modal-title-' + uniqueId : null">
-            ✕
-          </button>
+          <ui-icon-button
+            icon="✕"
+            variant="ghost"
+            size="sm"
+            ariaLabel="Close modal"
+            [ariaDescribedBy]="title ? 'modal-title-' + uniqueId : ''"
+            (clicked)="closed.emit()">
+          </ui-icon-button>
         </div>
         <div class="modal-body" [attr.aria-labelledby]="title ? 'modal-title-' + uniqueId : null">
           <ng-content></ng-content>
@@ -47,16 +50,13 @@ import { CommonModule } from '@angular/common';
     .modal-lg { max-width: 800px; }
     .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 16px 20px; border-bottom: 1px solid #f0f0f0; }
     .modal-title { margin: 0; font-size: 18px; font-weight: 600; color: #333; }
-    .modal-close { background: none; border: none; font-size: 18px; cursor: pointer; color: #888; padding: 0; }
-    .modal-close:hover { color: #333; }
     .modal-body { padding: 20px; overflow-y: auto; flex: 1; font-size: 14px; color: #555; line-height: 1.6; }
     .modal-footer { padding: 12px 20px; border-top: 1px solid #f0f0f0; display: flex; justify-content: flex-end; gap: 8px; }
   `],
 })
 export class ModalComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-modal-${++ModalComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-modal-${++ModalComponent._idCounter}`;
 
   @Input() open = false;
   @Input() title = '';
@@ -102,14 +102,12 @@ export class ModalComponent {
   }
 
   closeInternal() {
-    // emit and restore focus
     this.closed.emit();
     this.restoreFocus();
   }
 
   private trapFocus() {
     this.previouslyFocused = document.activeElement;
-    // focus the dialog container
     setTimeout(() => {
       try {
         this.dialogRef?.nativeElement?.focus();

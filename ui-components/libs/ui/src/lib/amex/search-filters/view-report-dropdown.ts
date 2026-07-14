@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { InputComponent } from '../../atoms/input';
+import { DateInputComponent } from '../../atoms/date-input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AmexViewReportOption {
   value: string;
@@ -24,86 +29,78 @@ export interface AmexViewReportField {
 @Component({
   selector: 'amex-view-report-dropdown',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, SelectComponent, InputComponent, DateInputComponent, ButtonComponent],
   template: `
     <div class="vrd-wrap">
       <!-- View Report selector row -->
-      <div class="vrd-top-row">
-        <label class="vrd-label" [for]="id + '-view-report'">View Report</label>
-        <select [id]="id + '-view-report'" class="vrd-select" [(ngModel)]="selectedValue" (change)="onSelect()">
-          <option value="">-- Select --</option>
-          <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
-        </select>
-      </div>
+      <ui-form-field class="vrd-top-row" label="View Report" [forId]="id + '-view-report'">
+        <ui-select
+          [id]="id + '-view-report'"
+          [options]="viewOptions"
+          placeholder="-- Select --"
+          ariaLabel="View Report"
+          [(ngModel)]="selectedValue"
+          (ngModelChange)="onSelect()">
+        </ui-select>
+      </ui-form-field>
 
       <!-- Dynamic field panel per selection -->
       <div class="vrd-panel" *ngIf="currentOption">
         <div class="vrd-panel-grid">
-          <div class="vrd-field" *ngFor="let f of currentOption.fields">
-            <label class="vrd-field-label" [for]="id + '-field'">{{ f.label }}</label>
+          <ui-form-field
+            class="vrd-field"
+            *ngFor="let f of currentOption.fields"
+            [label]="f.label"
+            [forId]="id + '-' + f.key">
 
-            <input [id]="id + '-field'"
+            <ui-input
               *ngIf="f.type === 'text'"
-              class="vrd-input"
+              [id]="id + '-' + f.key"
               type="text"
-              [(ngModel)]="fieldValues[f.key]"
-            />
-            <input
+              [ariaLabel]="f.label"
+              [(ngModel)]="fieldValues[f.key]">
+            </ui-input>
+
+            <ui-date-input
               *ngIf="f.type === 'date'"
-              class="vrd-input"
-              type="date"
-              [(ngModel)]="fieldValues[f.key]"
-            />
-            <select
+              [id]="id + '-' + f.key"
+              [ariaLabel]="f.label"
+              [(ngModel)]="fieldValues[f.key]">
+            </ui-date-input>
+
+            <ui-select
               *ngIf="f.type === 'select'"
-              class="vrd-input"
-              [(ngModel)]="fieldValues[f.key]"
-            >
-              <option value="">-- Select --</option>
-              <option *ngFor="let o of f.options" [value]="o.value">{{ o.label }}</option>
-            </select>
-          </div>
+              [id]="id + '-' + f.key"
+              [options]="f.options || []"
+              placeholder="-- Select --"
+              [ariaLabel]="f.label"
+              [(ngModel)]="fieldValues[f.key]">
+            </ui-select>
+          </ui-form-field>
         </div>
 
         <div class="vrd-actions">
-          <button class="vrd-btn" (click)="onSubmit()">Submit</button>
+          <ui-button variant="primary" size="sm" label="Submit" (click)="onSubmit()"></ui-button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
+      --btn-color: #fff;
+      --btn-border: 1px solid #1050a0;
+      --btn-radius: 2px;
+      --btn-padding: 5px 16px;
+      --btn-font-size: 12px;
+    }
 
     .vrd-wrap { padding: 8px 0; }
 
-    .vrd-top-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 10px;
-    }
+    .vrd-top-row { max-width: 260px; margin-bottom: 10px; }
 
-    .vrd-label {
-      font-size: 13px;
-      color: #333;
-      white-space: nowrap;
-      min-width: 90px;
-    }
-
-    .vrd-select {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      min-width: 200px;
-      cursor: pointer;
-    }
-    .vrd-select:focus { outline: none; border-color: #006fcf; }
-
-    /* Dynamic field panel */
     .vrd-panel {
       background: #f9f9f9;
       border: 1px solid #e0e0e0;
@@ -118,48 +115,14 @@ export interface AmexViewReportField {
       margin-bottom: 10px;
     }
 
-    .vrd-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .vrd-field-label {
-      font-size: 12px;
-      color: #555;
-    }
-
-    .vrd-input {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      min-width: 140px;
-    }
-    .vrd-input:focus { outline: none; border-color: #006fcf; }
+    .vrd-field { min-width: 140px; }
 
     .vrd-actions { margin-top: 4px; }
-
-    .vrd-btn {
-      background: linear-gradient(to bottom, #2a84e0, #1462b8);
-      color: #fff;
-      border: 1px solid #1050a0;
-      border-radius: 2px;
-      padding: 5px 16px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .vrd-btn:hover { background: linear-gradient(to bottom, #1e78d0, #0e50a0); }
   `],
 })
 export class AmexViewReportDropdownComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `view-report-dropdown-${++AmexViewReportDropdownComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `view-report-dropdown-${++AmexViewReportDropdownComponent._idCounter}`;
 
   @Input() options: AmexViewReportOption[] = [];
 
@@ -168,6 +131,10 @@ export class AmexViewReportDropdownComponent {
   selectedValue = '';
   currentOption: AmexViewReportOption | null = null;
   fieldValues: Record<string, string> = {};
+
+  get viewOptions(): SelectOption[] {
+    return this.options.map(o => ({ label: o.label, value: o.value }));
+  }
 
   onSelect() {
     this.currentOption = this.options.find(o => o.value === this.selectedValue) ?? null;

@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * LogoutConfirmation
@@ -9,7 +10,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'amex-logout-confirmation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div *ngIf="visible" class="overlay" (click)="onOverlay($event)">
       <div class="dialog" role="dialog" aria-modal="true">
@@ -18,8 +19,12 @@ import { CommonModule } from '@angular/common';
           <p class="dialog__msg">{{ message }}</p>
         </div>
         <div class="dialog__actions">
-          <button class="dialog__btn dialog__btn--ok" (click)="confirm.emit()">OK</button>
-          <button class="dialog__btn dialog__btn--cancel" (click)="cancel.emit()">Cancel</button>
+          <ui-button [id]="id + '-ok'" class="dialog__btn-wrap dialog__btn-wrap--ok"
+            label="OK" size="sm" (click)="confirm.emit()">
+          </ui-button>
+          <ui-button [id]="id + '-cancel'" class="dialog__btn-wrap dialog__btn-wrap--cancel"
+            label="Cancel" size="sm" (click)="cancel.emit()">
+          </ui-button>
         </div>
       </div>
     </div>
@@ -46,23 +51,24 @@ import { CommonModule } from '@angular/common';
       padding: 8px 14px 12px; display: flex;
       justify-content: flex-end; gap: 8px;
     }
-    .dialog__btn {
-      padding: 4px 20px; font-family: Arial, sans-serif;
-      font-size: 12px; cursor: pointer;
-      border: 1px solid #999; border-radius: 2px;
+    /* ui-button is styled via its exposed CSS custom properties, not ::ng-deep,
+       since custom properties inherit across component boundaries regardless
+       of view encapsulation. */
+    .dialog__btn-wrap--ok {
+      --btn-bg: #006fcf; --btn-color: #fff; --btn-radius: 2px;
+      --btn-padding: 4px 20px; --btn-font-size: 12px;
     }
-    .dialog__btn--ok {
-      background: #006fcf; color: #fff; border-color: #005ba3;
+    .dialog__btn-wrap--ok:hover { --btn-bg: #005ba3; }
+    .dialog__btn-wrap--cancel {
+      --btn-bg: #f5f5f5; --btn-color: #333; --btn-radius: 2px;
+      --btn-padding: 4px 20px; --btn-font-size: 12px;
     }
-    .dialog__btn--ok:hover { background: #005ba3; }
-    .dialog__btn--cancel { background: #f5f5f5; color: #333; }
-    .dialog__btn--cancel:hover { background: #e8e8e8; }
+    .dialog__btn-wrap--cancel:hover { --btn-bg: #e8e8e8; }
   `],
 })
 export class AmexLogoutConfirmationComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `logout-confirmation-${++AmexLogoutConfirmationComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `logout-confirmation-${++AmexLogoutConfirmationComponent._idCounter}`;
 
   @Input() visible = false;
   @Input() serverLabel = 'tst-websrv01 says';

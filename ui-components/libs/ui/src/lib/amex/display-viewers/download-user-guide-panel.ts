@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * DownloadUserGuidePanel
@@ -11,7 +12,7 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'amex-download-user-guide-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div class="dugp">
       <div class="dugp__section-header" *ngIf="showSectionHeader">
@@ -19,14 +20,10 @@ import { CommonModule } from '@angular/common';
       </div>
 
       <!-- PDF guide button -->
-      <button class="dugp__btn dugp__btn--guide" (click)="downloadGuide.emit()">
-        {{ guideButtonLabel }}
-      </button>
+      <ui-button class="dugp__btn dugp__btn--guide" variant="secondary" [label]="guideButtonLabel" (click)="downloadGuide.emit()"></ui-button>
 
       <!-- Video guide button -->
-      <button class="dugp__btn dugp__btn--video" (click)="openVideo.emit()">
-        {{ videoButtonLabel }}
-      </button>
+      <ui-button class="dugp__btn dugp__btn--video" variant="secondary" [label]="videoButtonLabel" (click)="openVideo.emit()"></ui-button>
 
       <!-- Optional description text -->
       <p *ngIf="description" class="dugp__description">{{ description }}</p>
@@ -35,7 +32,7 @@ import { CommonModule } from '@angular/common';
       <div *ngIf="showVideoEmbed && videoUrl" class="dugp__video-wrap">
         <div class="dugp__video-header">
           User Guide Video
-          <button class="dugp__video-close" (click)="showVideoEmbed = false">&#x2715;</button>
+          <ui-button class="dugp__video-close" variant="ghost" label="✕" ariaLabel="Close video" (click)="showVideoEmbed = false"></ui-button>
         </div>
         <iframe class="dugp__iframe"
                 [src]="videoUrl"
@@ -56,24 +53,22 @@ import { CommonModule } from '@angular/common';
       color: #333; margin-bottom: 4px;
     }
 
+    /* OMS style — dark maroon/purple full-width centered buttons as seen in screenshot */
     .dugp__btn {
-      width: 100%; padding: 10px 14px;
-      font-size: 13px; font-weight: bold;
-      border: none; cursor: pointer;
-      font-family: Arial, sans-serif;
-      text-align: center;
-      transition: opacity 0.1s;
+      --btn-width: 100%;
+      --btn-justify-content: center;
+      --btn-padding: 10px 14px;
+      --btn-font-size: 13px;
+      --btn-radius: 0px;
+      --btn-hover-opacity: 0.88;
     }
-    .dugp__btn:hover { opacity: 0.88; }
-
-    /* OMS style — dark maroon/purple buttons as seen in screenshot */
     .dugp__btn--guide {
-      background: #7b1f5e;
-      color: #fff;
+      --btn-bg: #7b1f5e;
+      --btn-color: #fff;
     }
     .dugp__btn--video {
-      background: #7b1f5e;
-      color: #fff;
+      --btn-bg: #7b1f5e;
+      --btn-color: #fff;
     }
 
     .dugp__description {
@@ -92,8 +87,11 @@ import { CommonModule } from '@angular/common';
       display: flex; justify-content: space-between; align-items: center;
     }
     .dugp__video-close {
-      background: none; border: none; color: #fff;
-      font-size: 14px; cursor: pointer; padding: 0 4px;
+      --btn-bg: none;
+      --btn-color: #fff;
+      --btn-border: none;
+      --btn-padding: 0 4px;
+      --btn-font-size: 14px;
     }
     .dugp__iframe {
       width: 100%; height: 280px; display: block;
@@ -104,7 +102,6 @@ import { CommonModule } from '@angular/common';
 export class AmexDownloadUserGuidePanelComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') readonly id = `download-user-guide-panel-${++AmexDownloadUserGuidePanelComponent._idCounter}`;
-
 
   @Input() showSectionHeader  = false;
   @Input() sectionHeaderText  = 'Help & Resources';

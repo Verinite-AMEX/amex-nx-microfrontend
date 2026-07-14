@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { NgIf, NgFor } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { LabelComponent } from '../../atoms/label';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface StatementMonth {
   label: string;   // e.g. 'October 2029'
@@ -18,16 +21,16 @@ export interface StatementMonth {
 @Component({
   selector: 'amex-statement-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [NgIf, NgFor, FormsModule, LabelComponent, InputComponent, ButtonComponent],
   template: `
     <div class="sv">
       <!-- Header panel -->
       <div class="sv__panel">
         <div class="sv__panel-header">View Statements</div>
         <div class="sv__search-row">
-          <label class="sv__search-label" [for]="id + '-please-enter-a-card-number'">Please enter a card number</label>
-          <input [id]="id + '-please-enter-a-card-number'" class="sv__input" [(ngModel)]="cardNumber" [value]="cardNumber" />
-          <button class="sv__btn" (click)="viewStatements.emit(cardNumber)">View Statements</button>
+          <ui-label class="sv__search-label" [forId]="id + '-please-enter-a-card-number'">Please enter a card number</ui-label>
+          <ui-input [id]="id + '-please-enter-a-card-number'" class="sv__input" [(ngModel)]="cardNumber"></ui-input>
+          <ui-button class="sv__btn" variant="primary" label="View Statements" (click)="viewStatements.emit(cardNumber)"></ui-button>
         </div>
 
         <!-- Results -->
@@ -50,7 +53,16 @@ export interface StatementMonth {
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; font-size: 13px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 13px;
+      --input-border: 1px solid #aaa;
+      --input-padding: 3px 6px;
+      --label-font-size: 12px;
+      --label-font-weight: normal;
+      --label-color: #333;
+    }
 
     .sv { background: #e8e8e8; padding: 20px; min-height: 200px; }
 
@@ -78,31 +90,17 @@ export interface StatementMonth {
       padding: 14px 16px;
     }
 
-    .sv__search-label {
-      font-size: 12px;
-      color: #333;
-      white-space: nowrap;
-    }
+    .sv__search-label ::ng-deep .ui-label { white-space: nowrap; }
 
-    .sv__input {
-      border: 1px solid #aaa;
-      padding: 3px 6px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      width: 200px;
-    }
+    .sv__input { width: 200px; font-size: 12px; }
 
     .sv__btn {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      color: #fff;
-      border: 1px solid #005fba;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-      white-space: nowrap;
+      --btn-bg: linear-gradient(to bottom, #5ba3e0, #006fcf);
+      --btn-color: #fff;
+      --btn-border: 1px solid #005fba;
+      --btn-padding: 4px 14px;
+      --btn-font-size: 12px;
     }
-    .sv__btn:hover { background: linear-gradient(to bottom, #4a92cf, #0058a6); }
 
     /* Results table */
     .sv__results { padding: 0 16px 14px; }
@@ -157,8 +155,7 @@ export interface StatementMonth {
 })
 export class AmexStatementViewerComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `statement-viewer-${++AmexStatementViewerComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `statement-viewer-${++AmexStatementViewerComponent._idCounter}`;
 
   @Input() cardNumber = '';
   @Input() statements: StatementMonth[] = [];

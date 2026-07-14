@@ -71,7 +71,7 @@ export interface AmexAuditEntry {
 })
 export class AmexAuditTrailRowComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `audit-trail-row-${++AmexAuditTrailRowComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `audit-trail-row-${++AmexAuditTrailRowComponent._idCounter}`;
 
 
   @Input() entry!: AmexAuditEntry;

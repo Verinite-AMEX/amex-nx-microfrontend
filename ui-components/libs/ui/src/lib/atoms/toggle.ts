@@ -43,7 +43,7 @@ import { NgIf } from '@angular/common';
 })
 export class ToggleComponent implements ControlValueAccessor {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-toggle-${++ToggleComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `ui-toggle-${++ToggleComponent._idCounter}`;
 
 
   @Input() label = '';

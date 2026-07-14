@@ -1,11 +1,14 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 @Component({
   selector: 'amex-forgot-user-id-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="amex-shell">
       <div class="top-bar">
@@ -41,14 +44,13 @@ import { FormsModule } from '@angular/forms';
                 Please enter your registered email address. Your User ID will be sent to that address.
               </p>
 
-              <div class="field-row">
-                <label class="field-label" [for]="id + '-email-address'">Email Address <span class="req">*</span></label>
-                <input [id]="id + '-email-address'" type="email" class="field-input" [(ngModel)]="email" placeholder="Enter registered email" />
-              </div>
+              <ui-form-field class="field-row" layout="horizontal" labelWidth="140px" label="Email Address" [required]="true" [forId]="id + '-email-address'">
+                <ui-input class="field-input" [id]="id + '-email-address'" type="email" [required]="true" [(ngModel)]="email" placeholder="Enter registered email"></ui-input>
+              </ui-form-field>
 
               <div class="btn-row">
-                <button class="btn-back" (click)="backToLogin.emit()">Back to Login</button>
-                <button class="btn-submit" (click)="onSubmit()">Submit</button>
+                <ui-button class="btn-back" variant="primary" label="Back to Login" (click)="backToLogin.emit()"></ui-button>
+                <ui-button class="btn-submit" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
               </div>
             </ng-container>
 
@@ -85,7 +87,14 @@ import { FormsModule } from '@angular/forms';
     .hatched-sidebar { width: 0; }
     .main-content { flex: 1; padding: 20px 30px; background: #e8e8e8; }
 
-    .panel { background: #fff; padding: 20px 24px; max-width: 480px; }
+    .panel {
+      background: #fff; padding: 20px 24px; max-width: 480px;
+      --input-border: 1px solid #bbb;
+      --input-padding: 2px 6px;
+      --input-radius: 2px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
     .panel-title { font-size: 16px; font-weight: bold; color: #222; }
     .panel-accent { height: 3px; background: #7b1fa2; margin: 8px 0 16px 0; }
 
@@ -94,15 +103,12 @@ import { FormsModule } from '@angular/forms';
     .error-box { background: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 8px 12px; margin-bottom: 14px; }
     .success-box { background: #dff0d8; border: 1px solid #c3e6cb; color: #3c763d; padding: 10px 14px; margin-bottom: 14px; font-size: 12px; }
 
-    .field-row { display: flex; align-items: center; margin-bottom: 12px; }
-    .field-label { width: 140px; text-align: right; padding-right: 12px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .req { color: #cc0000; }
-    .field-input { flex: 1; max-width: 240px; height: 28px; border: 1px solid #bbb; padding: 2px 6px; font-size: 12px; border-radius: 2px; }
-    .field-input:focus { outline: none; border-color: #006fcf; }
+    .field-row { margin-bottom: 12px; }
+    .field-input { width: 240px; height: 28px; font-size: 12px; }
 
     .btn-row { display: flex; gap: 12px; margin-top: 16px; }
-    .btn-back { background: #1e3a5f; color: #fff; border: none; padding: 7px 20px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
-    .btn-submit { background: #7b1fa2; color: #fff; border: none; padding: 7px 24px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
+    .btn-back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 20px; --btn-font-size: 12px; }
+    .btn-submit { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 24px; --btn-font-size: 12px; }
 
     .back-link { margin-top: 12px; }
     .form-link { color: #006fcf; cursor: pointer; font-size: 12px; text-decoration: underline; }
@@ -114,8 +120,7 @@ import { FormsModule } from '@angular/forms';
 })
 export class AmexForgotUserIdFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `forgot-user-id-form-${++AmexForgotUserIdFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `forgot-user-id-form-${++AmexForgotUserIdFormComponent._idCounter}`;
 
   @Input() portalTitle = '';
   @Input() errorMessage = '';

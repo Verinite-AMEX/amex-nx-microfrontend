@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RadioComponent } from '../../atoms/radio';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
 
 /* ─── CenturionCardArtSelector ─── */
 export interface CardArtOption { id: string; label: string; color: string; }
@@ -8,7 +11,7 @@ export interface CardArtOption { id: string; label: string; color: string; }
 @Component({
   selector: 'amex-centurion-card-art-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RadioComponent, CheckboxComponent, ButtonComponent],
   template: `
     <div class="ccas">
       <div class="ccas__title">{{ title }}</div>
@@ -23,23 +26,17 @@ export interface CardArtOption { id: string; label: string; color: string; }
             <div class="ccas__card-logo">AMEX</div>
           </div>
           <div class="ccas__card-label">{{ art.label }}</div>
-          <input type="radio" [name]="'cardArt'" [value]="art.id"
-            [(ngModel)]="selectedArt" class="ccas__radio" />
+          <ui-radio class="ccas__radio" name="cardArt" [value]="art.id" [(ngModel)]="selectedArt"></ui-radio>
         </div>
       </div>
       <div class="ccas__wearable-opt">
-        <input type="checkbox" id="ccas-wear" [(ngModel)]="includeWearable" />
-        <label for="ccas-wear" class="ccas__wear-label">
-          Include Wearable product with this card issuance
-        </label>
+        <ui-checkbox [(ngModel)]="includeWearable" label="Include Wearable product with this card issuance"></ui-checkbox>
       </div>
       <div class="ccas__actions">
-        <button class="ccas__btn ccas__btn--back" (click)="backClick.emit()">Back</button>
-        <button class="ccas__btn ccas__btn--confirm"
+        <ui-button class="ccas__btn ccas__btn--back" variant="primary" label="Back" (click)="backClick.emit()"></ui-button>
+        <ui-button class="ccas__btn ccas__btn--confirm" variant="primary" label="Confirm Selection"
           [disabled]="!selectedArt"
-          (click)="confirmClick.emit({artId: selectedArt, includeWearable})">
-          Confirm Selection
-        </button>
+          (click)="confirmClick.emit({artId: selectedArt, includeWearable})"></ui-button>
       </div>
     </div>
   `,
@@ -68,20 +65,14 @@ export interface CardArtOption { id: string; label: string; color: string; }
     .ccas__card-label { font-size: 11px; color: #555; text-align: center; max-width: 90px; }
     .ccas__radio { display: none; }
     .ccas__wearable-opt { display: flex; align-items: center; gap: 8px; margin-bottom: 16px; }
-    .ccas__wear-label { font-size: 13px; color: #333; cursor: pointer; }
     .ccas__actions { display: flex; gap: 10px; }
-    .ccas__btn { padding: 9px 24px; font-size: 13px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; }
-    .ccas__btn--back { background: #1e3a5f; color: #fff; }
-    .ccas__btn--back:hover { background: #16304f; }
-    .ccas__btn--confirm { background: #1a3a6b; color: #fff; }
-    .ccas__btn--confirm:hover:not([disabled]) { background: #16304f; }
-    .ccas__btn--confirm[disabled] { opacity: 0.4; cursor: not-allowed; }
+    .ccas__btn--back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 24px; --btn-font-size: 13px; }
+    .ccas__btn--confirm { --btn-bg: #1a3a6b; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 24px; --btn-font-size: 13px; }
   `],
 })
 export class AmexCenturionCardArtSelectorComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `centurion-card-art-selector-${++AmexCenturionCardArtSelectorComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `centurion-card-art-selector-${++AmexCenturionCardArtSelectorComponent._idCounter}`;
 
   @Input() title = 'Select Card Art';
   @Input() cardArts: CardArtOption[] = [

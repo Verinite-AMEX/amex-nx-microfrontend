@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 import { AddUserFormData } from './add-user-form';
 
 /**
@@ -13,86 +18,65 @@ import { AddUserFormData } from './add-user-form';
 @Component({
   selector: 'amex-edit-user-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, FormFieldComponent, InputComponent, SelectComponent, ButtonComponent],
   template: `
-    <div class="euf">
-      <div class="euf__title">{{ title }}</div>
-      <div class="euf__accent"></div>
+    <ui-panel [title]="title">
+      <ui-form-field class="euf__field" *ngIf="data.userId" label="User ID" [forId]="id + '-user-id'">
+        <ui-input [id]="id + '-user-id'" [readonly]="true" [ngModel]="data.userId"></ui-input>
+      </ui-form-field>
 
-      <div class="euf__panel">
-        <div class="euf__field" *ngIf="data.userId">
-          <label class="euf__label" [for]="id + '-user-id'">User ID</label>
-          <input [id]="id + '-user-id'" class="euf__input euf__input--readonly" [value]="data.userId" readonly />
-        </div>
+      <ui-form-field class="euf__field" label="User Name" [forId]="id + '-user-name'">
+        <ui-input [id]="id + '-user-name'" [(ngModel)]="data.userName"></ui-input>
+      </ui-form-field>
 
-        <div class="euf__field">
-          <label class="euf__label" [for]="id + '-user-name'">User Name</label>
-          <input [id]="id + '-user-name'" class="euf__input" [(ngModel)]="data.userName" />
-        </div>
+      <ui-form-field class="euf__field" label="Email Address" [forId]="id + '-email-address'">
+        <ui-input [id]="id + '-email-address'" type="email" [(ngModel)]="data.emailAddress"></ui-input>
+      </ui-form-field>
 
-        <div class="euf__field">
-          <label class="euf__label" [for]="id + '-email-address'">Email Address</label>
-          <input [id]="id + '-email-address'" class="euf__input" [(ngModel)]="data.emailAddress" type="email" />
-        </div>
+      <ui-form-field class="euf__field" *ngIf="showRole" label="Role" [forId]="id + '-role'">
+        <ui-select [id]="id + '-role'" [options]="roleOptions" [(ngModel)]="data.role"></ui-select>
+      </ui-form-field>
 
-        <div class="euf__field" *ngIf="showRole">
-          <label class="euf__label" [for]="id + '-role'">Role</label>
-          <select [id]="id + '-role'" class="euf__select" [(ngModel)]="data.role">
-            <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
-          </select>
-        </div>
+      <ui-form-field class="euf__field" label="Status" [forId]="id + '-status'">
+        <ui-select [id]="id + '-status'" [options]="statusOptions" [(ngModel)]="data.status"></ui-select>
+      </ui-form-field>
 
-        <div class="euf__field">
-          <label class="euf__label" [for]="id + '-status'">Status</label>
-          <select [id]="id + '-status'" class="euf__select" [(ngModel)]="data.status">
-            <option value="Active">Active</option>
-            <option value="Inactive">Inactive</option>
-          </select>
-        </div>
+      <ui-form-field class="euf__field" *ngIf="showMerchantAccount" label="Merchant Account" [forId]="id + '-merchant-account'">
+        <ui-input [id]="id + '-merchant-account'" [(ngModel)]="data.merchantAccount"></ui-input>
+      </ui-form-field>
 
-        <div class="euf__field" *ngIf="showMerchantAccount">
-          <label class="euf__label" [for]="id + '-merchant-account'">Merchant Account</label>
-          <input [id]="id + '-merchant-account'" class="euf__input" [(ngModel)]="data.merchantAccount" />
-        </div>
-
-        <div class="euf__actions">
-          <button class="euf__btn euf__btn--cancel" (click)="cancelClick.emit()">{{ cancelLabel }}</button>
-          <button class="euf__btn euf__btn--update" (click)="updateClick.emit(data)">{{ updateLabel }}</button>
-        </div>
+      <div class="euf__actions">
+        <ui-button class="euf__btn euf__btn--cancel" variant="primary" [label]="cancelLabel" (click)="cancelClick.emit()"></ui-button>
+        <ui-button class="euf__btn euf__btn--update" variant="primary" [label]="updateLabel" (click)="updateClick.emit(data)"></ui-button>
       </div>
-    </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-    .euf__title { font-size: 16px; font-weight: bold; color: #1a3a6b; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 0 6px; }
-    .euf__accent { height: 3px; background: #7b1fa2; margin-bottom: 16px; }
-    .euf__panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 3px; padding: 20px 24px; max-width: 460px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-accent-color: #7b1fa2;
+      --panel-max-width: 460px;
+      --input-border: 1px solid #ccc;
+      --input-radius: 3px;
+      --input-padding: 8px 12px;
+      --input-focus-border-color: #7b1fa2;
+    }
     .euf__field { margin-bottom: 16px; }
-    .euf__label { display: block; font-size: 13px; color: #1a3a6b; margin-bottom: 6px; }
-    .euf__input {
-      width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 12px; font-size: 13px; font-family: Arial, sans-serif; color: #333; outline: none;
-    }
-    .euf__input:focus { border-color: #7b1fa2; }
-    .euf__input--readonly { background: #f5f5f5; color: #888; cursor: not-allowed; }
-    .euf__select {
-      width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 12px; font-size: 13px; font-family: Arial, sans-serif; color: #333;
-      background: #fff; cursor: pointer; outline: none;
-    }
-    .euf__select:focus { border-color: #7b1fa2; }
     .euf__actions { display: flex; gap: 12px; margin-top: 20px; }
-    .euf__btn { padding: 10px 32px; font-size: 14px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; min-width: 120px; }
-    .euf__btn--cancel { background: #1e3a5f; color: #fff; }
-    .euf__btn--cancel:hover { background: #16304f; }
-    .euf__btn--update { background: #7b1fa2; color: #fff; }
-    .euf__btn--update:hover { background: #6a1b9a; }
+    .euf__btn--cancel {
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 10px 32px; --btn-font-size: 14px;
+    }
+    .euf__btn--update {
+      --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px;
+      --btn-padding: 10px 32px; --btn-font-size: 14px;
+    }
   `],
 })
 export class AmexEditUserFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `edit-user-form-${++AmexEditUserFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `edit-user-form-${++AmexEditUserFormComponent._idCounter}`;
 
   @Input() title = 'EDIT USER';
   @Input() showRole = false;
@@ -107,6 +91,12 @@ export class AmexEditUserFormComponent {
     userId: '', userName: '', emailAddress: '',
     role: '', status: 'Active',
   };
+
+  readonly statusOptions = [
+    { value: 'Active', label: 'Active' },
+    { value: 'Inactive', label: 'Inactive' },
+  ];
+
   @Output() updateClick = new EventEmitter<AddUserFormData>();
   @Output() cancelClick = new EventEmitter<void>();
 }

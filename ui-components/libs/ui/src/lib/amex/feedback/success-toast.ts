@@ -1,26 +1,33 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { IconButtonComponent } from '../../atoms/icon-button';
 
 export type AmexPortalStyle = 'onls' | 'oms';
 
 @Component({
   selector: 'amex-success-toast',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, IconButtonComponent],
   template: `
     <ng-container *ngIf="visible">
 
       <!-- ONLS Style: light green inline box (matches image7 - forgot password success screen) -->
       <div *ngIf="portalStyle === 'onls'" class="onls-success" role="status">
         {{ message }}
-        <button *ngIf="dismissible" class="onls-success__close" (click)="dismiss()">×</button>
+        <ui-icon-button *ngIf="dismissible" class="onls-success__close-wrap"
+          icon="✕" size="sm" variant="ghost" ariaLabel="Close"
+          (clicked)="dismiss()">
+        </ui-icon-button>
       </div>
 
       <!-- OMS/BCRB Style: solid blue-green banner with tick icon -->
       <div *ngIf="portalStyle === 'oms'" class="oms-success" role="status">
         <span class="oms-success__tick">✓</span>
         <span class="oms-success__msg">{{ message }}</span>
-        <button *ngIf="dismissible" class="oms-success__close" (click)="dismiss()">×</button>
+        <ui-icon-button *ngIf="dismissible" class="oms-success__close-wrap"
+          icon="✕" size="sm" variant="ghost" ariaLabel="Close"
+          (clicked)="dismiss()">
+        </ui-icon-button>
       </div>
 
     </ng-container>
@@ -40,11 +47,13 @@ export type AmexPortalStyle = 'onls' | 'oms';
       justify-content: space-between;
       gap: 8px;
     }
-    .onls-success__close {
-      background: none; border: none; font-size: 16px;
-      color: #306030; cursor: pointer; padding: 0; opacity: 0.7; flex-shrink: 0;
+    /* Themed via ui-icon-button's exposed CSS custom properties — no ::ng-deep. */
+    .onls-success__close-wrap {
+      --icon-btn-color: #306030;
+      --icon-btn-bg: transparent;
+      --icon-btn-hover-bg: rgba(48,96,48,0.1);
+      --icon-btn-size: 20px;
     }
-    .onls-success__close:hover { opacity: 1; }
 
     /* OMS/BCRB: teal-green solid banner */
     .oms-success {
@@ -65,17 +74,18 @@ export type AmexPortalStyle = 'onls' | 'oms';
       font-size: 11px; font-weight: bold; flex-shrink: 0;
     }
     .oms-success__msg { flex: 1; }
-    .oms-success__close {
-      background: none; border: none; font-size: 18px;
-      color: #fff; cursor: pointer; opacity: 0.8; padding: 0;
+    /* Themed via ui-icon-button's exposed CSS custom properties — no ::ng-deep. */
+    .oms-success__close-wrap {
+      --icon-btn-color: #fff;
+      --icon-btn-bg: transparent;
+      --icon-btn-hover-bg: rgba(255,255,255,0.2);
+      --icon-btn-size: 20px;
     }
-    .oms-success__close:hover { opacity: 1; }
   `],
 })
 export class AmexSuccessToastComponent implements OnInit, OnDestroy {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `success-toast-${++AmexSuccessToastComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `success-toast-${++AmexSuccessToastComponent._idCounter}`;
 
   @Input() message = 'Operation completed successfully.';
   @Input() portalStyle: AmexPortalStyle = 'onls';

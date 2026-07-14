@@ -1,14 +1,15 @@
 import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { LabelComponent } from './label';
 
 @Component({
   selector: 'ui-checkbox',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LabelComponent],
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => CheckboxComponent), multi: true }],
   template: `
-    <label class="checkbox-label" [class.disabled]="disabled">
+    <ui-label class="checkbox-label" [disabled]="disabled">
       <input
         type="checkbox"
         [checked]="checked"
@@ -25,17 +26,19 @@ import { CommonModule } from '@angular/common';
         class="checkbox-input"
       />
       <span class="checkbox-box" aria-hidden="true"></span>
-      <span class="checkbox-text">{{ label }}</span>
-    </label>
+      <span class="checkbox-text" *ngIf="label">{{ label }}</span>
+      <ng-content></ng-content>
+    </ui-label>
   `,
   styles: [`
-    .checkbox-label {
+    .checkbox-label ::ng-deep .ui-label {
       display: inline-flex;
       align-items: center;
       gap: 8px;
       cursor: pointer;
       font-size: 14px;
       font-family: Arial, sans-serif;
+      font-weight: normal;
       color: #333;
       user-select: none;
     }
@@ -61,13 +64,11 @@ import { CommonModule } from '@angular/common';
       transform: rotate(45deg) translateY(-1px);
       display: block;
     }
-    .disabled { cursor: not-allowed; opacity: 0.6; }
   `],
 })
 export class CheckboxComponent implements ControlValueAccessor {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-checkbox-${++CheckboxComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-checkbox-${++CheckboxComponent._idCounter}`;
 
   @Input() label = '';
   @Input() disabled = false;

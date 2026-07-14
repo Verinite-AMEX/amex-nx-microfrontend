@@ -94,7 +94,7 @@ export interface AmexTabItem { id: string; label: string; }
 })
 export class AmexTabBarComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `tab-bar-${++AmexTabBarComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `tab-bar-${++AmexTabBarComponent._idCounter}`;
 
 
   @Input() portalStyle: 'onls' | 'oms' = 'onls';

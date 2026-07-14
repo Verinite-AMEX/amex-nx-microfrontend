@@ -83,7 +83,7 @@ export interface AmexTransaction {
 })
 export class AmexStatementRowComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `statement-row-${++AmexStatementRowComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `statement-row-${++AmexStatementRowComponent._idCounter}`;
 
 
   @Input() transaction!: AmexTransaction;

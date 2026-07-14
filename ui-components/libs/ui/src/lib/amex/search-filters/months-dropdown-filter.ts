@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * AmexMonthsDropdownFilterComponent
@@ -10,74 +13,44 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'amex-months-dropdown-filter',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, SelectComponent, ButtonComponent],
   template: `
     <div class="mdf-wrap">
       <div class="mdf-row">
-        <label class="mdf-label" [for]="id + '-field'">{{ label }}</label>
-        <select [id]="id + '-field'" class="mdf-select" [(ngModel)]="selectedMonths">
-          <option *ngFor="let m of monthOptions" [value]="m">{{ m }} {{ m === 1 ? 'Month' : 'Months' }}</option>
-        </select>
-        <button class="mdf-btn" (click)="onSubmit()">{{ buttonLabel }}</button>
+        <ui-form-field class="mdf-field" [label]="label" [hint]="hint" [forId]="id + '-field'">
+          <ui-select [id]="id + '-field'" [options]="monthSelectOptions" [ariaLabel]="label" [(ngModel)]="selectedMonths"></ui-select>
+        </ui-form-field>
+        <ui-button variant="primary" size="sm" [label]="buttonLabel" (click)="onSubmit()"></ui-button>
       </div>
-      <p *ngIf="hint" class="mdf-hint">{{ hint }}</p>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
+      --btn-color: #fff;
+      --btn-border: 1px solid #1050a0;
+      --btn-radius: 2px;
+      --btn-padding: 4px 14px;
+      --btn-font-size: 12px;
+    }
 
     .mdf-wrap { padding: 8px 0; }
 
     .mdf-row {
       display: flex;
-      align-items: center;
+      align-items: flex-end;
       gap: 8px;
       flex-wrap: wrap;
     }
 
-    .mdf-label {
-      font-size: 13px;
-      color: #333;
-      white-space: nowrap;
-    }
-
-    .mdf-select {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      width: 130px;
-      cursor: pointer;
-    }
-    .mdf-select:focus { outline: none; border-color: #006fcf; }
-
-    .mdf-btn {
-      background: linear-gradient(to bottom, #2a84e0, #1462b8);
-      color: #fff;
-      border: 1px solid #1050a0;
-      border-radius: 2px;
-      padding: 4px 14px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .mdf-btn:hover { background: linear-gradient(to bottom, #1e78d0, #0e50a0); }
-
-    .mdf-hint {
-      margin: 4px 0 0;
-      font-size: 11px;
-      color: #888;
-      font-style: italic;
-    }
+    .mdf-field { width: 150px; }
   `],
 })
 export class AmexMonthsDropdownFilterComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `months-dropdown-filter-${++AmexMonthsDropdownFilterComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `months-dropdown-filter-${++AmexMonthsDropdownFilterComponent._idCounter}`;
 
   @Input() label = 'Select Months';
   @Input() buttonLabel = 'Submit';
@@ -88,7 +61,11 @@ export class AmexMonthsDropdownFilterComponent {
 
   selectedMonths = 1;
 
+  get monthSelectOptions(): SelectOption[] {
+    return this.monthOptions.map(m => ({ value: m, label: `${m} ${m === 1 ? 'Month' : 'Months'}` }));
+  }
+
   onSubmit() {
-    this.monthsSelected.emit(this.selectedMonths);
+    this.monthsSelected.emit(Number(this.selectedMonths));
   }
 }

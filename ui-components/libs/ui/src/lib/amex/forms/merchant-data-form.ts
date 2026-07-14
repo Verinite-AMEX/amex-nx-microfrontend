@@ -1,6 +1,11 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent } from '../../atoms/select';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface MerchantFormData {
   merchantName: string;
@@ -25,7 +30,7 @@ export interface MerchantFormData {
 @Component({
   selector: 'amex-merchant-data-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent],
   template: `
     <div class="mdf">
       <div class="mdf__title">{{ title }}</div>
@@ -36,90 +41,76 @@ export interface MerchantFormData {
         <div class="mdf__section-label">Merchant Information</div>
 
         <div class="mdf__two-col">
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-merchant-name'">Merchant Name <span class="mdf__req">*</span></label>
-            <input [id]="id + '-merchant-name'" class="mdf__input" [(ngModel)]="form.merchantName" placeholder="Enter merchant name" />
-          </div>
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-merchant-number'">Merchant Number <span class="mdf__req">*</span></label>
-            <input [id]="id + '-merchant-number'" class="mdf__input" [(ngModel)]="form.merchantNumber" placeholder="Enter merchant number" />
-          </div>
+          <ui-form-field class="mdf__field" label="Merchant Name" [forId]="id + '-merchant-name'" [required]="true">
+            <ui-input [id]="id + '-merchant-name'" [(ngModel)]="form.merchantName" placeholder="Enter merchant name"></ui-input>
+          </ui-form-field>
+          <ui-form-field class="mdf__field" label="Merchant Number" [forId]="id + '-merchant-number'" [required]="true">
+            <ui-input [id]="id + '-merchant-number'" [(ngModel)]="form.merchantNumber" placeholder="Enter merchant number"></ui-input>
+          </ui-form-field>
         </div>
 
         <div class="mdf__two-col">
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-last-5-iban-digits'">Last 5 IBAN Digits <span class="mdf__req">*</span></label>
-            <input [id]="id + '-last-5-iban-digits'" class="mdf__input" [(ngModel)]="form.lastFiveIban" maxlength="5" placeholder="XXXXX" />
-          </div>
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-trade-licence-cr-no'">Trade Licence / CR No.</label>
-            <input [id]="id + '-trade-licence-cr-no'" class="mdf__input" [(ngModel)]="form.tradeLicense" placeholder="Enter trade licence" />
-          </div>
+          <ui-form-field class="mdf__field" label="Last 5 IBAN Digits" [forId]="id + '-last-5-iban-digits'" [required]="true">
+            <ui-input [id]="id + '-last-5-iban-digits'" [(ngModel)]="form.lastFiveIban" maxlength="5" placeholder="XXXXX"></ui-input>
+          </ui-form-field>
+          <ui-form-field class="mdf__field" label="Trade Licence / CR No." [forId]="id + '-trade-licence-cr-no'">
+            <ui-input [id]="id + '-trade-licence-cr-no'" [(ngModel)]="form.tradeLicense" placeholder="Enter trade licence"></ui-input>
+          </ui-form-field>
         </div>
 
         <div class="mdf__two-col">
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-country'">Country <span class="mdf__req">*</span></label>
-            <select [id]="id + '-country'" class="mdf__select" [(ngModel)]="form.country">
-              <option value="">-- Select Country --</option>
-              <option *ngFor="let c of countryOptions" [value]="c">{{ c }}</option>
-            </select>
-          </div>
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-city'">City <span class="mdf__req">*</span></label>
-            <select [id]="id + '-city'" class="mdf__select" [(ngModel)]="form.city">
-              <option value="">-- Select City --</option>
-              <option *ngFor="let c of cityOptions" [value]="c">{{ c }}</option>
-            </select>
-          </div>
+          <ui-form-field class="mdf__field" label="Country" [forId]="id + '-country'" [required]="true">
+            <ui-select [id]="id + '-country'" [options]="countrySelectOptions" placeholder="-- Select Country --" [(ngModel)]="form.country"></ui-select>
+          </ui-form-field>
+          <ui-form-field class="mdf__field" label="City" [forId]="id + '-city'" [required]="true">
+            <ui-select [id]="id + '-city'" [options]="citySelectOptions" placeholder="-- Select City --" [(ngModel)]="form.city"></ui-select>
+          </ui-form-field>
         </div>
 
-        <div class="mdf__field">
-          <label class="mdf__label" [for]="id + '-business-legal-structure'">Business Legal Structure <span class="mdf__req">*</span></label>
-          <select [id]="id + '-business-legal-structure'" class="mdf__select mdf__select--wide" [(ngModel)]="form.legalStructure">
-            <option value="">-- Select --</option>
-            <option *ngFor="let l of legalOptions" [value]="l">{{ l }}</option>
-          </select>
-        </div>
+        <ui-form-field class="mdf__field mdf__field--wide" label="Business Legal Structure" [forId]="id + '-business-legal-structure'" [required]="true">
+          <ui-select [id]="id + '-business-legal-structure'" [options]="legalSelectOptions" placeholder="-- Select --" [(ngModel)]="form.legalStructure"></ui-select>
+        </ui-form-field>
 
         <div class="mdf__section-label" style="margin-top:16px">Representative Information</div>
 
         <div class="mdf__two-col">
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-representative-name'">Representative Name</label>
-            <input [id]="id + '-representative-name'" class="mdf__input" [(ngModel)]="form.repName" placeholder="Full name" />
-          </div>
-          <div class="mdf__field">
-            <label class="mdf__label" [for]="id + '-email'">Email</label>
-            <input [id]="id + '-email'" class="mdf__input" [(ngModel)]="form.repEmail" type="email" placeholder="Email address" />
-          </div>
+          <ui-form-field class="mdf__field" label="Representative Name" [forId]="id + '-representative-name'">
+            <ui-input [id]="id + '-representative-name'" [(ngModel)]="form.repName" placeholder="Full name"></ui-input>
+          </ui-form-field>
+          <ui-form-field class="mdf__field" label="Email" [forId]="id + '-email'">
+            <ui-input [id]="id + '-email'" type="email" [(ngModel)]="form.repEmail" placeholder="Email address"></ui-input>
+          </ui-form-field>
         </div>
 
-        <div class="mdf__field">
-          <label class="mdf__label" [for]="id + '-phone'">Phone</label>
-          <input [id]="id + '-phone'" class="mdf__input" [(ngModel)]="form.repPhone" placeholder="+971 XX XXX XXXX" />
-        </div>
+        <ui-form-field class="mdf__field" label="Phone" [forId]="id + '-phone'">
+          <ui-input [id]="id + '-phone'" [(ngModel)]="form.repPhone" placeholder="+971 XX XXX XXXX"></ui-input>
+        </ui-form-field>
 
         <!-- T&C checkbox -->
         <div class="mdf__tc-row">
-          <input type="checkbox" [(ngModel)]="form.termsAccepted" id="mdf-tc" class="mdf__checkbox" />
-          <label for="mdf-tc" class="mdf__tc-label">
-            I accept the <span class="mdf__tc-link">Terms &amp; Conditions</span>
-          </label>
+          <ui-checkbox [id]="id + '-tc'" [(ngModel)]="form.termsAccepted">
+            <span class="mdf__tc-text">I accept the <span class="mdf__tc-link">Terms &amp; Conditions</span></span>
+          </ui-checkbox>
         </div>
 
         <!-- Buttons -->
         <div class="mdf__actions">
-          <button class="mdf__btn mdf__btn--back" (click)="backClick.emit()">{{ backLabel }}</button>
-          <button class="mdf__btn mdf__btn--submit"
-            [disabled]="!form.termsAccepted"
-            (click)="submitClick.emit(form)">{{ submitLabel }}</button>
+          <ui-button class="mdf__btn mdf__btn--back" variant="primary" [label]="backLabel" (click)="backClick.emit()"></ui-button>
+          <ui-button class="mdf__btn mdf__btn--submit" variant="primary" [label]="submitLabel"
+            [disabled]="!form.termsAccepted" (click)="submitClick.emit(form)"></ui-button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --input-border: 1px solid #ccc;
+      --input-padding: 8px 10px;
+      --input-focus-border-color: #7b1fa2;
+      --label-required-color: #c62828;
+    }
     .mdf__title { font-size: 16px; font-weight: bold; color: #1a3a6b; text-transform: uppercase; letter-spacing: 0.5px; padding: 0 0 6px; }
     .mdf__accent { height: 3px; background: #7b1fa2; margin-bottom: 16px; }
     .mdf__panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 3px; padding: 20px 24px; max-width: 680px; }
@@ -135,42 +126,20 @@ export interface MerchantFormData {
     .mdf__two-col .mdf__field { flex: 1; min-width: 200px; }
 
     .mdf__field { margin-bottom: 14px; }
-    .mdf__label { display: block; font-size: 13px; color: #333; margin-bottom: 5px; }
-    .mdf__req { color: #c62828; }
-    .mdf__input {
-      width: 100%; box-sizing: border-box;
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 10px; font-size: 13px;
-      font-family: Arial, sans-serif; outline: none;
-    }
-    .mdf__input:focus { border-color: #7b1fa2; }
-    .mdf__select {
-      width: 100%; box-sizing: border-box;
-      border: 1px solid #ccc; border-radius: 3px;
-      padding: 8px 10px; font-size: 13px;
-      font-family: Arial, sans-serif; background: #fff; outline: none;
-    }
-    .mdf__select:focus { border-color: #7b1fa2; }
-    .mdf__select--wide { max-width: 340px; }
+    .mdf__field--wide { max-width: 340px; }
 
     .mdf__tc-row { display: flex; align-items: center; gap: 8px; margin: 16px 0 4px; }
-    .mdf__checkbox { width: 16px; height: 16px; cursor: pointer; }
-    .mdf__tc-label { font-size: 13px; color: #333; cursor: pointer; }
+    .mdf__tc-text { font-size: 13px; color: #333; cursor: pointer; }
     .mdf__tc-link { color: #7b1fa2; text-decoration: underline; cursor: pointer; }
 
     .mdf__actions { display: flex; gap: 12px; margin-top: 16px; }
-    .mdf__btn { padding: 10px 32px; font-size: 14px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; }
-    .mdf__btn--back   { background: #1e3a5f; color: #fff; }
-    .mdf__btn--back:hover { background: #16304f; }
-    .mdf__btn--submit { background: #7b1fa2; color: #fff; }
-    .mdf__btn--submit:hover:not([disabled]) { background: #6a1b9a; }
-    .mdf__btn--submit[disabled] { opacity: 0.45; cursor: not-allowed; }
+    .mdf__btn--back   { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 10px 32px; --btn-font-size: 14px; }
+    .mdf__btn--submit { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 10px 32px; --btn-font-size: 14px; }
   `],
 })
 export class AmexMerchantDataFormComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') readonly id = `merchant-data-form-${++AmexMerchantDataFormComponent._idCounter}`;
-
 
   @Input() title = 'MERCHANT DETAILS';
   @Input() backLabel = 'Back';
@@ -189,4 +158,8 @@ export class AmexMerchantDataFormComponent {
 
   @Output() submitClick = new EventEmitter<MerchantFormData>();
   @Output() backClick   = new EventEmitter<void>();
+
+  get countrySelectOptions() { return this.countryOptions.map(c => ({ value: c, label: c })); }
+  get citySelectOptions()    { return this.cityOptions.map(c => ({ value: c, label: c })); }
+  get legalSelectOptions()   { return this.legalOptions.map(l => ({ value: l, label: l })); }
 }

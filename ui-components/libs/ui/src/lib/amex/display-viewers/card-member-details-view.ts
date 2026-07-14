@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface CardMemberDetails {
   name: string;
@@ -20,7 +21,7 @@ export interface CardMemberDetails {
 @Component({
   selector: 'amex-card-member-details-view',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <section class="cmdv" *ngIf="details" role="region" aria-label="Card member details">
       <div class="cmdv__panel">
@@ -57,29 +58,27 @@ export interface CardMemberDetails {
           <div class="cmdv__detail-row" *ngIf="details.hasOffers">
             <dt class="cmdv__label" id="offers-label">Offers</dt>
             <dd class="cmdv__value" aria-labelledby="offers-label">
-              <button 
-                class="cmdv__link" 
-                (click)="offersClick.emit()"
-                (keydown.enter)="offersClick.emit()"
-                (keydown.space)="onSpaceKey($event, offersClick)"
-                type="button"
-                aria-label="View available offers"
+              <ui-button
                 #offersButton
-              >View Offers</button>
+                class="cmdv__link"
+                variant="ghost"
+                label="View Offers"
+                ariaLabel="View available offers"
+                (click)="offersClick.emit()">
+              </ui-button>
             </dd>
           </div>
           <div class="cmdv__detail-row" *ngIf="details.hasBenefits">
             <dt class="cmdv__label" id="benefits-label">Benefits</dt>
             <dd class="cmdv__value" aria-labelledby="benefits-label">
-              <button 
-                class="cmdv__link" 
-                (click)="benefitsClick.emit()"
-                (keydown.enter)="benefitsClick.emit()"
-                (keydown.space)="onSpaceKey($event, benefitsClick)"
-                type="button"
-                aria-label="View available benefits"
+              <ui-button
                 #benefitsButton
-              >View Benefits</button>
+                class="cmdv__link"
+                variant="ghost"
+                label="View Benefits"
+                ariaLabel="View available benefits"
+                (click)="benefitsClick.emit()">
+              </ui-button>
             </dd>
           </div>
         </dl>
@@ -116,23 +115,17 @@ export interface CardMemberDetails {
     }
     .cmdv__status--active   { color: #1b5e20; font-weight: bold; }
     .cmdv__status--inactive { color: #b71c1c; font-weight: bold; }
-    .cmdv__link { 
-      color: #006fcf; 
-      cursor: pointer; 
-      background: none;
-      border: none;
-      padding: 0;
-      font-size: 13px;
+    .cmdv__link {
+      --btn-bg: none;
+      --btn-color: #006fcf;
+      --btn-color-hover: #003087;
+      --btn-border: none;
+      --btn-padding: 0;
+      --btn-font-size: 13px;
+      --btn-text-decoration: underline;
+      --btn-focus-outline: 2px solid #006fcf;
+      --btn-focus-outline-offset: 1px;
       font-family: inherit;
-      text-decoration: underline;
-    }
-    .cmdv__link:hover, .cmdv__link:focus { 
-      text-decoration: underline; 
-      color: #003087;
-    }
-    .cmdv__link:focus {
-      outline: 2px solid #006fcf;
-      outline-offset: 1px;
     }
     .cmdv__empty { font-size: 13px; color: #666; padding: 12px; text-align: center; }
     
@@ -152,20 +145,12 @@ export class AmexCardMemberDetailsViewComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') readonly id = `card-member-details-view-${++AmexCardMemberDetailsViewComponent._idCounter}`;
 
-
   @Input() details: CardMemberDetails | null = null;
   @Output() offersClick   = new EventEmitter<void>();
   @Output() benefitsClick = new EventEmitter<void>();
 
-  @ViewChild('offersButton') offersButton!: ElementRef<HTMLButtonElement>;
-  @ViewChild('benefitsButton') benefitsButton!: ElementRef<HTMLButtonElement>;
-
-  onSpaceKey(event: KeyboardEvent, emitter: EventEmitter<void>): void {
-    if (event.key === ' ') {
-      event.preventDefault();
-      emitter.emit();
-    }
-  }
+  @ViewChild('offersButton') offersButton!: ButtonComponent;
+  @ViewChild('benefitsButton') benefitsButton!: ButtonComponent;
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent): void {
@@ -173,9 +158,9 @@ export class AmexCardMemberDetailsViewComponent {
     if (event.key === 'Escape') {
       // Reset focus to the first interactive element
       if (this.offersButton) {
-        this.offersButton.nativeElement.focus();
+        this.offersButton.focus();
       } else if (this.benefitsButton) {
-        this.benefitsButton.nativeElement.focus();
+        this.benefitsButton.focus();
       }
     }
   }

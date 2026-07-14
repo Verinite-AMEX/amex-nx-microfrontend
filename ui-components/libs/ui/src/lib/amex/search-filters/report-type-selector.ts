@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { SelectComponent, SelectOption } from '../../atoms/select';
+import { RadioGroupComponent, RadioOption } from '../../atoms/radio-group';
+import { InputComponent } from '../../atoms/input';
+import { DateInputComponent } from '../../atoms/date-input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface AmexReportTypeOption {
   value: string;
@@ -24,129 +30,92 @@ export interface AmexSecondaryField {
 @Component({
   selector: 'amex-report-type-selector',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, FormsModule, FormFieldComponent, SelectComponent,
+    RadioGroupComponent, InputComponent, DateInputComponent, ButtonComponent,
+  ],
   template: `
     <div class="rts-wrap">
 
       <!-- Radio mode -->
-      <div class="rts-radios" *ngIf="mode === 'radio'">
-        <label class="rts-heading">{{ label }}</label>
-        <div class="rts-radio-group">
-          <label class="rts-radio" *ngFor="let opt of options">
-            <input
-              type="radio"
-              [value]="opt.value"
-              [(ngModel)]="selectedValue"
-              (change)="onSelect(opt)"
-              name="reportType"
-            />
-            <span class="rts-radio-label">{{ opt.label }}</span>
-          </label>
-        </div>
-      </div>
+      <ui-radio-group
+        *ngIf="mode === 'radio'"
+        class="rts-radios"
+        [legend]="label"
+        name="reportType"
+        [options]="radioOptions"
+        [(ngModel)]="selectedValue"
+        (ngModelChange)="onSelectByValue()">
+      </ui-radio-group>
 
       <!-- Dropdown mode -->
-      <div class="rts-dropdown-row" *ngIf="mode === 'dropdown'">
-        <label class="rts-label" [for]="id + '-select'">{{ label }}</label>
-        <select [id]="id + '-select'" class="rts-select" [(ngModel)]="selectedValue" (change)="onSelectByValue()">
-          <option value="">-- Select --</option>
-          <option *ngFor="let opt of options" [value]="opt.value">{{ opt.label }}</option>
-        </select>
-      </div>
+      <ui-form-field *ngIf="mode === 'dropdown'" class="rts-dropdown-row" [label]="label" [forId]="id + '-select'">
+        <ui-select
+          [id]="id + '-select'"
+          [options]="dropdownOptions"
+          placeholder="-- Select --"
+          [ariaLabel]="label"
+          [(ngModel)]="selectedValue"
+          (ngModelChange)="onSelectByValue()">
+        </ui-select>
+      </ui-form-field>
 
       <!-- Dynamic secondary fields based on selected type -->
       <div class="rts-secondary" *ngIf="selectedOption?.secondaryFields?.length">
-        <div class="rts-field" *ngFor="let field of selectedOption!.secondaryFields">
-          <label class="rts-field-label" [for]="id + '-' + field.key">{{ field.label }}</label>
+        <ui-form-field
+          class="rts-field"
+          *ngFor="let field of selectedOption!.secondaryFields"
+          [label]="field.label"
+          [forId]="id + '-' + field.key">
 
-          <input
+          <ui-input
             *ngIf="field.type === 'text'"
             [id]="id + '-' + field.key"
-            class="rts-input"
             type="text"
-            [(ngModel)]="secondaryValues[field.key]"
-          />
+            [ariaLabel]="field.label"
+            [(ngModel)]="secondaryValues[field.key]">
+          </ui-input>
 
-          <input
+          <ui-date-input
             *ngIf="field.type === 'date'"
             [id]="id + '-' + field.key"
-            class="rts-input"
-            type="date"
-            [(ngModel)]="secondaryValues[field.key]"
-          />
+            [ariaLabel]="field.label"
+            [(ngModel)]="secondaryValues[field.key]">
+          </ui-date-input>
 
-          <select
+          <ui-select
             *ngIf="field.type === 'select'"
             [id]="id + '-' + field.key"
-            class="rts-input"
-            [(ngModel)]="secondaryValues[field.key]"
-          >
-            <option value="">-- Select --</option>
-            <option *ngFor="let o of field.options" [value]="o.value">{{ o.label }}</option>
-          </select>
-        </div>
+            [options]="field.options || []"
+            placeholder="-- Select --"
+            [ariaLabel]="field.label"
+            [(ngModel)]="secondaryValues[field.key]">
+          </ui-select>
+        </ui-form-field>
       </div>
 
       <div class="rts-actions" *ngIf="showSubmit">
-        <button class="rts-btn" (click)="onSubmit()">{{ buttonLabel }}</button>
+        <ui-button variant="primary" size="sm" [label]="buttonLabel" (click)="onSubmit()"></ui-button>
       </div>
 
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
+      --btn-color: #fff;
+      --btn-border: 1px solid #1050a0;
+      --btn-radius: 2px;
+      --btn-padding: 5px 16px;
+      --btn-font-size: 12px;
+    }
 
     .rts-wrap { padding: 8px 0; }
 
-    .rts-heading {
-      display: block;
-      font-size: 13px;
-      color: #333;
-      font-weight: bold;
-      margin-bottom: 6px;
-    }
+    .rts-dropdown-row { max-width: 260px; }
 
-    .rts-radio-group {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
-    }
-
-    .rts-radio {
-      display: flex;
-      align-items: center;
-      gap: 6px;
-      cursor: pointer;
-    }
-    .rts-radio input[type="radio"] { cursor: pointer; accent-color: #006fcf; }
-    .rts-radio-label { font-size: 13px; color: #333; }
-
-    .rts-dropdown-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .rts-label {
-      font-size: 13px;
-      color: #333;
-      min-width: 100px;
-    }
-
-    .rts-select {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      min-width: 200px;
-      cursor: pointer;
-    }
-    .rts-select:focus { outline: none; border-color: #006fcf; }
-
-    /* Secondary fields panel */
     .rts-secondary {
       margin-top: 10px;
       padding: 10px 14px;
@@ -158,47 +127,14 @@ export interface AmexSecondaryField {
       gap: 12px;
     }
 
-    .rts-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .rts-field-label {
-      font-size: 12px;
-      color: #555;
-    }
-
-    .rts-input {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      min-width: 140px;
-    }
-    .rts-input:focus { outline: none; border-color: #006fcf; }
+    .rts-field { min-width: 140px; }
 
     .rts-actions { margin-top: 10px; }
-
-    .rts-btn {
-      background: linear-gradient(to bottom, #2a84e0, #1462b8);
-      color: #fff;
-      border: 1px solid #1050a0;
-      border-radius: 2px;
-      padding: 5px 16px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
-    }
-    .rts-btn:hover { background: linear-gradient(to bottom, #1e78d0, #0e50a0); }
   `],
 })
 export class AmexReportTypeSelectorComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `report-type-selector-${++AmexReportTypeSelectorComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `report-type-selector-${++AmexReportTypeSelectorComponent._idCounter}`;
 
   @Input() label = 'Report Type';
   @Input() mode: 'radio' | 'dropdown' = 'dropdown';
@@ -212,9 +148,12 @@ export class AmexReportTypeSelectorComponent {
   selectedOption: AmexReportTypeOption | null = null;
   secondaryValues: Record<string, string> = {};
 
-  onSelect(opt: AmexReportTypeOption) {
-    this.selectedOption = opt;
-    this.secondaryValues = {};
+  get radioOptions(): RadioOption[] {
+    return this.options.map(o => ({ label: o.label, value: o.value }));
+  }
+
+  get dropdownOptions(): SelectOption[] {
+    return this.options.map(o => ({ label: o.label, value: o.value }));
   }
 
   onSelectByValue() {

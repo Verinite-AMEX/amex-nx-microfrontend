@@ -1,6 +1,12 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { PanelComponent } from '../../molecules/panel';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { SelectComponent } from '../../atoms/select';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface MRMUserData {
   name: string;
@@ -18,79 +24,62 @@ export interface MRMUserData {
 @Component({
   selector: 'amex-mrm-create-edit-user-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, PanelComponent, FormFieldComponent, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent],
   template: `
-    <div class="mrm">
-      <div class="mrm__title">{{ title }}</div>
-      <div class="mrm__accent"></div>
+    <ui-panel [title]="title" variant="accent">
+      <ui-form-field class="mrm__field" label="Name" [forId]="id + '-name'" [required]="true">
+        <ui-input [id]="id + '-name'" [(ngModel)]="form.name" placeholder="Enter full name"></ui-input>
+      </ui-form-field>
 
-      <div class="mrm__panel">
-        <div class="mrm__field">
-          <label class="mrm__label" [for]="id + '-name'">Name <span class="mrm__req">*</span></label>
-          <input [id]="id + '-name'" class="mrm__input" [(ngModel)]="form.name" placeholder="Enter full name" />
-        </div>
-        <div class="mrm__field">
-          <label class="mrm__label" [for]="id + '-email'">Email <span class="mrm__req">*</span></label>
-          <input [id]="id + '-email'" class="mrm__input" [(ngModel)]="form.email" type="email" placeholder="Enter email address" />
-        </div>
-        <div class="mrm__field">
-          <label class="mrm__label" [for]="id + '-username'">Username <span class="mrm__req">*</span></label>
-          <input [id]="id + '-username'" class="mrm__input" [(ngModel)]="form.username" placeholder="Enter username" />
-        </div>
-        <div class="mrm__field">
-          <label class="mrm__label" [for]="id + '-role'">Role</label>
-          <select [id]="id + '-role'" class="mrm__select" [(ngModel)]="form.role">
-            <option value="">-- Select Role --</option>
-            <option *ngFor="let r of roleOptions" [value]="r.value">{{ r.label }}</option>
-          </select>
-        </div>
+      <ui-form-field class="mrm__field" label="Email" [forId]="id + '-email'" [required]="true">
+        <ui-input [id]="id + '-email'" type="email" [(ngModel)]="form.email" placeholder="Enter email address"></ui-input>
+      </ui-form-field>
 
-        <!-- Merchant access multi-select -->
-        <div class="mrm__field">
-          <label class="mrm__label" [for]="id + '-merchant-access'">Merchant Access</label>
-          <div class="mrm__access-list">
-            <label *ngFor="let m of merchantOptions" class="mrm__access-item">
-              <input [id]="id + '-merchant-access'" type="checkbox"
-                [checked]="form.merchantAccess.includes(m.value)"
-                (change)="toggleMerchant(m.value, $event)" />
-              <span>{{ m.label }}</span>
-            </label>
-          </div>
-        </div>
+      <ui-form-field class="mrm__field" label="Username" [forId]="id + '-username'" [required]="true">
+        <ui-input [id]="id + '-username'" [(ngModel)]="form.username" placeholder="Enter username"></ui-input>
+      </ui-form-field>
 
-        <div class="mrm__actions">
-          <button class="mrm__btn mrm__btn--back" (click)="backClick.emit()">Back</button>
-          <button class="mrm__btn mrm__btn--save" (click)="saveClick.emit(form)">Save</button>
+      <ui-form-field class="mrm__field" label="Role" [forId]="id + '-role'">
+        <ui-select [id]="id + '-role'" [options]="roleOptions" placeholder="-- Select Role --" [(ngModel)]="form.role"></ui-select>
+      </ui-form-field>
+
+      <!-- Merchant access multi-select -->
+      <ui-form-field class="mrm__field" label="Merchant Access">
+        <div class="mrm__access-list">
+          <ui-checkbox *ngFor="let m of merchantOptions"
+            [label]="m.label"
+            [ngModel]="form.merchantAccess.includes(m.value)"
+            (ngModelChange)="toggleMerchant(m.value, $event)">
+          </ui-checkbox>
         </div>
+      </ui-form-field>
+
+      <div class="mrm__actions">
+        <ui-button class="mrm__btn mrm__btn--back" variant="primary" label="Back" (click)="backClick.emit()"></ui-button>
+        <ui-button class="mrm__btn mrm__btn--save" variant="primary" label="Save" (click)="saveClick.emit(form)"></ui-button>
       </div>
-    </div>
+    </ui-panel>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
-    .mrm__title { font-size: 16px; font-weight: bold; color: #1a3a6b; text-transform: uppercase; padding: 0 0 6px; }
-    .mrm__accent { height: 3px; background: #7b1fa2; margin-bottom: 16px; }
-    .mrm__panel { background: #fff; border: 1px solid #e0e0e0; border-radius: 3px; padding: 18px 22px; max-width: 480px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --panel-title-transform: uppercase;
+      --panel-max-width: 480px;
+      --input-border: 1px solid #ccc;
+      --input-padding: 8px 12px;
+      --input-focus-border-color: #7b1fa2;
+    }
     .mrm__field { margin-bottom: 14px; }
-    .mrm__label { display: block; font-size: 13px; color: #1a3a6b; margin-bottom: 5px; }
-    .mrm__req { color: #c62828; }
-    .mrm__input { width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 13px; font-family: Arial, sans-serif; color: #333; outline: none; }
-    .mrm__input:focus { border-color: #7b1fa2; }
-    .mrm__select { width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 3px; padding: 8px 12px; font-size: 13px; font-family: Arial, sans-serif; background: #fff; cursor: pointer; outline: none; }
-    .mrm__select:focus { border-color: #7b1fa2; }
     .mrm__access-list { border: 1px solid #e0e0e0; border-radius: 3px; padding: 10px 12px; max-height: 160px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; }
-    .mrm__access-item { display: flex; align-items: center; gap: 8px; font-size: 13px; color: #333; cursor: pointer; }
     .mrm__actions { display: flex; gap: 10px; margin-top: 18px; }
-    .mrm__btn { padding: 9px 28px; font-size: 13px; font-weight: bold; border: none; border-radius: 3px; cursor: pointer; font-family: Arial, sans-serif; }
-    .mrm__btn--back { background: #1e3a5f; color: #fff; }
-    .mrm__btn--back:hover { background: #16304f; }
-    .mrm__btn--save { background: #7b1fa2; color: #fff; }
-    .mrm__btn--save:hover { background: #6a1b9a; }
+    .mrm__btn--back { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 28px; --btn-font-size: 13px; }
+    .mrm__btn--save { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 9px 28px; --btn-font-size: 13px; }
   `],
 })
 export class AmexMRMCreateEditUserFormComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `mrm-create-edit-user-form-${++AmexMRMCreateEditUserFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `mrm-create-edit-user-form-${++AmexMRMCreateEditUserFormComponent._idCounter}`;
 
   @Input() title = 'CREATE MRM USER';
   @Input() roleOptions = [
@@ -107,8 +96,7 @@ export class AmexMRMCreateEditUserFormComponent {
   @Output() saveClick = new EventEmitter<MRMUserData>();
   @Output() backClick = new EventEmitter<void>();
 
-  toggleMerchant(value: string, event: Event) {
-    const checked = (event.target as HTMLInputElement).checked;
+  toggleMerchant(value: string, checked: boolean) {
     this.form.merchantAccess = checked
       ? [...this.form.merchantAccess, value]
       : this.form.merchantAccess.filter(v => v !== value);

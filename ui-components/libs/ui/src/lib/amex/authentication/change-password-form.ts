@@ -1,6 +1,9 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, HostBinding, ViewChild, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface ChangePasswordData {
   currentPassword: string;
@@ -11,7 +14,7 @@ export interface ChangePasswordData {
 @Component({
   selector: 'amex-change-password-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="amex-shell" [class.onls-style]="portalStyle === 'onls'" [class.oms-style]="portalStyle === 'oms'" role="main" aria-label="Change password form">
 
@@ -23,7 +26,10 @@ export interface ChangePasswordData {
 
       <!-- OMS top bar -->
       <div class="top-bar-oms" *ngIf="portalStyle === 'oms'">
-        <button class="oms-logout-btn">LOG OUT</button>
+        <ui-button class="oms-logout-btn" variant="primary" label="LOG OUT"></ui-button>
+        <!-- FLAGGED (see task point 6 / migration notes): no click handler existed
+             on the original native <button> either. Preserved as dead markup rather
+             than guessing at intended logout logic. -->
       </div>
 
       <!-- ONLS Header -->
@@ -76,65 +82,55 @@ export interface ChangePasswordData {
 
             <p class="required-note-onls" role="note" aria-label="All fields are required">*All fields are required</p>
 
-            <div class="field-row">
-              <label class="field-label-onls" id="current-password-label" for="current-password">Current Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-onls" 
-                [(ngModel)]="data.currentPassword" 
-                id="current-password"
-                aria-labelledby="current-password-label"
-                aria-required="true"
-                aria-describedby="current-password-help"
-                autocomplete="current-password"
-                (keydown)="onKeydown($event)"
-                #currentPasswordInput
-              />
-              <div id="current-password-help" class="sr-only">Enter your current password</div>
-            </div>
-            <div class="field-row">
-              <label class="field-label-onls" id="new-password-label" for="new-password">New Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-onls" 
-                [(ngModel)]="data.newPassword" 
-                id="new-password"
-                aria-labelledby="new-password-label"
-                aria-required="true"
-                aria-describedby="new-password-help"
-                autocomplete="new-password"
-                (keydown)="onKeydown($event)"
-                #newPasswordInput
-              />
-              <div id="new-password-help" class="sr-only">Enter your new password</div>
-            </div>
-            <div class="field-row">
-              <label class="field-label-onls" id="confirm-password-label" for="confirm-password">Re-enter New Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-onls" 
-                [(ngModel)]="data.confirmPassword" 
-                id="confirm-password"
-                aria-labelledby="confirm-password-label"
-                aria-required="true"
-                aria-describedby="confirm-password-help"
-                autocomplete="new-password"
-                (keydown)="onKeydown($event)"
-                #confirmPasswordInput
-              />
-              <div id="confirm-password-help" class="sr-only">Re-enter your new password to confirm</div>
-            </div>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="180px" label="Current Password" [required]="true" [forId]="id + '-current-password'">
+              <ui-input
+                #currentPasswordInputOnls
+                class="field-input-onls"
+                [id]="id + '-current-password'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.currentPassword"
+                [ariaDescribedBy]="id + '-current-password-help'"
+                (keydown.enter)="onEnterField($event, 'current')">
+              </ui-input>
+              <div [id]="id + '-current-password-help'" class="sr-only">Enter your current password</div>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="180px" label="New Password" [required]="true" [forId]="id + '-new-password'">
+              <ui-input
+                #newPasswordInputOnls
+                class="field-input-onls"
+                [id]="id + '-new-password'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.newPassword"
+                [ariaDescribedBy]="id + '-new-password-help'"
+                (keydown.enter)="onEnterField($event, 'new')">
+              </ui-input>
+              <div [id]="id + '-new-password-help'" class="sr-only">Enter your new password</div>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="180px" label="Re-enter New Password" [required]="true" [forId]="id + '-confirm-password'">
+              <ui-input
+                #confirmPasswordInputOnls
+                class="field-input-onls"
+                [id]="id + '-confirm-password'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.confirmPassword"
+                [ariaDescribedBy]="id + '-confirm-password-help'"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
+              <div [id]="id + '-confirm-password-help'" class="sr-only">Re-enter your new password to confirm</div>
+            </ui-form-field>
 
             <div class="btn-row-onls">
-              <button 
-                class="btn-change-onls" 
-                (click)="onSubmit()" 
-                (keydown.enter)="onSubmit()"
-                (keydown.space)="onSubmit()"
+              <ui-button
+                class="btn-change-onls"
+                variant="primary"
                 type="submit"
-                aria-label="Change your password"
-                #onlsSubmitBtn
-              >Change Password</button>
+                label="Change Password"
+                ariaLabel="Change your password"
+                (click)="onSubmit()">
+              </ui-button>
             </div>
 
           </div>
@@ -149,74 +145,63 @@ export interface ChangePasswordData {
 
             <p class="required-note-oms" role="note" aria-label="All fields are required">* All fields are required</p>
 
-            <div class="field-row">
-              <label class="field-label-oms" id="current-password-label-oms" for="current-password-oms">Current Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-oms" 
-                [(ngModel)]="data.currentPassword" 
-                id="current-password-oms"
-                aria-labelledby="current-password-label-oms"
-                aria-required="true"
-                aria-describedby="current-password-help-oms"
-                autocomplete="current-password"
-                (keydown)="onKeydown($event)"
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="170px" label="Current Password" [required]="true" [forId]="id + '-current-password-oms'">
+              <ui-input
                 #currentPasswordInputOms
-              />
-              <div id="current-password-help-oms" class="sr-only">Enter your current password</div>
-            </div>
-            <div class="field-row">
-              <label class="field-label-oms" id="new-password-label-oms" for="new-password-oms">New Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-oms" 
-                [(ngModel)]="data.newPassword" 
-                id="new-password-oms"
-                aria-labelledby="new-password-label-oms"
-                aria-required="true"
-                aria-describedby="new-password-help-oms"
-                autocomplete="new-password"
-                (keydown)="onKeydown($event)"
+                class="field-input-oms"
+                [id]="id + '-current-password-oms'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.currentPassword"
+                [ariaDescribedBy]="id + '-current-password-help-oms'"
+                (keydown.enter)="onEnterField($event, 'current')">
+              </ui-input>
+              <div [id]="id + '-current-password-help-oms'" class="sr-only">Enter your current password</div>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="170px" label="New Password" [required]="true" [forId]="id + '-new-password-oms'">
+              <ui-input
                 #newPasswordInputOms
-              />
-              <div id="new-password-help-oms" class="sr-only">Enter your new password</div>
-            </div>
-            <div class="field-row">
-              <label class="field-label-oms" id="confirm-password-label-oms" for="confirm-password-oms">Confirm New Password <span class="req" aria-label="required">*</span></label>
-              <input 
-                type="password" 
-                class="field-input-oms" 
-                [(ngModel)]="data.confirmPassword" 
-                id="confirm-password-oms"
-                aria-labelledby="confirm-password-label-oms"
-                aria-required="true"
-                aria-describedby="confirm-password-help-oms"
-                autocomplete="new-password"
-                (keydown)="onKeydown($event)"
+                class="field-input-oms"
+                [id]="id + '-new-password-oms'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.newPassword"
+                [ariaDescribedBy]="id + '-new-password-help-oms'"
+                (keydown.enter)="onEnterField($event, 'new')">
+              </ui-input>
+              <div [id]="id + '-new-password-help-oms'" class="sr-only">Enter your new password</div>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="170px" label="Confirm New Password" [required]="true" [forId]="id + '-confirm-password-oms'">
+              <ui-input
                 #confirmPasswordInputOms
-              />
-              <div id="confirm-password-help-oms" class="sr-only">Re-enter your new password to confirm</div>
-            </div>
+                class="field-input-oms"
+                [id]="id + '-confirm-password-oms'"
+                type="password"
+                [required]="true"
+                [(ngModel)]="data.confirmPassword"
+                [ariaDescribedBy]="id + '-confirm-password-help-oms'"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
+              <div [id]="id + '-confirm-password-help-oms'" class="sr-only">Re-enter your new password to confirm</div>
+            </ui-form-field>
 
             <div class="btn-row-oms">
-              <button 
-                class="btn-back-oms" 
-                (click)="cancel.emit()" 
-                (keydown.enter)="cancel.emit()"
-                (keydown.space)="cancel.emit()"
+              <ui-button
+                class="btn-back-oms"
+                variant="primary"
                 type="button"
-                aria-label="Cancel password change"
-                #omsCancelBtn
-              >Cancel</button>
-              <button 
-                class="btn-submit-oms" 
-                (click)="onSubmit()" 
-                (keydown.enter)="onSubmit()"
-                (keydown.space)="onSubmit()"
+                label="Cancel"
+                ariaLabel="Cancel password change"
+                (click)="cancel.emit()">
+              </ui-button>
+              <ui-button
+                class="btn-submit-oms"
+                variant="primary"
                 type="submit"
-                aria-label="Update your password"
-                #omsSubmitBtn
-              >Update Password</button>
+                label="Update Password"
+                ariaLabel="Update your password"
+                (click)="onSubmit()">
+              </ui-button>
             </div>
           </div>
 
@@ -246,7 +231,7 @@ export interface ChangePasswordData {
 
     /* OMS top bar */
     .top-bar-oms { background: #fff; display: flex; justify-content: flex-end; padding: 4px 10px; border-bottom: 1px solid #eee; }
-    .oms-logout-btn { background: #1e3a5f; color: #fff; border: none; padding: 4px 14px; font-size: 11px; font-weight: bold; cursor: pointer; }
+    .oms-logout-btn { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 0px; --btn-padding: 4px 14px; --btn-font-size: 11px; }
 
     /* ONLS header */
     .header-onls { background: #fff; padding: 6px 10px; display: flex; align-items: center; border-bottom: 1px solid #ddd; }
@@ -276,38 +261,52 @@ export interface ChangePasswordData {
     .main-content { flex: 1; padding: 20px 30px; }
 
     /* ONLS panel - exact match from screenshot */
-    .panel-onls { background: #fff; border: 1px solid #b0c8e8; max-width: 540px; }
+    .panel-onls {
+      background: #fff; border: 1px solid #b0c8e8; max-width: 540px;
+      --input-border: 1px solid #999;
+      --input-padding: 2px 4px;
+      --input-radius: 0px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
     .panel-header-onls { background: #d4e8f8; color: #006fcf; font-weight: bold; font-size: 13px; padding: 8px 14px; border-bottom: 1px solid #b0c8e8; }
 
     .success-banner { background: #dff0d8; border: 1px solid #c3e6cb; color: #3c763d; padding: 8px 14px; margin: 10px 14px; }
     .error-inline { color: #cc0000; padding: 6px 14px; font-size: 12px; }
     .required-note-onls { font-size: 11px; color: #555; margin: 8px 14px 4px 14px; }
-    .req { color: #cc0000; }
 
-    .field-row { display: flex; align-items: center; margin: 8px 14px; }
-    .field-label-onls { width: 180px; text-align: right; padding-right: 10px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .field-input-onls { width: 200px; height: 22px; border: 1px solid #999; padding: 2px 4px; font-size: 12px; }
+    .field-row { margin: 8px 14px; }
+    .field-input-onls { width: 200px; height: 22px; font-size: 12px; }
 
     .btn-row-onls { display: flex; justify-content: flex-end; padding: 10px 14px 14px; }
-    .btn-change-onls { background: linear-gradient(to bottom, #1a7fe8, #005baa); color: #fff; border: 1px solid #004a99; padding: 5px 18px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; }
+    .btn-change-onls {
+      --btn-bg: linear-gradient(to bottom, #1a7fe8, #005baa); --btn-color: #fff;
+      --btn-border: 1px solid #004a99; --btn-padding: 5px 18px; --btn-font-size: 12px; --btn-radius: 3px;
+    }
 
     /* OMS panel */
-    .panel-oms { background: #fff; padding: 20px 24px; max-width: 480px; border-radius: 2px; }
+    .panel-oms {
+      background: #fff; padding: 20px 24px; max-width: 480px; border-radius: 2px;
+      --input-border: 1px solid #bbb;
+      --input-padding: 2px 6px;
+      --input-radius: 2px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
     .panel-title-oms { font-size: 16px; font-weight: bold; color: #222; }
     .panel-accent { height: 3px; background: #7b1fa2; margin: 8px 0 16px 0; }
     .error-box-oms { background: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 8px 12px; margin-bottom: 12px; }
     .required-note-oms { font-size: 11px; color: #555; margin: 0 0 10px 0; }
-    .field-label-oms { width: 170px; text-align: right; padding-right: 12px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .field-input-oms { flex: 1; max-width: 220px; height: 28px; border: 1px solid #bbb; padding: 2px 6px; font-size: 12px; border-radius: 2px; }
+    .field-input-oms { width: 220px; height: 28px; font-size: 12px; }
     .btn-row-oms { display: flex; gap: 12px; margin-top: 16px; }
-    .btn-back-oms { background: #1e3a5f; color: #fff; border: none; padding: 7px 20px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
-    .btn-submit-oms { background: #7b1fa2; color: #fff; border: none; padding: 7px 24px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 2px; }
+    .btn-back-oms { --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 20px; --btn-font-size: 12px; }
+    .btn-submit-oms { --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 2px; --btn-padding: 7px 24px; --btn-font-size: 12px; }
 
     .footer-links { background: #f5f5f5; border-top: 1px solid #ddd; padding: 5px 10px; font-size: 10px; color: #666; display: flex; flex-wrap: wrap; gap: 4px; }
     .footer-link { color: #006fcf; cursor: pointer; }
     .footer-link:hover, .footer-link:focus { color: #003087; text-decoration: underline; }
     .footer-copy { margin-left: auto; }
-    
+
     /* Accessibility */
     .sr-only {
       position: absolute;
@@ -320,17 +319,16 @@ export interface ChangePasswordData {
       white-space: nowrap;
       border: 0;
     }
-    
-    .field-input-onls:focus, .field-input-oms:focus, .btn-change-onls:focus, .btn-back-oms:focus, .btn-submit-oms:focus, .footer-link:focus {
+
+    .footer-link:focus {
       outline: 2px solid #006fcf;
       outline-offset: 2px;
     }
   `]
 })
-export class AmexChangePasswordFormComponent {
+export class AmexChangePasswordFormComponent implements AfterViewChecked {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `change-password-form-${++AmexChangePasswordFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `change-password-form-${++AmexChangePasswordFormComponent._idCounter}`;
 
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() portalTitle = '';
@@ -340,51 +338,60 @@ export class AmexChangePasswordFormComponent {
   @Output() passwordSubmit = new EventEmitter<ChangePasswordData>();
   @Output() cancel = new EventEmitter<void>();
 
-  @ViewChild('currentPasswordInput') currentPasswordInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('newPasswordInput') newPasswordInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('confirmPasswordInput') confirmPasswordInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('onlsSubmitBtn') onlsSubmitBtn!: ElementRef<HTMLButtonElement>;
-  
-  @ViewChild('currentPasswordInputOms') currentPasswordInputOms!: ElementRef<HTMLInputElement>;
-  @ViewChild('newPasswordInputOms') newPasswordInputOms!: ElementRef<HTMLInputElement>;
-  @ViewChild('confirmPasswordInputOms') confirmPasswordInputOms!: ElementRef<HTMLInputElement>;
-  @ViewChild('omsCancelBtn') omsCancelBtn!: ElementRef<HTMLButtonElement>;
-  @ViewChild('omsSubmitBtn') omsSubmitBtn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('currentPasswordInputOnls') private currentPasswordInputOnls?: InputComponent;
+  @ViewChild('newPasswordInputOnls') private newPasswordInputOnls?: InputComponent;
+  @ViewChild('confirmPasswordInputOnls') private confirmPasswordInputOnls?: InputComponent;
+  @ViewChild('currentPasswordInputOms') private currentPasswordInputOms?: InputComponent;
+  @ViewChild('newPasswordInputOms') private newPasswordInputOms?: InputComponent;
+  @ViewChild('confirmPasswordInputOms') private confirmPasswordInputOms?: InputComponent;
 
   data: ChangePasswordData = { currentPassword: '', newPassword: '', confirmPassword: '' };
 
-ngAfterViewInit() {
-  const firstInput = this.portalStyle === 'onls' ? this.currentPasswordInput : this.currentPasswordInputOms;
-  firstInput?.nativeElement.focus();
-}
+  // Tracks which portalStyle we've already autofocused, since only the active
+  // panel's ui-inputs exist in the DOM (*ngIf) and they may not be present yet
+  // on the very first ngAfterViewInit if portalStyle is set/changed later.
+  // ngAfterViewChecked re-checks on every change detection pass, so guarding
+  // on this flag prevents re-stealing focus on every subsequent check.
+  private autofocusedStyle: 'onls' | 'oms' | null = null;
 
-  onKeydown(event: KeyboardEvent): void {
-    // Handle Enter key navigation between form fields
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      
-      if (this.portalStyle === 'onls') {
-        if (event.target === this.currentPasswordInput?.nativeElement) {
-          this.newPasswordInput?.nativeElement.focus();
-        } else if (event.target === this.newPasswordInput?.nativeElement) {
-          this.confirmPasswordInput?.nativeElement.focus();
-        } else if (event.target === this.confirmPasswordInput?.nativeElement) {
-          this.onSubmit();
-        }
-      } else {
-        if (event.target === this.currentPasswordInputOms?.nativeElement) {
-          this.newPasswordInputOms?.nativeElement.focus();
-        } else if (event.target === this.newPasswordInputOms?.nativeElement) {
-          this.confirmPasswordInputOms?.nativeElement.focus();
-        } else if (event.target === this.confirmPasswordInputOms?.nativeElement) {
-          this.onSubmit();
-        }
-      }
+  ngAfterViewChecked(): void {
+    if (this.autofocusedStyle === this.portalStyle) {
+      return;
+    }
+    const currentPasswordInput = this.getCurrentPasswordInput();
+    if (currentPasswordInput) {
+      currentPasswordInput.focus();
+      this.autofocusedStyle = this.portalStyle;
     }
   }
 
+  private getCurrentPasswordInput(): InputComponent | undefined {
+    return this.portalStyle === 'onls' ? this.currentPasswordInputOnls : this.currentPasswordInputOms;
+  }
+
+  private getNewPasswordInput(): InputComponent | undefined {
+    return this.portalStyle === 'onls' ? this.newPasswordInputOnls : this.newPasswordInputOms;
+  }
+
+  private getConfirmPasswordInput(): InputComponent | undefined {
+    return this.portalStyle === 'onls' ? this.confirmPasswordInputOnls : this.confirmPasswordInputOms;
+  }
+
+  onEnterField(event: Event, fromField: 'current' | 'new'): void {
+    event.preventDefault();
+    if (fromField === 'current') {
+      this.getNewPasswordInput()?.focus();
+    } else {
+      this.getConfirmPasswordInput()?.focus();
+    }
+  }
+
+  onEnterSubmit(event: Event): void {
+    event.preventDefault();
+    this.onSubmit();
+  }
+
   onSubmit(): void {
-    // Validate form before submission
     if (!this.data.currentPassword || !this.data.newPassword || !this.data.confirmPassword) {
       return;
     }
@@ -393,10 +400,8 @@ ngAfterViewInit() {
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent): void {
-    // Handle Escape key to reset focus
     if (event.key === 'Escape') {
-      const firstInput = this.portalStyle === 'onls' ? this.currentPasswordInput : this.currentPasswordInputOms;
-      firstInput?.nativeElement.focus();
+      this.getCurrentPasswordInput()?.focus();
     }
   }
 }

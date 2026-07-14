@@ -1,6 +1,8 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { CheckboxComponent } from '../../atoms/checkbox';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * TermsAndConditionsViewer
@@ -13,7 +15,7 @@ import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'amex-terms-and-conditions-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, CheckboxComponent, ButtonComponent],
   template: `
     <div class="tcv">
 
@@ -36,29 +38,24 @@ import { FormsModule } from '@angular/forms';
 
       <!-- Accept checkbox row -->
       <div class="tcv__accept-row">
-        <label class="tcv__accept-label">
-          <input type="checkbox"
-                 class="tcv__checkbox"
-                 [(ngModel)]="accepted"
-                 (change)="acceptedChange.emit(accepted)" />
+        <ui-checkbox class="tcv__checkbox" [(ngModel)]="accepted" (ngModelChange)="acceptedChange.emit(accepted)">
           <span class="tcv__accept-text">
             I accept the
             <span class="tcv__link" (click)="termsLinkClick.emit()">Terms &amp; Conditions</span>
           </span>
-        </label>
+        </ui-checkbox>
       </div>
 
       <!-- Action buttons -->
       <div class="tcv__actions">
-        <button class="tcv__btn tcv__btn--agree"
+        <ui-button class="tcv__btn tcv__btn--agree"
                 [disabled]="!accepted"
                 [class.tcv__btn--disabled]="!accepted"
-                (click)="agree.emit()">
-          {{ agreeLabel }}
-        </button>
-        <button *ngIf="showCancel" class="tcv__btn tcv__btn--cancel" (click)="cancel.emit()">
-          {{ cancelLabel }}
-        </button>
+                variant="primary" [label]="agreeLabel"
+                (click)="agree.emit()"></ui-button>
+        <ui-button *ngIf="showCancel" class="tcv__btn tcv__btn--cancel"
+                variant="secondary" [label]="cancelLabel"
+                (click)="cancel.emit()"></ui-button>
       </div>
 
     </div>
@@ -90,11 +87,6 @@ import { FormsModule } from '@angular/forms';
     .tcv__accept-row {
       margin-bottom: 12px;
     }
-    .tcv__accept-label {
-      display: flex; align-items: center; gap: 8px;
-      cursor: pointer;
-    }
-    .tcv__checkbox { cursor: pointer; width: 14px; height: 14px; }
     .tcv__accept-text { font-size: 12px; color: #333; }
     .tcv__link { color: #006fcf; cursor: pointer; }
     .tcv__link:hover { text-decoration: underline; }
@@ -102,27 +94,31 @@ import { FormsModule } from '@angular/forms';
     .tcv__actions { display: flex; gap: 10px; align-items: center; }
 
     .tcv__btn {
-      padding: 7px 22px; font-size: 13px; font-weight: bold;
-      cursor: pointer; border: none; font-family: Arial, sans-serif;
-      transition: opacity 0.1s;
+      --btn-padding: 7px 22px;
+      --btn-font-size: 13px;
+      --btn-border: none;
     }
-    .tcv__btn--agree {
-      background: #1c3f72; color: #fff;
+.tcv__btn--agree {
+      --btn-bg: #1c3f72;
+      --btn-color: #fff;
+      --btn-radius: 0;
+      --btn-bg-hover: #163060;
     }
-    .tcv__btn--agree:hover:not(:disabled) { background: #163060; }
     .tcv__btn--disabled {
-      background: #aaa; cursor: not-allowed; opacity: 0.7;
+      --btn-bg: #aaa;
     }
     .tcv__btn--cancel {
-      background: #e8e8e8; color: #333; border: 1px solid #aaa;
+      --btn-bg: #e8e8e8;
+      --btn-color: #333;
+      --btn-border: 1px solid #aaa;
+      --btn-radius: 0;
+      --btn-bg-hover: #d8d8d8;
     }
-    .tcv__btn--cancel:hover { background: #d8d8d8; }
   `],
 })
 export class AmexTermsAndConditionsViewerComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `terms-and-conditions-viewer-${++AmexTermsAndConditionsViewerComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `terms-and-conditions-viewer-${++AmexTermsAndConditionsViewerComponent._idCounter}`;
 
   @Input() title       = '';
   @Input() text        = '';

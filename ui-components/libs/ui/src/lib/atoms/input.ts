@@ -1,88 +1,77 @@
-import { Component, Input, forwardRef, HostBinding } from '@angular/core';
-import { NgIf } from '@angular/common';
+import { Component, Input, forwardRef, HostBinding, ViewChild, ElementRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'ui-input',
   standalone: true,
-  imports: [ReactiveFormsModule, NgIf],
+  imports: [ReactiveFormsModule],
   providers: [{ provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => InputComponent), multi: true }],
   template: `
-    <div class="input-wrapper" [class.has-error]="error" [class.disabled]="disabled">
-      <label *ngIf="label" [for]="id" class="input-label">
-        {{ label }}
-        <span *ngIf="required" class="required-indicator" aria-label="required">*</span>
-      </label>
-      <input
-        [id]="id"
-        [type]="type"
-        [placeholder]="placeholder"
-        [disabled]="disabled"
-        [value]="value"
-        [required]="required"
-        [attr.aria-invalid]="error ? 'true' : null"
-        [attr.aria-describedby]="getDescriptionId()"
-        [attr.aria-required]="required"
-        [attr.aria-label]="ariaLabel"
-        [attr.aria-labelledby]="ariaLabelledBy"
-        (input)="onInput($event)"
-        (blur)="onTouched()"
-        class="input"
-      />
-      <span *ngIf="error" class="input-error" [id]="id + '-error'" role="alert">{{ error }}</span>
-      <span *ngIf="helperText && !error" class="input-helper" [id]="id + '-helper'">{{ helperText }}</span>
-    </div>
+    <input
+      #nativeInput
+      [id]="id"
+      [type]="type"
+      [placeholder]="placeholder"
+      [disabled]="disabled"
+      [value]="value"
+      [required]="required"
+      [readonly]="readonly"
+      [class.invalid]="invalid"
+      [class.disabled]="disabled"
+      [class.readonly]="readonly"
+      [attr.aria-invalid]="invalid ? 'true' : null"
+      [attr.aria-describedby]="ariaDescribedBy || null"
+      [attr.aria-required]="required"
+      [attr.aria-readonly]="readonly ? 'true' : null"
+      [attr.aria-label]="ariaLabel || null"
+      [attr.aria-labelledby]="ariaLabelledBy || null"
+      (input)="onInput($event)"
+      (blur)="onTouched()"
+      class="input"
+    />
   `,
   styles: [`
-    .input-wrapper { display: flex; flex-direction: column; gap: 4px; }
-    .input-label {
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      font-weight: 500;
-      color: #333;
-      margin-bottom: 4px;
-    }
-    .required-indicator { color: #f44336; margin-left: 2px; }
-    .input {
-      padding: 8px 12px;
-      font-size: 14px;
-      font-family: Arial, sans-serif;
-      border: 1px solid #e0e0e0;
-      border-radius: 4px;
-      outline: none;
-      transition: border-color 0.2s;
-      width: 100%;
-      box-sizing: border-box;
-      color: #333;
-      background: #fff;
-    }
-    .input:focus { border-color: #1976d2; box-shadow: 0 0 0 2px rgba(25,118,210,0.15); }
-    .has-error .input { border-color: #f44336; }
-    .has-error .input:focus { box-shadow: 0 0 0 2px rgba(244,67,54,0.15); }
-    .disabled .input { background: #f5f5f5; cursor: not-allowed; color: #999; }
-    .input-error { font-size: 12px; color: #f44336; }
-    .input-helper { font-size: 12px; color: #666; }
-  `],
+      .input {
+        padding: var(--input-padding, 8px 12px);
+        font-size: 14px;
+        font-family: Arial, sans-serif;
+        border: var(--input-border, 1px solid #e0e0e0);
+        border-radius: var(--input-radius, 4px);
+        outline: none;
+        transition: border-color 0.2s;
+        width: 100%;
+        box-sizing: border-box;
+        color: #333;
+        background: var(--input-bg, #fff);
+      }
+      .input:focus { border-color: var(--input-focus-border-color, #1976d2); box-shadow: var(--input-focus-shadow, 0 0 0 2px rgba(25,118,210,0.15)); }
+      .input.invalid { border-color: #f44336; }
+      .input.invalid:focus { box-shadow: 0 0 0 2px rgba(244,67,54,0.15); }
+      .input.disabled { background: #f5f5f5; cursor: not-allowed; color: #999; }
+      .input.readonly { background: #f5f5f5; cursor: default; color: #666; }
+      .input.readonly:focus { border-color: var(--input-border, #e0e0e0); box-shadow: none; }
+    `],
 })
 export class InputComponent implements ControlValueAccessor {
-  @Input() type: 'text' | 'email' | 'password' | 'number' = 'text';
+  @Input() type: 'text' | 'email' | 'password' | 'number' | 'search' | 'tel' | 'url' = 'text';
   private static _idCounter = 0;
   @HostBinding('attr.id') @Input() id = `ui-input-${++InputComponent._idCounter}`;
   @Input() placeholder = '';
   @Input() disabled = false;
-  @Input() error = '';
-  @Input() label = '';
+  @Input() invalid = false;
   @Input() required = false;
-  @Input() helperText = '';
+  /** Value is visible, focusable, and included in form submission, but not editable. Distinct from `disabled`. */
+  @Input() readonly = false;
   @Input() ariaLabel = '';
   @Input() ariaLabelledBy = '';
+  @Input() ariaDescribedBy = '';
 
-    getDescriptionId(): string | null {
-      const ids: string[] = [];
-      if (this.error) ids.push(this.id + '-error');
-      if (this.helperText && !this.error) ids.push(this.id + '-helper');
-      return ids.length ? ids.join(' ') : null;
-    }
+  @ViewChild('nativeInput', { static: true }) private nativeInput!: ElementRef<HTMLInputElement>;
+
+  /** Public focus delegate so consumers never need ElementRef/nativeElement of their own. */
+  focus(): void {
+    this.nativeInput.nativeElement.focus();
+  }
 
   value = '';
   onChange = (_: string) => {};

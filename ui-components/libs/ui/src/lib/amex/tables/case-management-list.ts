@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface CaseManagementRow {
   caseId: string;
@@ -18,11 +19,11 @@ export interface CaseManagementRow {
 @Component({
   selector: 'amex-case-management-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div class="cml">
       <div class="cml__toolbar" *ngIf="showCreate">
-        <button class="cml__create-btn" (click)="createClick.emit()">{{ createLabel }}</button>
+        <ui-button class="cml__create-btn" [label]="createLabel" variant="primary" size="md" (click)="createClick.emit()"></ui-button>
       </div>
       <table class="cml__table">
         <thead>
@@ -47,8 +48,8 @@ export interface CaseManagementRow {
             <td class="cml__td">{{ row.assignee }}</td>
             <td class="cml__td">{{ row.createdDate }}</td>
             <td class="cml__td cml__td--actions">
-              <button class="cml__btn cml__btn--view"    (click)="actionClick.emit({action:'view',row})">View</button>
-              <button class="cml__btn cml__btn--comment" (click)="actionClick.emit({action:'comment',row})">Comment</button>
+              <ui-button class="cml__btn cml__btn--view" label="View" variant="primary" size="sm" (click)="actionClick.emit({action:'view',row})"></ui-button>
+              <ui-button class="cml__btn cml__btn--comment" label="Comment" variant="primary" size="sm" (click)="actionClick.emit({action:'comment',row})"></ui-button>
             </td>
           </tr>
           <tr *ngIf="!rows.length">
@@ -61,8 +62,8 @@ export interface CaseManagementRow {
   styles: [`
     :host { display: block; font-family: Arial, sans-serif; }
     .cml__toolbar { padding: 0 0 10px; }
-    .cml__create-btn { background: #1a7abf; color: #fff; border: none; padding: 6px 16px; font-size: 13px; cursor: pointer; border-radius: 2px; font-family: Arial, sans-serif; }
-    .cml__create-btn:hover { background: #155f96; }
+    .cml__create-btn { --btn-bg: #1a7abf; --btn-color: #fff; --btn-radius: 2px; }
+    .cml__create-btn:hover { --btn-bg: #155f96; }
     .cml__table { width: 100%; border-collapse: collapse; font-size: 13px; }
     .cml__head-row { background: #d6eaf8; }
     .cml__th { padding: 7px 10px; border: 1px solid #b8d4ea; font-size: 12px; font-weight: bold; color: #1a3a6b; text-align: left; }
@@ -77,18 +78,14 @@ export interface CaseManagementRow {
     .cml__status--closed   { background: #e8f5e9; color: #2e7d32; }
     .cml__status--pending  { background: #fff8e1; color: #f57f17; }
     .cml__status--resolved { background: #e8f5e9; color: #2e7d32; }
-    .cml__btn { border: none; padding: 4px 10px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; margin: 2px; font-family: Arial, sans-serif; }
-    .cml__btn--view    { background: #1976d2; color: #fff; }
-    .cml__btn--view:hover { background: #1565c0; }
-    .cml__btn--comment { background: #1976d2; color: #fff; }
-    .cml__btn--comment:hover { background: #1565c0; }
+    .cml__btn { --btn-bg: #1976d2; --btn-color: #fff; --btn-radius: 3px; margin: 2px; }
+    .cml__btn--view:hover, .cml__btn--comment:hover { --btn-bg: #1565c0; }
     .cml__empty { text-align: center; padding: 24px; color: #888; font-size: 13px; }
   `],
 })
 export class AmexCaseManagementListComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `case-management-list-${++AmexCaseManagementListComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-case-management-list-${++AmexCaseManagementListComponent._idCounter}`;
 
   @Input() rows: CaseManagementRow[] = [];
   @Input() showCreate = false;

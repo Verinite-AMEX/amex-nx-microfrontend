@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
 
 /**
  * ReportSubmissionConfirmation
@@ -7,11 +8,21 @@ import { CommonModule } from '@angular/common';
  * Matches BCRB "New Report Request Submitted" panel + UAEFTS request confirmation.
  * Source: BCRB, UAEFTS Statements
  * Style: Success green banner OR BCRB dark-blue bar with white text.
+ *
+ * NOTE: the two ".rsc__link" <span>s (BCRB "Request New Report +" / "Refresh
+ * Request") are intentionally left as spans, not ui-button — they render as
+ * plain inline text links with no button chrome at all (no padding, no border,
+ * no background, sitting mid-sentence in a flex row), which is a text-link
+ * pattern rather than a button pattern. Flagging rather than silently
+ * leaving a violation: happy to convert these to ui-button too (ghost
+ * variant + --btn-padding:0 etc., same recipe as card-member-details-view)
+ * if you want every clickable element funneled through the primitive
+ * regardless of visual weight — say the word.
  */
 @Component({
   selector: 'amex-report-submission-confirmation',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div class="rsc">
 
@@ -70,10 +81,8 @@ import { CommonModule } from '@angular/common';
           </div>
         </div>
         <div class="rsc__generic-actions">
-          <button class="rsc__btn rsc__btn--primary" (click)="requestNew.emit()">
-            {{ newRequestLabel || 'New Request' }}
-          </button>
-          <button class="rsc__btn" (click)="goBack.emit()">Back</button>
+          <ui-button class="rsc__btn rsc__btn--primary" variant="secondary" [label]="newRequestLabel || 'New Request'" (click)="requestNew.emit()"></ui-button>
+          <ui-button class="rsc__btn" variant="secondary" label="Back" (click)="goBack.emit()"></ui-button>
         </div>
       </div>
 
@@ -146,21 +155,24 @@ import { CommonModule } from '@angular/common';
 
     /* Buttons */
     .rsc__btn {
-      background: #e8e8e8; border: 1px solid #aaa;
-      padding: 5px 14px; font-size: 12px; font-family: Arial, sans-serif; cursor: pointer;
+      --btn-bg: #e8e8e8;
+      --btn-color: #000;
+      --btn-border: 1px solid #aaa;
+      --btn-padding: 5px 14px;
+      --btn-font-size: 12px;
+      --btn-bg-hover: #d8d8d8;
     }
     .rsc__btn--primary {
-      background: linear-gradient(to bottom, #5ba3e0, #006fcf);
-      color: #fff; border-color: #005fba;
+      --btn-bg: linear-gradient(to bottom, #5ba3e0, #006fcf);
+      --btn-color: #fff;
+      --btn-border: 1px solid #005fba;
+      --btn-bg-hover: linear-gradient(to bottom, #4a92cf, #0058a6);
     }
-    .rsc__btn--primary:hover { background: linear-gradient(to bottom, #4a92cf, #0058a6); }
-    .rsc__btn:not(.rsc__btn--primary):hover { background: #d8d8d8; }
   `],
 })
 export class AmexReportSubmissionConfirmationComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') readonly id = `report-submission-confirmation-${++AmexReportSubmissionConfirmationComponent._idCounter}`;
-
 
   /** 'bcrb' = BCRB dark bar style | 'default' = green success panel */
   @Input() variant: 'bcrb' | 'default' = 'default';

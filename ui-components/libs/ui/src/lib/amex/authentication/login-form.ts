@@ -1,6 +1,9 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, HostBinding, ViewChild, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface LoginCredentials {
   username: string;
@@ -10,7 +13,7 @@ export interface LoginCredentials {
 @Component({
   selector: 'amex-login-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="amex-shell">
       <!-- Top bar -->
@@ -51,47 +54,39 @@ export interface LoginCredentials {
               {{ successMessage }}
             </div>
 
-            <div class="field-row">
-              <label class="field-label" for="username" id="username-label">
-                User Name <span class="required" aria-label="required">*</span>
-              </label>
-              <input
-                id="username"
-                type="text"
-                class="field-input"
-                [(ngModel)]="credentials.username"
-                autocomplete="username"
-                aria-labelledby="username-label"
-                aria-required="true"
-                aria-describedby="username-help"
-                (keydown)="onKeydown($event)"
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="130px" label="User Name" [required]="true" [forId]="id + '-username'">
+              <ui-input
                 #usernameInput
-              />
-              <div id="username-help" class="sr-only">Enter your user name for login</div>
-            </div>
-
-            <div class="field-row">
-              <label class="field-label" for="password" id="password-label">
-                Password <span class="required" aria-label="required">*</span>
-              </label>
-              <input
-                id="password"
-                type="password"
                 class="field-input"
-                [(ngModel)]="credentials.password"
-                autocomplete="current-password"
-                aria-labelledby="password-label"
-                aria-required="true"
-                aria-describedby="password-help"
-                (keydown)="onKeydown($event)"
+                [id]="id + '-username'"
+                type="text"
+                [(ngModel)]="credentials.username"
+                [required]="true"
+                ariaLabel="User Name"
+                [ariaDescribedBy]="id + '-username-help'"
+                (keydown.enter)="onEnterUsername($event)">
+              </ui-input>
+              <div [id]="id + '-username-help'" class="sr-only">Enter your user name for login</div>
+            </ui-form-field>
+
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="130px" label="Password" [required]="true" [forId]="id + '-password'">
+              <ui-input
                 #passwordInput
-              />
-              <div id="password-help" class="sr-only">Enter your password for login</div>
-            </div>
+                class="field-input"
+                [id]="id + '-password'"
+                type="password"
+                [(ngModel)]="credentials.password"
+                [required]="true"
+                ariaLabel="Password"
+                [ariaDescribedBy]="id + '-password-help'"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
+              <div [id]="id + '-password-help'" class="sr-only">Enter your password for login</div>
+            </ui-form-field>
 
             <div class="form-links">
-              <a class="form-link" 
-                 (click)="forgotPassword.emit()" 
+              <a class="form-link"
+                 (click)="forgotPassword.emit()"
                  (keydown.enter)="forgotPassword.emit()"
                  (keydown.space)="forgotPassword.emit()"
                  role="button"
@@ -100,19 +95,20 @@ export interface LoginCredentials {
             </div>
 
             <div class="btn-row">
-              <button class="btn-submit" 
-                      (click)="onSubmit()" 
-                      (keydown.enter)="onSubmit()"
-                      (keydown.space)="onSubmit()"
-                      type="submit"
-                      aria-label="Login to your account"
-                      #loginButton>Login</button>
+              <ui-button
+                class="btn-submit"
+                variant="primary"
+                type="submit"
+                label="Login"
+                ariaLabel="Login to your account"
+                (click)="onSubmit()">
+              </ui-button>
             </div>
 
             <div class="register-row" *ngIf="showRegister">
               <span>New user? </span>
-              <a class="form-link" 
-                 (click)="registerClick.emit()" 
+              <a class="form-link"
+                 (click)="registerClick.emit()"
                  (keydown.enter)="registerClick.emit()"
                  (keydown.space)="registerClick.emit()"
                  role="button"
@@ -161,18 +157,22 @@ export interface LoginCredentials {
     .main-content { flex: 1; padding: 20px 30px; }
 
     /* Login panel */
-    .login-panel { background: #fff; border: 1px solid #ccc; padding: 20px 24px; max-width: 480px; }
+    .login-panel {
+      background: #fff; border: 1px solid #ccc; padding: 20px 24px; max-width: 480px;
+      --input-border: 1px solid #999;
+      --input-padding: 2px 4px;
+      --input-radius: 0px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
 
     /* Error / success */
     .error-box { background: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; border-radius: 2px; }
     .success-box { background: #dff0d8; border: 1px solid #c3e6cb; color: #3c763d; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; border-radius: 2px; }
 
     /* Fields */
-    .field-row { display: flex; align-items: center; margin-bottom: 10px; }
-    .field-label { width: 130px; text-align: right; padding-right: 10px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .required { color: #cc0000; }
-    .field-input { width: 200px; height: 22px; border: 1px solid #999; padding: 2px 4px; font-size: 12px; }
-    .field-input:focus { outline: 1px solid #006fcf; border-color: #006fcf; }
+    .field-row { margin-bottom: 10px; }
+    .field-input { width: 200px; height: 22px; font-size: 12px; }
 
     /* Links */
     .form-links { display: flex; gap: 20px; margin: 8px 0 8px 140px; }
@@ -181,8 +181,10 @@ export interface LoginCredentials {
 
     /* Button row */
     .btn-row { margin-top: 14px; display: flex; justify-content: flex-end; padding-right: 4px; }
-    .btn-submit { background: linear-gradient(to bottom, #1a7fe8, #005baa); color: #fff; border: 1px solid #004a99; padding: 5px 18px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; }
-    .btn-submit:hover { background: linear-gradient(to bottom, #2a8ff8, #0065ba); }
+    .btn-submit {
+      --btn-bg: linear-gradient(to bottom, #1a7fe8, #005baa); --btn-color: #fff;
+      --btn-border: 1px solid #004a99; --btn-padding: 5px 18px; --btn-font-size: 12px; --btn-radius: 3px;
+    }
 
     /* Register row */
     .register-row { margin-top: 10px; text-align: center; font-size: 11px; color: #555; }
@@ -192,7 +194,7 @@ export interface LoginCredentials {
     .footer-link { color: #006fcf; cursor: pointer; }
     .footer-link:hover, .footer-link:focus { color: #003087; text-decoration: underline; }
     .footer-copy { margin-left: auto; }
-    
+
     /* Accessibility */
     .sr-only {
       position: absolute;
@@ -205,17 +207,16 @@ export interface LoginCredentials {
       white-space: nowrap;
       border: 0;
     }
-    
-    .field-input:focus, .btn-submit:focus, .form-link:focus, .footer-link:focus {
+
+    .form-link:focus, .footer-link:focus {
       outline: 2px solid #006fcf;
       outline-offset: 2px;
     }
   `]
 })
-export class AmexLoginFormComponent {
+export class AmexLoginFormComponent implements AfterViewInit {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `login-form-${++AmexLoginFormComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `login-form-${++AmexLoginFormComponent._idCounter}`;
 
   @Input() portalTitle = '';
   @Input() errorMessage = '';
@@ -226,43 +227,39 @@ export class AmexLoginFormComponent {
   @Output() forgotPassword = new EventEmitter<void>();
   @Output() registerClick = new EventEmitter<void>();
 
-  @ViewChild('usernameInput') usernameInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('passwordInput') passwordInput!: ElementRef<HTMLInputElement>;
-  @ViewChild('loginButton') loginButton!: ElementRef<HTMLButtonElement>;
+  @ViewChild('usernameInput') usernameInput!: InputComponent;
+  @ViewChild('passwordInput') passwordInput!: InputComponent;
 
   credentials: LoginCredentials = { username: '', password: '' };
 
-  ngAfterViewInit() {
-    this.usernameInput?.nativeElement.focus();
+  ngAfterViewInit(): void {
+    this.usernameInput.focus();
   }
 
-  onKeydown(event: KeyboardEvent) {
-    // Handle Enter key in form fields
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      if (event.target === this.usernameInput?.nativeElement) {
-        this.passwordInput?.nativeElement.focus();
-      } else if (event.target === this.passwordInput?.nativeElement) {
-        this.onSubmit();
-      }
+  onEnterUsername(event: Event) {
+    event.preventDefault();
+    this.passwordInput.focus();
+  }
+
+  onEnterSubmit(event: Event) {
+    event.preventDefault();
+    this.onSubmit();
+  }
+
+  onSubmit() {
+    // Validate form before submission
+    if (!this.credentials.username || !this.credentials.password) {
+      this.errorMessage = 'User Name and Password are required.';
+      return;
     }
+    this.errorMessage = '';
+    this.loginSubmit.emit({ ...this.credentials });
   }
-
- onSubmit() {
-  // Validate form before submission
-  if (!this.credentials.username || !this.credentials.password) {
-    this.errorMessage = 'User Name and Password are required.';
-    return;
-  }
-  this.errorMessage = '';
-  this.loginSubmit.emit({ ...this.credentials });
-}
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent) {
-    // Handle Escape key to reset focus
     if (event.key === 'Escape') {
-      this.usernameInput?.nativeElement.focus();
+      this.usernameInput.focus();
     }
   }
 }

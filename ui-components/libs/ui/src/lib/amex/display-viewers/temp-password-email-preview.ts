@@ -1,5 +1,9 @@
 import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { TableComponent } from '../../atoms/table';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 /**
  * TempPasswordEmailPreview
@@ -10,25 +14,27 @@ import { CommonModule } from '@angular/common';
 @Component({
   selector: 'amex-temp-password-email-preview',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, TableComponent, TableBodyComponent, TableRowComponent, TableCellComponent],
   template: `
     <div class="tpep">
       <div class="tpep__header">Email Preview</div>
       <div class="tpep__email">
-        <table class="tpep__meta">
-          <tr>
-            <td class="tpep__meta-label">From:</td>
-            <td class="tpep__meta-value">{{ fromAddress }}</td>
-          </tr>
-          <tr>
-            <td class="tpep__meta-label">To:</td>
-            <td class="tpep__meta-value">{{ toAddress }}</td>
-          </tr>
-          <tr>
-            <td class="tpep__meta-label">Subject:</td>
-            <td class="tpep__meta-value">{{ subject }}</td>
-          </tr>
-        </table>
+        <ui-table class="tpep__meta">
+          <ui-table-body>
+            <ui-table-row [hoverable]="false">
+              <ui-table-cell class="tpep__meta-label">From:</ui-table-cell>
+              <ui-table-cell class="tpep__meta-value">{{ fromAddress }}</ui-table-cell>
+            </ui-table-row>
+            <ui-table-row [hoverable]="false">
+              <ui-table-cell class="tpep__meta-label">To:</ui-table-cell>
+              <ui-table-cell class="tpep__meta-value">{{ toAddress }}</ui-table-cell>
+            </ui-table-row>
+            <ui-table-row [hoverable]="false">
+              <ui-table-cell class="tpep__meta-label">Subject:</ui-table-cell>
+              <ui-table-cell class="tpep__meta-value">{{ subject }}</ui-table-cell>
+            </ui-table-row>
+          </ui-table-body>
+        </ui-table>
         <div class="tpep__divider"></div>
         <div class="tpep__body">
           <p class="tpep__greeting">Dear {{ userName }},</p>
@@ -80,14 +86,16 @@ import { CommonModule } from '@angular/common';
       border: 1px solid #a0bcd8; background: #fff;
     }
     .tpep__meta {
-      width: 100%; border-collapse: collapse;
+      width: 100%;
       background: #f5f9ff; border-bottom: 1px solid #d0e4f0;
     }
     .tpep__meta-label {
-      padding: 5px 12px; font-size: 12px; font-weight: bold;
-      color: #555; width: 80px;
+      --table-cell-padding: 5px 12px;
+      --table-cell-font-weight: bold;
+      --table-cell-color: #555;
+      width: 80px;
     }
-    .tpep__meta-value { padding: 5px 8px; font-size: 12px; color: #1a1a1a; }
+    .tpep__meta-value { --table-cell-padding: 5px 8px; --table-cell-color: #1a1a1a; }
     .tpep__divider { height: 1px; background: #d0e4f0; }
     .tpep__body { padding: 20px 24px; }
     .tpep__greeting { font-size: 13px; font-weight: bold; margin: 0 0 12px; color: #1a1a1a; }
@@ -112,8 +120,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AmexTempPasswordEmailPreviewComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `temp-password-email-preview-${++AmexTempPasswordEmailPreviewComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `temp-password-email-preview-${++AmexTempPasswordEmailPreviewComponent._idCounter}`;
 
   @Input() fromAddress = 'no-reply@aeme.americanexpress.com';
   @Input() toAddress   = 'user@example.com';

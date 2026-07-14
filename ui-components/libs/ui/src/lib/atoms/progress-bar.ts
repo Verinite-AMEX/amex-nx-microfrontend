@@ -39,7 +39,7 @@ import { CommonModule } from '@angular/common';
 })
 export class ProgressBarComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-progress-bar-${++ProgressBarComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `ui-progress-bar-${++ProgressBarComponent._idCounter}`;
 
 
   @Input() value = 0;

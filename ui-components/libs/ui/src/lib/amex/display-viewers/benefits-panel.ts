@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, ViewChild, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImageComponent } from '../../atoms/image';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface BenefitItem {
   id: string;
@@ -24,7 +26,7 @@ export interface BenefitItem {
 @Component({
   selector: 'amex-benefits-panel',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ImageComponent, ButtonComponent],
   template: `
     <div class="bp" role="region" aria-label="Benefits panel">
       <!-- Page header bar -->
@@ -45,7 +47,7 @@ export interface BenefitItem {
           >
 
           <div class="bp__card-img-wrap">
-            <img *ngIf="b.imageUrl" [src]="b.imageUrl" [alt]="b.title + ' benefit image'" class="bp__card-img" />
+            <ui-image *ngIf="b.imageUrl" [src]="b.imageUrl" [alt]="b.title + ' benefit image'" class="bp__card-img" objectFit="cover"></ui-image>
             <div *ngIf="!b.imageUrl" class="bp__card-img-placeholder" role="img" aria-label="American Express benefit placeholder">
               <span aria-hidden="true">AMERICAN EXPRESS</span>
             </div>
@@ -76,39 +78,42 @@ export interface BenefitItem {
       <!-- Detail view -->
       <div *ngIf="selectedBenefit" class="bp__detail" role="dialog" aria-modal="true" aria-label="Benefit details">
         <div class="bp__detail-img-wrap">
-          <img *ngIf="selectedBenefit.imageUrl" [src]="selectedBenefit.imageUrl" [alt]="selectedBenefit.title + ' benefit image'" class="bp__detail-img" />
+          <ui-image *ngIf="selectedBenefit.imageUrl" [src]="selectedBenefit.imageUrl" [alt]="selectedBenefit.title + ' benefit image'" class="bp__detail-img" objectFit="cover"></ui-image>
           <div *ngIf="!selectedBenefit.imageUrl" class="bp__detail-img-fallback" role="img" aria-label="American Express benefit placeholder">
             <span aria-hidden="true">AMERICAN EXPRESS</span>
           </div>
-          <button 
-            class="bp__detail-close" 
-            (click)="closeDetail()" 
+          <ui-button
+            class="bp__detail-close"
+            variant="ghost"
+            label="&#x2715;"
+            (click)="closeDetail()"
             (keydown.enter)="closeDetail()"
             (keydown.space)="closeDetail()"
-            type="button"
-            aria-label="Close benefit details"
+            ariaLabel="Close benefit details"
             #closeBtn
-          >&#x2715;</button>
+          ></ui-button>
         </div>
 
-        <button 
-          class="bp__detail-nav bp__detail-nav--left" 
-          (click)="prevBenefit()" 
+        <ui-button
+          class="bp__detail-nav bp__detail-nav--left"
+          variant="ghost"
+          label="&#8249;"
+          (click)="prevBenefit()"
           (keydown.enter)="prevBenefit()"
           (keydown.space)="prevBenefit()"
-          type="button"
-          aria-label="Previous benefit"
+          ariaLabel="Previous benefit"
           #prevBtn
-        >&#8249;</button>
-        <button 
-          class="bp__detail-nav bp__detail-nav--right" 
-          (click)="nextBenefit()" 
+        ></ui-button>
+        <ui-button
+          class="bp__detail-nav bp__detail-nav--right"
+          variant="ghost"
+          label="&#8250;"
+          (click)="nextBenefit()"
           (keydown.enter)="nextBenefit()"
           (keydown.space)="nextBenefit()"
-          type="button"
-          aria-label="Next benefit"
+          ariaLabel="Next benefit"
           #nextBtn
-        >&#8250;</button>
+        ></ui-button>
 
         <div class="bp__detail-info">
           <div class="bp__detail-left">
@@ -131,26 +136,28 @@ export interface BenefitItem {
           </div>
 
           <div class="bp__detail-right">
-            <button 
+            <ui-button
               *ngIf="!selectedBenefit.enrolled"
               class="bp__enroll-btn"
+              variant="primary"
+              label="Enroll"
               (click)="enroll.emit(selectedBenefit)"
               (keydown.enter)="enroll.emit(selectedBenefit)"
               (keydown.space)="enroll.emit(selectedBenefit)"
-              type="button"
-              aria-label="Enroll in {{ selectedBenefit.title }} benefit"
+              ariaLabel="Enroll in {{ selectedBenefit.title }} benefit"
               #enrollBtn
-            >Enroll</button>
-            <button 
+            ></ui-button>
+            <ui-button
               *ngIf="selectedBenefit.enrolled"
               class="bp__unenroll-btn"
+              variant="ghost"
+              label="Unenroll"
               (click)="unenroll.emit(selectedBenefit)"
               (keydown.enter)="unenroll.emit(selectedBenefit)"
               (keydown.space)="unenroll.emit(selectedBenefit)"
-              type="button"
-              aria-label="Unenroll from {{ selectedBenefit.title }} benefit"
+              ariaLabel="Unenroll from {{ selectedBenefit.title }} benefit"
               #unenrollBtn
-            >Unenroll</button>
+            ></ui-button>
 
             <div *ngIf="selectedBenefit.termsAndConditions" class="bp__detail-tnc">
               <span class="bp__detail-lbl" id="tnc-label">Terms &amp; Conditions</span>
@@ -187,7 +194,7 @@ export interface BenefitItem {
       position: relative; width: 100%; height: 158px;
       background: #b8d4ef; overflow: hidden; flex-shrink: 0;
     }
-    .bp__card-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bp__card-img { width: 100%; height: 100%; display: block; }
     .bp__card-img-placeholder {
       width: 100%; height: 100%; background: #006fcf;
       display: flex; align-items: center; justify-content: center;
@@ -226,7 +233,7 @@ export interface BenefitItem {
     .bp__detail-img-wrap {
       position: relative; width: 100%; height: 280px; background: #b8d4ef; overflow: hidden;
     }
-    .bp__detail-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .bp__detail-img { width: 100%; height: 100%; display: block; }
     .bp__detail-img-fallback {
       width: 100%; height: 100%; background: #006fcf;
       display: flex; align-items: center; justify-content: center;
@@ -235,16 +242,28 @@ export interface BenefitItem {
       color: rgba(255,255,255,0.75); font-size: 15px; font-weight: 700; letter-spacing: 0.1em;
     }
     .bp__detail-close {
-      position: absolute; top: 10px; right: 10px; width: 28px; height: 28px;
-      border-radius: 50%; background: rgba(255,255,255,0.92); border: 1px solid #ccc;
-      font-size: 12px; cursor: pointer; color: #333;
-      display: flex; align-items: center; justify-content: center;
+      position: absolute; top: 10px; right: 10px;
+      --btn-bg: rgba(255,255,255,0.92);
+      --btn-color: #333;
+      --btn-border: 1px solid #ccc;
+      --btn-radius: 50%;
+      --btn-padding: 0;
+      --btn-font-size: 12px;
+      --btn-width: 28px;
+      --btn-justify-content: center;
+      height: 28px;
     }
     .bp__detail-nav {
       position: absolute; top: calc(140px - 18px);
-      background: rgba(255,255,255,0.9); border: 1px solid #ddd; border-radius: 50%;
-      width: 36px; height: 36px; font-size: 22px; cursor: pointer; color: #555;
-      display: flex; align-items: center; justify-content: center;
+      --btn-bg: rgba(255,255,255,0.9);
+      --btn-color: #555;
+      --btn-border: 1px solid #ddd;
+      --btn-radius: 50%;
+      --btn-padding: 0;
+      --btn-font-size: 22px;
+      --btn-width: 36px;
+      --btn-justify-content: center;
+      height: 36px;
     }
     .bp__detail-nav--left  { left: 10px; }
     .bp__detail-nav--right { right: 10px; }
@@ -265,25 +284,32 @@ export interface BenefitItem {
     .bp__detail-date      { font-size: 11px; color: #555; }
 
     .bp__enroll-btn {
-      padding: 8px 28px; background: #006fcf; color: #fff;
-      border: none; border-radius: 4px; font-size: 14px; font-weight: 700;
-      cursor: pointer; align-self: flex-start;
+      --btn-bg: #006fcf;
+      --btn-color: #fff;
+      --btn-radius: 4px;
+      --btn-padding: 8px 28px;
+      --btn-font-size: 14px;
+      --btn-bg-hover: #005baa;
+      align-self: flex-start;
     }
-    .bp__enroll-btn:hover { background: #005baa; }
     .bp__unenroll-btn {
-      padding: 7px 20px; background: #fff; color: #555;
-      border: 1px solid #ccc; border-radius: 4px; font-size: 13px;
-      font-weight: 600; cursor: pointer; align-self: flex-start;
+      --btn-bg: #fff;
+      --btn-color: #555;
+      --btn-border: 1px solid #ccc;
+      --btn-radius: 4px;
+      --btn-padding: 7px 20px;
+      --btn-font-size: 13px;
+      align-self: flex-start;
     }
     .bp__detail-tnc      { display: flex; flex-direction: column; gap: 4px; }
     .bp__detail-tnc-text { font-size: 12px; color: #444; margin: 0; line-height: 1.5; }
-    
+
     /* Accessibility */
     .bp__card:focus, .bp__detail-close:focus, .bp__detail-nav:focus, .bp__enroll-btn:focus, .bp__unenroll-btn:focus {
       outline: 2px solid #006fcf;
       outline-offset: 2px;
     }
-    
+
     /* High contrast mode support */
     @media (prefers-contrast: high) {
       .bp__card {
@@ -298,8 +324,7 @@ export interface BenefitItem {
 })
 export class AmexBenefitsPanelComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `benefits-panel-${++AmexBenefitsPanelComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `benefits-panel-${++AmexBenefitsPanelComponent._idCounter}`;
 
   @Input() benefits: BenefitItem[] = [];
   selectedBenefit: BenefitItem | null = null;
@@ -308,22 +333,22 @@ export class AmexBenefitsPanelComponent {
   @Output() enroll         = new EventEmitter<BenefitItem>();
   @Output() unenroll       = new EventEmitter<BenefitItem>();
 
-  @ViewChild('closeBtn') closeBtn!: ElementRef<HTMLButtonElement>;
-  @ViewChild('prevBtn') prevBtn!: ElementRef<HTMLButtonElement>;
-  @ViewChild('nextBtn') nextBtn!: ElementRef<HTMLButtonElement>;
-  @ViewChild('enrollBtn') enrollBtn!: ElementRef<HTMLButtonElement>;
-  @ViewChild('unenrollBtn') unenrollBtn!: ElementRef<HTMLButtonElement>;
+  @ViewChild('closeBtn') closeBtn!: ButtonComponent;
+  @ViewChild('prevBtn') prevBtn!: ButtonComponent;
+  @ViewChild('nextBtn') nextBtn!: ButtonComponent;
+  @ViewChild('enrollBtn') enrollBtn!: ButtonComponent;
+  @ViewChild('unenrollBtn') unenrollBtn!: ButtonComponent;
 
-  openDetail(b: BenefitItem) { 
-    this._idx = this.benefits.indexOf(b); 
+  openDetail(b: BenefitItem) {
+    this._idx = this.benefits.indexOf(b);
     this.selectedBenefit = b;
     // Focus management for detail view
     setTimeout(() => {
-      this.closeBtn?.nativeElement.focus();
+      this.closeBtn?.focus();
     }, 100);
   }
-  
-  closeDetail() { 
+
+  closeDetail() {
     this.selectedBenefit = null;
     // Return focus to the grid
     setTimeout(() => {
@@ -333,23 +358,23 @@ export class AmexBenefitsPanelComponent {
       }
     }, 100);
   }
-  
-  prevBenefit() { 
-    if (this._idx > 0) { 
-      this._idx--; 
+
+  prevBenefit() {
+    if (this._idx > 0) {
+      this._idx--;
       this.selectedBenefit = this.benefits[this._idx];
       // Announce navigation to screen readers
       this.announceBenefitChange('Previous benefit');
-    } 
+    }
   }
-  
-  nextBenefit() { 
-    if (this._idx < this.benefits.length - 1) { 
-      this._idx++; 
+
+  nextBenefit() {
+    if (this._idx < this.benefits.length - 1) {
+      this._idx++;
       this.selectedBenefit = this.benefits[this._idx];
       // Announce navigation to screen readers
       this.announceBenefitChange('Next benefit');
-    } 
+    }
   }
 
   onCardKeydown(event: KeyboardEvent, index: number): void {
@@ -406,7 +431,7 @@ export class AmexBenefitsPanelComponent {
     announcement.className = 'sr-only';
     announcement.textContent = `${direction}: ${this.selectedBenefit?.title}`;
     document.body.appendChild(announcement);
-    
+
     // Remove after announcement
     setTimeout(() => {
       document.body.removeChild(announcement);

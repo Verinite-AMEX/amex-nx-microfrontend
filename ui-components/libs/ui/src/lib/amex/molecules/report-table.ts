@@ -2,6 +2,14 @@ import { Component, Input, Output, EventEmitter, OnChanges, HostBinding } from '
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AmexStatusBadgeComponent } from '../atoms/status-badge';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableHeaderCellComponent, SortDirection } from '../../atoms/table-header-cell';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface Amex_Molecules_TableColumn {
   key: string;
@@ -18,77 +26,130 @@ export interface AmexReportTableConfig {
   exportable?: boolean;
 }
 
+export type AmexReportTableButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
+export type AmexReportTableButtonSize = 'sm' | 'md' | 'lg';
+
 @Component({
   selector: 'amex-report-table',
   standalone: true,
-  imports: [CommonModule, FormsModule, AmexStatusBadgeComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AmexStatusBadgeComponent,
+    InputComponent,
+    ButtonComponent,
+    TableComponent,
+    TableHeadComponent,
+    TableBodyComponent,
+    TableRowComponent,
+    TableHeaderCellComponent,
+    TableCellComponent,
+  ],
   template: `
     <div class="amex-table-wrap">
       <!-- Toolbar -->
       <div class="amex-table-toolbar" *ngIf="config.searchable || config.exportable">
-        <input
+        <ui-input
           *ngIf="config.searchable"
           class="amex-table-search"
-          type="text"
-          placeholder="Search..."
+          type="search"
+          [id]="id + '-search'"
+          [placeholder]="searchPlaceholder"
+          [ariaLabel]="searchAriaLabel || searchPlaceholder"
+          [style.--input-padding]="'6px 10px'"
           [(ngModel)]="searchTerm"
-          (ngModelChange)="applyFilter()"
-        />
-        <div class="amex-table-toolbar__actions">
-          <button *ngIf="config.exportable" class="amex-table-btn" (click)="export.emit('pdf')">PDF</button>
-          <button *ngIf="config.exportable" class="amex-table-btn" (click)="export.emit('excel')">Excel</button>
-          <button *ngIf="config.exportable" class="amex-table-btn" (click)="export.emit('csv')">CSV</button>
+          (ngModelChange)="applyFilter()">
+        </ui-input>
+        <div class="amex-table-toolbar__actions" *ngIf="config.exportable">
+          <ui-button
+            *ngFor="let opt of exportFormats"
+            [id]="id + '-export-' + opt.format"
+            [label]="opt.label"
+            [variant]="exportButtonVariant"
+            [size]="exportButtonSize"
+            [ariaLabel]="opt.ariaLabel || ('Export as ' + opt.label)"
+            (click)="export.emit(opt.format)">
+          </ui-button>
         </div>
       </div>
 
       <!-- Table -->
       <div class="amex-table-scroll">
-        <table class="amex-table">
-          <thead>
-            <tr>
-              <th
+        <ui-table [id]="id + '-table'" [bordered]="bordered" [striped]="striped" [compact]="compact" [ariaLabel]="tableAriaLabel">
+          <ui-table-head>
+            <ui-table-row [hoverable]="false">
+              <ui-table-header-cell
                 *ngFor="let col of config.columns"
-                [style.width]="col.width || 'auto'"
-                [class.amex-table__th--sortable]="col.sortable"
-                (click)="col.sortable && sort(col.key)"
-               scope="col">
+                [width]="col.width || ''"
+                [sortable]="!!col.sortable"
+                [sortDirection]="sortKey === col.key ? (sortAsc ? 'asc' : 'desc') : null"
+                (sortClick)="sort(col.key)">
                 {{ col.label }}
-                <span *ngIf="col.sortable" class="amex-table__sort-icon">
-                  {{ sortKey === col.key ? (sortAsc ? '↑' : '↓') : '↕' }}
-                </span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of pagedRows; let i = index" class="amex-table__row">
-              <td *ngFor="let col of config.columns">
+              </ui-table-header-cell>
+            </ui-table-row>
+          </ui-table-head>
+          <ui-table-body>
+            <ui-table-row *ngFor="let row of pagedRows" [clickable]="rowClickable" (rowClick)="rowClick.emit(row)">
+              <ui-table-cell *ngFor="let col of config.columns">
                 <amex-status-badge
                   *ngIf="col.type === 'status'"
                   [status]="$any(row[col.key])">
                 </amex-status-badge>
                 <span *ngIf="col.type !== 'status'">{{ row[col.key] }}</span>
-              </td>
-            </tr>
-            <tr *ngIf="pagedRows.length === 0">
-              <td [attr.colspan]="config.columns.length" class="amex-table__empty">
-                No records found
-              </td>
-            </tr>
-          </tbody>
-        </table>
+              </ui-table-cell>
+            </ui-table-row>
+            <ui-table-row *ngIf="pagedRows.length === 0" [hoverable]="false">
+              <ui-table-cell [colspan]="config.columns.length" align="center">
+                {{ emptyMessage }}
+              </ui-table-cell>
+            </ui-table-row>
+          </ui-table-body>
+        </ui-table>
       </div>
 
       <!-- Pagination -->
-      <div class="amex-table-pagination">
+      <div class="amex-table-pagination" *ngIf="showPagination">
         <span class="amex-table-pagination__info">
-          Showing {{ startIndex + 1 }}–{{ endIndex }} of {{ filteredRows.length }} records
+          {{ paginationInfoText }}
         </span>
         <div class="amex-table-pagination__controls">
-          <button class="amex-table-btn" [disabled]="currentPage === 1" (click)="goToPage(1)">«</button>
-          <button class="amex-table-btn" [disabled]="currentPage === 1" (click)="goToPage(currentPage - 1)">‹</button>
+          <ui-button
+            [id]="id + '-page-first'"
+            [label]="firstPageLabel"
+            [variant]="paginationButtonVariant"
+            [size]="paginationButtonSize"
+            ariaLabel="First page"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(1)">
+          </ui-button>
+          <ui-button
+            [id]="id + '-page-prev'"
+            [label]="prevPageLabel"
+            [variant]="paginationButtonVariant"
+            [size]="paginationButtonSize"
+            ariaLabel="Previous page"
+            [disabled]="currentPage === 1"
+            (click)="goToPage(currentPage - 1)">
+          </ui-button>
           <span class="amex-table-pagination__page">{{ currentPage }} / {{ totalPages }}</span>
-          <button class="amex-table-btn" [disabled]="currentPage === totalPages" (click)="goToPage(currentPage + 1)">›</button>
-          <button class="amex-table-btn" [disabled]="currentPage === totalPages" (click)="goToPage(totalPages)">»</button>
+          <ui-button
+            [id]="id + '-page-next'"
+            [label]="nextPageLabel"
+            [variant]="paginationButtonVariant"
+            [size]="paginationButtonSize"
+            ariaLabel="Next page"
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(currentPage + 1)">
+          </ui-button>
+          <ui-button
+            [id]="id + '-page-last'"
+            [label]="lastPageLabel"
+            [variant]="paginationButtonVariant"
+            [size]="paginationButtonSize"
+            ariaLabel="Last page"
+            [disabled]="currentPage === totalPages"
+            (click)="goToPage(totalPages)">
+          </ui-button>
         </div>
       </div>
     </div>
@@ -104,59 +165,9 @@ export interface AmexReportTableConfig {
       border-bottom: 1px solid #e0e0e0;
       gap: 12px;
     }
-    .amex-table-search {
-      flex: 1;
-      max-width: 280px;
-      padding: 6px 10px;
-      border: 1px solid #d0d0d0;
-      border-radius: 4px;
-      font-size: 13px;
-      outline: none;
-    }
-    .amex-table-search:focus { border-color: #016FD0; }
+    .amex-table-search { flex: 1; max-width: 280px; }
     .amex-table-toolbar__actions { display: flex; gap: 6px; }
-    .amex-table-btn {
-      padding: 5px 10px;
-      font-size: 12px;
-      border: 1px solid #d0d0d0;
-      border-radius: 4px;
-      background: #fff;
-      cursor: pointer;
-      color: #333;
-      transition: background 0.1s;
-    }
-    .amex-table-btn:hover:not(:disabled) { background: #016FD0; color: #fff; border-color: #016FD0; }
-    .amex-table-btn:disabled { opacity: 0.4; cursor: not-allowed; }
     .amex-table-scroll { overflow-x: auto; }
-    .amex-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 13px;
-    }
-    .amex-table thead tr { background: #f0f4ff; }
-    .amex-table th {
-      padding: 10px 14px;
-      text-align: left;
-      font-weight: 600;
-      color: #333;
-      border-bottom: 2px solid #d0d9f0;
-      white-space: nowrap;
-    }
-    .amex-table__th--sortable { cursor: pointer; user-select: none; }
-    .amex-table__th--sortable:hover { background: #e3eaff; }
-    .amex-table__sort-icon { margin-left: 4px; color: #888; font-size: 11px; }
-    .amex-table__row td {
-      padding: 10px 14px;
-      border-bottom: 1px solid #f0f0f0;
-      color: #333;
-    }
-    .amex-table__row:hover td { background: #fafbff; }
-    .amex-table__empty {
-      padding: 24px;
-      text-align: center;
-      color: #aaa;
-      font-style: italic;
-    }
     .amex-table-pagination {
       display: flex;
       justify-content: space-between;
@@ -172,11 +183,42 @@ export interface AmexReportTableConfig {
 })
 export class AmexReportTableComponent implements OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `report-table-${++AmexReportTableComponent._idCounter}`;
 
+  /** Overridable so parent screens can supply a stable id for aria-* wiring; falls back to an auto-generated one. */
+  @HostBinding('attr.id') @Input() id = `amex-report-table-${++AmexReportTableComponent._idCounter}`;
 
   @Input() config: AmexReportTableConfig = { columns: [] };
   @Input() rows: Record<string, unknown>[] = [];
+
+  /** Fully configurable — nothing hardcoded. */
+  @Input() searchPlaceholder = 'Search...';
+  @Input() searchAriaLabel = '';
+  @Input() emptyMessage = 'No records found';
+  @Input() showPagination = true;
+  @Input() rowClickable = false;
+  @Input() tableAriaLabel = 'Report table';
+
+  /** Passed straight through to ui-table — visual variants, not reinvented here. */
+  @Input() bordered = false;
+  @Input() striped = false;
+  @Input() compact = false;
+
+  @Input() exportFormats: Array<{ format: 'pdf' | 'excel' | 'csv'; label: string; ariaLabel?: string }> = [
+    { format: 'pdf', label: 'PDF' },
+    { format: 'excel', label: 'Excel' },
+    { format: 'csv', label: 'CSV' },
+  ];
+
+  @Input() exportButtonVariant: AmexReportTableButtonVariant = 'ghost';
+  @Input() exportButtonSize: AmexReportTableButtonSize = 'sm';
+  @Input() paginationButtonVariant: AmexReportTableButtonVariant = 'ghost';
+  @Input() paginationButtonSize: AmexReportTableButtonSize = 'sm';
+
+  @Input() firstPageLabel = '«';
+  @Input() prevPageLabel = '‹';
+  @Input() nextPageLabel = '›';
+  @Input() lastPageLabel = '»';
+
   @Output() export = new EventEmitter<'pdf' | 'excel' | 'csv'>();
   @Output() rowClick = new EventEmitter<Record<string, unknown>>();
 
@@ -208,6 +250,10 @@ export class AmexReportTableComponent implements OnChanges {
 
   get pagedRows(): Record<string, unknown>[] {
     return this.filteredRows.slice(this.startIndex, this.endIndex);
+  }
+
+  get paginationInfoText(): string {
+    return `Showing ${this.startIndex + 1}–${this.endIndex} of ${this.filteredRows.length} records`;
   }
 
   applyFilter(): void {

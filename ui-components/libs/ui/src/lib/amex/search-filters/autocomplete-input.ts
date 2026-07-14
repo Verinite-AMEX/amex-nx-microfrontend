@@ -1,6 +1,8 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, inject, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
 
 export interface AmexAutocompleteSuggestion {
   label: string;    // display name (e.g. country name)
@@ -13,56 +15,86 @@ export interface AmexAutocompleteSuggestion {
  * Text field with live suggestion dropdown. On selection, sibling read-only
  * field(s) auto-populate with code/rate.
  * Source: SOC/ROC Country Master (Modify), Currency Master (Modify).
+ *
+ * DOM-manipulation note: the original closed the suggestion list via
+ * @HostListener('document:click') + inject(ElementRef).nativeElement.contains(...),
+ * which is banned here. Replaced with the standard combobox-without-DOM-reads
+ * pattern: the input never loses logical focus tracking, and (blur) closes the
+ * list on a short delay so an in-flight (mousedown) on a suggestion still
+ * commits before the list disappears. No ElementRef, no document listener.
+ *
+ * Keyboard nav: arrow keys move an `activeIndex` and the input announces it via
+ * aria-activedescendant (standard ARIA combobox pattern) instead of moving real
+ * DOM focus — so there's no nativeElement/focus() delegate needed here, unlike
+ * tabs.ts where real focus does move between distinct interactive controls.
+ *
+ * Suggestion items are plain divs (role="option"), not buttons — consistent
+ * with the "clickable div/li is fine, unrestricted" guidance, since they are
+ * one composite listbox control, not standalone interactive elements.
+ *
  */
 @Component({
   selector: 'amex-autocomplete-input',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent],
   template: `
     <div class="ac-wrap">
       <div class="ac-row">
         <!-- Primary input with suggestions -->
-        <div class="ac-field">
-          <label class="ac-label" [for]="id + '-input'">{{ label }}</label>
+        <ui-form-field class="ac-field" [label]="label" [forId]="id + '-input'">
           <div class="ac-input-wrap">
-            <input
+            <ui-input
               [id]="id + '-input'"
-              class="ac-input"
               type="text"
               [placeholder]="placeholder"
+              [ariaLabel]="label"
+              [attr.role]="'combobox'"
+              [attr.aria-expanded]="showSuggestions && filtered.length > 0"
+              [attr.aria-controls]="id + '-listbox'"
+              [attr.aria-activedescendant]="activeIndex >= 0 ? id + '-option-' + activeIndex : null"
               [(ngModel)]="inputValue"
-              (input)="onInput()"
+              (ngModelChange)="onInput()"
               (focus)="onFocus()"
-              autocomplete="off"
-            />
-            <div class="ac-suggestions" *ngIf="filtered.length > 0 && showSuggestions">
+              (blur)="onBlur()"
+              (keydown)="onKeydown($event)">
+            </ui-input>
+            <div
+              class="ac-suggestions"
+              *ngIf="filtered.length > 0 && showSuggestions"
+              [id]="id + '-listbox'"
+              role="listbox">
               <div
                 class="ac-suggestion"
-                *ngFor="let s of filtered"
-                (mousedown)="onSelect(s)"
-              >
+                *ngFor="let s of filtered; let i = index"
+                [id]="id + '-option-' + i"
+                role="option"
+                [attr.aria-selected]="i === activeIndex"
+                [class.active]="i === activeIndex"
+                (mousedown)="onSelect(s)">
                 {{ s.label }}
               </div>
             </div>
           </div>
-        </div>
+        </ui-form-field>
 
-        <!-- Auto-populated code field -->
-        <div class="ac-field" *ngIf="codeLabel">
-          <label class="ac-label" [for]="id + '-code'">{{ codeLabel }}</label>
-          <input [id]="id + '-code'" class="ac-input ac-input--readonly" type="text" [value]="selectedCode" readonly />
-        </div>
+        <ui-form-field class="ac-field" *ngIf="codeLabel" [label]="codeLabel" [forId]="id + '-code'">
+          <ui-input [id]="id + '-code'" type="text" [ariaLabel]="codeLabel" [readonly]="true" [(ngModel)]="selectedCode"></ui-input>
+        </ui-form-field>
 
-        <!-- Auto-populated extra field (e.g. exchange rate) -->
-        <div class="ac-field" *ngIf="extraLabel && selectedExtra">
-          <label class="ac-label" [for]="id + '-extra'">{{ extraLabel }}</label>
-          <input [id]="id + '-extra'" class="ac-input ac-input--readonly" type="text" [value]="selectedExtra" readonly />
-        </div>
+        <ui-form-field class="ac-field" *ngIf="extraLabel && selectedExtra" [label]="extraLabel" [forId]="id + '-extra'">
+          <ui-input [id]="id + '-extra'" type="text" [ariaLabel]="extraLabel" [readonly]="true" [(ngModel)]="selectedExtra"></ui-input>
+        </ui-form-field>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      --input-border: 1px solid #bbb;
+      --input-radius: 2px;
+      --input-padding: 4px 8px;
+    }
 
     .ac-wrap { padding: 8px 0; }
 
@@ -73,36 +105,9 @@ export interface AmexAutocompleteSuggestion {
       flex-wrap: wrap;
     }
 
-    .ac-field {
-      display: flex;
-      flex-direction: column;
-      gap: 3px;
-    }
-
-    .ac-label {
-      font-size: 12px;
-      color: #555;
-    }
+    .ac-field { width: 180px; }
 
     .ac-input-wrap { position: relative; }
-
-    .ac-input {
-      border: 1px solid #bbb;
-      border-radius: 2px;
-      padding: 4px 8px;
-      font-size: 12px;
-      font-family: Arial, sans-serif;
-      color: #333;
-      background: #fff;
-      width: 180px;
-    }
-    .ac-input:focus { outline: none; border-color: #006fcf; }
-    .ac-input--readonly {
-      background: #f5f5f5;
-      color: #666;
-      cursor: default;
-      width: 100px;
-    }
 
     .ac-suggestions {
       position: absolute;
@@ -124,13 +129,13 @@ export interface AmexAutocompleteSuggestion {
       color: #333;
       cursor: pointer;
     }
-    .ac-suggestion:hover { background: #e8f0f8; }
+    .ac-suggestion:hover,
+    .ac-suggestion.active { background: #e8f0f8; }
   `],
 })
 export class AmexAutocompleteInputComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `autocomplete-input-${++AmexAutocompleteInputComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `autocomplete-input-${++AmexAutocompleteInputComponent._idCounter}`;
 
   @Input() label = 'Name';
   @Input() placeholder = 'Start typing...';
@@ -144,9 +149,9 @@ export class AmexAutocompleteInputComponent {
   selectedCode = '';
   selectedExtra = '';
   showSuggestions = false;
+  activeIndex = -1;
 
-  private el = inject(ElementRef);
-
+  private closeTimeout: ReturnType<typeof setTimeout> | null = null;
 
   get filtered(): AmexAutocompleteSuggestion[] {
     if (!this.inputValue.trim()) return [];
@@ -156,30 +161,57 @@ export class AmexAutocompleteInputComponent {
 
   onInput() {
     this.showSuggestions = true;
+    this.activeIndex = -1;
     this.selectedCode = '';
     this.selectedExtra = '';
   }
 
   onFocus() {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
     this.showSuggestions = true;
   }
 
+  onBlur() {
+    // Delay so an in-flight (mousedown) on a suggestion commits its click
+    // before the list closes, without needing an outside-click DOM listener.
+    this.closeTimeout = setTimeout(() => {
+      this.showSuggestions = false;
+      this.activeIndex = -1;
+    }, 150);
+  }
+
+  onKeydown(event: KeyboardEvent) {
+    const list = this.filtered;
+    if (!list.length || !this.showSuggestions) return;
+
+    if (event.key === 'ArrowDown') {
+      event.preventDefault();
+      this.activeIndex = this.activeIndex < list.length - 1 ? this.activeIndex + 1 : 0;
+    } else if (event.key === 'ArrowUp') {
+      event.preventDefault();
+      this.activeIndex = this.activeIndex > 0 ? this.activeIndex - 1 : list.length - 1;
+    } else if (event.key === 'Enter' && this.activeIndex >= 0) {
+      event.preventDefault();
+      this.onSelect(list[this.activeIndex]);
+    } else if (event.key === 'Escape') {
+      this.showSuggestions = false;
+      this.activeIndex = -1;
+    }
+  }
+
   onSelect(s: AmexAutocompleteSuggestion) {
+    if (this.closeTimeout) {
+      clearTimeout(this.closeTimeout);
+      this.closeTimeout = null;
+    }
     this.inputValue = s.label;
     this.selectedCode = s.code;
     this.selectedExtra = s.extra ?? '';
     this.showSuggestions = false;
+    this.activeIndex = -1;
     this.selectionChanged.emit(s);
-  }
-
-  closeSuggestions() {
-    this.showSuggestions = false;
-  }
-
-  @HostListener('document:click', ['$event'])
-  onDocClick(event: MouseEvent) {
-    if (!this.el.nativeElement.contains(event.target)) {
-      this.showSuggestions = false;
-    }
   }
 }

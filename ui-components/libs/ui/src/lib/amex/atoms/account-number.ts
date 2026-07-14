@@ -32,7 +32,7 @@ import { CommonModule } from '@angular/common';
 })
 export class AmexAccountNumberComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `account-number-${++AmexAccountNumberComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `account-number-${++AmexAccountNumberComponent._idCounter}`;
 
 
   /** Full 15 or 16-digit card number or account number */

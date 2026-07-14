@@ -1,6 +1,9 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 export interface NewPasswordData {
   newPassword: string;
@@ -10,7 +13,7 @@ export interface NewPasswordData {
 @Component({
   selector: 'amex-password-expiry-screen',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div class="amex-shell">
 
@@ -49,17 +52,15 @@ export interface NewPasswordData {
 
             <p class="required-note">All fields marked <span class="req">*</span> are mandatory</p>
 
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-new-password'">New Password <span class="req">*</span></label>
-              <input [id]="id + '-new-password'" type="password" class="field-input" [(ngModel)]="data.newPassword" />
-            </div>
-            <div class="field-row">
-              <label class="field-label" [for]="id + '-confirm-new-password'">Confirm New Password <span class="req">*</span></label>
-              <input [id]="id + '-confirm-new-password'" type="password" class="field-input" [(ngModel)]="data.confirmPassword" />
-            </div>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="170px" label="New Password" [required]="true" [forId]="id + '-new-password'">
+              <ui-input class="field-input" [id]="id + '-new-password'" type="password" [required]="true" [(ngModel)]="data.newPassword"></ui-input>
+            </ui-form-field>
+            <ui-form-field class="field-row" layout="horizontal" labelWidth="170px" label="Confirm New Password" [required]="true" [forId]="id + '-confirm-new-password'">
+              <ui-input class="field-input" [id]="id + '-confirm-new-password'" type="password" [required]="true" [(ngModel)]="data.confirmPassword"></ui-input>
+            </ui-form-field>
 
             <div class="btn-row">
-              <button class="btn-submit" (click)="onSubmit()">Submit</button>
+              <ui-button class="btn-submit" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
             </div>
           </div>
         </div>
@@ -95,7 +96,14 @@ export interface NewPasswordData {
     .main-content { flex: 1; padding: 16px 20px; background: #fff; }
 
     /* Panel */
-    .panel { border: 1px solid #b0c8e8; max-width: 520px; }
+    .panel {
+      border: 1px solid #b0c8e8; max-width: 520px;
+      --input-border: 1px solid #999;
+      --input-padding: 2px 6px;
+      --input-radius: 0px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
     .panel-header { background: #d4e8f8; color: #006fcf; font-weight: bold; font-size: 13px; padding: 8px 14px; border-bottom: 1px solid #b0c8e8; }
 
     /* Expiry notice */
@@ -109,21 +117,20 @@ export interface NewPasswordData {
     .req { color: #cc0000; }
 
     /* Fields */
-    .field-row { display: flex; align-items: center; margin: 8px 14px; }
-    .field-label { width: 170px; text-align: right; padding-right: 10px; color: #333; font-size: 12px; flex-shrink: 0; }
-    .field-input { flex: 1; max-width: 220px; height: 24px; border: 1px solid #999; padding: 2px 6px; font-size: 12px; }
-    .field-input:focus { outline: none; border-color: #006fcf; }
+    .field-row { margin: 8px 14px; }
+    .field-input { width: 220px; height: 24px; font-size: 12px; }
 
     /* Buttons */
     .btn-row { margin: 14px 14px 14px auto; display: flex; justify-content: flex-start; padding: 0 14px 10px; gap: 10px; }
-    .btn-submit { background: linear-gradient(to bottom, #1a7fe8, #005baa); color: #fff; border: 1px solid #004a99; padding: 5px 20px; font-size: 12px; font-weight: bold; cursor: pointer; border-radius: 3px; }
-    .btn-submit:hover { background: linear-gradient(to bottom, #2a8ff8, #0065ba); }
+    .btn-submit {
+      --btn-bg: linear-gradient(to bottom, #1a7fe8, #005baa); --btn-color: #fff;
+      --btn-border: 1px solid #004a99; --btn-padding: 5px 20px; --btn-font-size: 12px; --btn-radius: 3px;
+    }
   `]
 })
 export class AmexPasswordExpiryScreenComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `password-expiry-screen-${++AmexPasswordExpiryScreenComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `password-expiry-screen-${++AmexPasswordExpiryScreenComponent._idCounter}`;
 
   @Input() portalTitle = '';
   @Input() errorMessage = '';

@@ -18,6 +18,18 @@ export * from './lib/atoms/alert';
 export * from './lib/atoms/icon-button';
 export * from './lib/atoms/breadcrumb';
 export * from './lib/atoms/pagination';
+export * from './lib/atoms/date-input';
+export * from './lib/atoms/icon';
+export * from './lib/atoms/label';
+export * from './lib/atoms/file-input';
+export * from './lib/atoms/radio';
+export * from './lib/atoms/image';
+export * from './lib/atoms/table';
+export * from './lib/atoms/table-head';
+export * from './lib/atoms/table-body';
+export * from './lib/atoms/table-row';
+export * from './lib/atoms/table-header-cell';
+export * from './lib/atoms/table-cell';
 
 // Molecules
 export * from './lib/molecules/form-field';
@@ -27,7 +39,6 @@ export * from './lib/molecules/modal';
 export * from './lib/molecules/tabs';
 export * from './lib/molecules/accordion';
 export * from './lib/molecules/search-bar';
-export * from './lib/molecules/date-input';
 export * from './lib/molecules/file-upload';
 export * from './lib/molecules/notification-toast';
 

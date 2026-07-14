@@ -65,8 +65,7 @@ import { AmexPortalStyle } from './success-toast';
 })
 export class AmexInlineValidationErrorComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `inline-validation-error-${++AmexInlineValidationErrorComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `inline-validation-error-${++AmexInlineValidationErrorComponent._idCounter}`;
 
   @Input() message = '';
   @Input() portalStyle: AmexPortalStyle = 'onls';

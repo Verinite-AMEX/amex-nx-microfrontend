@@ -1,5 +1,7 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../../atoms/button';
+import { IconButtonComponent } from '../../atoms/icon-button';
 
 export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
 
@@ -16,13 +18,15 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
 @Component({
   selector: 'amex-top-nav-bar',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent, IconButtonComponent],
   template: `
     <!-- ══ ONLS: Global Sites / Log Out strip + AMEX logo + portal title ══ -->
     <ng-container *ngIf="portalStyle === 'onls'">
       <div class="onls-strip">
         <span class="onls-strip__global">Global Sites</span>
-        <button class="onls-strip__logout" (click)="logout.emit()">Log Out</button>
+        <ui-button [id]="id + '-logout'" class="onls-strip__logout-wrap"
+          label="Log Out" size="sm" (click)="logout.emit()">
+        </ui-button>
       </div>
       <div class="onls-header">
         <div class="onls-header__logo">
@@ -38,7 +42,9 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
     <!-- ══ OMS: LOG OUT button top-right + ONLINE Merchant Services branding ══ -->
     <ng-container *ngIf="portalStyle === 'oms'">
       <div class="oms-toprow">
-        <button class="oms-toprow__logout" (click)="logout.emit()">LOG OUT</button>
+        <ui-button [id]="id + '-logout'" class="oms-toprow__logout-wrap"
+          label="LOG OUT" size="sm" (click)="logout.emit()">
+        </ui-button>
       </div>
       <div class="oms-header">
         <div class="oms-logo-wrap">
@@ -62,7 +68,9 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
     <ng-container *ngIf="portalStyle === 'bcrb'">
       <div class="bcrb-bar">
         <div class="bcrb-bar__left">
-          <button class="bcrb-bar__hamburger" (click)="menuToggle.emit()" aria-label="Menu">&#9776;</button>
+            <ui-icon-button [id]="id + '-menu-toggle'" class="bcrb-bar__hamburger-wrap"
+              icon="☰" size="md" variant="ghost" ariaLabel="Menu" (clicked)="menuToggle.emit()">
+            </ui-icon-button>
           <span class="bcrb-bar__title">{{ portalTitle }}</span>
         </div>
         <span class="bcrb-bar__user" *ngIf="username">User :- {{ username }}</span>
@@ -81,12 +89,12 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
     .onls-strip__global {
       color: #fff; cursor: pointer; text-decoration: underline;
     }
-    .onls-strip__logout {
-      background: #fff; border: 1px solid #ccc; color: #333;
-      font-size: 11px; font-family: Arial, sans-serif;
-      padding: 1px 10px; cursor: pointer; border-radius: 1px;
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .onls-strip__logout-wrap {
+      --btn-bg: #fff; --btn-border: 1px solid #ccc; --btn-color: #333;
+      --btn-radius: 1px; --btn-padding: 1px 10px; --btn-font-size: 11px;
     }
-    .onls-strip__logout:hover { background: #f0f0f0; }
+    .onls-strip__logout-wrap:hover { --btn-bg: #f0f0f0; }
 
     .onls-header {
       background: #fff; display: flex; align-items: center;
@@ -117,12 +125,12 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
       display: flex; justify-content: flex-end;
       padding: 4px 10px; background: #fff;
     }
-    .oms-toprow__logout {
-      background: #1e3a5f; color: #fff; border: none;
-      font-family: Arial, sans-serif; font-size: 11px; font-weight: bold;
-      padding: 4px 12px; cursor: pointer; letter-spacing: 0.5px;
+    /* Themed via ui-button's exposed CSS custom properties — no ::ng-deep. */
+    .oms-toprow__logout-wrap {
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 0px;
+      --btn-padding: 4px 12px; --btn-font-size: 11px;
     }
-    .oms-toprow__logout:hover { background: #16304f; }
+    .oms-toprow__logout-wrap:hover { --btn-bg: #16304f; }
 
     .oms-header {
       background: #fff; display: flex; align-items: center;
@@ -160,9 +168,9 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
       justify-content: space-between; padding: 0 16px; height: 48px;
     }
     .bcrb-bar__left { display: flex; align-items: center; gap: 12px; }
-    .bcrb-bar__hamburger {
-      background: none; border: none; color: #fff;
-      font-size: 20px; cursor: pointer; padding: 0; line-height: 1;
+    /* Themed via ui-icon-button's exposed CSS custom properties — no ::ng-deep. */
+    .bcrb-bar__hamburger-wrap {
+      --icon-btn-color: #fff; --icon-btn-bg: transparent; --icon-btn-size: 20px;
     }
     .bcrb-bar__title { color: #fff; font-size: 16px; font-weight: bold; }
     .bcrb-bar__user { color: #fff; font-size: 13px; }
@@ -170,8 +178,7 @@ export type AmexNavPortalStyle = 'onls' | 'oms' | 'bcrb';
 })
 export class AmexTopNavBarComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `top-nav-bar-${++AmexTopNavBarComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `top-nav-bar-${++AmexTopNavBarComponent._idCounter}`;
 
   @Input() portalStyle: AmexNavPortalStyle = 'onls';
   @Input() portalTitle = 'THE HUB LOGIN';

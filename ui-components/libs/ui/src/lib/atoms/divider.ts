@@ -25,7 +25,7 @@ import { CommonModule } from '@angular/common';
 })
 export class DividerComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-divider-${++DividerComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `ui-divider-${++DividerComponent._idCounter}`;
 
 
   @Input() orientation: 'horizontal' | 'vertical' = 'horizontal';

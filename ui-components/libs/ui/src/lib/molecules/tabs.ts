@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnChanges, ElementRef, ViewChildren, QueryList, AfterViewInit, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnChanges, ViewChildren, QueryList, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ButtonComponent } from '../atoms/button';
 
 export interface TabItem {
   id: string;
@@ -13,28 +14,29 @@ export interface TabItem {
 @Component({
   selector: 'ui-tabs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ButtonComponent],
   template: `
     <div class="tabs">
       <div class="tabs-nav" role="tablist" [attr.aria-label]="ariaLabel">
-        <button *ngFor="let tab of tabs; let i = index" #tabButton 
-          role="tab"
-          class="tab-btn" 
-          [class.active]="tab.id === activeTab" 
-          [disabled]="tab.disabled"
-          [attr.aria-selected]="tab.id === activeTab"
-          [attr.aria-controls]="tab.ariaControls || 'tabpanel-' + tab.id"
-          [attr.aria-label]="tab.ariaLabel || tab.label"
-          [attr.aria-describedby]="tab.ariaDescribedBy"
-          [attr.tabindex]="tab.id === activeTab ? 0 : -1"
+        <ui-button *ngFor="let tab of tabs; let i = index"
+          class="tab-btn"
+          [class.active]="tab.id === activeTab"
+          variant="ghost"
+          [role]="'tab'"
+          [label]="tab.label"
+          [disabled]="!!tab.disabled"
+          [ariaSelected]="tab.id === activeTab"
+          [ariaControls]="tab.ariaControls || 'tabpanel-' + tab.id"
+          [ariaLabel]="tab.ariaLabel || tab.label"
+          [ariaDescribedBy]="tab.ariaDescribedBy || ''"
+          [tabIndexOverride]="tab.id === activeTab ? 0 : -1"
           [id]="'tab-' + tab.id"
-          (click)="select(tab.id)" 
+          (click)="select(tab.id)"
           (keydown)="onKeydown($event, i)">
-          {{ tab.label }}
-        </button>
+        </ui-button>
       </div>
-      <div class="tabs-content" 
-        role="tabpanel" 
+      <div class="tabs-content"
+        role="tabpanel"
         [attr.aria-labelledby]="'tab-' + activeTab"
         [attr.aria-live]="'polite'"
         [id]="'tabpanel-' + activeTab">
@@ -46,44 +48,40 @@ export interface TabItem {
     .tabs { font-family: Arial, sans-serif; }
     .tabs-nav { display: flex; border-bottom: 2px solid #e0e0e0; gap: 0; }
     .tab-btn {
-      padding: 10px 20px; background: none; border: none;
-      font-size: 14px; font-family: inherit; color: #666;
-      cursor: pointer; border-bottom: 2px solid transparent;
-      margin-bottom: -2px; transition: color 0.15s, border-color 0.15s;
+      --btn-bg: transparent;
+      --btn-color: #666;
+      --btn-radius: 0;
+      --btn-padding: 10px 20px;
+      --btn-font-size: 14px;
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+      transition: color 0.15s, border-color 0.15s;
     }
-    .tab-btn:hover:not(:disabled) { color: #1976d2; }
-    .tab-btn.active { color: #1976d2; border-bottom-color: #1976d2; font-weight: 600; }
-    .tab-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .tab-btn.active {
+      --btn-color: #1976d2;
+      border-bottom-color: #1976d2;
+      font-weight: 600;
+    }
     .tabs-content { padding: 16px 0; font-size: 14px; color: #555; }
   `],
 })
-export class TabsComponent implements OnChanges, AfterViewInit {
+export class TabsComponent implements OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-tabs-${++TabsComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-tabs-${++TabsComponent._idCounter}`;
 
   @Input() tabs: TabItem[] = [];
   @Input() activeTab = '';
   @Input() ariaLabel = 'Tabs';
   @Output() tabChange = new EventEmitter<string>();
-  @ViewChildren('tabButton', { read: ElementRef }) tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
-
-  ngAfterViewInit() {
-    // ensure first tab is focusable if none focused
-    this.setTabIndexForButtons();
-  }
+  @ViewChildren(ButtonComponent) tabButtons!: QueryList<ButtonComponent>;
 
   ngOnChanges() {
     if (!this.activeTab && this.tabs.length) this.activeTab = this.tabs[0].id;
-    // update tabindex on buttons when inputs change
-    setTimeout(() => this.setTabIndexForButtons());
   }
 
   select(id: string) {
     this.activeTab = id;
     this.tabChange.emit(id);
-    // update tabindex so roving tabindex is maintained
-    setTimeout(() => this.setTabIndexForButtons());
   }
 
   onKeydown(e: KeyboardEvent, index: number) {
@@ -92,34 +90,23 @@ export class TabsComponent implements OnChanges, AfterViewInit {
     if (e.key === 'ArrowRight') {
       next = index === max ? 0 : index + 1;
       e.preventDefault();
-      this.focusButton(next);
-      this.select(this.tabs[next].id);
+      this.focusAndSelect(next);
     } else if (e.key === 'ArrowLeft') {
       next = index === 0 ? max : index - 1;
       e.preventDefault();
-      this.focusButton(next);
-      this.select(this.tabs[next].id);
+      this.focusAndSelect(next);
     } else if (e.key === 'Home') {
       e.preventDefault();
-      this.focusButton(0);
-      this.select(this.tabs[0].id);
+      this.focusAndSelect(0);
     } else if (e.key === 'End') {
       e.preventDefault();
-      this.focusButton(max);
-      this.select(this.tabs[max].id);
+      this.focusAndSelect(max);
     }
   }
 
-  private focusButton(idx: number) {
-    const btn = this.tabButtons?.toArray()[idx];
-    if (btn && btn.nativeElement) btn.nativeElement.focus();
-  }
-
-  private setTabIndexForButtons() {
-    const arr = this.tabButtons?.toArray() || [];
-    arr.forEach((ref, i) => {
-      const el = ref.nativeElement;
-      el.setAttribute('tabindex', this.tabs[i].id === this.activeTab ? '0' : '-1');
-    });
+  private focusAndSelect(idx: number) {
+    this.select(this.tabs[idx].id);
+    // deferred one tick so tabIndexOverride re-renders to 0 before we move focus
+    Promise.resolve().then(() => this.tabButtons?.toArray()[idx]?.focus());
   }
 }

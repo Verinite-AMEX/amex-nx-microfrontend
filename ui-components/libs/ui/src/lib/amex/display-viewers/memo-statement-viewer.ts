@@ -1,6 +1,14 @@
 import { Component, Input, Output, EventEmitter, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { SelectComponent } from '../../atoms/select';
+import { ButtonComponent } from '../../atoms/button';
+import { TableComponent } from '../../atoms/table';
+import { TableHeadComponent } from '../../atoms/table-head';
+import { TableHeaderCellComponent } from '../../atoms/table-header-cell';
+import { TableBodyComponent } from '../../atoms/table-body';
+import { TableRowComponent } from '../../atoms/table-row';
+import { TableCellComponent } from '../../atoms/table-cell';
 
 export interface MemoTransaction {
   type: string;        // '1 Remittance', '2 Refund', etc.
@@ -19,7 +27,10 @@ export interface MemoTransaction {
 @Component({
   selector: 'amex-memo-statement-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule, FormsModule, SelectComponent, ButtonComponent,
+    TableComponent, TableHeadComponent, TableHeaderCellComponent, TableBodyComponent, TableRowComponent, TableCellComponent,
+  ],
   template: `
     <div class="msv">
       <!-- Blue border header -->
@@ -38,24 +49,24 @@ export interface MemoTransaction {
 
         <!-- Transaction table or empty -->
         <div *ngIf="transactions && transactions.length > 0; else noTxn" class="msv__table-wrap">
-          <table class="msv__table">
-            <thead>
-              <tr>
-                <th scope="col">Type</th>
-                <th scope="col">Date</th>
-                <th scope="col">Description</th>
-                <th class="msv__th-num" scope="col">Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let tx of transactions; let i = index" [class.msv__row-alt]="i % 2 === 1">
-                <td>{{ tx.type }}</td>
-                <td>{{ tx.date }}</td>
-                <td>{{ tx.description }}</td>
-                <td class="msv__td-num">{{ tx.amount | number:'1.3-3' }}</td>
-              </tr>
-            </tbody>
-          </table>
+          <ui-table class="msv__table">
+            <ui-table-head>
+              <ui-table-row [header]="true" [hoverable]="false">
+                <ui-table-header-cell class="msv__th">Type</ui-table-header-cell>
+                <ui-table-header-cell class="msv__th">Date</ui-table-header-cell>
+                <ui-table-header-cell class="msv__th">Description</ui-table-header-cell>
+                <ui-table-header-cell class="msv__th msv__th-num" align="right">Amount</ui-table-header-cell>
+              </ui-table-row>
+            </ui-table-head>
+            <ui-table-body>
+              <ui-table-row *ngFor="let tx of transactions; let i = index" [hoverable]="false" [class.msv__row-alt]="i % 2 === 1">
+                <ui-table-cell class="msv__td">{{ tx.type }}</ui-table-cell>
+                <ui-table-cell class="msv__td">{{ tx.date }}</ui-table-cell>
+                <ui-table-cell class="msv__td">{{ tx.description }}</ui-table-cell>
+                <ui-table-cell class="msv__td msv__td-num" align="right">{{ tx.amount | number:'1.3-3' }}</ui-table-cell>
+              </ui-table-row>
+            </ui-table-body>
+          </ui-table>
         </div>
         <ng-template #noTxn>
           <p class="msv__no-txn">There are no transactions available.</p>
@@ -73,18 +84,20 @@ export interface MemoTransaction {
 
       <!-- Footer actions -->
       <div class="msv__footer">
-        <button class="msv__back-btn" (click)="returnToSelection.emit()">Return to Account Selection</button>
+        <ui-button class="msv__back-btn" variant="secondary" label="Return to Account Selection" (click)="returnToSelection.emit()"></ui-button>
         <div class="msv__download-group">
-          <select class="msv__format-select" [(ngModel)]="selectedFormat">
-            <option *ngFor="let f of formats" [value]="f">{{ f }}</option>
-          </select>
-          <button class="msv__dl-btn" (click)="download.emit(selectedFormat)">Download Report</button>
+          <ui-select class="msv__format-select" [options]="formatOptions" [(ngModel)]="selectedFormat"></ui-select>
+          <ui-button class="msv__dl-btn" variant="secondary" label="Download Report" (click)="download.emit(selectedFormat)"></ui-button>
         </div>
       </div>
     </div>
   `,
   styles: [`
-    :host { display: block; font-family: Arial, sans-serif; font-size: 12px; }
+    :host {
+      display: block;
+      font-family: Arial, sans-serif;
+      font-size: 12px;
+    }
 
     .msv {
       border: 2px solid #7ab3d4;
@@ -135,27 +148,20 @@ export interface MemoTransaction {
 
     /* Table */
     .msv__table-wrap { margin-bottom: 12px; }
-    .msv__table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 12px;
-    }
-    .msv__table th {
+    .msv__table { font-size: 12px; }
+    .msv__th {
+      --table-cell-padding: 6px 10px;
+      --table-cell-color: #1a1a1a;
+      --table-cell-font-weight: bold;
       background: #d0e8f8;
       border: 1px solid #b0cce0;
-      padding: 6px 10px;
-      text-align: left;
-      font-weight: bold;
-      color: #1a1a1a;
     }
-    .msv__th-num { text-align: right; }
-    .msv__table td {
+    .msv__td {
+      --table-cell-padding: 5px 10px;
+      --table-cell-color: #333;
       border: 1px solid #d0e4f0;
-      padding: 5px 10px;
-      color: #333;
     }
-    .msv__td-num { text-align: right; }
-    .msv__row-alt td { background: #f0f8ff; }
+    .msv__row-alt { --table-row-hover-bg: transparent; background: #f0f8ff; }
 
     .msv__no-txn {
       font-size: 12px;
@@ -187,14 +193,13 @@ export interface MemoTransaction {
     }
 
     .msv__back-btn {
-      background: #e8e8e8;
-      border: 1px solid #aaa;
-      padding: 4px 12px;
-      font-size: 11px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
+      --btn-bg: #e8e8e8;
+      --btn-color: #000;
+      --btn-border: 1px solid #aaa;
+      --btn-padding: 4px 12px;
+      --btn-font-size: 11px;
+      --btn-bg-hover: #d8d8d8;
     }
-    .msv__back-btn:hover { background: #d8d8d8; }
 
     .msv__download-group {
       display: flex;
@@ -203,27 +208,24 @@ export interface MemoTransaction {
     }
 
     .msv__format-select {
-      border: 1px solid #aaa;
-      padding: 3px 4px;
-      font-size: 11px;
-      font-family: Arial, sans-serif;
+      --select-border: 1px solid #aaa;
+      --select-padding: 3px 20px 3px 4px;
+      --select-font-size: 11px;
     }
 
     .msv__dl-btn {
-      background: #e8e8e8;
-      border: 1px solid #aaa;
-      padding: 4px 12px;
-      font-size: 11px;
-      font-family: Arial, sans-serif;
-      cursor: pointer;
+      --btn-bg: #e8e8e8;
+      --btn-color: #000;
+      --btn-border: 1px solid #aaa;
+      --btn-padding: 4px 12px;
+      --btn-font-size: 11px;
+      --btn-bg-hover: #d8d8d8;
     }
-    .msv__dl-btn:hover { background: #d8d8d8; }
   `],
 })
 export class AmexMemoStatementViewerComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `memo-statement-viewer-${++AmexMemoStatementViewerComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `memo-statement-viewer-${++AmexMemoStatementViewerComponent._idCounter}`;
 
   @Input() statementDate  = '29 Jan 2025';
   @Input() accountNumber  = 'BTA 3744XXXXXXX5229 - BTACLIENTBAH001';
@@ -235,4 +237,6 @@ export class AmexMemoStatementViewerComponent {
 
   @Output() returnToSelection = new EventEmitter<void>();
   @Output() download          = new EventEmitter<string>();
+
+  get formatOptions() { return this.formats.map(f => ({ value: f, label: f })); }
 }

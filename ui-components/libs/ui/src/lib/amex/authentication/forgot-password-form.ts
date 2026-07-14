@@ -1,13 +1,14 @@
-import { Component, Input, Output, EventEmitter, HostListener, ElementRef, ViewChild, AfterViewInit, HostBinding } from '@angular/core';
-
+import { Component, Input, Output, EventEmitter, HostListener, HostBinding, ViewChild, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FormFieldComponent } from '../../molecules/form-field';
+import { InputComponent } from '../../atoms/input';
+import { ButtonComponent } from '../../atoms/button';
 
 @Component({
   selector: 'amex-forgot-password-form',
   standalone: true,
-  imports: [CommonModule, FormsModule],
-
+  imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
     <div
       class="amex-shell"
@@ -25,7 +26,10 @@ import { FormsModule } from '@angular/forms';
 
       <!-- OMS TOP BAR -->
       <div class="top-bar-oms" *ngIf="portalStyle === 'oms'">
-        <button class="oms-logout-btn">LOG OUT</button>
+        <ui-button class="oms-logout-btn" variant="primary" label="LOG OUT"></ui-button>
+        <!-- FLAGGED (see task point 6 / migration notes): no click handler existed
+             on the original native <button> either. Preserved as dead markup rather
+             than guessing at intended logout logic. -->
       </div>
 
       <!-- ONLS HEADER -->
@@ -108,44 +112,32 @@ import { FormsModule } from '@angular/forms';
               </p>
 
               <!-- USER ID -->
-              <div class="field-row">
-                <label class="field-label" [for]="id + '-user-id'">
-                  User ID
-                  <span class="req">*</span>
-                </label>
-
-                <input [id]="id + '-user-id'"
-                  type="text"
+              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="User ID" [required]="true" [forId]="id + '-user-id'">
+                <ui-input
+                  #userIdInputOnls
                   class="field-input"
+                  [id]="id + '-user-id'"
+                  type="text"
+                  [required]="true"
                   [(ngModel)]="userId"
-                  (keydown)="onKeydown($event)"
-                  #identifierInput
-                />
-              </div>
+                  (keydown.enter)="onEnterSubmit($event)">
+                </ui-input>
+              </ui-form-field>
 
               <!-- EMAIL -->
-              <div class="field-row">
-                <label class="field-label" [for]="id + '-email-id'">
-                  Email ID
-                  <span class="req">*</span>
-                </label>
-
-                <input [id]="id + '-email-id'"
-                  type="email"
+              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="Email ID" [required]="true" [forId]="id + '-email-id'">
+                <ui-input
                   class="field-input"
+                  [id]="id + '-email-id'"
+                  type="email"
+                  [required]="true"
                   [(ngModel)]="emailId"
-                  (keydown)="onKeydown($event)"
-                />
-              </div>
+                  (keydown.enter)="onEnterSubmit($event)">
+                </ui-input>
+              </ui-form-field>
 
               <div class="btn-row-onls">
-                <button
-                  class="btn-submit-onls"
-                  (click)="onSubmit()"
-                  #onlsSubmitBtn
-                >
-                  Submit
-                </button>
+                <ui-button class="btn-submit-onls" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
               </div>
 
             </ng-container>
@@ -158,7 +150,6 @@ import { FormsModule } from '@angular/forms';
                 class="form-link"
                 (click)="backToLogin.emit()"
                 tabindex="0"
-                #onlsBackLink
               >
                 Back to Login
               </a>
@@ -199,53 +190,35 @@ import { FormsModule } from '@angular/forms';
               </p>
 
               <!-- USER ID -->
-              <div class="field-row">
-                <label class="field-label" [for]="id + '-user-id-2'">
-                  User ID
-                  <span class="req">*</span>
-                </label>
-
-                <input [id]="id + '-user-id-2'"
-                  type="text"
+              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="User ID" [required]="true" [forId]="id + '-user-id-2'">
+                <ui-input
+                  #userIdInputOms
                   class="field-input-oms"
+                  [id]="id + '-user-id-2'"
+                  type="text"
+                  [required]="true"
                   [(ngModel)]="userId"
-                  (keydown)="onKeydown($event)"
-                  #identifierInputOms
-                />
-              </div>
+                  (keydown.enter)="onEnterSubmit($event)">
+                </ui-input>
+              </ui-form-field>
 
               <!-- EMAIL -->
-              <div class="field-row">
-                <label class="field-label" [for]="id + '-email-id-2'">
-                  Email ID
-                  <span class="req">*</span>
-                </label>
-
-                <input [id]="id + '-email-id-2'"
-                  type="email"
+              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="Email ID" [required]="true" [forId]="id + '-email-id-2'">
+                <ui-input
                   class="field-input-oms"
+                  [id]="id + '-email-id-2'"
+                  type="email"
+                  [required]="true"
                   [(ngModel)]="emailId"
-                  (keydown)="onKeydown($event)"
-                />
-              </div>
+                  (keydown.enter)="onEnterSubmit($event)">
+                </ui-input>
+              </ui-form-field>
 
               <div class="btn-row-oms">
 
-                <button
-                  class="btn-back-oms"
-                  (click)="backToLogin.emit()"
-                  #omsBackBtn
-                >
-                  Back to Login
-                </button>
+                <ui-button class="btn-back-oms" variant="primary" label="Back to Login" (click)="backToLogin.emit()"></ui-button>
 
-                <button
-                  class="btn-submit-oms"
-                  (click)="onSubmit()"
-                  #omsSubmitBtn
-                >
-                  Submit
-                </button>
+                <ui-button class="btn-submit-oms" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
 
               </div>
 
@@ -259,7 +232,6 @@ import { FormsModule } from '@angular/forms';
                 class="form-link"
                 (click)="backToLogin.emit()"
                 tabindex="0"
-                #omsBackLink
               >
                 ← Back to Login
               </a>
@@ -347,13 +319,8 @@ import { FormsModule } from '@angular/forms';
     }
 
     .oms-logout-btn {
-      background: #1e3a5f;
-      color: #fff;
-      border: none;
-      padding: 4px 14px;
-      font-size: 11px;
-      font-weight: bold;
-      cursor: pointer;
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 0px;
+      --btn-padding: 4px 14px; --btn-font-size: 11px;
     }
 
     .header-onls,
@@ -458,10 +425,20 @@ import { FormsModule } from '@angular/forms';
       background: #fff;
       padding: 20px;
       max-width: 480px;
+      --input-focus-border-color: #006fcf;
     }
 
     .panel-onls {
       border: 1px solid #ccc;
+      --input-border: 1px solid #999;
+      --input-padding: 2px 6px;
+      --input-radius: 0px;
+    }
+
+    .panel-oms {
+      --input-border: 1px solid #bbb;
+      --input-padding: 2px 6px;
+      --input-radius: 0px;
     }
 
     .panel-title {
@@ -497,34 +474,19 @@ import { FormsModule } from '@angular/forms';
     }
 
     .field-row {
-      display: flex;
-      align-items: center;
       margin-bottom: 12px;
-    }
-
-    .field-label {
-      width: 160px;
-      text-align: right;
-      padding-right: 10px;
-    }
-
-    .req {
-      color: red;
     }
 
     .field-input {
       width: 220px;
       height: 24px;
-      border: 1px solid #999;
-      padding: 2px 6px;
+      font-size: 12px;
     }
 
     .field-input-oms {
-      flex: 1;
-      max-width: 240px;
+      width: 240px;
       height: 28px;
-      border: 1px solid #bbb;
-      padding: 2px 6px;
+      font-size: 12px;
     }
 
     .btn-row-onls {
@@ -534,12 +496,8 @@ import { FormsModule } from '@angular/forms';
     }
 
     .btn-submit-onls {
-      background: linear-gradient(to bottom, #1a7fe8, #005baa);
-      color: #fff;
-      border: 1px solid #004a99;
-      padding: 5px 18px;
-      font-weight: bold;
-      cursor: pointer;
+      --btn-bg: linear-gradient(to bottom, #1a7fe8, #005baa); --btn-color: #fff;
+      --btn-border: 1px solid #004a99; --btn-padding: 5px 18px; --btn-radius: 0px;
     }
 
     .btn-row-oms {
@@ -548,21 +506,12 @@ import { FormsModule } from '@angular/forms';
       margin-top: 16px;
     }
 
-    .btn-back-oms,
-    .btn-submit-oms {
-      color: #fff;
-      border: none;
-      padding: 7px 20px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
     .btn-back-oms {
-      background: #1e3a5f;
+      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 0px; --btn-padding: 7px 20px;
     }
 
     .btn-submit-oms {
-      background: #7b1fa2;
+      --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 0px; --btn-padding: 7px 20px;
     }
 
     .form-link {
@@ -586,12 +535,9 @@ import { FormsModule } from '@angular/forms';
     }
   `]
 })
-
-export class AmexForgotPasswordFormComponent implements AfterViewInit {
+export class AmexForgotPasswordFormComponent implements AfterViewChecked {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `forgot-password-form-${++AmexForgotPasswordFormComponent._idCounter}`;
-
-
+  @HostBinding('attr.id') @Input() id = `forgot-password-form-${++AmexForgotPasswordFormComponent._idCounter}`;
 
   @Input() portalStyle: 'onls' | 'oms' = 'onls';
   @Input() portalTitle = '';
@@ -605,55 +551,55 @@ export class AmexForgotPasswordFormComponent implements AfterViewInit {
 
   @Output() backToLogin = new EventEmitter<void>();
 
-  @ViewChild('identifierInput')
-  identifierInput!: ElementRef<HTMLInputElement>;
-
-  @ViewChild('identifierInputOms')
-  identifierInputOms!: ElementRef<HTMLInputElement>;
+  @ViewChild('userIdInputOnls') private userIdInputOnls?: InputComponent;
+  @ViewChild('userIdInputOms') private userIdInputOms?: InputComponent;
 
   userId = '';
   emailId = '';
 
+  // Tracks which portalStyle we've already autofocused, since only the active
+  // panel's ui-input exists in the DOM (*ngIf) and it may not be present yet
+  // on the very first ngAfterViewInit if portalStyle is set/changed later.
+  // ngAfterViewChecked re-checks on every change detection pass, so guarding
+  // on this flag prevents re-stealing focus on every subsequent check.
+  private autofocusedStyle: 'onls' | 'oms' | null = null;
 
-  ngAfterViewInit(): void {
-    const firstInput =
-      this.portalStyle === 'onls'
-        ? this.identifierInput
-        : this.identifierInputOms;
-
-    firstInput?.nativeElement.focus();
-  }
-
-  onKeydown(event: KeyboardEvent): void {
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      this.onSubmit();
+  ngAfterViewChecked(): void {
+    if (this.autofocusedStyle === this.portalStyle) {
+      return;
+    }
+    const activeInput = this.getActiveUserIdInput();
+    if (activeInput) {
+      activeInput.focus();
+      this.autofocusedStyle = this.portalStyle;
     }
   }
 
-  onSubmit(): void {
-  if (!this.userId.trim() || !this.emailId.trim()) {
-    this.errorMessage = 'User ID and Email ID are required';
-    return;
+  private getActiveUserIdInput(): InputComponent | undefined {
+    return this.portalStyle === 'onls' ? this.userIdInputOnls : this.userIdInputOms;
   }
-  this.errorMessage = '';
-  this.submitIdentifier.emit({
-    userId: this.userId,
-    emailId: this.emailId
-  });
-}
+
+  onEnterSubmit(event: Event): void {
+    event.preventDefault();
+    this.onSubmit();
+  }
+
+  onSubmit(): void {
+    if (!this.userId.trim() || !this.emailId.trim()) {
+      this.errorMessage = 'User ID and Email ID are required';
+      return;
+    }
+    this.errorMessage = '';
+    this.submitIdentifier.emit({
+      userId: this.userId,
+      emailId: this.emailId
+    });
+  }
 
   @HostListener('keydown', ['$event'])
   handleGlobalKeydown(event: KeyboardEvent): void {
-
     if (event.key === 'Escape') {
-
-      const firstInput =
-        this.portalStyle === 'onls'
-          ? this.identifierInput
-          : this.identifierInputOms;
-
-      firstInput?.nativeElement.focus();
+      this.getActiveUserIdInput()?.focus();
     }
   }
 }

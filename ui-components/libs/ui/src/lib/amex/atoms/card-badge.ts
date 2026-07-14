@@ -40,7 +40,7 @@ export type AmexCardType =
 })
 export class AmexCardBadgeComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `card-badge-${++AmexCardBadgeComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id = `card-badge-${++AmexCardBadgeComponent._idCounter}`;
 
 
   @Input() type: AmexCardType = 'green';
