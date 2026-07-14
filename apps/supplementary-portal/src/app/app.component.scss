@@ -1,12 +1,7 @@
-/* ===================================
-   AMEX Supplementary Portal - Styles
-   =================================== */
-
 :host {
   display: block;
   font-family: 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
 }
-
 .portal-header {
   display: flex;
   justify-content: space-between;
@@ -15,7 +10,6 @@
   background: #1A1A2E;
   color: #fff;
 }
-
 .brand {
   display: flex;
   align-items: center;
@@ -28,23 +22,18 @@
   .divider { opacity: 0.4; }
   .portal-name { font-weight: 400; font-size: 15px; opacity: 0.85; }
 }
-
 .nav-links {
   display: flex;
   gap: 24px;
-
   a {
     color: rgba(255,255,255,0.8);
     text-decoration: none;
     font-size: 14px;
     transition: color 0.2s;
-
     &:hover { color: #FFD700; }
   }
 }
-
 .portal-main { background: #F0F2F5; min-height: calc(100vh - 120px); }
-
 .hero {
   display: flex;
   align-items: center;
@@ -54,7 +43,6 @@
   color: #fff;
   padding: 64px 80px;
 }
-
 .hero-tag {
   display: inline-block;
   background: rgba(255, 215, 0, 0.15);
@@ -68,23 +56,19 @@
   text-transform: uppercase;
   margin-bottom: 20px;
 }
-
 .hero-title {
   font-size: 44px;
   font-weight: 800;
   line-height: 1.2;
   margin: 0 0 16px;
-
   .highlight { color: #FFD700; }
 }
-
 .hero-sub {
   font-size: 16px;
   opacity: 0.75;
   max-width: 420px;
   margin: 0 0 32px;
 }
-
 .cta-btn {
   background: #FFD700;
   color: #1A1A2E;
@@ -95,14 +79,11 @@
   font-weight: 700;
   cursor: pointer;
   transition: transform 0.2s;
-
   &:hover { transform: translateY(-2px); }
 }
-
 .hero-cards {
   flex-shrink: 0;
 }
-
 .sample-card {
   width: 200px;
   height: 126px;
@@ -112,18 +93,15 @@
   justify-content: space-between;
   padding: 16px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.4);
-
   &.gold {
     background: linear-gradient(135deg, #B8860B 0%, #FFD700 60%, #B8860B 100%);
     color: #3a2a00;
   }
-
   .card-label {
     font-size: 13px;
     font-weight: 900;
     letter-spacing: 3px;
   }
-
   .card-member {
     font-size: 11px;
     font-weight: 600;
@@ -132,81 +110,66 @@
     text-transform: uppercase;
   }
 }
-
-/* --- Cards section --- */
 .cards-section {
   max-width: 960px;
   margin: 0 auto;
   padding: 56px 24px;
 }
-
 .section-title {
   font-size: 28px;
   font-weight: 700;
   color: #1A1A2E;
   margin: 0 0 32px;
 }
-
 .cards-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 24px;
 }
-
 .card-option {
   background: #fff;
   border-radius: 14px;
   overflow: hidden;
   box-shadow: 0 2px 12px rgba(0,0,0,0.07);
   transition: transform 0.2s, box-shadow 0.2s;
-
   &:hover {
     transform: translateY(-4px);
     box-shadow: 0 10px 28px rgba(0,0,0,0.12);
   }
 }
-
 .card-header {
   padding: 24px;
   color: #fff;
 }
-
 .card-type {
   font-size: 17px;
   font-weight: 700;
   margin: 0 0 4px;
 }
-
 .card-holder {
   font-size: 13px;
   opacity: 0.8;
   margin: 0;
 }
-
 .card-body {
   padding: 20px 24px 24px;
 }
-
 .card-limit {
   font-size: 14px;
   color: #6B7280;
   margin: 0 0 12px;
-
   strong { color: #1A1A2E; font-weight: 700; }
 }
-
 .perks-list {
   list-style: none;
   margin: 0 0 20px;
   padding: 0;
-
   li {
     font-size: 13px;
     color: #4B5563;
     padding: 4px 0;
   }
 }
-
 .select-btn {
   width: 100%;
   background: #1A1A2E;
@@ -218,10 +181,8 @@
   font-weight: 700;
   cursor: pointer;
   transition: background 0.2s;
-
   &:hover { background: #006FCF; color: #fff; }
 }
-
 .portal-footer {
   text-align: center;
   padding: 20px;

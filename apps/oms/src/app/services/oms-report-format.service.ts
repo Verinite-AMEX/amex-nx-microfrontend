@@ -22,13 +22,11 @@ export class OmsReportFormatService {
   private STORAGE_KEY =
     'oms_report_format';
 
-  // STATE
   private reportFormatSubject =
     new BehaviorSubject<
       ReportFormatData
     >(MOCK_REPORT_FORMAT);
 
-  // OBSERVABLE
   reportFormat$ =
     this.reportFormatSubject
       .asObservable();
@@ -38,7 +36,6 @@ export class OmsReportFormatService {
     this.loadData();
   }
 
-  // LOAD DATA
   private loadData() {
 
     const storedData =
@@ -66,7 +63,6 @@ export class OmsReportFormatService {
     }
   }
 
-  // SAVE DATA
   saveReportFormat(
     data: ReportFormatData
   ) {
@@ -87,13 +83,11 @@ export class OmsReportFormatService {
     );
   }
 
-  // GET DATA
   getReportFormat() {
 
     return this.reportFormat$;
   }
 
-  // CLEAR
   clearData() {
 
     localStorage.removeItem(

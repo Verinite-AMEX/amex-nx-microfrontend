@@ -1,8 +1,4 @@
 import { Routes } from '@angular/router';
-
-// Routes for standalone mode (port 4207).
-// Each misc menu item has its own route.
-// 'pay-with-points' is fully implemented; others show a Coming Soon stub.
 export const routes: Routes = [
   {
     path: '',
@@ -15,7 +11,6 @@ export const routes: Routes = [
       import('./pages/pay-with-points/pay-with-points.module')
         .then(m => m.PayWithPointsModule),
   },
-  // ── Misc sub-pages (stub — replace with real modules as they are built) ──
   {
     path: 'digital-wallet',
     loadComponent: () =>

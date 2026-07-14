@@ -4,8 +4,6 @@
   font-size: 13px;
   color: #333;
 }
-
-/* ---- Bordered fieldset-style section ---- */
 .sr-section {
   border: 1px solid #aaa;
   position: relative;
@@ -16,11 +14,9 @@
   max-width: 800px;
   box-sizing: border-box;
 }
-
 .sr-section--mt {
   margin-top: 18px;
 }
-
 .sr-section-legend {
   position: absolute;
   top: -9px;
@@ -31,50 +27,38 @@
   font-weight: bold;
   color: #333;
 }
-
 .sr-section-body {
   padding-top: 6px;
 }
-
-/* ---- Two column layout ---- */
 .sr-two-col {
   display: flex;
   gap: 30px;
 }
-
 .sr-col {
   flex: 1;
 }
-
 .sr-col--right {
   flex: 0 0 280px;
   padding-top: 0;
 }
-
-/* ---- Field rows ---- */
 .sr-field-row {
   display: flex;
   align-items: center;
   margin-bottom: 8px;
   gap: 8px;
 }
-
 .sr-label {
   min-width: 130px;
   font-size: 13px;
   color: #333;
   font-weight: 600;
 }
-
 .sr-label--sm {
   min-width: 110px;
 }
-
 .sr-req {
   color: red;
 }
-
-/* ---- Inputs ---- */
 .sr-input {
   height: 22px;
   padding: 2px 5px;
@@ -85,25 +69,20 @@
   background: #fff;
   box-sizing: border-box;
 }
-
 .sr-input:focus {
   outline: 1px solid #336699;
   border-color: #336699;
 }
-
 .sr-input--ro {
   background: #e8e8e8;
   color: #666;
   width: 150px;
 }
-
-/* ---- Date parts DD / MM / YYYY ---- */
 .sr-date-wrap {
   display: flex;
   gap: 3px;
   align-items: center;
 }
-
 .sr-date-dd,
 .sr-date-mm {
   height: 22px;
@@ -116,7 +95,6 @@
   box-sizing: border-box;
   text-align: center;
 }
-
 .sr-date-yy {
   height: 22px;
   width: 52px;
@@ -128,15 +106,11 @@
   box-sizing: border-box;
   text-align: center;
 }
-
-/* ---- Checkbox ---- */
 .sr-checkbox {
   width: 14px;
   height: 14px;
   cursor: pointer;
 }
-
-/* ---- Select ---- */
 .sr-select {
   height: 24px;
   width: 156px;
@@ -146,14 +120,11 @@
   background: #fff;
   box-sizing: border-box;
 }
-
-/* ---- Buttons ---- */
 .sr-action-btns {
   display: flex;
   gap: 6px;
   margin-top: 12px;
 }
-
 .sr-btn {
   padding: 4px 16px;
   font-size: 13px;
@@ -162,72 +133,57 @@
   font-weight: bold;
   border-radius: 2px;
 }
-
 .sr-btn--blue {
   background: #1a5276;
   color: #fff;
 }
-
 .sr-btn--blue:hover {
   background: #154360;
 }
-
 .sr-btn--red {
   background: #a93226;
   color: #fff;
 }
-
 .sr-btn--red:hover {
   background: #922b21;
 }
-
 .sr-btn--cancel {
   background: #5d8aa8;
   color: #fff;
   border: none;
 }
-
 .sr-btn--cancel:hover {
   background: #4a7a96;
 }
-
-/* ---- Messages ---- */
 .sr-msg {
   margin: 0 0 12px;
   padding: 5px 12px;
   font-size: 13px;
   display: inline-block;
 }
-
 .sr-msg--ok {
   color: #006600;
   background: #eeffee;
   border: 1px solid #aaddaa;
 }
-
 .sr-msg--err {
   color: #cc0000;
   background: #ffeeee;
   border: 1px solid #ffaaaa;
 }
-
-/* ---- ROC list table ---- */
 .sr-roc-list {
   margin-top: 12px;
 }
-
 .sr-no-data {
   padding: 8px 0;
   color: #888;
   font-size: 13px;
 }
-
 .sr-table {
   border-collapse: collapse;
   font-size: 13px;
   min-width: 400px;
 }
-
 .sr-table th {
   background: #1a5276;
   color: #fff;
@@ -236,13 +192,11 @@
   font-weight: bold;
   border: 1px solid #0e3055;
 }
-
 .sr-table td {
   padding: 4px 10px;
   border: 1px solid #ccc;
   color: #333;
 }
-
 .sr-table tr:nth-child(even) td {
   background: #f0f5fb;
 }

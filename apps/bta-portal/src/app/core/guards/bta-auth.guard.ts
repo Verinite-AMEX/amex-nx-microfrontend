@@ -2,7 +2,7 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { BtaAuthService } from '../services/auth.service';
 
-const AUTH_APP_URL = 'http://localhost:4216'; // move to environment.ts for UAT/Prod
+const AUTH_APP_URL = 'http://localhost:4216';
 
 export const btaAuthGuard: CanActivateFn = (route) => {
   const auth   = inject(BtaAuthService);
@@ -14,17 +14,12 @@ export const btaAuthGuard: CanActivateFn = (route) => {
     window.location.href = `${AUTH_APP_URL}/login?returnUrl=${returnUrl}`;
   };
 
-
- // Not logged in → redirect to Login-Logout-auth-app
   if (!auth.isLoggedIn()) {
     // OLD: router.navigate(['/bta/login']);
     redirectToAuthApp();
     return false;
   }
 
-  // Not a BTA user — could be a stale/foreign token. Clear it so it
-  // doesn't keep silently failing, and send them back through login
-  // WITH returnUrl this time.
   if (!auth.isBtaUser()) {
     // OLD: window.location.href = `${AUTH_APP_URL}/login`;
     auth.clearSession();
@@ -32,10 +27,8 @@ export const btaAuthGuard: CanActivateFn = (route) => {
     return false;
   }
 
-  // Per-route role check using route data
   const allowedRoles: string[] = route.data?.['roles'] ?? [];
   if (allowedRoles.length > 0 && !auth.hasRole(...allowedRoles)) {
-    // Redirect to their first allowed page instead of a blank screen
     const fallback = getFallback(auth);
     router.navigate([`/bta/${fallback}`]);
     return false;

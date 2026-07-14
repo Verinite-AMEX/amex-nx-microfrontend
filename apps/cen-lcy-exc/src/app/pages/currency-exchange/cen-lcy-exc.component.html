@@ -1,12 +1,10 @@
 <div class="clce">
   <div class="clce__body">
 
-    <!-- ── Already-submitted error (top of page) ── -->
     <div *ngIf="alreadySubmittedMsg" class="clce__already-error">
       {{ alreadySubmittedMsg }}
     </div>
 
-    <!-- ── Client ID Search (always visible) ── -->
     <div class="clce__search-wrap">
       <form [formGroup]="searchForm" (ngSubmit)="onSearch()" novalidate>
         <label class="clce__field-label" for="clientId">Client ID</label>
@@ -31,23 +29,17 @@
       <div *ngIf="searchError" class="clce__search-error">{{ searchError }}</div>
     </div>
 
-    <!-- ── Result Section (shown after customer found) ── -->
     <ng-container *ngIf="customer">
       <div class="clce__result">
 
-        <!-- Success state -->
         <ng-container *ngIf="submitSuccess">
           <div class="clce__success-banner">{{ successMessage }}</div>
           <button class="clce__ok-btn" (click)="onOk()">Ok</button>
         </ng-container>
 
-        <!-- Error state -->
         <div *ngIf="submitError" class="clce__error-banner">{{ submitError }}</div>
-
-        <!-- Main content (hidden after success) -->
         <ng-container *ngIf="!submitSuccess">
 
-          <!-- Card table + AMEX image -->
           <div class="clce__card-row">
             <table class="clce__card-table">
               <tr>
@@ -70,7 +62,6 @@
             </div>
           </div>
 
-          <!-- Highlights -->
           <div class="clce__highlights-title">Highlights</div>
 
           <p class="clce__highlights-lead">
@@ -105,7 +96,6 @@
             </li>
           </ul>
 
-          <!-- T&C -->
           <div class="clce__tnc">
             <label class="clce__tnc-label">
               <input type="checkbox" [(ngModel)]="termsAccepted" />
@@ -120,7 +110,6 @@
             </label>
           </div>
 
-          <!-- Submit -->
           <div class="clce__actions">
             <button
               class="clce__submit-btn"

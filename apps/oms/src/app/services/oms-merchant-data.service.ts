@@ -28,7 +28,6 @@ export class OmsMerchantDataService {
       MerchantData[]
     >([]);
 
-  // OBSERVABLE
   merchantData$ =
     this.merchantDataSubject
       .asObservable();
@@ -38,7 +37,6 @@ export class OmsMerchantDataService {
     this.loadMerchantData();
   }
 
-  // LOAD DATA
   private loadMerchantData() {
 
     const storedData =
@@ -59,7 +57,6 @@ export class OmsMerchantDataService {
 
     } else {
 
-      // LOAD MOCK DATA FIRST TIME
       localStorage.setItem(
 
         this.STORAGE_KEY,
@@ -75,7 +72,6 @@ export class OmsMerchantDataService {
     }
   }
 
-  // SAVE DATA
   private saveMerchantData(
     data: MerchantData[]
   ) {
@@ -92,13 +88,11 @@ export class OmsMerchantDataService {
     );
   }
 
-  // GET ALL
   getMerchantData() {
 
     return this.merchantData$;
   }
 
-  // ADD
   addMerchantData(
     merchantData: MerchantData
   ) {
@@ -106,7 +100,6 @@ export class OmsMerchantDataService {
     const currentData =
       this.merchantDataSubject.value;
 
-    // DUPLICATE CHECK
     const alreadyExists =
       currentData.find(
         merchant =>
@@ -142,7 +135,6 @@ export class OmsMerchantDataService {
     return true;
   }
 
-  // UPDATE
   updateMerchantData(
     updatedMerchant:
       MerchantData
@@ -169,7 +161,6 @@ export class OmsMerchantDataService {
     );
   }
 
-  // DELETE
   deleteMerchantData(
     merchantNumber: string
   ) {
@@ -191,7 +182,6 @@ export class OmsMerchantDataService {
     );
   }
 
-  // GET SINGLE
   getMerchantByNumber(
     merchantNumber: string
   ) {
@@ -207,7 +197,6 @@ export class OmsMerchantDataService {
       );
   }
 
-  // CLEAR ALL
   clearMerchantData() {
 
     localStorage.removeItem(

@@ -6,5 +6,4 @@ const config: ModuleFederationConfig = {
     "./Routes": "apps/bcrb/src/app/remote-entry/entry.routes.ts",
   },
 };
-
 export default config;

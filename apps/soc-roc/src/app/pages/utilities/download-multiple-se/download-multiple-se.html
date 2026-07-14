@@ -1,6 +1,4 @@
 <div class="ffu-container">
-
-  <!-- File Name -->
   <div class="ffu-row">
     <label class="ffu-label">File Name</label>
     <div class="dse-file-row">
@@ -11,16 +9,12 @@
       <span class="dse-file-label">{{ fileName || 'No file chosen' }}</span>
     </div>
   </div>
-
-  <!-- Sheet No + Refund on same row -->
   <div class="ffu-row">
     <label class="ffu-label">Sheet No.</label>
     <input type="text" class="ffu-text-input dms-sheet-input" [(ngModel)]="sheetNo" appNumbersOnly/>
     <label class="ffu-label dms-refund-label">Refund</label>
     <input type="checkbox" [(ngModel)]="refund" />
   </div>
-
-  <!-- vn-core Toast Messages -->
   @if (status === 'success') {
     <amex-success-toast
       [message]="statusMessage"
@@ -30,7 +24,6 @@
       (dismissed)="status = 'idle'">
     </amex-success-toast>
   }
-
   @if (status === 'error') {
     <amex-error-toast
       [message]="statusMessage"
@@ -38,8 +31,6 @@
       (dismissed)="status = 'idle'">
     </amex-error-toast>
   }
-
-  <!-- Action Buttons -->
   <div class="ffu-row dms-btn-row">
     <button class="ffu-submit-btn" (click)="onRefreshData()" [disabled]="isRefreshing">
       {{ isRefreshing ? 'Refreshing...' : 'Refresh Data from XL' }}
@@ -48,5 +39,4 @@
       {{ isUploading ? 'Uploading...' : 'Upload to Server' }}
     </button>
   </div>
-
 </div>

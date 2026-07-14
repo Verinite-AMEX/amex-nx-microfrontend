@@ -1,7 +1,3 @@
-<!-- ALWAYS visible -->
 <bcrb-home (tabChanged)="onTabChanged($event)"></bcrb-home>
-
-<!-- SHOW BELOW when BUREAU clicked -->
 <bcrb-dashboard *ngIf="showDashboard" (linkChanged)="onLinkChanged($event)"></bcrb-dashboard>
-
 <bcrb-reports *ngIf="showReports"></bcrb-reports>

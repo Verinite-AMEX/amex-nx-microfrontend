@@ -5,7 +5,6 @@ import {
 export const MOCK_CONTACT_INFORMATION:
   ContactInformation[] = [
 
-  // CONTACT INFORMATION
   {
     sectionTitle:
       'CONTACT INFORMATION',
@@ -26,7 +25,6 @@ export const MOCK_CONTACT_INFORMATION:
       'Manager'
   },
 
-  // MARKETING INFORMATION
   {
     sectionTitle:
       'Marketing Information',
@@ -47,7 +45,6 @@ export const MOCK_CONTACT_INFORMATION:
       'Marketing Lead'
   },
 
-  // FINANCE INFORMATION
   {
     sectionTitle:
       'Finance Information',
@@ -68,7 +65,6 @@ export const MOCK_CONTACT_INFORMATION:
       'Finance Manager'
   },
 
-  // OPERATIONS
   {
     sectionTitle:
       'Operations',

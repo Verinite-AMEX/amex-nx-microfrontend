@@ -17,9 +17,6 @@ interface Benefit {
   template: `
     <div class="benefits-page">
 
-      <!-- ════ BENEFITS TAB ACTIVE — image10 layout ════ -->
-
-      <!-- AMEX card image at top (image10) -->
       <div class="card-hero">
         <div class="amex-card">
           <div class="card-top">
@@ -36,31 +33,25 @@ interface Benefit {
         </div>
       </div>
 
-      <!-- Success toast -->
       <amex-success-toast *ngIf="successMsg" [message]="successMsg"
         portalStyle="onls" [autoDismiss]="true" [duration]="4000"
         (dismissed)="successMsg=''">
       </amex-success-toast>
 
-      <!-- "Manage My Benefits" heading (image10) -->
       <div class="benefits-section">
         <h3 class="benefits-heading">Manage My Benefits</h3>
 
-        <!-- Benefit tiles grid — each card has: image | title | description | Enrolled / Enroll button -->
         <div class="benefits-grid">
           <div *ngFor="let b of benefits" class="benefit-card">
 
-            <!-- Benefit image area (image10 shows photo-style images) -->
             <div class="benefit-img" [style.background]="b.bg">
               <span class="benefit-img-lbl">AMERICAN EXPRESS</span>
             </div>
 
-            <!-- Benefit info -->
             <div class="benefit-body">
               <div class="benefit-title">{{ b.title }}</div>
               <div class="benefit-desc">{{ b.description }}</div>
 
-              <!-- Enrolled checkmark (image10 "✓ Enrolled") or Enroll button -->
               <div class="benefit-action">
                 <span *ngIf="b.enrolled" class="enrolled-badge">
                   <span class="tick">&#10003;</span> Enrolled
@@ -74,15 +65,12 @@ interface Benefit {
         </div>
       </div>
 
-      <!-- Footer -->
       <div class="page-footer">Copyright &copy; 2009 American Express Company</div>
 
     </div>
   `,
   styles: [`
     .benefits-page { font-family:Arial,sans-serif; background:#fff; min-height:100%; }
-
-    /* AMEX card hero (image10 — centered platinum card) */
     .card-hero    { display:flex; justify-content:center; padding:28px 0 20px; }
     .amex-card    {
       width:240px; height:152px; border-radius:12px;
@@ -103,15 +91,11 @@ interface Benefit {
       border:1px solid #b8992a;
     }
     .card-number  { font-size:11px; color:#333; font-family:monospace; letter-spacing:.5px; }
-
-    /* Benefits section */
     .benefits-section { padding:0 20px 24px; }
     .benefits-heading {
       font-size:14px; color:#006fcf; font-weight:bold;
       margin-bottom:18px; border-bottom:1px solid #f0f0f0; padding-bottom:8px;
     }
-
-    /* Benefit cards grid — matches image10 (3 columns) */
     .benefits-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:16px; }
     .benefit-card  {
       border:1px solid #e8e8e8; border-radius:8px; overflow:hidden;
@@ -127,15 +111,11 @@ interface Benefit {
     .benefit-title { font-size:13px; font-weight:bold; color:#006fcf; text-transform:uppercase; text-align:center; margin-bottom:6px; }
     .benefit-desc  { font-size:12px; color:#555; text-align:center; line-height:1.4; margin-bottom:12px; }
     .benefit-action { display:flex; justify-content:center; }
-
-    /* Enrolled badge — image10 "✓ Enrolled" in green */
     .enrolled-badge {
       display:flex; align-items:center; gap:4px;
       font-size:13px; font-weight:bold; color:#2e7d32;
     }
     .tick { font-size:15px; color:#2e7d32; }
-
-    /* Enroll button — image10 blue button */
     .enroll-btn {
       padding:7px 28px; background:#006fcf; color:#fff; border:none;
       border-radius:4px; font-size:13px; font-family:Arial,sans-serif; cursor:pointer;
@@ -147,8 +127,6 @@ interface Benefit {
 })
 export class OffersBenefitsComponent {
   successMsg = '';
-
-  // Benefits matching document image10 — DINING CASHBACK (Enrolled) + BENEFIT (Enroll button)
   benefits: Benefit[] = [
     {
       id:'B01', title:'DINING CASHBACK',

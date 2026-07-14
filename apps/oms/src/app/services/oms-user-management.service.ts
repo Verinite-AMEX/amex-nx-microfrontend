@@ -22,13 +22,11 @@ export class OmsUserManagementService {
   private STORAGE_KEY =
     'oms_users';
 
-  // STATE
   private usersSubject =
     new BehaviorSubject<
       UserManagement[]
     >([]);
 
-  // OBSERVABLE
   users$ =
     this.usersSubject
       .asObservable();
@@ -38,7 +36,6 @@ export class OmsUserManagementService {
     this.loadUsers();
   }
 
-  // LOAD USERS
   private loadUsers() {
 
     const storedUsers =
@@ -70,7 +67,6 @@ export class OmsUserManagementService {
     }
   }
 
-  // SAVE USERS
   private saveUsers(
     users: UserManagement[]
   ) {
@@ -87,13 +83,11 @@ export class OmsUserManagementService {
     );
   }
 
-  // GET USERS
   getUsers() {
 
     return this.users$;
   }
 
-  // ADD USER
   addUser(
     user: UserManagement
   ) {
@@ -117,7 +111,6 @@ export class OmsUserManagementService {
     );
   }
 
-  // UPDATE USER
   updateUser(
     updatedUser:
       UserManagement
@@ -144,7 +137,6 @@ export class OmsUserManagementService {
     );
   }
 
-  // DELETE USER
   deleteUser(
     userId: string
   ) {
@@ -165,7 +157,6 @@ export class OmsUserManagementService {
     );
   }
 
-  // CLEAR ALL
   clearUsers() {
 
     localStorage.removeItem(

@@ -43,7 +43,6 @@ interface NavItem { id: string; label: string; }
         </ng-container>
       </div>
 
-      <!-- default slot: page content -->
       <router-outlet></router-outlet>
 
     </amex-page-component>

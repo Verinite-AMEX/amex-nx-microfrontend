@@ -18,14 +18,12 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
         <div class="bta-panel-hd">Large Reports</div>
         <div class="bta-panel-bd">
 
-          <!-- Global error banner -->
           <div *ngIf="submitted && hasErrors()" class="global-error">
             Please correct the highlighted errors before submitting.
           </div>
 
           <div class="bta-form-section">
 
-            <!-- BTA Account -->
             <div class="bta-field-row">
               <label>Select the BTA Number: <span class="req">*</span></label>
               <div class="field-wrap">
@@ -38,7 +36,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
               </div>
             </div>
 
-            <!-- Report Type -->
             <div class="bta-field-row" style="margin-top:12px;">
               <label>Report Type: <span class="req">*</span></label>
               <div class="field-wrap">
@@ -51,7 +48,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
               </div>
             </div>
 
-            <!-- Date Range -->
             <div class="bta-field-row" style="margin-top:12px;">
               <label>Date Range: <span class="req">*</span></label>
               <div class="field-wrap">
@@ -83,7 +79,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
               </div>
             </div>
 
-            <!-- Report Format -->
             <div class="bta-field-row" style="margin-top:12px;">
               <label>Report Format: <span class="req">*</span></label>
               <div class="field-wrap">

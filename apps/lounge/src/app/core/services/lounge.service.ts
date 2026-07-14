@@ -4,9 +4,8 @@ import {
   LoungeCustomer,
   PriorityPassEnrollRequest,
   PriorityPassEnrollResult,
-} from '../models/lounge.models';
+} from '../models/lounge.models'
 
-// ─── Mock data (replace with real HTTP calls) ────────────────────────────────
 const MOCK_CUSTOMERS: Record<string, LoungeCustomer> = {
   'C123456': {
     clientCode: 'C123456',
@@ -69,26 +68,18 @@ const MOCK_CUSTOMERS: Record<string, LoungeCustomer> = {
     name:       'Sara Al Rashid',
     mobile:     '+971 55 987 6543',
     email:      'sara.alrashid@corp.ae',
-    cards: [],   // ← triggers "No eligible cards" state
+    cards: [],
   },
 };
 
 @Injectable({ providedIn: 'root' })
 export class LoungeService {
-
-  /**
-   * Search customer by client code.
-   * Returns null when client code not found (triggers "No eligible cards" UI).
-   */
   searchCustomer(clientCode: string): Observable<LoungeCustomer | null> {
     const found = MOCK_CUSTOMERS[clientCode.trim().toUpperCase()] ?? null;
     // Simulate network latency
     return of(found).pipe(delay(600));
   }
 
-  /**
-   * Enroll selected cards into Priority Pass.
-   */
   enrollPriorityPass(req: PriorityPassEnrollRequest): Observable<PriorityPassEnrollResult> {
     if (!req.termsAccepted) {
       return throwError(() => new Error('Terms & Conditions must be accepted.'));
@@ -96,7 +87,7 @@ export class LoungeService {
     if (!req.selectedCards.length) {
       return throwError(() => new Error('At least one card must be selected.'));
     }
-    // Mock success response
+    
     const result: PriorityPassEnrollResult = {
       success:     true,
       message:     'Priority Pass™ enrollment submitted successfully.',

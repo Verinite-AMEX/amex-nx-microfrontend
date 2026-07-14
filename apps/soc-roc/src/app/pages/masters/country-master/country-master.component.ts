@@ -13,16 +13,10 @@ import { AmexPageShellComponent } from '@ui-components/ui';
 export class CountryMaster {
 
   view: 'default' | 'add' | 'modify' = 'default';
-
-  // Default view fields
   defaultCode = '';
   defaultName = '';
-
-  // Add New fields
   addCode = '';
   addName = '';
-
-  // Modify fields
   modifyCode = '';
   modifyName = '';
   modifyInput = '';
@@ -62,7 +56,6 @@ export class CountryMaster {
     { name: 'COMOROS',              code: 'KM'  },
   ];
 
-  // ---- Default view dropdown ----
   showDefaultDrop = false;
   defaultSuggestions: { name: string; code: string }[] = [];
 
@@ -76,8 +69,6 @@ export class CountryMaster {
     this.defaultCode = c.code;
     this.showDefaultDrop = false;
   }
-
-  // ---- Navigation ----
   goToAddNew() {
     this.view = 'add';
     this.addCode = '';
@@ -85,7 +76,6 @@ export class CountryMaster {
     this.showDefaultDrop = false;
     this.clearMsg();
   }
-
   goToModify() {
     this.view = 'modify';
     this.modifyCode = '';
@@ -94,13 +84,10 @@ export class CountryMaster {
     this.showDrop = false;
     this.clearMsg();
   }
-
   goBack() {
     this.view = 'default';
     this.clearMsg();
   }
-
-  // ---- Add New ----
   onSave() {
     if (!this.addCode.trim()) { this.showMsg('Country Code is required.', 'err'); return; }
     if (!this.addName.trim()) { this.showMsg('Country Name is required.', 'err'); return; }
@@ -109,8 +96,6 @@ export class CountryMaster {
     this.addCode = '';
     this.addName = '';
   }
-
-  // ---- Modify autocomplete ----
   onModifyInput(val: string) {
     this.modifyInput = val;
     this.modifyName = val;
@@ -121,26 +106,22 @@ export class CountryMaster {
     const exact = this.countryOptions.find(c => c.name.toLowerCase() === val.toLowerCase());
     this.modifyCode = exact ? exact.code : '';
   }
-
   toggleModifyDrop() {
     this.showDrop = !this.showDrop;
     if (this.showDrop) this.suggestions = [...this.countryOptions];
   }
-
   onPick(c: { name: string; code: string }) {
     this.modifyName  = c.name;
     this.modifyInput = c.name;
     this.modifyCode  = c.code;
     this.showDrop    = false;
   }
-
   onModifyUpdate() {
     if (!this.modifyName.trim()) { this.showMsg('Please select a Country.', 'err'); return; }
     if (!this.modifyCode.trim()) { this.showMsg('Country Code could not be resolved.', 'err'); return; }
     console.log('Modify:', { code: this.modifyCode, name: this.modifyName });
     this.showMsg('Country updated successfully.', 'ok');
   }
-
   showMsg(m: string, t: 'ok' | 'err') { this.msg = m; this.msgType = t; }
   clearMsg() { this.msg = ''; }
 }

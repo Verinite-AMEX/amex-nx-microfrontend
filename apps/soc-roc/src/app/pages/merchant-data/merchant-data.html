@@ -1,18 +1,13 @@
 <div class="md-page">
-
-  <!-- DEFAULT VIEW -->
   <div *ngIf="view === 'default'" class="md-form">
-
     <div class="md-field-row">
       <label class="md-label">SE Number <span class="md-req">*</span></label>
       <input type="text" class="md-input" [(ngModel)]="form.seNumber" maxlength="20" appNumbersOnly/>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">SE Name <span class="md-req">*</span></label>
       <input type="text" class="md-input" [(ngModel)]="form.seName" maxlength="100" />
     </div>
-
     <div class="md-field-row md-field-row--top">
       <label class="md-label">Address <span class="md-req">*</span></label>
       <div class="md-address-stack">
@@ -24,7 +19,6 @@
         <input type="text" class="md-input" [(ngModel)]="form.address6" maxlength="100" />
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Currency <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -34,7 +28,6 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Country <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -44,35 +37,27 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Activate this SE</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.activateSE" />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Payment Register</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.paymentRegister" />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Discount Rate</label>
       <input type="text" class="md-input" [(ngModel)]="form.discountRate" maxlength="10" appNumbersOnly/>
     </div>
-
     <div *ngIf="msg" class="md-msg"
       [class.md-msg--ok]="msgType==='ok'"
       [class.md-msg--err]="msgType==='err'">{{ msg }}</div>
-
     <div class="md-action-btns">
       <button class="md-btn md-btn--blue" (click)="goToAddNew()">Add New</button>
       <button class="md-btn md-btn--blue" (click)="goToModify()">Modify</button>
     </div>
   </div>
-
-  <!-- ADD NEW VIEW -->
   <div *ngIf="view === 'add'" class="md-form">
-
     <div class="md-field-row">
       <label class="md-label">SE Number <span class="md-req">*</span></label>
       <input
@@ -84,12 +69,10 @@
       />
       <span class="md-invalid-icon" *ngIf="seInvalid">&#9888;</span>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">SE Name <span class="md-req">*</span></label>
       <input type="text" class="md-input" [(ngModel)]="form.seName" maxlength="100" />
     </div>
-
     <div class="md-field-row md-field-row--top">
       <label class="md-label">Address <span class="md-req">*</span></label>
       <div class="md-address-stack">
@@ -101,7 +84,6 @@
         <input type="text" class="md-input" [(ngModel)]="form.address6" maxlength="100" />
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Currency <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -111,7 +93,6 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Country <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -121,35 +102,27 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Activate this SE</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.activateSE" />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Payment Register</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.paymentRegister" />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Discount Rate</label>
       <input type="text" class="md-input" [(ngModel)]="form.discountRate" maxlength="10" />
     </div>
-
     <div *ngIf="msg" class="md-msg"
       [class.md-msg--ok]="msgType==='ok'"
       [class.md-msg--err]="msgType==='err'">{{ msg }}</div>
-
     <div class="md-action-btns">
       <button class="md-btn md-btn--blue" (click)="onSave()">Save</button>
       <button class="md-btn md-btn--cancel" (click)="goBack()">Cancel</button>
     </div>
   </div>
-
-  <!-- MODIFY VIEW -->
   <div *ngIf="view === 'modify'" class="md-form">
-
     <div class="md-field-row">
       <label class="md-label">SE Number <span class="md-req">*</span></label>
       <input
@@ -161,12 +134,10 @@
       />
       <span class="md-invalid-icon" *ngIf="seInvalid">&#9888;</span>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">SE Name <span class="md-req">*</span></label>
       <input type="text" class="md-input md-input--readonly" [(ngModel)]="form.seName" readonly />
     </div>
-
     <div class="md-field-row md-field-row--top">
       <label class="md-label">Address <span class="md-req">*</span></label>
       <div class="md-address-stack">
@@ -178,7 +149,6 @@
         <input type="text" class="md-input md-input--readonly" [(ngModel)]="form.address6" readonly />
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Currency <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -188,7 +158,6 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Country <span class="md-req">*</span></label>
       <div class="md-select-wrap">
@@ -198,30 +167,24 @@
         </select>
       </div>
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Activate this SE</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.activateSE" disabled />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Payment Register</label>
       <input type="checkbox" class="md-checkbox" [(ngModel)]="form.paymentRegister" disabled />
     </div>
-
     <div class="md-field-row">
       <label class="md-label">Discount Rate</label>
       <input type="text" class="md-input md-input--readonly" [(ngModel)]="form.discountRate" readonly />
     </div>
-
     <div *ngIf="msg" class="md-msg"
       [class.md-msg--ok]="msgType==='ok'"
       [class.md-msg--err]="msgType==='err'">{{ msg }}</div>
-
     <div class="md-action-btns">
       <button class="md-btn md-btn--blue" (click)="goToAddNew()">Add New</button>
       <button class="md-btn md-btn--blue" (click)="onModify()">Modify</button>
     </div>
   </div>
-
 </div>

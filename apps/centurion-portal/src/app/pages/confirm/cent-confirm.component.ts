@@ -9,8 +9,6 @@ import { AmexBreadcrumbTrailComponent } from '@ui-components/ui';
   imports: [CommonModule, AmexBreadcrumbTrailComponent],
   template: `
     <div class="confirm-page">
-
-      <!-- Confirmation table -->
       <table class="confirm-table">
         <thead>
           <tr>
@@ -51,12 +49,10 @@ import { AmexBreadcrumbTrailComponent } from '@ui-components/ui';
         </tbody>
       </table>
 
-      <!-- Success message -->
       <div class="success-msg" *ngIf="confirmed">
         Card and wearable records have been created successfully.
       </div>
-
-      <!-- Actions -->
+>
       <div class="confirm-actions" *ngIf="!confirmed">
         <button class="btn-back"    (click)="goBack()">Go Back</button>
         <button class="btn-confirm" (click)="onConfirm()">Confirm</button>
@@ -135,7 +131,7 @@ export class CentConfirmComponent implements OnInit {
   }
 
   goBack(): void {
-    this.router.navigate(['../personalize'], { relativeTo: this.route }); // ✅ Fixed
+    this.router.navigate(['../personalize'], { relativeTo: this.route });
   }
 
   onConfirm(): void { this.confirmed = true; }

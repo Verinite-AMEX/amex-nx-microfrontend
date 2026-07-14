@@ -8,14 +8,6 @@ import { AmexTabBarComponent, AmexTabItem }  from '@ui-components/ui';
 import { AmexSidebarMenuComponent }         from '@ui-components/ui';
 import { AmexLogoutConfirmationComponent }  from '@ui-components/ui';
 
-/**
- * Standalone mode only (port 4204).
- * Matches document image6/image3/image10 layout exactly:
- *   - amex-top-nav-bar: blue strip (Global Sites | Log Out) + AMEX logo + "ONLS Helper Tool"
- *   - amex-tab-bar: Online Account Services | Supplementary Access Helper | Offers | Benefits
- *   - amex-sidebar-menu: ONLS hatched decorative panel
- *   - router-outlet: page content
- */
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -35,7 +27,6 @@ import { AmexLogoutConfirmationComponent }  from '@ui-components/ui';
         (logout)="showLogout = true">
       </amex-top-nav-bar>
 
-      <!-- Document tabs: Online Account Services | Supplementary Access Helper | Offers | Benefits -->
       <amex-tab-bar
         portalStyle="onls"
         [tabs]="tabs"
@@ -68,8 +59,6 @@ import { AmexLogoutConfirmationComponent }  from '@ui-components/ui';
 export class AppComponent implements OnInit {
   showLogout = false;
   activeTab = 'offers';
-
-  // Exact 4 tabs from document image6
   tabs: AmexTabItem[] = [
     { id: 'account',  label: 'Online Account Services'    },
     { id: 'supp',     label: 'Supplementary Access Helper' },

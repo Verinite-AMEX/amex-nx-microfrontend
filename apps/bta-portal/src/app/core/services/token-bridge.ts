@@ -3,16 +3,11 @@ export function captureAuthTokenFromUrl(): void {
   const token = params.get('token');
 
   if (!token) {
-    return; // normal navigation, nothing to bridge
+    return;
   }
 
   try {
-    // Store under the same shared key BtaAuthService reads
     localStorage.setItem('mfe_access_token', token);
-
-    // The auth app only hands us the JWT — decode it to rebuild mfe_user
-    // (username + roles), since bta-portal's origin never received the
-    // auth app's own localStorage write.
     const payload = JSON.parse(atob(token.split('.')[1]));
     const user = {
       username: payload.sub,
@@ -29,7 +24,6 @@ export function captureAuthTokenFromUrl(): void {
     return;
   }
 
-  // Strip token params from the address bar so it isn't reprocessed/exposed
   params.delete('token');
   params.delete('refreshToken');
   const cleanQuery = params.toString();

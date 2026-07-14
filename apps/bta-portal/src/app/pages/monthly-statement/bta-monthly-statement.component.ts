@@ -15,7 +15,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
 
     <div class="bta-page">
 
-      <!-- Account selection -->
       <div *ngIf="!showStatement" class="bta-panel">
         <div class="bta-panel-hd">Monthly Statements</div>
         <div class="bta-panel-bd">
@@ -36,7 +35,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
         </div>
       </div>
 
-      <!-- Monthly Statement -->
       <div *ngIf="showStatement" class="bta-panel">
         <div class="bta-panel-hd">BTA Monthly Statement</div>
         <div class="bta-panel-bd">
@@ -45,7 +43,6 @@ import { AmexPageHeaderComponent, AmexBreadcrumbTrailComponent } from '@ui-compo
           <div class="stmt-account">BTA 3744XXXXXXX5229 - BTACLIENTBAH001</div>
           <div class="stmt-agent">Travel Agent: DNATA (BTA) - Telephone: +97143166343</div>
 
-          <!-- Summary table -->
           <table class="summary-table">
             <thead>
               <tr>
@@ -161,7 +158,6 @@ export class BtaMonthlyStatementComponent {
 
   summary = { prevBalance:-57.852, remittance:0, credit:0, debits:0, disputes:0, totalDue:-57.852 };
 
-  // ── View Statement ─────────────────────────────────────────────
   viewStatement() {
     this.submitted = true;
     this.errors    = {};
@@ -172,7 +168,6 @@ export class BtaMonthlyStatementComponent {
     this.showStatement = true;
   }
 
-  // ── View Different Statement ───────────────────────────────────
   showDiffStatement() {
     this.diffSubmitted = true;
     this.diffErrors    = {};
@@ -180,10 +175,8 @@ export class BtaMonthlyStatementComponent {
       this.diffErrors['month'] = 'Please select a month to view.';
       return;
     }
-    // In real app: fetch data for selectedMonth
   }
 
-  // ── Navigation ─────────────────────────────────────────────────
   returnToSelection() {
     this.showStatement  = false;
     this.submitted      = false;
@@ -194,7 +187,6 @@ export class BtaMonthlyStatementComponent {
 
   goBack() { this.returnToSelection(); }
 
-  // ── Download ───────────────────────────────────────────────────
   download() {
     const label    = this.selectedMonth || 'March 2025';
     const filename = `BTA_Monthly_Statement_${label.replace(' ', '_')}`;
@@ -208,7 +200,6 @@ export class BtaMonthlyStatementComponent {
     }
   }
 
-  // ── Shared statement data helpers ──────────────────────────────
   private getStatementRows(): string[][] {
     return [
       ['Previous Balance', 'New Remittance', 'New Credit', 'New Debits', 'Disputes', 'Total Due Balance'],
@@ -232,7 +223,6 @@ export class BtaMonthlyStatementComponent {
     URL.revokeObjectURL(url);
   }
 
-  // ── CSV ────────────────────────────────────────────────────────
   private downloadCSV(filename: string): void {
     const rows   = this.getStatementRows();
     const header = `BTA Monthly Statement\n${this.today}\nBTA 3744XXXXXXX5229 - BTACLIENTBAH001\nTravel Agent: DNATA (BTA) - Telephone: +97143166343\n\n`;
@@ -242,7 +232,6 @@ export class BtaMonthlyStatementComponent {
     this.triggerDownload(new Blob([csv], { type:'text/csv;charset=utf-8;' }), `${filename}.csv`);
   }
 
-  // ── Excel (XHTML Spreadsheet XML — opens natively in Excel) ───
   private downloadExcel(filename: string): void {
     const rows    = this.getStatementRows();
     const headers = rows[0].map(h => `<Cell><Data ss:Type="String">${h}</Data></Cell>`).join('');
@@ -273,7 +262,6 @@ export class BtaMonthlyStatementComponent {
     );
   }
 
-  // ── RTF ────────────────────────────────────────────────────────
   private downloadRTF(filename: string): void {
     const rows = this.getStatementRows();
     const tableRow = (cells: string[]) =>
@@ -298,7 +286,6 @@ Total Balance Due by ${this.dueDate}\\line
     this.triggerDownload(new Blob([rtf], { type:'application/rtf' }), `${filename}.rtf`);
   }
 
-  // ── PDF (via browser print-to-PDF using a hidden iframe) ───────
   private downloadPDF(filename: string): void {
     const rows = this.getStatementRows();
     const thCells = rows[0].map(h => `<th>${h}</th>`).join('');
@@ -338,7 +325,6 @@ Total Balance Due by ${this.dueDate}\\line
     iframe.contentDocument!.write(html);
     iframe.contentDocument!.close();
     iframe.contentWindow!.focus();
-    // Give browser time to render before printing
     setTimeout(() => {
       iframe.contentWindow!.print();
       document.body.removeChild(iframe);

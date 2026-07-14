@@ -1,7 +1,7 @@
 import { Component, Optional, Inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {
-  AmexPageShellComponent,
+  AmexPageComponent,
   AmexTabItem,
 } from '@ui-components/ui';
 import { CenLcyExcComponent } from './cen-lcy-exc.component';
@@ -10,7 +10,7 @@ import { SHELL_HOSTED } from '../../core/tokens/shell.token';
 @Component({
   selector: 'app-cen-lcy-exc-shell-wrapper',
   standalone: true,
-  imports: [CommonModule, AmexPageShellComponent, CenLcyExcComponent],
+  imports: [CommonModule, AmexPageComponent, CenLcyExcComponent],
   template: `
     <amex-page-component
       portalStyle="onls"

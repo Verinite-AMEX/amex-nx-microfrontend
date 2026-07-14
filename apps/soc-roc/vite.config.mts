@@ -6,11 +6,9 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 
 export default defineConfig(() => ({
   root: __dirname,
-  // Serve workspace root so top-level `assets/` is available at `/assets` during dev
   publicDir: '../../',
   cacheDir: '../../node_modules/.vite/apps/soc-roc',
   plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
-  // Uncomment this if you are using workers.
   // worker: {
   //   plugins: () => [ nxViteTsPaths() ],
   // },

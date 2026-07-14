@@ -26,8 +26,6 @@ import {
     './oms-sidebar.component.html',
 })
 export class OmsSidebarComponent {
-
-  // ✅ DYNAMIC MENU ITEMS
   @Input()
   items: any[] = [
 

@@ -12,8 +12,6 @@ import { Router } from '@angular/router';
   ],
   template: `
     <div class="supp-page">
-
-      <!-- ── Search Row ── -->
       <div class="search-section">
         <div class="section-title">Supplementary Access Administration</div>
         <div class="search-row">
@@ -31,11 +29,7 @@ import { Router } from '@angular/router';
           <button class="btn-reset"  (click)="onReset()">Reset</button>
         </div>
       </div>
-
-      <!-- ── Lock success message ── -->
       <div class="lock-success" *ngIf="lockMessage">{{ lockMessage }}</div>
-
-      <!-- ── Access Group Table ── -->
       <ng-container *ngIf="searched && accessGroup.length > 0">
         <div class="section-header">Access Group: Family - {{ accessGroupId }}</div>
         <table class="data-table">
@@ -57,8 +51,6 @@ import { Router } from '@angular/router';
           </tbody>
         </table>
       </ng-container>
-
-      <!-- ── User Information Table ── -->
       <ng-container *ngIf="searched && userInfo">
         <div class="section-header" style="margin-top: 18px;">User Information</div>
         <table class="data-table">
@@ -84,8 +76,6 @@ import { Router } from '@angular/router';
             </tr>
           </tbody>
         </table>
-
-        <!-- ── User Details ── -->
         <div class="user-details">
           <div class="detail-row">
             <span class="detail-label">User Status</span>
@@ -133,12 +123,9 @@ import { Router } from '@angular/router';
           </div>
         </div>
       </ng-container>
-
-      <!-- ── Not found ── -->
       <div *ngIf="searched && !userInfo" class="no-results">
         No supplementary card member found for the given search criteria.
       </div>
-
     </div>
   `,
   styles: [`
@@ -191,22 +178,17 @@ export class SuppSearchComponent {
 
   accessGroup: { embossName: string; uci: string; maskedCard: string; isAdminUci: boolean; }[] = [];
   userInfo: { userId: string; accountStatus: string; userStatus: string; mail: string; mobileNo: string; registrationDate: string; lastLogin: string; } | null = null;
-
   constructor(private router: Router) {}
-
   onSearch(): void {
     this.uciError = ''; this.userIdError = '';
     const uci    = this.uciValue.trim();
     const userId = this.userIdValue.trim();
-
     if (!uci && !userId) {
       this.uciError = 'Please enter a UCI or User ID.';
       this.userIdError = 'Please enter a UCI or User ID.';
       return;
     }
-
     let matched = [...this.masterData];
-
     if (uci) {
       matched = matched.filter(r => r.uci.toLowerCase() === uci.toLowerCase());
       if (matched.length === 0) {
@@ -215,7 +197,6 @@ export class SuppSearchComponent {
         return;
       }
     }
-
     if (userId) {
       matched = matched.filter(r => r.userId.toLowerCase() === userId.toLowerCase());
       if (matched.length === 0) {
@@ -224,7 +205,6 @@ export class SuppSearchComponent {
         return;
       }
     }
-
     if (uci && userId) {
       const both = this.masterData.find(r =>
         r.uci.toLowerCase() === uci.toLowerCase() &&
@@ -238,19 +218,16 @@ export class SuppSearchComponent {
       }
       matched = [both];
     }
-
     const record     = matched[0];
     this.searched    = true;
     this.accessGroup = this.masterData.map(r => ({ embossName: r.embossName, uci: r.uci, maskedCard: r.maskedCard, isAdminUci: r.isAdminUci }));
     this.userInfo    = { userId: record.userId, accountStatus: record.accountStatus, userStatus: record.userStatus, mail: record.mail, mobileNo: record.mobileNo, registrationDate: record.registrationDate, lastLogin: record.lastLogin };
   }
-
   onReset(): void {
     this.uciValue = ''; this.userIdValue = ''; this.searched = false;
     this.accessGroup = []; this.userInfo = null;
     this.lockMessage = ''; this.uciError = ''; this.userIdError = '';
   }
-
   onLockUser(): void {
     if (this.userInfo) {
       if (this.userInfo.accountStatus === 'Locked') {
@@ -263,12 +240,10 @@ export class SuppSearchComponent {
       setTimeout(() => this.lockMessage = '', 4000);
     }
   }
-
   onDeleteUser(): void {
     this.searched = false; this.accessGroup = [];
     this.userInfo = null; this.lockMessage = '';
   }
-
   goToOffers(): void   { window.location.href = '/offers';   }
   goToBenefits(): void { window.location.href = '/offers/benefits'; }
 }

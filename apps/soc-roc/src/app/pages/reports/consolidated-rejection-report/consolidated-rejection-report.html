@@ -1,5 +1,4 @@
 <div class="rpt-container">
-
   <div class="rpt-row">
     <label class="rpt-label">From Date <span class="rpt-required">*</span></label>
     <input type="date" class="rpt-input rpt-input--date" [(ngModel)]="fromDate" />
@@ -8,29 +7,22 @@
     <label class="rpt-label">To Date <span class="rpt-required">*</span></label>
     <input type="date" class="rpt-input rpt-input--date" [(ngModel)]="toDate" />
   </div>
-
   <div class="rpt-btn-row">
     <button class="rpt-btn rpt-btn--action" (click)="onSearch()">View Report</button>
   </div>
-
   <div *ngIf="statusMessage" class="rpt-status" [class.rpt-status--error]="status === 'error'">
     {{ statusMessage }}
   </div>
-
   @if (showTable) {
-
     <div class="rpt-actions">
       <button class="rpt-btn rpt-btn--action" (click)="onPrint()">Print</button>
       <button class="rpt-btn" (click)="onExport()">Export</button>
     </div>
-
     <amex-sortable-filterable-table
       title="Consolidated Rejection Report"
       [columns]="columns"
       [rows]="records"
       (sortChange)="onSortChange($event)">
     </amex-sortable-filterable-table>
-
   }
-
 </div>

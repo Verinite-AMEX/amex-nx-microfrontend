@@ -20,7 +20,6 @@ interface Transaction {
 
     <div class="bta-page">
 
-      <!-- Account selector -->
       <div class="bta-panel">
         <div class="bta-panel-hd">Payment Allocation</div>
         <div class="bta-panel-bd">
@@ -46,7 +45,6 @@ interface Transaction {
         </div>
       </div>
 
-      <!-- Transaction list -->
       <div *ngIf="view" class="bta-panel" style="margin-top:12px;">
         <div class="bta-panel-hd">{{ view === 'unbilled' ? 'Unbilled' : 'Billed' }} Transactions — {{ selectedAccount }}</div>
         <div class="bta-panel-bd">
@@ -144,7 +142,6 @@ export class BtaPaymentAllocationComponent {
     return this.view === 'unbilled' ? this.unbilledTransactions : this.billedTransactions;
   }
 
-  // ── Open transaction list validation ──────────────────────────
   openView(type: string) {
     this.accountError = '';
 
@@ -158,7 +155,6 @@ export class BtaPaymentAllocationComponent {
     this.view = type;
   }
 
-  // ── Allocate validation ───────────────────────────────────────
   allocate() {
     this.allocationError = '';
     this.allocationSuccess = '';
@@ -175,7 +171,6 @@ export class BtaPaymentAllocationComponent {
     setTimeout(() => { this.allocationSuccess = ''; }, 3000);
   }
 
-  // ── Reset ─────────────────────────────────────────────────────
   resetView() {
     this.view = '';
     this.accountError = '';

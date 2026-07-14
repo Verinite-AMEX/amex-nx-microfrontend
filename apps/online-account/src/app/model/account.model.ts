@@ -30,8 +30,8 @@ export interface UserDetails {
   userStatus: string;
   email: string;
   mobileNo: string;
-  registrationDate: string; // can use Date if parsed
-  lastLogin: string; // can use Date if parsed
+  registrationDate: string;
+  lastLogin: string;
 }
 
 export interface SecretQuestion {

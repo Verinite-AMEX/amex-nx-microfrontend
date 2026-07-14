@@ -18,13 +18,11 @@ export class OmsMerchantService {
   private STORAGE_KEY =
     'oms_merchants';
 
-  // STATE
   private merchantsSubject =
     new BehaviorSubject<
       Merchant[]
     >([]);
 
-  // OBSERVABLE
   merchants$ =
     this.merchantsSubject
       .asObservable();
@@ -34,7 +32,6 @@ export class OmsMerchantService {
     this.loadMerchants();
   }
 
-  // LOAD FROM LOCAL STORAGE
   private loadMerchants() {
 
     const storedData =
@@ -59,7 +56,6 @@ export class OmsMerchantService {
     }
   }
 
-  // SAVE TO LOCAL STORAGE
   private saveMerchants(
     merchants: Merchant[]
   ) {
@@ -77,13 +73,11 @@ export class OmsMerchantService {
     );
   }
 
-  // GET MERCHANTS
   getMerchants() {
 
     return this.merchants$;
   }
 
-  // ADD MERCHANT
   addMerchant(
     merchantNo: string,
     ibanLast5Digits: string
@@ -92,7 +86,6 @@ export class OmsMerchantService {
     const currentMerchants =
       this.merchantsSubject.value;
 
-    // DUPLICATE CHECK
     const alreadyExists =
       currentMerchants.find(
         merchant =>
@@ -134,7 +127,6 @@ export class OmsMerchantService {
     return true;
   }
 
-  // DELETE MERCHANT
   deleteMerchant(
     merchantNo: string
   ) {
@@ -158,7 +150,6 @@ export class OmsMerchantService {
     );
   }
 
-  // CLEAR ALL
   clearMerchants() {
 
     localStorage.removeItem(

@@ -28,10 +28,7 @@ export class BcrbSidebarComponent {
 
   onMenuClick(id: string) {
     this.activeId = id;
-
-    // 🔥 send to parent
     this.menuChanged.emit(id);
-
     console.log('Selected Menu:', id);
   }
 }

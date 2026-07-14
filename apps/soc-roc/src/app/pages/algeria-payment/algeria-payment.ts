@@ -26,7 +26,6 @@ export class AlgeriaPayment implements OnInit {
   }
 
   onViewReport(data: any): void {
-    // TODO: Replace with AlgeriaPaymentService API call
     console.log('Algeria payment view report:', data);
     this.router.navigate(['payment-register']);
   }

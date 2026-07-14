@@ -1,10 +1,8 @@
-// ─── Cen LCY EXC Models ──────────────────────────────────────────────────────
-
 export interface CenCustomer {
   clientId:    string;
   name:        string;
-  cardNumber:  string;   // masked e.g. '3744XXXXXXX9008'
-  currency:    string;   // target billing currency e.g. 'Bahraini Dinar'
+  cardNumber:  string;
+  currency:    string;
 }
 
 export interface CenExcApplicationRequest {

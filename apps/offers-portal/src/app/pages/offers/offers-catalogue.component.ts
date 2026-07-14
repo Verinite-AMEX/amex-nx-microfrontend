@@ -19,10 +19,8 @@ import {
   template: `
     <div class="offers-page">
 
-      <!-- ════ OFFER DETAIL VIEW (image3 / image4 / image5) ════ -->
       <div *ngIf="selectedOffer" class="detail-view">
 
-        <!-- Overlay + success modal (image5) -->
         <div *ngIf="enrolledSuccess" class="success-overlay">
           <div class="success-modal">
             <p class="success-msg">Enrolled successfully</p>
@@ -30,21 +28,17 @@ import {
           </div>
         </div>
 
-        <!-- Prev / Next arrows -->
         <button class="nav-arrow nav-arrow-left"  (click)="prevOffer()">&#8249;</button>
         <button class="nav-arrow nav-arrow-right" (click)="nextOffer()">&#8250;</button>
 
-        <!-- Close X -->
         <button class="detail-close" (click)="selectedOffer=null">&#10005;</button>
 
-        <!-- Large offer image -->
         <div class="detail-img-wrap">
           <div class="detail-img" [style.background]="selectedOffer.imageUrl ? '' : selectedOffer['bg']">
             <span *ngIf="!selectedOffer.imageUrl" class="detail-img-label">AMERICAN EXPRESS</span>
           </div>
         </div>
 
-        <!-- Offer info row (image3/image4) -->
         <div class="detail-info">
           <div class="detail-left">
             <div class="detail-title">{{ selectedOffer.title }}</div>
@@ -68,14 +62,11 @@ import {
           </div>
         </div>
 
-        <!-- Footer -->
         <div class="detail-footer">Copyright &copy; 2009 American Express Company</div>
       </div>
 
-      <!-- ════ CATALOGUE VIEW (image6) ════ -->
       <div *ngIf="!selectedOffer">
 
-        <!-- Browse by Category — icon buttons matching document exactly -->
         <div class="browse-section">
           <div class="browse-title">Browse by Category</div>
           <div class="category-icons">
@@ -89,7 +80,6 @@ import {
           </div>
         </div>
 
-        <!-- Search bar with filter icon (document image6) -->
         <div class="search-bar-row">
           <div class="search-wrap">
             <span class="search-icon">&#128269;</span>
@@ -100,27 +90,22 @@ import {
           <span class="location-icon" title="Near me">&#128205;</span>
         </div>
 
-        <!-- Success toast -->
         <amex-success-toast *ngIf="successMsg" [message]="successMsg"
           portalStyle="onls" [autoDismiss]="true" [duration]="4000"
           (dismissed)="successMsg=''">
         </amex-success-toast>
 
-        <!-- Offers grid — cards with image, title, merchant, expiry, heart icon -->
         <div class="offers-grid" *ngIf="filteredOffers.length">
           <div *ngFor="let o of filteredOffers" class="offer-card" (click)="openDetail(o)">
-            <!-- Card image area -->
             <div class="offer-img" [style.background]="o['bg'] || '#006fcf'">
               <span class="offer-img-label">{{ o.merchant || 'AMERICAN EXPRESS' }}</span>
               <span *ngIf="o.enrolled" class="offer-enrolled-badge">Enrolled</span>
             </div>
-            <!-- Card body -->
             <div class="offer-body">
               <div class="offer-title">{{ o.title }}</div>
               <div class="offer-merchant" *ngIf="o.merchant">{{ o.merchant }}</div>
               <div class="offer-desc">{{ o.description }}</div>
             </div>
-            <!-- Card footer -->
             <div class="offer-footer">
               <span class="offer-expiry" *ngIf="o.validUntil">Expiring: {{ o.validUntil }}</span>
               <span class="offer-heart">&#9825;</span>
@@ -135,7 +120,6 @@ import {
 
     </div>
 
-    <!-- Confirmation modal -->
     <amex-confirmation-modal
       [visible]="showModal" portalStyle="onls"
       [message]="modalMsg" confirmLabel="OK" cancelLabel="Cancel"
@@ -144,8 +128,6 @@ import {
   `,
   styles: [`
     .offers-page  { font-family:Arial,sans-serif; background:#fff; min-height:100%; position:relative; }
-
-    /* ── CATALOGUE VIEW ── */
     .browse-section { padding:20px 20px 0; }
     .browse-title   { font-size:14px; color:#333; margin-bottom:14px; font-weight:normal; }
     .category-icons { display:flex; gap:0; flex-wrap:wrap; margin-bottom:16px; }
@@ -161,8 +143,6 @@ import {
       font-size:20px; margin-bottom:6px; transition:background .15s;
     }
     .cat-label { font-size:11px; color:#555; text-align:center; white-space:nowrap; }
-
-    /* Search bar — document image6 */
     .search-bar-row { display:flex; align-items:center; gap:10px; padding:0 20px 16px; }
     .search-wrap    {
       flex:1; display:flex; align-items:center; gap:8px;
@@ -174,7 +154,6 @@ import {
     .filter-icon, .location-icon { font-size:18px; color:#555; cursor:pointer; }
     .filter-icon:hover, .location-icon:hover { color:#006fcf; }
 
-    /* Offers grid */
     .offers-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); gap:16px; padding:0 20px 24px; }
     .offer-card  {
       border:1px solid #e8e8e8; border-radius:8px; overflow:hidden;
@@ -199,7 +178,6 @@ import {
     .offer-heart  { font-size:16px; color:#cc0000; cursor:pointer; }
     .no-offers    { padding:40px; text-align:center; color:#888; font-size:13px; }
 
-    /* ── DETAIL VIEW (image3/image4) ── */
     .detail-view   { position:relative; background:#fff; }
     .detail-close  {
       position:absolute; top:10px; right:10px; z-index:10;
@@ -241,7 +219,6 @@ import {
     .enroll-btn:hover { background:#0057a8; }
     .detail-footer { padding:12px 20px; text-align:right; font-size:11px; color:#888; border-top:1px solid #f0f0f0; }
 
-    /* Success overlay (image5) */
     .success-overlay {
       position:fixed; inset:0; background:rgba(0,0,0,.3);
       display:flex; align-items:center; justify-content:center; z-index:100;
@@ -262,8 +239,6 @@ export class OffersCatalogueComponent {
   selectedOffer: any = null;
   enrolledSuccess = false;
   pendingEnroll: any = null;
-
-  // Exact categories from document image6
   categories = [
     { id:'all',     label:'All',                   icon:'🌐' },
     { id:'fav',     label:'Favorites',             icon:'❤️' },
@@ -274,8 +249,6 @@ export class OffersCatalogueComponent {
     { id:'clinic',  label:'Clinic',                icon:'➕' },
     { id:'promo',   label:'Promotional Campaigns', icon:'🎁' },
   ];
-
-  // Offers matching document image6 style — cards with image placeholder + title + expiry
   offers: any[] = [
     {
       id:'O01', title:'DINING CASHBACK', merchant:'Dining Cashback',
@@ -357,7 +330,7 @@ export class OffersCatalogueComponent {
   confirmEnroll() {
     if (this.pendingEnroll) {
       this.pendingEnroll.enrolled = true;
-      this.enrolledSuccess = true;       // Show "Enrolled successfully" modal (image5)
+      this.enrolledSuccess = true;
       this.pendingEnroll = null;
     }
     this.showModal = false;

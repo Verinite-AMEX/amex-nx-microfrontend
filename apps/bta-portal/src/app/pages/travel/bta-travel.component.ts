@@ -30,7 +30,6 @@ interface TravelRequest {
         </button>
       </div>
 
-      <!-- New Request Form -->
       <div class="card" *ngIf="showNewForm" style="margin-bottom:24px;">
         <div class="card-header">New Travel Request</div>
         <div class="card-body">
@@ -103,13 +102,11 @@ interface TravelRequest {
             <button class="btn-secondary" (click)="cancelForm()">Cancel</button>
           </div>
 
-          <!-- Success message -->
           <div *ngIf="successMsg" class="success-msg">{{ successMsg }}</div>
 
         </div>
       </div>
 
-      <!-- Filters -->
       <div class="card" style="margin-bottom:20px;">
         <div class="card-body" style="padding:14px 20px;">
           <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
@@ -123,7 +120,6 @@ interface TravelRequest {
         </div>
       </div>
 
-      <!-- Table -->
       <div class="card">
         <div class="card-header">
           Travel Requests

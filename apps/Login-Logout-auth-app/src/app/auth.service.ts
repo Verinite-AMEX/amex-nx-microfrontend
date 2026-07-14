@@ -30,7 +30,7 @@ export interface ForgotPasswordResponse {
   message: string;
 }
 
-const API_BASE = 'http://localhost:8080/api/auth'; // update host/port to match your gateway
+const API_BASE = 'http://localhost:8080/api/auth';
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -71,7 +71,7 @@ export class AuthService {
       const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
       this.http.post(`${API_BASE}/logout`, {}, { headers }).subscribe({
         next: () => this.completeLogout(),
-        error: () => this.completeLogout(), // clear local session even if server call fails
+        error: () => this.completeLogout(),
       });
     } else {
       this.completeLogout();

@@ -38,9 +38,7 @@ import { environment } from '../../environments/environment';
     `,
 })
 export class WearablesShellWrapperComponent implements OnInit {
-
   isShellHosted: boolean;
-
   constructor(
     @Optional() @Inject(SHELL_HOSTED) shellHosted: boolean,
     private readonly authService: WearablesAuthService,
@@ -48,40 +46,34 @@ export class WearablesShellWrapperComponent implements OnInit {
   ) {
     this.isShellHosted = !!shellHosted;
   }
-
 ngOnInit(): void {
   effect(() => {
     const authed = this.authService.authenticated();
     if (!authed) {
-      // '/login' works in both standalone (4206) and shell-hosted (4200)
-      // because window.location.origin is auto-prepended by the browser
       const returnUrl = encodeURIComponent(window.location.pathname);
       window.location.href = `/login?returnUrl=${returnUrl}`;
     }
   }, { injector: this.injector });
 }
-
   get healthCheckUrl(): string {
     return this.isShellHosted
       ? ''
       : `${environment.apiGatewayUrl}/actuator/health`;
   }
-
   get shellConfig(): AmexPortalLayoutConfig {
     if (this.isShellHosted) {
       return {
         header:  { visible: false },
         footer:  { visible: false },
-        sidebar: { visible: false }, // ✅ correct — shell has its own sidebar
+        sidebar: { visible: false },
       };
     }
     return {
       header:  { visible: true },
       footer:  { visible: true, text: '© American Express. All rights reserved.' },
-      sidebar: { visible: true },   // ✅ standalone needs its own sidebar
+      sidebar: { visible: true },
     };
   }
-
   tabs: AmexTabItem[] = [
     { id: 'bta',      label: 'BTA'                        },
     { id: 'account',  label: 'Online Account Services'     },
@@ -90,7 +82,6 @@ ngOnInit(): void {
     { id: 'benefits', label: 'Benefits'                    },
     { id: 'misc',     label: 'Misc'                        },
   ];
-
   miscSubItems: AmexTabItem[] = [
     { id: 'pay-with-points', label: 'Select & Pay With Points'  },
     { id: 'digital-wallet',  label: 'Digital Wallet'            },
@@ -101,18 +92,10 @@ ngOnInit(): void {
     { id: 'valueback',       label: 'ValueBack'                 },
     { id: 'pccm-ftp',        label: 'Pccm Ftp Sequence Number'  },
   ];
-
   onTabClick(_id: string): void {}
   onSubClick(_id: string): void {}
 
   onLogout(): void {
-    // AmexPageComponent already calls authAdapter.logout() internally
-    // (AMEX_PORTAL_AUTH_ADAPTER -> useExisting: WearablesAuthService)
-    // before emitting this (logout) event — don't call authService.logout()
-    // again here, and don't manually redirect either. The effect() in
-    // ngOnInit watches the auth signal and handles the redirect for both
-    // shell-hosted (-> shell login) and standalone (-> shell login at 4200)
-    // the moment authenticated() flips to false.
   }
 
   onHealthCheck(status: AmexPortalHealthStatus): void {

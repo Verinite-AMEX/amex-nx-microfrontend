@@ -29,7 +29,7 @@ export class NxWelcome {
     if (tabId === 'bureau') {
       this.showDashboard = true;
     } else {
-      this.showDashboard = false; // optional (you can remove if you want it to stay once opened)
+      this.showDashboard = false;
     }
   }
 
