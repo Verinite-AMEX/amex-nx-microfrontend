@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { socRocAuthGuard } from '../core/guards/soc-roc-auth.guard'; 
+import { authGuard } from '@amex/shared-services';
 import { Dashboard } from '../pages/dashboard/dashboard.component';
 import { CountryMaster } from '../pages/masters/country-master/country-master.component';
 import { CurrencyMaster } from '../pages/masters/currency-master/currency-master.component';
@@ -13,17 +13,16 @@ import { DetailsByCurrency } from '../pages/reports/details-by-currency/details-
 
 export const remoteRoutes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  // NEW — canActivate added to every route below, matching app.routes.ts
-  { path: 'dashboard', component: Dashboard, canActivate: [socRocAuthGuard] },
-  { path: 'masters/country-master', component: CountryMaster, canActivate: [socRocAuthGuard] },
-  { path: 'masters/currency-master', component: CurrencyMaster, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/file-formation-upload', component: FileFormationUpload, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/extract-rejected-items', component: ExtractRejectedItems, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/retrieval-old-records', component: RetrievalOldRecords, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/download-soc-roc-excel', component: DownloadSocRocExcel, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/download-multiple-se', component: DownloadMultipleSe, canActivate: [socRocAuthGuard] },
-  { path: 'utilities/capture-multiple-se', component: CaptureMultipleSe, canActivate: [socRocAuthGuard] },
-  { path: 'reports/details-by-currency', component: DetailsByCurrency, canActivate: [socRocAuthGuard] },
+  { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+  { path: 'masters/country-master', component: CountryMaster, canActivate: [authGuard] },
+  { path: 'masters/currency-master', component: CurrencyMaster, canActivate: [authGuard] },
+  { path: 'utilities/file-formation-upload', component: FileFormationUpload, canActivate: [authGuard] },
+  { path: 'utilities/extract-rejected-items', component: ExtractRejectedItems, canActivate: [authGuard] },
+  { path: 'utilities/retrieval-old-records', component: RetrievalOldRecords, canActivate: [authGuard] },
+  { path: 'utilities/download-soc-roc-excel', component: DownloadSocRocExcel, canActivate: [authGuard] },
+  { path: 'utilities/download-multiple-se', component: DownloadMultipleSe, canActivate: [authGuard] },
+  { path: 'utilities/capture-multiple-se', component: CaptureMultipleSe, canActivate: [authGuard] },
+  { path: 'reports/details-by-currency', component: DetailsByCurrency, canActivate: [authGuard] },
 ];
 
 export default remoteRoutes;
