@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { AmexDashboardMenuBarComponent } from '@ui-components/ui';
-
+import { AmexDashboardMenuBarComponent } from '@vn-core-ui-components/ui';
 import { Contentbox } from '../content/contentbox';
 import { CentralStatement } from '../centralstatement/central-statement';
 

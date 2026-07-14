@@ -303,12 +303,6 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (url.startsWith("/vat-invoice")) {
-      this.activeTabId = "vat-invoice";
-      this.activeSubId = "";
-      return;
-    }
-
     for (const [subId, route] of Object.entries(this.subRouteMap)) {
       if (url.startsWith(route)) {
         this.activeTabId = "misc";

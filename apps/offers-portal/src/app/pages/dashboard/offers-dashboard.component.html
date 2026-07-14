@@ -1,0 +1,117 @@
+<amex-page-header portalStyle="onls" title="AEME OFFERS & BENEFITS — DASHBOARD">
+</amex-page-header>
+
+<amex-breadcrumb-trail [items]="breadcrumbs" (itemClick)="onBreadcrumb($event)">
+</amex-breadcrumb-trail>
+
+<div class="page-body">
+  <amex-success-toast
+    *ngIf="toastMsg"
+    [message]="toastMsg"
+    portalStyle="onls"
+    [autoDismiss]="true"
+    [duration]="4000"
+    (dismissed)="toastMsg = ''"
+  >
+  </amex-success-toast>
+
+  <div class="kpi-row">
+    <div class="kpi-card">
+      <amex-points-display [points]="48" label="Active Offers">
+      </amex-points-display>
+
+      <div class="kpi-sub">Across 6 categories</div>
+    </div>
+
+    <div class="kpi-card">
+      <amex-points-display [points]="142000" label="Points Earned MTD">
+      </amex-points-display>
+
+      <div class="kpi-sub">Membership Rewards®</div>
+    </div>
+
+    <div class="kpi-card">
+      <amex-points-display [points]="2841" label="Offers Redeemed">
+      </amex-points-display>
+
+      <div class="kpi-sub">↑ 18% vs last month</div>
+    </div>
+
+    <div class="kpi-card">
+      <amex-points-display [points]="6" label="Expiring This Week">
+      </amex-points-display>
+
+      <div class="kpi-sub">Action required</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <div class="panel">
+      <div class="panel-hd">
+        <span>Featured Offers</span>
+
+        <button class="link-btn" (click)="router.navigate(['/offers/offers'])">
+          View All →
+        </button>
+      </div>
+
+      <div class="panel-bd offer-list">
+        <amex-offer-card
+          *ngFor="let offer of featuredOffers"
+          [offer]="offer"
+          (enroll)="onEnroll($event)"
+          (unenroll)="onUnenroll($event)"
+        >
+        </amex-offer-card>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-hd">
+        <span>Card Benefits Spotlight</span>
+
+        <button
+          class="link-btn"
+          (click)="router.navigate(['/offers/benefits'])"
+        >
+          All Benefits →
+        </button>
+      </div>
+
+      <div class="panel-bd">
+        <div class="benefit-row" *ngFor="let benefit of spotlightBenefits">
+          <div class="benefit-icon" [style.background]="benefit.bg">
+            {{ benefit.icon }}
+          </div>
+
+          <div class="benefit-info">
+            <div class="benefit-name">
+              {{ benefit.title }}
+            </div>
+
+            <div class="benefit-desc">
+              {{ benefit.desc }}
+            </div>
+          </div>
+
+          <amex-status-badge
+            [status]="benefit.status"
+            [label]="benefit.statusLabel"
+          >
+          </amex-status-badge>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<amex-confirmation-modal
+  [visible]="showModal"
+  portalStyle="onls"
+  [message]="modalMsg"
+  confirmLabel="OK"
+  cancelLabel="Cancel"
+  (confirm)="confirmEnroll()"
+  (cancel)="showModal = false"
+>
+</amex-confirmation-modal>

@@ -1,0 +1,108 @@
+<div class="benefits-page">
+
+  <div class="card-hero">
+    <div class="amex-card">
+
+      <div class="card-top">
+
+        <div class="card-logo">
+          <div class="card-logo-sq">
+            <span class="card-am">AMERICAN</span>
+            <span class="card-ex">EXPRESS</span>
+          </div>
+        </div>
+
+        <div class="card-nfc">
+          &#9003;
+        </div>
+
+      </div>
+
+      <div class="card-chip"></div>
+
+      <div class="card-number">
+        TESTAUTO ●●●● 1100
+      </div>
+
+    </div>
+  </div>
+
+  <amex-success-toast
+    *ngIf="successMsg"
+    [message]="successMsg"
+    portalStyle="onls"
+    [autoDismiss]="true"
+    [duration]="4000"
+    (dismissed)="successMsg=''">
+  </amex-success-toast>
+
+  <div class="benefits-section">
+
+    <h3 class="benefits-heading">
+      Manage My Benefits
+    </h3>
+
+    <div class="benefits-grid">
+
+      <div
+        class="benefit-card"
+        *ngFor="let benefit of benefits">
+
+        <div
+          class="benefit-img"
+          [style.background]="benefit.bg">
+
+          <span class="benefit-img-lbl">
+            AMERICAN EXPRESS
+          </span>
+
+        </div>
+
+        <div class="benefit-body">
+
+          <div class="benefit-title">
+            {{ benefit.title }}
+          </div>
+
+          <div class="benefit-desc">
+            {{ benefit.description }}
+          </div>
+
+          <div class="benefit-action">
+
+            <span
+              *ngIf="benefit.enrolled"
+              class="enrolled-badge">
+
+              <span class="tick">
+                ✓
+              </span>
+
+              Enrolled
+
+            </span>
+
+            <button
+              *ngIf="!benefit.enrolled"
+              class="enroll-btn"
+              (click)="enroll(benefit)">
+
+              Enroll
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="page-footer">
+    Copyright © 2009 American Express Company
+  </div>
+
+</div>

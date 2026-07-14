@@ -1,0 +1,200 @@
+<div class="offers-page">
+
+  <div *ngIf="selectedOffer" class="detail-view">
+    <div *ngIf="enrolledSuccess" class="success-overlay">
+      <div class="success-modal">
+        <p class="success-msg">Enrolled successfully</p>
+        <button class="enroll-btn" (click)="enrolledSuccess = false">
+          Close
+        </button>
+      </div>
+    </div>
+
+    <button class="nav-arrow nav-arrow-left" (click)="prevOffer()">
+      &#8249;
+    </button>
+
+    <button class="nav-arrow nav-arrow-right" (click)="nextOffer()">
+      &#8250;
+    </button>
+
+    <!-- Close -->
+    <button class="detail-close" (click)="selectedOffer = null">
+      &#10005;
+    </button>
+
+    <!-- Offer Image -->
+    <div class="detail-img-wrap">
+      <div
+        class="detail-img"
+        [style.background]="selectedOffer.imageUrl ? '' : selectedOffer.bg"
+      >
+        <span *ngIf="!selectedOffer.imageUrl" class="detail-img-label">
+          AMERICAN EXPRESS
+        </span>
+      </div>
+    </div>
+
+    <div class="detail-info">
+      <div class="detail-left">
+        <h2 class="detail-title">
+          {{ selectedOffer.title }}
+        </h2>
+
+        <div
+          class="detail-status"
+          [class.enrolled]="selectedOffer.enrolled"
+          [class.not-enrolled]="!selectedOffer.enrolled"
+        >
+          {{ selectedOffer.enrolled ? "Enrolled" : "Not Enrolled" }}
+        </div>
+
+        <div class="detail-desc-row">
+          <span class="detail-label"> Description: </span>
+
+          <span class="detail-desc">
+            {{ selectedOffer.description }}
+          </span>
+        </div>
+      </div>
+
+      <div class="detail-right">
+        <button
+          *ngIf="!selectedOffer.enrolled"
+          class="enroll-btn"
+          (click)="enrollOffer(selectedOffer)"
+        >
+          Enroll
+        </button>
+
+        <div *ngIf="selectedOffer.terms" class="detail-tc">
+          <span class="detail-label"> Terms &amp; Conditions </span>
+
+          <span class="tc-text">
+            {{ selectedOffer.terms }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div class="detail-footer">
+      Copyright &copy; 2009 American Express Company
+    </div>
+  </div>
+
+  <!-- Catalogue View -->
+  <div *ngIf="!selectedOffer">
+    <!-- Browse By Category -->
+    <section class="browse-section">
+      <h3 class="browse-title">Browse by Category</h3>
+
+      <div class="category-icons">
+        <div
+          *ngFor="let cat of categories"
+          class="cat-icon-btn"
+          [class.active]="activeCategory === cat.id"
+          (click)="activeCategory = cat.id"
+        >
+          <div class="cat-icon">
+            {{ cat.icon }}
+          </div>
+
+          <div class="cat-label">
+            {{ cat.label }}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Search -->
+    <div class="search-bar-row">
+      <div class="search-wrap">
+        <span class="search-icon"> &#128269; </span>
+
+        <input
+          class="search-input"
+          type="text"
+          [(ngModel)]="searchTerm"
+          placeholder="Search Offers"
+        />
+
+        <button
+          *ngIf="searchTerm"
+          class="search-clear"
+          (click)="searchTerm = ''"
+        >
+          &#10005;
+        </button>
+      </div>
+
+      <span class="filter-icon" title="Filter"> &#9874; </span>
+
+      <span class="location-icon" title="Near me"> &#128205; </span>
+    </div>
+
+    <amex-success-toast
+      *ngIf="successMsg"
+      [message]="successMsg"
+      portalStyle="onls"
+      [autoDismiss]="true"
+      [duration]="4000"
+      (dismissed)="successMsg = ''"
+    >
+    </amex-success-toast>
+
+    <div *ngIf="filteredOffers.length" class="offers-grid">
+      <div
+        *ngFor="let offer of filteredOffers"
+        class="offer-card"
+        (click)="openDetail(offer)"
+      >
+        <div class="offer-img" [style.background]="offer.bg || '#006fcf'">
+          <span class="offer-img-label">
+            {{ offer.merchant || "AMERICAN EXPRESS" }}
+          </span>
+
+          <span *ngIf="offer.enrolled" class="offer-enrolled-badge">
+            Enrolled
+          </span>
+        </div>
+
+        <div class="offer-body">
+          <h4 class="offer-title">
+            {{ offer.title }}
+          </h4>
+
+          <div *ngIf="offer.merchant" class="offer-merchant">
+            {{ offer.merchant }}
+          </div>
+
+          <p class="offer-desc">
+            {{ offer.description }}
+          </p>
+        </div>
+
+        <div class="offer-footer">
+          <span *ngIf="offer.expiryDate" class="offer-expiry">
+            Expiring: {{ offer.expiryDate }}
+          </span>
+
+          <span class="offer-heart"> &#9825; </span>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!filteredOffers.length" class="no-offers">
+      No offers available in this category.
+    </div>
+  </div>
+</div>
+
+<amex-confirmation-modal
+  [visible]="showModal"
+  portalStyle="onls"
+  [message]="modalMsg"
+  confirmLabel="OK"
+  cancelLabel="Cancel"
+  (confirm)="confirmEnroll()"
+  (cancel)="showModal = false"
+>
+</amex-confirmation-modal>

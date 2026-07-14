@@ -1,0 +1,7 @@
+<div class="load-page">
+  <h3>Load Client Data</h3>
+  <input type="file" (change)="onFileChange($event)" />
+  <button (click)="onSubmit()" class="submit-btn">Submit</button>
+  <div class="success-msg" *ngIf="successMessage">{{ successMessage }}</div>
+  <div class="error-msg"   *ngIf="errorMessage">{{ errorMessage }}</div>
+</div>

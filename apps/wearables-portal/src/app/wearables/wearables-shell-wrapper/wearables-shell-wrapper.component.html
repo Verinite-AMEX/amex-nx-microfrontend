@@ -1,0 +1,15 @@
+<amex-page-component
+  portalStyle="onls"
+  portalTitle="ONLS Helper Tool"
+  [config]="shellConfig"
+  [requireAuth]="!isShellHosted"
+  loginRedirectUrl="/login"
+  [healthCheckUrl]="healthCheckUrl"
+  [showHealthStatus]="!isShellHosted"
+  (tabClick)="onTabClick($event)"
+  (subClick)="onSubClick($event)"
+  (logout)="onLogout()"
+  (healthCheck)="onHealthCheck($event)"
+>
+  <app-wearables></app-wearables>
+</amex-page-component>

@@ -1,0 +1,382 @@
+<div class="wp">
+  <div class="wp__status-bar" *ngIf="backendStatus !== 'online'">
+    <span
+      class="wp__status-dot"
+      [class.wp__status-dot--checking]="backendStatus === 'checking'"
+      [class.wp__status-dot--offline]="backendStatus === 'offline'"
+    ></span>
+    <span
+      *ngIf="backendStatus === 'checking'"
+      class="wp__status-msg wp__status-msg--checking"
+    >
+      Connecting to backend…
+    </span>
+    <span
+      *ngIf="backendStatus === 'offline'"
+      class="wp__status-msg wp__status-msg--offline"
+    >
+      Backend unavailable — showing demo data
+    </span>
+  </div>
+
+  <ng-container *ngIf="step === 'search' || step === 'cards'">
+    <div class="wp__section">
+      <div class="wp__title">Enter Client Number</div>
+      <div class="wp__divider"></div>
+      <div class="wp__input-row">
+        <input
+          class="wp__input"
+          [(ngModel)]="clientCode"
+          placeholder="eg. 12345"
+          (keyup.enter)="onEnterClient()"
+        />
+        <button
+          class="wp__enter-btn"
+          [class.wp__enter-btn--filled]="clientCode.trim()"
+          (click)="onEnterClient()"
+        >
+          Enter
+        </button>
+      </div>
+    </div>
+
+    <ng-container *ngIf="step === 'cards'">
+      <!-- Member name row -->
+      <div class="wp__member-row" *ngIf="memberName">
+        <span class="wp__member-label">Member</span>
+        <span class="wp__member-name">{{ memberName }}</span>
+        <span class="wp__mock-badge" *ngIf="usingMockData">Demo</span>
+      </div>
+
+      <div class="wp__section">
+        <div class="wp__title">Please Select Basic Card</div>
+        <div class="wp__divider"></div>
+        <select class="wp__select" [(ngModel)]="selectedCard">
+          <option [ngValue]="null" disabled>-- Select a Card --</option>
+          <option *ngFor="let c of cards" [ngValue]="c">
+            {{ c.cardNumber }} - {{ c.cardType }}
+          </option>
+        </select>
+      </div>
+
+      <div class="wp__section" *ngIf="selectedCard">
+        <div class="wp__title">Card Selection</div>
+        <div class="wp__divider"></div>
+        <div class="wp__card-art-row">
+          <div class="wp__card-art">
+            <div class="wp__card-logo-box">
+              <span class="wp__card-logo-am">AMERICAN</span>
+              <span class="wp__card-logo-ex">EXPRESS</span>
+            </div>
+            <div class="wp__card-art__number">
+              {{ selectedCard.cardNumber }}
+            </div>
+            <div class="wp__card-art__type">{{ selectedCard.cardType }}</div>
+          </div>
+          <div class="wp__card-masked">{{ selectedCard.cardNumber }}</div>
+        </div>
+      </div>
+
+      <div class="wp__apply-row">
+        <span class="wp__apply-text">Want to apply for a new wearable?</span>
+        <button class="wp__apply-btn" (click)="onApply()">Apply</button>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <ng-container *ngIf="step === 'issue'">
+    <div class="wp__section">
+      <div class="wp__title">Select Amex Wearable</div>
+      <div class="wp__divider"></div>
+    </div>
+
+    <!-- Type icon tabs -->
+    <div class="wp__type-tabs">
+      <div
+        *ngFor="let t of wearableTypes"
+        class="wp__type-tab"
+        [class.wp__type-tab--active]="selectedWearableType === t.id"
+        (click)="selectType(t.id)"
+      >
+        <div class="wp__type-icon" [innerHTML]="t.svg"></div>
+        <span class="wp__type-label">{{ t.label }}</span>
+      </div>
+    </div>
+
+    <div
+      class="wp__issue-layout"
+      [class.wp__issue-layout--split]="issueView !== 'select'"
+    >
+      <!-- LEFT: Product card -->
+      <div class="wp__product-card" *ngIf="currentProduct">
+        <div class="wp__product-card__top">
+          <span class="wp__product-link">
+            The American Express {{ selectedCard?.cardType }} Credit Card
+            &ndash; Card Ending {{ selectedCard?.cardNumber | slice: -4 }}
+          </span>
+          <button class="wp__faq-btn" title="FAQ">
+            <span>?</span>
+            <span class="wp__faq-label">FAQ</span>
+          </button>
+        </div>
+
+        <div class="wp__product-name">{{ currentProduct.name }}</div>
+
+        <!-- Carousel -->
+        <div class="wp__carousel">
+          <button
+            class="wp__carousel-arrow"
+            (click)="prevProduct()"
+            [disabled]="selectedWearableIndex === 0"
+          >
+            &#8592;
+          </button>
+
+          <div class="wp__product-img-area">
+            <div class="wp__product-img-shell">
+              <img
+                *ngIf="selectedWearableType === 'Watch'"
+                src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw46845574/images/Titan/Catalog/2649WL04_3.jpg?sw=600&sh=600"
+                alt="Amex Leather Watch"
+                class="wp__product-img"
+              />
+              <img
+                *ngIf="selectedWearableType === 'band'"
+                src="https://i.dailymail.co.uk/i/pix/2014/09/16/1410878725038_wps_7_Black_jpg.jpg"
+                alt="Amex Sport Band"
+                class="wp__product-img"
+              />
+              <img
+                *ngIf="selectedWearableType === 'ring'"
+                src="https://th.bing.com/th/id/OIP.0-DKtEkXttYBSqhPb0ParQHaHa?w=192&h=192&c=7&r=0&o=7&pid=1.7&rm=3"
+                alt="Amex Ring"
+                class="wp__product-img"
+              />
+            </div>
+          </div>
+
+          <button
+            class="wp__carousel-arrow"
+            (click)="nextProduct()"
+            [disabled]="selectedWearableIndex >= currentProducts.length - 1"
+          >
+            &#8594;
+          </button>
+        </div>
+
+        <div class="wp__dots">
+          <span
+            *ngFor="let p of currentProducts; let i = index"
+            class="wp__dot"
+            [class.wp__dot--active]="i === selectedWearableIndex"
+            (click)="selectedWearableIndex = i; selectedColorIndex = 0"
+          ></span>
+        </div>
+
+        <div class="wp__attr-row">
+          <span class="wp__attr-label">Select Color</span>
+          <div class="wp__color-swatches">
+            <div
+              *ngFor="let c of currentProduct.colors; let i = index"
+              class="wp__color-dot"
+              [class.wp__color-dot--active]="selectedColorIndex === i"
+              [style.background]="c.hex"
+              (click)="selectedColorIndex = i"
+              [title]="c.label"
+            ></div>
+          </div>
+        </div>
+        <div class="wp__attr-row">
+          <span class="wp__attr-label">Wearable Name</span>
+          <input
+            class="wp__name-input"
+            [(ngModel)]="wearableName"
+            maxlength="20"
+          />
+        </div>
+
+        <div class="wp__action-btns">
+          <button class="wp__create-btn" (click)="onCreateWearable()">
+            Create My Amex Wearable
+          </button>
+          <button class="wp__goback-btn" (click)="step = 'cards'">
+            Go Back
+          </button>
+        </div>
+      </div>
+
+      <div class="wp__right-panel" *ngIf="issueView !== 'select'">
+        <!-- Review -->
+        <ng-container *ngIf="issueView === 'review'">
+          <div class="wp__right-inner">
+            <div class="wp__rp-title">My Amex Wearable</div>
+            <div class="wp__rp-card-link">
+              The American Express {{ selectedCard?.cardType }} Credit Card
+              &ndash; Card Ending {{ selectedCard?.cardNumber | slice: -4 }}
+            </div>
+
+            <table class="wp__rp-table">
+              <tr>
+                <td class="wp__rp-label">Wearable Type</td>
+                <td class="wp__rp-value">{{ currentProduct?.type }}</td>
+              </tr>
+              <tr>
+                <td class="wp__rp-label">Color Selected</td>
+                <td class="wp__rp-value">
+                  <div
+                    class="wp__rp-color-swatch"
+                    [style.background]="currentSelectedColor.hex"
+                  ></div>
+                </td>
+              </tr>
+              <tr>
+                <td class="wp__rp-label">Wearable Name</td>
+                <td class="wp__rp-value wp__rp-value--blue">
+                  {{ wearableName }}
+                </td>
+              </tr>
+            </table>
+
+            <div class="wp__rp-thumb-row">
+              <div class="wp__rp-thumb">
+                <img
+                  *ngIf="selectedWearableType === 'Watch'"
+                  src="https://images.unsplash.com/photo-1573408301185-9519f94977f1?auto=format&w=120&q=80"
+                  alt="Watch thumbnail"
+                  class="wp__rp-thumb-img"
+                />
+                <img
+                  *ngIf="selectedWearableType === 'band'"
+                  src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&w=120&q=80"
+                  alt="Band thumbnail"
+                  class="wp__rp-thumb-img"
+                />
+                <ng-container *ngIf="selectedWearableType === 'ring'">
+                  <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
+                    <ellipse
+                      cx="60"
+                      cy="50"
+                      rx="38"
+                      ry="38"
+                      [attr.fill]="currentSelectedColor.hex"
+                      stroke="#888"
+                      stroke-width="1"
+                    />
+                    <ellipse cx="60" cy="50" rx="22" ry="22" fill="#f5f5f5" />
+                  </svg>
+                </ng-container>
+              </div>
+            </div>
+
+            <p class="wp__rp-notice">
+              Please make sure you are happy with your selection before
+              submitting. Your Wearable selection cannot be edited after
+              submission.
+            </p>
+
+            <div class="wp__rp-tc-row">
+              <input type="checkbox" id="rp-tc" [(ngModel)]="tcAccepted" />
+              <label for="rp-tc"
+                ><span class="wp__rp-tc-link"
+                  >Terms &amp; Conditions apply</span
+                ></label
+              >
+            </div>
+
+            <button
+              class="wp__rp-submit-btn"
+              [disabled]="!tcAccepted || submitting"
+              (click)="onSubmit()"
+            >
+              {{ submitting ? "Submitting..." : "Submit" }}
+            </button>
+          </div>
+        </ng-container>
+
+        <ng-container *ngIf="issueView === 'success'">
+          <div class="wp__right-inner wp__right-inner--success">
+            <div class="wp__success-icon">
+              <svg
+                viewBox="0 0 72 72"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <circle
+                  cx="36"
+                  cy="36"
+                  r="33"
+                  stroke="#4CAF50"
+                  stroke-width="3"
+                />
+                <path
+                  d="M21 36 L31 46 L51 26"
+                  stroke="#4CAF50"
+                  stroke-width="3.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
+              </svg>
+            </div>
+            <div class="wp__success-text">Wearable requested successfully</div>
+            <!-- FIX: step=done was unreachable before — this button connects it -->
+            <button class="wp__view-summary-btn" (click)="step = 'done'">
+              View Summary
+            </button>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="step === 'done' && issuedDevice">
+    <div class="wp__section">
+      <div class="wp__title">Enter Client Number</div>
+      <div class="wp__divider"></div>
+      <div class="wp__input-row">
+        <input class="wp__input" [(ngModel)]="clientCode" />
+        <button
+          class="wp__enter-btn wp__enter-btn--filled"
+          (click)="onEnterClient()"
+        >
+          Enter
+        </button>
+      </div>
+    </div>
+
+    <div class="wp__summary">
+      <div class="wp__summary-title">YOUR AMEX WEARABLES</div>
+      <table class="wp__summary-table">
+        <tr>
+          <td class="wp__sl">Selected Card UCI</td>
+          <td class="wp__sv">{{ issuedDevice.selectedCardUci }}</td>
+        </tr>
+        <tr>
+          <td class="wp__sl">Wearable UCI</td>
+          <td class="wp__sv">{{ issuedDevice.wearableUci }}</td>
+        </tr>
+        <tr>
+          <td class="wp__sl">Wearable Type</td>
+          <td class="wp__sv">{{ issuedDevice.wearableType }}</td>
+        </tr>
+        <tr>
+          <td class="wp__sl">Color Selected</td>
+          <td class="wp__sv">{{ issuedDevice.colorSelected }}</td>
+        </tr>
+        <tr>
+          <td class="wp__sl">Wearable Name</td>
+          <td class="wp__sv">{{ issuedDevice.wearableName }}</td>
+        </tr>
+        <tr>
+          <td class="wp__sl">Order Date</td>
+          <td class="wp__sv">{{ issuedDevice.orderDate }}</td>
+        </tr>
+      </table>
+    </div>
+
+    <div style="padding: 12px 0">
+      <button class="wp__back-link" (click)="reset()">
+        Search Another Client
+      </button>
+    </div>
+  </ng-container>
+</div>

@@ -1,1 +1,12 @@
-/* Styles handled entirely by vn-core amex-login-form and amex-register-form */
+:host {
+  display: block;
+  width: 100%;
+  min-height: 100vh;
+  background: #f5f7fa;
+  font-family: Arial, sans-serif;
+}
+
+amex-login-form,
+amex-register-form {
+  display: block;
+}

@@ -1,0 +1,49 @@
+<ng-container *ngIf="view === 'form'">
+  <div class="pwp-page-header">Pay with Points - Agent Portal</div>
+
+  <div class="pwp-form-section">
+    <div class="pwp-form-row">
+      <label class="pwp-label">
+        Enter Client Code
+        <span class="pwp-required">*</span>
+      </label>
+
+      <input
+        class="pwp-input"
+        type="text"
+        [(ngModel)]="clientCode"
+        placeholder="e.g. 20473521"
+        (keyup.enter)="onSubmit()"
+      />
+
+      <button class="pwp-submit-btn" (click)="onSubmit()">SUBMIT</button>
+    </div>
+
+    <div class="pwp-form-error" *ngIf="formError">
+      {{ formError }}
+    </div>
+  </div>
+
+  <div class="pwp-footer">Copyright © 2009 American Express Company</div>
+</ng-container>
+
+<ng-container *ngIf="view === 'select'">
+  <div class="pwp-body">
+    <amex-eligible-transactions-table
+      pageTitle="SELECT & PAY WITH POINTS"
+      [cards]="cardOptions"
+      [eligibleRows]="eligibleRows"
+      [historyRows]="historyRows"
+      [pointsBalance]="pointsBalance?.toLocaleString() ?? ''"
+      [aedValue]="aedEquivalent.toFixed(2)"
+      [totalCredit]="totalCredit"
+      [totalPointsRedeemed]="totalPointsRedeemed"
+      [errorMessage]="errorMessage"
+      (cardChange)="onCardSelected($event)"
+      (redeemClick)="onRedeemClick($event)"
+    >
+    </amex-eligible-transactions-table>
+  </div>
+
+  <div class="pwp-footer">Copyright © 2009 American Express Company</div>
+</ng-container>

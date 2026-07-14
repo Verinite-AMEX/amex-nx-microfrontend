@@ -154,10 +154,8 @@ export class AppComponent implements OnInit {
   ];
   constructor(
     private router: Router,
-  private secureForm: SecureFormService,
-private auth: SocRocAuthService,) {}
-
-  ngOnInit(): void {
+    private secureForm: SecureFormService) {}
+    ngOnInit(): void {
     this.secureForm.enable();
     this.checkRoute(this.router.url);
     this.router.events
