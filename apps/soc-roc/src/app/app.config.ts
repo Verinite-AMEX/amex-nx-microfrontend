@@ -14,6 +14,7 @@ import {
 } from '@amex/shared-services';
 
 import { routes } from './app.routes';
+import { environment } from '../environments/environment';
 
 /**
  * Runs once, before the router does its first navigation.
@@ -31,8 +32,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(),
     provideRouter(routes),
 
-    // TODO: move to environment.ts once soc-roc has one — hardcoded for now
-    { provide: API_BASE_URL, useValue: 'http://localhost:8080' },
+    { provide: API_BASE_URL, useValue: environment.apiBaseUrl },
 
     provideHttpClient(
       withInterceptors([authTokenInterceptor, errorInterceptor, loadingInterceptor, retryInterceptor])
