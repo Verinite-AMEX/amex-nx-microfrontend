@@ -59,13 +59,11 @@ export class OmsMerchantPanelComponent
 
   isDeletingMerchant = false;
 
-  // INIT
   ngOnInit() {
 
     this.loadMerchants();
   }
 
-  // LOAD MERCHANTS
   loadMerchants() {
 
     this.merchantService
@@ -97,7 +95,6 @@ export class OmsMerchantPanelComponent
       });
   }
 
-  // ADD MERCHANT
   onAddMerchant(
   event: any
 ) {
@@ -122,7 +119,6 @@ export class OmsMerchantPanelComponent
   typeof ibanLast5Digits
 );
 
-  // VALIDATION
   if (
     !merchantNo ||
     ibanLast5Digits === null ||
@@ -136,13 +132,11 @@ export class OmsMerchantPanelComponent
     return;
   }
 
-  // CONVERT TO STRING
   const ibanValue =
     String(
       ibanLast5Digits
     ).trim();
 
-  // MUST BE EXACTLY 5 DIGITS
   if (
   ibanValue.length !== 5 ||
   !/^\d+$/.test(ibanValue)
@@ -180,7 +174,6 @@ export class OmsMerchantPanelComponent
   }
 }
 
-  // DELETE MERCHANT
   onDeleteMerchant(
   merchantNo: string
 ) {
@@ -200,7 +193,6 @@ export class OmsMerchantPanelComponent
   );
 }
 
-  // START
   onStart() {
 
     console.log(

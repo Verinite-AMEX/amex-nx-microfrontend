@@ -1,0 +1,215 @@
+.page-body {
+  padding: 16px 0;
+}
+
+.kpi-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.kpi-card {
+  background: #fff;
+  border: 1px solid #dde4ed;
+  border-top: 3px solid #1e3a6e;
+  padding: 12px 18px;
+  border-radius: 2px;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #dde4ed;
+}
+
+.filter-label {
+  font-size: 12px;
+  font-weight: bold;
+  color: #555;
+}
+
+.filter-chip {
+  padding: 3px 12px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  color: #1e3a6e;
+  background: #fff;
+  border: 1px solid #c8d8e8;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-chip:hover,
+.filter-chip.active {
+  color: #fff;
+  background: #1e3a6e;
+  border-color: #1e3a6e;
+}
+
+.search-input {
+  width: 180px;
+  margin-left: auto;
+  padding: 4px 10px;
+  font-size: 12px;
+  font-family: Arial, sans-serif;
+  border: 1px solid #c8d8e8;
+  border-radius: 2px;
+  outline: none;
+}
+
+.search-input:focus {
+  border-color: #006fcf;
+}
+
+.panel {
+  overflow: hidden;
+  background: #fff;
+  border: 1px solid #dde4ed;
+  border-radius: 2px;
+}
+
+.panel-hd {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1e3a6e;
+  background: #e8f0f8;
+  border-bottom: 1px solid #c8d8e8;
+}
+
+.count {
+  font-size: 11px;
+  font-weight: normal;
+  color: #888;
+}
+
+.tbl {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+.tbl th {
+  padding: 8px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  text-align: left;
+  text-transform: uppercase;
+  color: #555;
+  background: #f5f8fc;
+  border-bottom: 1px solid #dde4ed;
+}
+
+.tbl td {
+  padding: 10px 12px;
+  vertical-align: middle;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.tbl tr:hover td {
+  background: #fafcff;
+}
+
+.p-title {
+  margin-bottom: 2px;
+  font-weight: bold;
+  color: #1e3a6e;
+}
+
+.p-desc {
+  font-size: 11px;
+  color: #777;
+}
+
+.p-merchant {
+  margin-top: 2px;
+  font-size: 11px;
+  font-weight: bold;
+  color: #006fcf;
+}
+
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.pill {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 11px;
+  font-weight: bold;
+  border-radius: 10px;
+}
+
+.pill.pts {
+  color: #006fcf;
+  background: #e3f0ff;
+}
+
+.pill.cb {
+  color: #1a7a4a;
+  background: #e6f9f0;
+}
+
+.pd-from {
+  font-size: 12px;
+  color: #444;
+}
+
+.pd-to {
+  font-size: 11px;
+  color: #aaa;
+}
+
+.na {
+  font-size: 12px;
+  color: #bbb;
+}
+
+.empty {
+  padding: 32px;
+  text-align: center;
+  color: #aaa;
+}
+
+.act-btn {
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  border: none;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.act-btn.enroll {
+  color: #fff;
+  background: #006fcf;
+}
+
+.act-btn.enroll:hover {
+  background: #0057a8;
+}
+
+.act-btn.unenroll {
+  color: #555;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+
+.act-btn.unenroll:hover {
+  background: #e6e6e6;
+}

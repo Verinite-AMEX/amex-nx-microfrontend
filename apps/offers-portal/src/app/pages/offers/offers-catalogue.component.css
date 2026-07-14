@@ -1,0 +1,401 @@
+.offers-page {
+  font-family: Arial, sans-serif;
+  background: #ffffff;
+  min-height: 100%;
+  position: relative;
+}
+
+.browse-section {
+  padding: 20px 20px 0;
+}
+
+.browse-title {
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 14px;
+  font-weight: normal;
+}
+
+.category-icons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0;
+  margin-bottom: 16px;
+}
+
+.cat-icon-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 70px;
+  padding: 8px 14px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: all .2s ease;
+}
+
+.cat-icon-btn:hover {
+  background: #f0f6ff;
+}
+
+.cat-icon-btn.active .cat-icon {
+  background: #006fcf;
+  color: #ffffff;
+}
+
+.cat-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #e8f0fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  margin-bottom: 6px;
+  transition: .2s;
+}
+
+.cat-label {
+  font-size: 11px;
+  color: #555;
+  text-align: center;
+  white-space: nowrap;
+}
+
+.search-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 20px 16px;
+}
+
+.search-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid #cccccc;
+  border-radius: 4px;
+  background: #ffffff;
+  padding: 6px 12px;
+}
+
+.search-icon {
+  color: #999;
+  font-size: 14px;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 13px;
+  font-family: Arial, sans-serif;
+}
+
+.search-clear {
+  background: transparent;
+  border: none;
+  color: #999;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-icon,
+.location-icon {
+  font-size: 18px;
+  color: #555;
+  cursor: pointer;
+}
+
+.filter-icon:hover,
+.location-icon:hover {
+  color: #006fcf;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  padding: 0 20px 24px;
+}
+
+.offer-card {
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 8px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.offer-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,.1);
+}
+
+.offer-img {
+  height: 160px;
+  background: #006fcf;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.offer-img-label {
+  color: rgba(255,255,255,.75);
+  font-size: 12px;
+  font-weight: bold;
+  letter-spacing: .05em;
+}
+
+.offer-enrolled-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: #006fcf;
+  color: #ffffff;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.offer-body {
+  padding: 12px 14px 8px;
+}
+
+.offer-title {
+  font-size: 13px;
+  color: #006fcf;
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.offer-merchant {
+  font-size: 11px;
+  color: #888;
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.offer-desc {
+  font-size: 12px;
+  color: #555;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.offer-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 14px 12px;
+}
+
+.offer-expiry {
+  font-size: 11px;
+  color: #888;
+}
+
+.offer-heart {
+  font-size: 16px;
+  color: #cc0000;
+  cursor: pointer;
+}
+
+.offer-heart:hover {
+  color: #ff0000;
+}
+
+.no-offers {
+  padding: 40px;
+  text-align: center;
+  color: #888;
+  font-size: 13px;
+}
+
+.detail-view {
+  position: relative;
+  background: #ffffff;
+}
+
+.detail-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 26px;
+  height: 26px;
+  border: none;
+  border-radius: 50%;
+  background: rgba(0,0,0,.4);
+  color: #ffffff;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 32px;
+  height: 48px;
+  border: 1px solid #dddddd;
+  border-radius: 4px;
+  background: #f0f0f0;
+  color: #555;
+  font-size: 24px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-arrow:hover {
+  background: #e0e0e0;
+}
+
+.nav-arrow-left {
+  left: 4px;
+}
+
+.nav-arrow-right {
+  right: 4px;
+}
+
+.detail-img-wrap {
+  width: 100%;
+}
+
+.detail-img {
+  height: 300px;
+  background: #bbbbbb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.detail-img-label {
+  color: rgba(255,255,255,.6);
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: .1em;
+}
+
+.detail-info {
+  display: flex;
+  gap: 24px;
+  padding: 20px 48px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.detail-left {
+  flex: 1;
+}
+
+.detail-right {
+  width: 260px;
+  flex-shrink: 0;
+}
+
+.detail-title {
+  font-size: 16px;
+  color: #006fcf;
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.detail-status {
+  font-size: 13px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+.detail-status.enrolled {
+  color: #2e7d32;
+}
+
+.detail-status.not-enrolled {
+  color: #cc0000;
+}
+
+.detail-desc-row {
+  display: flex;
+  gap: 12px;
+}
+
+.detail-label {
+  color: #006fcf;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.detail-desc {
+  color: #333;
+  line-height: 1.5;
+}
+
+.detail-tc {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.tc-text {
+  color: #555;
+}
+
+.enroll-btn {
+  width: 160px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 4px;
+  background: #006fcf;
+  color: #ffffff;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.enroll-btn:hover {
+  background: #0057a8;
+}
+
+.detail-footer {
+  padding: 12px 20px;
+  text-align: right;
+  font-size: 11px;
+  color: #888;
+  border-top: 1px solid #f0f0f0;
+}
+
+.success-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+}
+
+.success-modal {
+  background: #ffffff;
+  border-radius: 4px;
+  padding: 28px 40px;
+  min-width: 260px;
+  text-align: center;
+  box-shadow: 0 4px 24px rgba(0,0,0,.2);
+}
+
+.success-msg {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 20px;
+}

@@ -61,19 +61,16 @@ export class SearchCardUser {
     const userId = this.userId?.trim();
     const cardNo = this.cardNo?.trim();
 
-    // Validation
     if (!userId && !cardNo) {
       alert("Please enter Card Number or User ID");
       return;
     }
 
-    // If both entered
     if (userId && cardNo) {
       alert("Please enter only one field: Card Number or User ID");
       return;
     }
 
-    // Search by User ID
     if (userId) {
       console.log("Searching by User ID:", userId);
 
@@ -83,7 +80,7 @@ export class SearchCardUser {
           console.log(response);
         },
         error: (err) => {
-          this.accountData = null; // Clear previous data
+          this.accountData = null;
           console.error(err);
 
           alert(err.error?.message || "User not found");
@@ -93,7 +90,6 @@ export class SearchCardUser {
       return;
     }
 
-    // Search by Card Number
     if (cardNo) {
       console.log("Searching by Card Number:", cardNo);
 
@@ -102,7 +98,7 @@ export class SearchCardUser {
           this.accountData = response;
         },
         error: (err) => {
-          this.accountData = null; // Clear previous data
+          this.accountData = null;
           console.error(err);
 
           alert(err.error?.message || "Card not found");
@@ -112,20 +108,15 @@ export class SearchCardUser {
   }
 
   onReset(): void {
-    // Online Account
     this.userId = "";
     this.cardNo = "";
     this.accountData = null;
-
-    // Supplementary
     this.suppUserId = "";
     this.suppCardNo = "";
     this.supplementaryData = null;
 
     console.log("Search form reset");
   }
-
-  // supplimentory code
 
   onSuppSearch(): void {
     const userId = this.suppUserId?.trim();

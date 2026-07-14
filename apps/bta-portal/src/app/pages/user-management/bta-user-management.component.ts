@@ -65,7 +65,6 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
 
     <div class="bta-page">
 
-      <!-- ADD USER — CORPORATION LAYOUT -->
       <div *ngIf="showAddUser && activeTab === 'CORPORATION'" class="bta-panel">
         <div class="bta-panel-hd">New Corporation User Account</div>
         <div class="bta-panel-bd">
@@ -200,7 +199,6 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
         </div>
       </div>
 
-      <!-- ADD USER — TMC LAYOUT -->
 <div *ngIf="showAddUser && activeTab === 'TMC'" class="bta-panel">
   <div class="bta-panel-hd">New TMC User Account</div>
   <div class="bta-panel-bd">
@@ -345,7 +343,7 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
         </div>
       </div>
 
-    </div><!-- /corp-form-list -->
+    </div>
 
     <div class="corp-actions">
       <button class="bta-btn bta-btn-secondary" (click)="cancelAddUser()">Cancel</button>
@@ -354,7 +352,7 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
     <div *ngIf="successMsg" class="success-msg">{{ successMsg }}</div>
   </div>
 </div>
-      <!-- SELECT USER TO EDIT -->
+
       <div *ngIf="showUserPicker" class="bta-panel">
         <div class="bta-panel-hd">Select User to Edit</div>
         <div class="bta-panel-bd">
@@ -394,7 +392,6 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
         </div>
       </div>
 
-      <!-- EDIT MY DETAILS FORM -->
       <div *ngIf="showEditMyDetails && editUser" class="bta-panel">
         <div class="bta-panel-hd">Edit {{ activeTab }} User Account</div>
         <div class="bta-panel-bd">
@@ -539,7 +536,6 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
         </div>
       </div>
 
-      <!-- EDIT USER FORM (from table row Edit link) -->
       <div *ngIf="showEditUser && editUser && !showEditMyDetails" class="bta-panel">
         <div class="bta-panel-hd">Edit My Account Details</div>
         <div class="bta-panel-bd">
@@ -634,7 +630,6 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
         </div>
       </div>
 
-      <!-- USER LIST -->
       <div *ngIf="!showAddUser && !showEditUser && !showEditMyDetails && !showUserPicker" class="bta-panel">
         <div class="bta-panel-hd">List of Users</div>
         <div class="bta-panel-bd">
@@ -763,13 +758,10 @@ export class BtaUserManagementComponent implements OnInit {
 
   private setActiveTab(): void {
     if (this.showCorpTab && !this.showTmcTab) {
-      // corp.admin, corp.sub.admin → Corporation only
       this.activeTab = 'CORPORATION';
     } else if (!this.showCorpTab && this.showTmcTab) {
-      // ta.admin, ta.sub.admin → TMC only
       this.activeTab = 'TMC';
     } else {
-      // amex.internal.admin → both tabs, default to Corporation
       this.activeTab = 'BOTH';
     }
   }
@@ -813,9 +805,6 @@ export class BtaUserManagementComponent implements OnInit {
 
   selectedPickerUserId = '';
   pickerSubmitted      = false;
-
-  // FIX 1: default changed to 'TMC' to avoid CORPORATION content
-  // rendering before ngOnInit sets the correct tab for TMC-only roles
   activeTab: 'CORPORATION' | 'TMC' | 'BOTH' = 'TMC';
 
   corporationUsers: BtaUser[] = [];
@@ -826,8 +815,6 @@ export class BtaUserManagementComponent implements OnInit {
   }
 
   private emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  // FIX 2: all three role scenarios handled explicitly
   ngOnInit(): void {
     this.setActiveTab();
     this.loadUsers();

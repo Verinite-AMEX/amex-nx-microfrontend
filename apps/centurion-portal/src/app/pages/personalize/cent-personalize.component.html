@@ -1,0 +1,48 @@
+<div class="pers-page">
+    <div class="client-id-section" *ngIf="!clientSubmitted">
+        <div class="field-label">Client ID</div>
+        <div class="field-row">
+            <input class="client-input" type="text" [(ngModel)]="clientId" placeholder="Enter Client ID" />
+            <button class="btn-submit" (click)="onClientSubmit()">Submit</button>
+        </div>
+        <div class="field-error" *ngIf="clientError">{{ clientError }}</div>
+    </div>
+    <div class="art-section" *ngIf="clientSubmitted">
+        <div class="art-grid-header">
+            <div class="art-col-spacer"></div>
+            <div class="art-col-header" *ngFor="let art of cardArts">
+                <div class="art-card-img" [style.background]="art.color">
+                    <div class="art-card-chip"></div>
+                    <div class="art-card-logo">AMERICAN EXPRESS</div>
+                </div>
+                <div class="art-col-label">{{ art.label }}</div>
+            </div>
+            <div class="art-col-header wearable-col">
+                <div class="art-wearable-img">
+                    <div class="wearable-belt-img">PRADA×CENTURION</div>
+                </div>
+                <div class="art-col-label">Prada Centurion Wearable</div>
+                <div class="art-col-sublabel">1 of 2 wearables assigned</div>
+            </div>
+        </div>
+        <div class="art-grid-body">
+            <div class="art-row" *ngFor="let member of cardMembers">
+                <div class="art-row-name">
+                    <span class="member-name">{{ member.name }}</span>
+                    <span class="member-card">Card Ending {{ member.cardEnding }}</span>
+                </div>
+                <div class="art-row-cell" *ngFor="let art of cardArts">
+                    <input type="checkbox" class="art-checkbox" [checked]="member.selectedArtId === art.id"
+                        (change)="onArtSelect(member, art.id, $event)" />
+                </div>
+                <div class="art-row-cell wearable-col">
+                    <input type="checkbox" class="art-checkbox wearable-check" [(ngModel)]="member.selectedWearable" />
+                </div>
+            </div>
+        </div>
+        <div class="art-actions">
+            <button class="btn-clear" (click)="onClearSelections()">Clear Selections</button>
+            <button class="btn-assign" (click)="onAssignPreference()">Assign Preference</button>
+        </div>
+    </div>
+</div>

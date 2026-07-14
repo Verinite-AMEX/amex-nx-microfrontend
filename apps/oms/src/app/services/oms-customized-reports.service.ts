@@ -25,7 +25,6 @@ export class OmsCustomizedReportsService {
     this.loadReports();
   }
 
-  // LOAD
   private loadReports() {
 
     const storedReports =
@@ -47,7 +46,6 @@ export class OmsCustomizedReportsService {
     }
   }
 
-  // SAVE
   private saveReports(
     reports: any[]
   ) {
@@ -66,13 +64,11 @@ export class OmsCustomizedReportsService {
     );
   }
 
-  // GET REPORTS
   getReports() {
 
     return this.reports$;
   }
 
-  // ADD REPORT
   addReport(
   report: any
 ) {

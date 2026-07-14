@@ -19,11 +19,10 @@ const mfConfig = withModuleFederationPlugin({
 
 mfConfig.output = {
   ...mfConfig.output,
-  publicPath: "http://localhost:4201/",
+  publicPath: "http://localhost:4202/",
   scriptType: "text/javascript",
 };
 
-// Add this
 mfConfig.devServer = {
   ...mfConfig.devServer,
   headers: {

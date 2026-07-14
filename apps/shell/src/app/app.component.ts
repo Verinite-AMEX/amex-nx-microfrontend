@@ -23,10 +23,8 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
     { provide: AMEX_PORTAL_AUTH_ADAPTER, useExisting: ShellAuthAdapterService },
   ],
   template: `
-    <!-- MFE loading indicator — fixed, above everything -->
     <div class="mfe-loading-bar" [class.visible]="mfeLoading"></div>
 
-    <!-- Auth pages (login / forgot-password): no shell chrome -->
     @if (isAuthPage) {
       <router-outlet></router-outlet>
     } @else {
@@ -51,9 +49,7 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
         healthCheckUrl=""
         footerText="© American Express. All rights reserved."
       >
-        <!-- ── Custom header slot ─────────────────────────────── -->
         <div header>
-          <!-- Top nav bar: AMEX logo + portal title + logout -->
           <amex-top-nav-bar
             portalStyle="onls"
             portalTitle="ONLS Helper Tool"
@@ -63,7 +59,6 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
           >
           </amex-top-nav-bar>
 
-          <!-- Main tab bar -->
           <amex-tab-bar
             portalStyle="onls"
             [tabs]="tabs"
@@ -74,7 +69,6 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
           >
           </amex-tab-bar>
 
-          <!-- Misc dropdown -->
           @if (activeTabId === "misc" && showSubMenu) {
             <div class="misc-submenu">
               <div class="misc-submenu__inner">
@@ -91,7 +85,6 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
             </div>
           }
 
-          <!-- Breadcrumb — shown when a sub-item is selected and the dropdown is closed -->
           @if (activeTabId === "misc" && activeSubId && !showSubMenu) {
             <div class="misc-breadcrumb">
               <span>Misc</span>
@@ -108,7 +101,6 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
             </div>
           }
 
-          <!-- Centurion dropdown -->
           @if (activeTabId === "centurion" && showSubMenu) {
             <div class="misc-submenu">
               <div class="misc-submenu__inner">
@@ -125,7 +117,6 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
             </div>
           }
 
-          <!-- Centurion breadcrumb -->
           @if (activeTabId === "centurion" && activeSubId && !showSubMenu) {
             <div class="misc-breadcrumb">
               <span>Centurion</span>
@@ -142,15 +133,11 @@ import { ShellAuthAdapterService } from "./core/services/shell-auth-adapter.serv
             </div>
           }
         </div>
-        <!-- /header slot -->
 
-        <!-- ── Page content ─────────────────────────────────── -->
         <router-outlet></router-outlet>
       </amex-page-component>
-      <!-- /amex-page-component -->
     }
 
-    <!-- Logout confirmation dialog -->
     <amex-logout-confirmation
       [visible]="showLogoutDialog"
       serverLabel="tst-websrv01 says"
@@ -172,8 +159,6 @@ export class AppComponent implements OnInit, OnDestroy {
   username = "";
 
   private subs = new Subscription();
-
-  // ── Navigation data ───────────────────────────────────────────────
 
   readonly tabs: AmexTabItem[] = [
     { id: "bta", label: "BTA" },
@@ -228,15 +213,10 @@ export class AppComponent implements OnInit, OnDestroy {
     private bus: EventBusService,
   ) { }
 
-  // ── Lifecycle ─────────────────────────────────────────────────────
-
   ngOnInit(): void {
     this.secureForm.enable();
-    // Set immediately from current URL so shell doesn't flash on first paint
     this.isAuthPage = this.checkIsAuthRoute(this.router.url);
-
     this.username = this.auth.getUser()?.username ?? "";
-
     this.subs.add(
       this.router.events
         .pipe(
@@ -271,9 +251,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.subs.unsubscribe();
   }
 
-  // ── Auth route detection ───────────────────────────────────────────
-
-  /** Returns true for any route that should NOT show the page shell */
   private checkIsAuthRoute(url: string): boolean {
     return (
       url.startsWith("/login") ||
@@ -282,8 +259,6 @@ export class AppComponent implements OnInit, OnDestroy {
       url === ""
     );
   }
-
-  // ── URL → active tab/sub sync ─────────────────────────────────────
 
   private syncFromUrl(url: string): void {
     if (url.startsWith("/offers/benefits")) {
@@ -328,13 +303,6 @@ export class AppComponent implements OnInit, OnDestroy {
       return;
     }
 
-    if (url.startsWith("/vat-invoice")) {
-      this.activeTabId = "vat-invoice";
-      this.activeSubId = "";
-      return;
-    }
-
-    // MISC
     for (const [subId, route] of Object.entries(this.subRouteMap)) {
       if (url.startsWith(route)) {
         this.activeTabId = "misc";
@@ -344,7 +312,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
 
-    // CENTURION
     for (const [subId, route] of Object.entries(this.centurionRouteMap)) {
       if (url.startsWith(route)) {
         this.activeTabId = "centurion";
@@ -354,8 +321,6 @@ export class AppComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  // ── Tab & sub-menu handlers ───────────────────────────────────────
 
   onTabClick(tabId: string): void {
     if (tabId === "misc" || tabId === "centurion") {
@@ -416,8 +381,6 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onMenuToggle(): void { }
-
-  // ── Logout ───────────────────────────────────────────────────────
 
   onLogoutRequest(): void {
     this.showLogoutDialog = true;

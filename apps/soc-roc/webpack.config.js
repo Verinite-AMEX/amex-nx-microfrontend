@@ -2,7 +2,6 @@ const {
   shareAll,
   withModuleFederationPlugin,
 } = require('@angular-architects/module-federation/webpack');
-
 const mfConfig = withModuleFederationPlugin({
   name: 'wearablesPortal',
   exposes: {
@@ -16,11 +15,9 @@ const mfConfig = withModuleFederationPlugin({
     }),
   },
 });
-
 mfConfig.output = {
   ...mfConfig.output,
   publicPath: 'http://localhost:4215/',
   scriptType: 'text/javascript',
 };
-
 module.exports = mfConfig;

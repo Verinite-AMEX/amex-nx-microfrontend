@@ -39,7 +39,6 @@ export class OmsMerchantDataFormComponent {
   submitLabel =
     'Submit';
 
-  // COUNTRY OPTIONS
   countryOptions = [
     'UAE',
     'India',
@@ -47,7 +46,6 @@ export class OmsMerchantDataFormComponent {
     'UK'
   ];
 
-  // CITY OPTIONS
   cityOptions = [
     'Dubai',
     'Abu Dhabi',
@@ -55,7 +53,6 @@ export class OmsMerchantDataFormComponent {
     'London'
   ];
 
-  // LEGAL OPTIONS
   legalOptions = [
     'LLC',
     'Corporation',
@@ -63,7 +60,6 @@ export class OmsMerchantDataFormComponent {
     'Sole Proprietorship'
   ];
 
-  // INITIAL FORM DATA
   initialData = {};
 
   isSubmitting = false;
@@ -74,7 +70,6 @@ export class OmsMerchantDataFormComponent {
       OmsMerchantDataService
   ) {}
 
-  // SUBMIT
   onSubmit(
     event: any
   ) {
@@ -84,7 +79,6 @@ export class OmsMerchantDataFormComponent {
       event
     );
 
-    // MERCHANT NAME
     if (
       !event.merchantName?.trim()
     ) {
@@ -96,7 +90,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // MERCHANT NUMBER
     if (
       !event.merchantNumber?.trim()
     ) {
@@ -121,7 +114,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // IBAN LAST 5 DIGITS
     if (
       !event.lastFiveIban?.trim()
     ) {
@@ -146,7 +138,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // TRADE LICENSE
     if (
       !event.tradeLicense?.trim()
     ) {
@@ -158,7 +149,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // COUNTRY
     if (
       !event.country
     ) {
@@ -170,7 +160,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // CITY
     if (
       !event.city
     ) {
@@ -182,7 +171,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // LEGAL STRUCTURE
     if (
       !event.legalStructure
     ) {
@@ -194,7 +182,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // REPRESENTATIVE NAME
     if (
       !event.repName?.trim()
     ) {
@@ -219,7 +206,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // EMAIL
     if (
       !event.repEmail?.trim()
     ) {
@@ -244,7 +230,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // PHONE
     if (
       !event.repPhone?.trim()
     ) {
@@ -269,7 +254,6 @@ export class OmsMerchantDataFormComponent {
       return;
     }
 
-    // TERMS
     if (
       !event.termsAccepted
     ) {
@@ -309,7 +293,6 @@ export class OmsMerchantDataFormComponent {
     }, 1500);
   }
 
-  // BACK
   onBack() {
 
     console.log(

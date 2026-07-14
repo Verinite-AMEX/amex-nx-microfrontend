@@ -8,14 +8,6 @@ import { catchError } from 'rxjs/operators';
 import { AuthService } from '../services/auth.service';
 import { EventBusService } from '../services/event-bus.service';
 
-/**
- * Global Error Interceptor (from doc section 3C: Core Services)
- *
- * Handles HTTP errors centrally:
- *   401 → token expired or invalid → auto logout
- *   403 → forbidden → emit bus event
- *   5xx → server error → emit notification event
- */
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
@@ -30,7 +22,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         if (err.status === 401) {
-          // Token expired or invalid — logout and go to login
           this.auth.logout();
         } else if (err.status === 403) {
           this.bus.emit({

@@ -19,16 +19,12 @@ import { AmexRegisterFormComponent } from '@ui-components/ui';
 export class Signup {
   errorMessage: string = '';
   successMessage: string = '';
-
   constructor(private router: Router) {}
-
   onRegister(data: { password: string; confirmPassword: string; lastName: string }): void {
     this.errorMessage = '';
-    // TODO: Replace with actual signup API call
     this.successMessage = 'Registration successful!';
     setTimeout(() => this.router.navigateByUrl('/login'), 1000);
   }
-
   onCancel(): void {
     this.router.navigateByUrl('/login');
   }

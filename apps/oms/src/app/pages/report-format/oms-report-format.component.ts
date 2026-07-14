@@ -68,13 +68,11 @@ export class OmsReportFormatComponent
       OmsReportFormatService
   ) {}
 
-  // INIT
   ngOnInit() {
 
     this.loadData();
   }
 
-  // LOAD DATA
   loadData() {
 
     this.reportFormatService
@@ -90,7 +88,6 @@ export class OmsReportFormatComponent
       });
   }
 
-  // SUBMIT
   onSubmit(
     event: any
   ) {
@@ -102,7 +99,6 @@ export class OmsReportFormatComponent
 
     this.isSubmitting = true;
 
-    // MOCK API DELAY
     setTimeout(() => {
 
       this.reportFormatService
@@ -119,7 +115,6 @@ export class OmsReportFormatComponent
     }, 1500);
   }
 
-  // BACK
   onBack() {
 
     console.log(

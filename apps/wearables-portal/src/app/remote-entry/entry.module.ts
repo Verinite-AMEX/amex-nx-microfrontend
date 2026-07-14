@@ -11,7 +11,6 @@ import { SHELL_HOSTED } from '../core/tokens/shell.token';
   template: `<router-outlet></router-outlet>`,
 })
 export class WearablesEntryComponent {}
-
 const routes: Routes = [
   {
     path: '',
@@ -20,21 +19,14 @@ const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('../wearables/wearables-shell-wrapper.component').then(
+          import('../wearables/wearables-shell-wrapper/wearables-shell-wrapper.component').then(
             m => m.WearablesShellWrapperComponent
           ),
-        /**
-         * SHELL_HOSTED = true tells WearablesShellWrapperComponent:
-         *  → use config that hides header/footer/sidebar (shell owns chrome)
-         *  → skip requireAuth (shell's AuthGuard already blocked unauthenticated users)
-         *  → skip health check (shell manages it)
-         */
         providers: [{ provide: SHELL_HOSTED, useValue: true }],
       },
     ],
   },
 ];
-
 @NgModule({
   declarations: [WearablesEntryComponent],
   imports: [

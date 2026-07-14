@@ -2,14 +2,12 @@ const {
   shareAll,
   withModuleFederationPlugin,
 } = require("@angular-architects/module-federation/webpack");
-
 const mfConfig = withModuleFederationPlugin({
   name: "statement",
 
   exposes: {
     "./Routes": "./apps/statement/src/app/remote-entry/entry.routes.ts",
   },
-
   shared: {
     ...shareAll({
       singleton: true,
@@ -18,15 +16,11 @@ const mfConfig = withModuleFederationPlugin({
     }),
   },
 });
-
-// Module Federation Output Configuration
 mfConfig.output = {
   ...mfConfig.output,
   publicPath: "http://localhost:4212/",
   scriptType: "text/javascript",
 };
-
-// Enable CORS so the Shell (4200) can load this remote
 mfConfig.devServer = {
   ...mfConfig.devServer,
   headers: {
@@ -35,5 +29,4 @@ mfConfig.devServer = {
     "Access-Control-Allow-Headers": "*",
   },
 };
-
 module.exports = mfConfig;

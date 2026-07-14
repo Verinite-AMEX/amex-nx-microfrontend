@@ -2,10 +2,6 @@ import { Component }     from '@angular/core';
 import { CommonModule }  from '@angular/common';
 import { Router }        from '@angular/router';
 
-/**
- * ComingSoonComponent — Placeholder for misc sub-pages not yet implemented.
- * Replace with the real module when ready.
- */
 @Component({
   selector:   'app-coming-soon',
   standalone: true,

@@ -76,13 +76,11 @@ export class OmsContactInformationComponent
       OmsContactInformationService
   ) {}
 
-  // INIT
   ngOnInit() {
 
     this.loadContacts();
   }
 
-  // LOAD SECTION DATA
   loadContacts() {
 
   const existingContacts =
@@ -91,7 +89,6 @@ export class OmsContactInformationComponent
         this.sectionTitle
       );
 
-  // IF DATA EXISTS
   if (
     existingContacts.length > 0
   ) {
@@ -101,7 +98,6 @@ export class OmsContactInformationComponent
 
   } else {
 
-    // DEFAULT EMPTY ROW
     this.contacts = [
 
       {
@@ -124,7 +120,6 @@ export class OmsContactInformationComponent
   );
 }
 
-  // SAVE
   onSubmit(
     event: any
   ) {
@@ -134,10 +129,8 @@ export class OmsContactInformationComponent
       event
     );
 
-    // VALIDATION
     for (const contact of event) {
 
-      // NAME
       if (
         !contact.name?.trim()
       ) {
@@ -149,7 +142,6 @@ export class OmsContactInformationComponent
         return;
       }
 
-      // EMAIL
       if (
         !contact.email?.trim()
       ) {
@@ -173,8 +165,6 @@ export class OmsContactInformationComponent
 
         return;
       }
-
-      // PHONE / MOBILE VALIDATION
 
       const contactNumber =
 
@@ -210,7 +200,6 @@ export class OmsContactInformationComponent
         return;
       }
 
-      // COUNTRY CODE
       if (
         !contact.countryCode
       ) {
@@ -222,7 +211,6 @@ export class OmsContactInformationComponent
         return;
       }
 
-      // DESIGNATION
       const designation =
 
         contact.jobTitle ||
@@ -245,7 +233,6 @@ export class OmsContactInformationComponent
 
     this.isSubmitting = true;
 
-    // MOCK API DELAY
     setTimeout(() => {
 
       this.contactService
@@ -267,7 +254,6 @@ export class OmsContactInformationComponent
     }, 1500);
   }
 
-  // BACK
   onBack() {
 
     console.log(

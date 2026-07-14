@@ -1,0 +1,48 @@
+<div class="confirm-page">
+  <table class="confirm-table">
+    <thead>
+      <tr>
+        <th>CARD MEMBER</th>
+        <th>SELECTED CARD ART</th>
+        <th>PRADA CENTURION WEARABLE
+          <div class="wearable-sub">1 of 2 wearables assigned</div>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let member of cardMembers">
+        <td class="member-cell">
+          {{ member.name }} - Card Ending {{ member.cardEnding }}
+        </td>
+        <td class="art-cell">
+          <div *ngIf="getArtLabel(member.selectedArtId)" class="selected-art">
+            <div
+              class="art-thumb"
+              [style.background]="getArtColor(member.selectedArtId)">
+              <div class="art-chip"></div>
+              <div class="art-logo">AMEX</div>
+            </div>
+            <span>{{ getArtLabel(member.selectedArtId) }}</span>
+          </div>
+          <span *ngIf="!getArtLabel(member.selectedArtId)" class="none-text">—</span>
+        </td>
+        <td class="wearable-cell">
+          <div *ngIf="member.selectedWearable" class="wearable-info">
+            <div class="wearable-img-placeholder">
+              <span class="wearable-brand">PRADA×CENTURION</span>
+            </div>
+            <span>Prada Centurion Wearable</span>
+          </div>
+          <span *ngIf="!member.selectedWearable" class="none-text">—</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="success-msg" *ngIf="confirmed">
+    Card and wearable records have been created successfully.
+  </div>
+  <div class="confirm-actions" *ngIf="!confirmed">
+    <button class="btn-back"    (click)="goBack()">Go Back</button>
+    <button class="btn-confirm" (click)="onConfirm()">Confirm</button>
+  </div>
+</div>

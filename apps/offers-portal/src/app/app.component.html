@@ -1,0 +1,35 @@
+<div class="onls-shell">
+
+  <amex-top-nav-bar
+    portalStyle="onls"
+    portalTitle="ONLS Helper Tool"
+    (logout)="showLogout = true">
+  </amex-top-nav-bar>
+
+  <amex-tab-bar
+    portalStyle="onls"
+    [tabs]="tabs"
+    [activeTabId]="activeTab"
+    (tabClick)="onTabClick($event)">
+  </amex-tab-bar>
+
+  <div class="onls-body">
+
+    <amex-sidebar-menu portalStyle="onls">
+    </amex-sidebar-menu>
+
+    <div class="onls-content">
+      <router-outlet></router-outlet>
+    </div>
+
+  </div>
+
+  <amex-logout-confirmation
+    [visible]="showLogout"
+    serverLabel="tst-websrv01 says"
+    message="Are you sure you want to log out?"
+    (confirm)="onLogout()"
+    (cancel)="showLogout = false">
+  </amex-logout-confirmation>
+
+</div>

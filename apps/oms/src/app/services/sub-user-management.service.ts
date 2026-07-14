@@ -25,7 +25,6 @@ export class SubUserManagementService {
     this.loadUsers();
   }
 
-  // LOAD
   private loadUsers() {
 
     const storedUsers =
@@ -91,7 +90,6 @@ export class SubUserManagementService {
     }
   }
 
-  // SAVE
   private saveUsers(
     users: any[]
   ) {
@@ -108,13 +106,11 @@ export class SubUserManagementService {
     );
   }
 
-  // GET USERS
   getUsers() {
 
     return this.users$;
   }
 
-  // ADD USER
   addUser(user: any) {
 
     const updatedUsers = [
@@ -129,7 +125,6 @@ export class SubUserManagementService {
     );
   }
 
-  // UPDATE USER
   updateUser(
     updatedUser: any
   ) {
@@ -156,7 +151,6 @@ export class SubUserManagementService {
     );
   }
 
-  // DELETE USER
   deleteUser(id: number) {
 
     const updatedUsers =

@@ -6,7 +6,7 @@ import { CenLcyExcComponent } from './cen-lcy-exc.component';
 @NgModule({
   imports: [
     CommonModule,
-    CenLcyExcComponent,   // standalone component
+    CenLcyExcComponent,
     RouterModule.forChild([{ path: '', component: CenLcyExcComponent }]),
   ],
 })

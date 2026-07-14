@@ -26,7 +26,6 @@ export class OmsNewOutletService {
     this.loadApplications();
   }
 
-  // LOAD
   private loadApplications() {
 
     const storedApplications =
@@ -48,7 +47,6 @@ export class OmsNewOutletService {
     }
   }
 
-  // SAVE
   private saveApplications(
     applications: any[]
   ) {
@@ -67,13 +65,11 @@ export class OmsNewOutletService {
     );
   }
 
-  // GET
   getApplications() {
 
     return this.applications$;
   }
 
-  // ADD
   addApplication(
     application: any
   ) {

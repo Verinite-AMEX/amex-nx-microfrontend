@@ -16,8 +16,6 @@ const routes: Routes = [
   { path: "forgot-password", component: ForgotPasswordComponent },
   { path: "", redirectTo: "misc/priority-pass", pathMatch: "full" },
 
-  // ── NX-native remotes (expose ./Routes → remoteRoutes) ───────────
-
   {
     path: "account",
     canActivate: [AuthGuard],
@@ -69,8 +67,6 @@ const routes: Routes = [
         .then((m: any) => m.remoteRoutes)
         .catch(portalFallback),
   },
-
-  // ── Legacy remotes (expose ./Module → named NgModule class) ──────
 
   {
     path: "bta",

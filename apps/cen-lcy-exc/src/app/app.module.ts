@@ -4,10 +4,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { AppComponent } from './app.component';
 
-/**
- * AppModule — local dev bootstrap only (port 4210).
- * Shell loads CenLcyExcRemoteEntryModule directly via Module Federation.
- */
 @NgModule({
   imports: [
     BrowserModule,

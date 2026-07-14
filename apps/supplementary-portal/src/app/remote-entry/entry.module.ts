@@ -1,8 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { AmexPageComponent } from '@ui-components/ui';
-
+import { AmexPageComponent } from '@vn-core-ui-components/ui';
 import { SuppSearchComponent } from '../pages/search/supp-search.component';
 
 @Component({
@@ -20,7 +19,6 @@ import { SuppSearchComponent } from '../pages/search/supp-search.component';
   `,
 })
 export class SuppEntryComponent {}
-
 const routes: Routes = [
   {
     path: '',
@@ -31,7 +29,6 @@ const routes: Routes = [
     ],
   },
 ];
-
 @NgModule({
   declarations: [SuppEntryComponent],
   imports: [

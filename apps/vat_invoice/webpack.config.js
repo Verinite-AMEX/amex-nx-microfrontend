@@ -16,14 +16,11 @@ const mfConfig = withModuleFederationPlugin({
     }),
   },
 });
-
 mfConfig.output = {
   ...mfConfig.output,
   publicPath: 'http://localhost:4213/',
   scriptType: 'text/javascript',
 };
-
-// Enable CORS so the Shell (4200) can load this remote
 mfConfig.devServer = {
   ...mfConfig.devServer,
   headers: {
@@ -32,5 +29,4 @@ mfConfig.devServer = {
     "Access-Control-Allow-Headers": "*",
   },
 };
-
 module.exports = mfConfig;

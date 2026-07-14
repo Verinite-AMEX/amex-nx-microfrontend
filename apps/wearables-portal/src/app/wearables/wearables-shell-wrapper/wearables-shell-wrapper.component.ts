@@ -1,44 +1,38 @@
-import { Component, Optional, Inject, OnInit, effect, Injector } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {
+  Component,
+  Optional,
+  Inject,
+  OnInit,
+  effect,
+  Injector,
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   AmexPageComponent,
   AmexPortalLayoutConfig,
   AmexTabItem,
   AmexPortalHealthStatus,
   AMEX_PORTAL_AUTH_ADAPTER,
-} from '@ui-components/ui';
-import { WearablesComponent } from './wearables.component';
-import { WearablesAuthService } from '../core/services/auth.service';
-import { SHELL_HOSTED } from '../core/tokens/shell.token';
-import { environment } from '../../environments/environment';
+} from "@ui-components/ui";
+import { WearablesComponent } from "../components/wearables.component";
+import { WearablesAuthService } from "../../core/services/auth.service";
+import { SHELL_HOSTED } from "../../core/tokens/shell.token";
+import { environment } from "../../../environments/environment";
 
 @Component({
-  selector: 'app-wearables-shell-wrapper',
+  selector: "app-wearables-shell-wrapper",
   standalone: true,
   imports: [CommonModule, AmexPageComponent, WearablesComponent],
   providers: [
-    { provide: AMEX_PORTAL_AUTH_ADAPTER, useExisting: WearablesAuthService },
+    {
+      provide: AMEX_PORTAL_AUTH_ADAPTER,
+      useExisting: WearablesAuthService,
+    },
   ],
-    template: `
-      <amex-page-component
-        portalStyle="onls"
-        portalTitle="ONLS Helper Tool"
-        [config]="shellConfig"
-        [requireAuth]="!isShellHosted"
-        loginRedirectUrl="/login"
-        [healthCheckUrl]="healthCheckUrl"
-        [showHealthStatus]="!isShellHosted"
-        (tabClick)="onTabClick($event)"
-        (subClick)="onSubClick($event)"
-        (logout)="onLogout()"
-        (healthCheck)="onHealthCheck($event)"
-      >
-        <app-wearables></app-wearables>
-      </amex-page-component>
-    `,
+  templateUrl: "./wearables-shell-wrapper.component.html",
+  styleUrls: ["./wearables-shell-wrapper.component.css"],
 })
 export class WearablesShellWrapperComponent implements OnInit {
-
   isShellHosted: boolean;
 
   constructor(
@@ -49,57 +43,63 @@ export class WearablesShellWrapperComponent implements OnInit {
     this.isShellHosted = !!shellHosted;
   }
 
-ngOnInit(): void {
-  effect(() => {
-    const authed = this.authService.authenticated();
-    if (!authed) {
-      // '/login' works in both standalone (4206) and shell-hosted (4200)
-      // because window.location.origin is auto-prepended by the browser
-      const returnUrl = encodeURIComponent(window.location.pathname);
-      window.location.href = `/login?returnUrl=${returnUrl}`;
-    }
-  }, { injector: this.injector });
-}
+  ngOnInit(): void {
+    effect(
+      () => {
+        const authed = this.authService.authenticated();
+        if (!authed) {
+          // '/login' works in both standalone (4206) and shell-hosted (4200)
+          // because window.location.origin is auto-prepended by the browser
+          const returnUrl = encodeURIComponent(window.location.pathname);
+          window.location.href = `/login?returnUrl=${returnUrl}`;
+        }
+      },
+      { injector: this.injector },
+    );
+  }
 
   get healthCheckUrl(): string {
     return this.isShellHosted
-      ? ''
+      ? ""
       : `${environment.apiGatewayUrl}/actuator/health`;
   }
 
   get shellConfig(): AmexPortalLayoutConfig {
     if (this.isShellHosted) {
       return {
-        header:  { visible: false },
-        footer:  { visible: false },
+        header: { visible: false },
+        footer: { visible: false },
         sidebar: { visible: false }, // ✅ correct — shell has its own sidebar
       };
     }
     return {
-      header:  { visible: true },
-      footer:  { visible: true, text: '© American Express. All rights reserved.' },
-      sidebar: { visible: true },   // ✅ standalone needs its own sidebar
+      header: { visible: true },
+      footer: {
+        visible: true,
+        text: "© American Express. All rights reserved.",
+      },
+      sidebar: { visible: true }, // ✅ standalone needs its own sidebar
     };
   }
 
   tabs: AmexTabItem[] = [
-    { id: 'bta',      label: 'BTA'                        },
-    { id: 'account',  label: 'Online Account Services'     },
-    { id: 'supp',     label: 'Supplementary Access Helper' },
-    { id: 'offers',   label: 'Offers'                      },
-    { id: 'benefits', label: 'Benefits'                    },
-    { id: 'misc',     label: 'Misc'                        },
+    { id: "bta", label: "BTA" },
+    { id: "account", label: "Online Account Services" },
+    { id: "supp", label: "Supplementary Access Helper" },
+    { id: "offers", label: "Offers" },
+    { id: "benefits", label: "Benefits" },
+    { id: "misc", label: "Misc" },
   ];
 
   miscSubItems: AmexTabItem[] = [
-    { id: 'pay-with-points', label: 'Select & Pay With Points'  },
-    { id: 'digital-wallet',  label: 'Digital Wallet'            },
-    { id: 'wearables',       label: 'AMEX Wearables'            },
-    { id: 'pin-unblock',     label: 'PIN Unblock'               },
-    { id: 'sms-status',      label: 'SMS Status'                },
-    { id: 'priority-pass',   label: 'ENROLL FOR PRIORITY PASS™' },
-    { id: 'valueback',       label: 'ValueBack'                 },
-    { id: 'pccm-ftp',        label: 'Pccm Ftp Sequence Number'  },
+    { id: "pay-with-points", label: "Select & Pay With Points" },
+    { id: "digital-wallet", label: "Digital Wallet" },
+    { id: "wearables", label: "AMEX Wearables" },
+    { id: "pin-unblock", label: "PIN Unblock" },
+    { id: "sms-status", label: "SMS Status" },
+    { id: "priority-pass", label: "ENROLL FOR PRIORITY PASS™" },
+    { id: "valueback", label: "ValueBack" },
+    { id: "pccm-ftp", label: "Pccm Ftp Sequence Number" },
   ];
 
   onTabClick(_id: string): void {}
@@ -116,8 +116,8 @@ ngOnInit(): void {
   }
 
   onHealthCheck(status: AmexPortalHealthStatus): void {
-    if (status.status === 'DOWN') {
-      console.warn('[WearablesPortal] Backend health check FAILED:', status);
+    if (status.status === "DOWN") {
+      console.warn("[WearablesPortal] Backend health check FAILED:", status);
     }
   }
 }

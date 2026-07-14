@@ -202,13 +202,11 @@ export class OmsTaxInvoiceReportComponent
       OmsTaxInvoiceReportService
   ) {}
 
-  // INIT
   ngOnInit() {
 
     this.loadReportData();
   }
 
-  // LOAD DATA
   loadReportData() {
 
     this.reportService
@@ -243,13 +241,11 @@ export class OmsTaxInvoiceReportComponent
       });
   }
 
-  // BACK
   onBack() {
 
     this.backClicked.emit();
   }
 
-  // GENERATE REPORT
   generateReport() {
 
     const payload = {
@@ -283,7 +279,6 @@ export class OmsTaxInvoiceReportComponent
 
     this.isGenerating = true;
 
-    // MOCK API DELAY
     setTimeout(() => {
 
       this.reportService

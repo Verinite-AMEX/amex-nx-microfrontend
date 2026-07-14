@@ -28,11 +28,9 @@ export class PaymentRegister implements OnInit {
   country: string = '';
   currency: string = '';
   referenceNumber: string = '';
-
   yearList: string[] = [];
   countryList: string[] = ['US', 'AE', 'EG', 'SA', 'BH', 'KW', 'OM', 'QA'];
   currencyList: string[] = ['USD', 'AED', 'EGP', 'SAR', 'BHD', 'KWD', 'OMR', 'QAR'];
-
   records: PaymentRegisterRow[] = [];
   isLoading = false;
   status: 'idle' | 'success' | 'error' = 'idle';
@@ -44,11 +42,9 @@ export class PaymentRegister implements OnInit {
       this.yearList.push(y.toString());
     }
   }
-
   onViewReport(): void {
     this.isLoading = true;
     this.status = 'idle';
-    // TODO: Replace with actual API call
     setTimeout(() => {
       this.isLoading = false;
       this.records = [];
@@ -58,7 +54,6 @@ export class PaymentRegister implements OnInit {
       }
     }, 800);
   }
-
   onPrint(): void {
     window.print();
   }
