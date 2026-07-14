@@ -9,6 +9,7 @@ import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
 import org.springframework.core.io.buffer.DataBuffer;
+import org.springframework.http.HttpCookie;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -45,13 +46,11 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
             return chain.filter(exchange);
         }
 
-        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        String token = resolveToken(exchange);
 
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
-            return reject(exchange, "Missing or malformed Authorization header");
+        if (token == null) {
+            return reject(exchange, "Missing or malformed Authorization header/cookie");
         }
-
-        String token = authHeader.substring(7);
 
         try {
             Claims claims = Jwts.parser()
@@ -90,6 +89,16 @@ public class JwtAuthFilter implements GlobalFilter, Ordered {
         } catch (JwtException e) {
             return reject(exchange, "Invalid token");
         }
+    }
+
+    private String resolveToken(ServerWebExchange exchange) {
+        String authHeader = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+        if (authHeader != null && authHeader.startsWith("Bearer ")) {
+            return authHeader.substring(7);
+        }
+
+        HttpCookie cookie = exchange.getRequest().getCookies().getFirst("access_token");
+        return cookie != null ? cookie.getValue() : null;
     }
 
     private Mono<Void> reject(ServerWebExchange exchange, String reason) {

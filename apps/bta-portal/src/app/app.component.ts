@@ -7,8 +7,8 @@ import {
   AmexPageComponent,
   AmexTabItem,
 } from '@ui-components/ui';
-import { SecureFormService } from './core/services/secure-form.service'; 
-import { BtaAuthService } from './core/services/auth.service';
+import { SecureFormService } from './core/services/secure-form.service';
+import { SessionService, AuthApiService, EnvironmentService } from '@amex/shared-services';
 
 interface NavItem { id: string; label: string; }
 
@@ -29,17 +29,10 @@ interface NavItem { id: string; label: string; }
       [showCustomSidebar]="true"
       (logout)="onLogout()">
 
-      <!-- left-nav slot: our nav when logged in, empty div on login page -->
       <div left-nav>
         <ng-container *ngIf="navItems.length > 0">
           <div class="bta-nav-hd">NAVIGATION</div>
-          <a
-            *ngFor="let item of navItems"
-            class="bta-nav-item"
-            [class.active]="activeId === item.id"
-            (click)="onNavClick(item.id)">
-            {{ item.label }}
-          </a>
+          <a *ngFor="let item of navItems" class="bta-nav-item" [class.active]="activeId === item.id" (click)="onNavClick(item.id)">{{ item.label }}</a>
         </ng-container>
       </div>
 
@@ -64,13 +57,15 @@ export class AppComponent implements OnInit, OnDestroy {
   private routeSub!: Subscription;
 
   constructor(
-    private auth: BtaAuthService,
+    private sessionService: SessionService,
+    private authApi: AuthApiService,
+    private environmentService: EnvironmentService,
     private secureForm: SecureFormService,
     private router: Router,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
-    this.secureForm.enable(); 
+    this.secureForm.enable();
     this.updateNav(this.router.url);
 
     this.routeSub = this.router.events.pipe(
@@ -85,7 +80,7 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private updateNav(url: string): void {
-    if (url.includes('/bta/login') || !this.auth.isLoggedIn()) {
+    if (url.includes('/bta/login') || !this.sessionService.isLoggedIn()) {
       this.navItems = [];
       this.activeId = '';
       return;
@@ -99,44 +94,44 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   private buildNav(): NavItem[] {
-    if (this.auth.isAemeAdmin()) {
+    if (this.sessionService.hasRole('ROLE_AEME_INTERNAL_ADMIN')) {
       return [
-        { id: 'user-management',   label: 'User Management'    },
-        { id: 'audit-trail',       label: 'Audit Trail'        },
-        { id: 'memo-statement',    label: 'Memo Statement'     },
+        { id: 'user-management', label: 'User Management' },
+        { id: 'audit-trail', label: 'Audit Trail' },
+        { id: 'memo-statement', label: 'Memo Statement' },
         { id: 'monthly-statement', label: 'Monthly Statements' },
       ];
     }
-    if (this.auth.isCorpAdmin()) {
+    if (this.sessionService.hasAnyRole(['ROLE_CORP_MASTER_ADMIN', 'ROLE_CORP_SUB_ADMIN'])) {
       return [
-        { id: 'user-management',    label: 'User Management'    },
-        { id: 'memo-statement',     label: 'Memo Statement'     },
-        { id: 'large-reports',      label: 'Large Reports'      },
-        { id: 'monthly-statement',  label: 'Monthly Statements' },
+        { id: 'user-management', label: 'User Management' },
+        { id: 'memo-statement', label: 'Memo Statement' },
+        { id: 'large-reports', label: 'Large Reports' },
+        { id: 'monthly-statement', label: 'Monthly Statements' },
         { id: 'payment-allocation', label: 'Payment Allocation' },
-        { id: 'audit-trail',        label: 'Audit Trail'        },
+        { id: 'audit-trail', label: 'Audit Trail' },
       ];
     }
-    if (this.auth.isCorpUser()) {
+    if (this.sessionService.hasRole('ROLE_CORP_USER')) {
       return [
-        { id: 'memo-statement',     label: 'Memo Statement'     },
-        { id: 'large-reports',      label: 'Large Reports'      },
-        { id: 'monthly-statement',  label: 'Monthly Statements' },
+        { id: 'memo-statement', label: 'Memo Statement' },
+        { id: 'large-reports', label: 'Large Reports' },
+        { id: 'monthly-statement', label: 'Monthly Statements' },
         { id: 'payment-allocation', label: 'Payment Allocation' },
-        { id: 'audit-trail',        label: 'Audit Trail'        },
+        { id: 'audit-trail', label: 'Audit Trail' },
       ];
     }
-    if (this.auth.isTaAdmin()) {
+    if (this.sessionService.hasAnyRole(['ROLE_TA_MASTER_ADMIN', 'ROLE_TA_SUB_ADMIN'])) {
       return [
-        { id: 'user-management',  label: 'User Management'  },
-        { id: 'case-management',  label: 'Case Management'  },
-        { id: 'audit-trail',      label: 'Audit Trail'      },
+        { id: 'user-management', label: 'User Management' },
+        { id: 'case-management', label: 'Case Management' },
+        { id: 'audit-trail', label: 'Audit Trail' },
         { id: 'tmc-transactions', label: 'TMC Transactions' },
       ];
     }
-    if (this.auth.isTaUser()) {
+    if (this.sessionService.hasRole('ROLE_TA_USER')) {
       return [
-        { id: 'case-management',  label: 'Case Management'  },
+        { id: 'case-management', label: 'Case Management' },
         { id: 'tmc-transactions', label: 'TMC Transactions' },
       ];
     }
@@ -149,11 +144,14 @@ export class AppComponent implements OnInit, OnDestroy {
   }
 
   onLogout(): void {
-  // OLD:
-  // this.auth.clearSession();
-  // this.router.navigate(['/bta/login']);
+    this.authApi.performLogout().subscribe({
+      next: () => this.redirectToLogin(),
+      error: () => this.redirectToLogin(),
+    });
+  }
 
-  // NEW — delegates to Login-Logout-auth-app
-  this.auth.logout();
-}
+  private redirectToLogin(): void {
+    const returnUrl = encodeURIComponent(window.location.origin + '/');
+    window.location.href = `${this.environmentService.getLoginAppUrl()}?returnUrl=${returnUrl}`;
+  }
 }
