@@ -31,6 +31,12 @@
             },
             "configurations": {
                 "production": {
+                    "fileReplacements": [
+                        {
+                            "replace": "apps/soc-roc/src/environments/environment.ts",
+                            "with": "apps/soc-roc/src/environments/environment.prod.ts"
+                        }
+                    ],
                     "budgets": [
                         {
                             "type": "initial",
@@ -45,7 +51,7 @@
                     ],
                     "outputHashing": "all",
                     "customWebpackConfig": {
-                        "path": "apps/soc-roc/webpack.prod.config.js"
+                        "path": "apps/soc-roc/webpack.prod.config.ts"
                     }
                 },
                 "development": {

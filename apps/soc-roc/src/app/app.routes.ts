@@ -1,7 +1,9 @@
 import { Routes } from '@angular/router';
-import { socRocAuthGuard } from './core/guards/soc-roc-auth.guard';
-import { Login } from './pages/login/login';
+import { authGuard } from '@amex/shared-services';
+
+//import { Login } from './pages/login/login';
 import { Signup } from './pages/signup/signup';
+
 import { FileFormationUpload } from './pages/utilities/file-formation-upload/file-formation-upload';
 import { CountryMaster } from './pages/masters/country-master/country-master.component';
 import { CurrencyMaster } from './pages/masters/currency-master/currency-master.component';
@@ -23,26 +25,39 @@ import { AlgeriaPayment } from './pages/algeria-payment/algeria-payment';
 import { PaymentRegister } from './pages/payment-register/payment-register';
 
 export const routes: Routes = [
-    { path: 'login', component: Login },
+    // Public routes - no guard
+   // { path: 'login', component: Login },
     { path: 'signup', component: Signup },
-    { path: '', redirectTo: 'login', pathMatch: 'full' },
-    { path: 'dashboard', component: Dashboard, canActivate: [socRocAuthGuard] },
-    { path: 'masters/country-master', component: CountryMaster, canActivate: [socRocAuthGuard] },
-    { path: 'masters/currency-master', component: CurrencyMaster, canActivate: [socRocAuthGuard] },
-    { path: 'merchant-data', component: MerchantDataComponent, canActivate: [socRocAuthGuard] },
-    { path: 'soc-roc-transactions', component: SocRocTransactionsComponent, canActivate: [socRocAuthGuard] },
-    { path: 'reports/details-by-currency', component: DetailsByCurrency, canActivate: [socRocAuthGuard] },
-    { path: 'reports/soc-control-report', component: SocControlReport, canActivate: [socRocAuthGuard] },
-    { path: 'reports/rejection-letter', component: RejectionLetter, canActivate: [socRocAuthGuard] },
-    { path: 'reports/rejection-letter-details', component: RejectionLetterDetails, canActivate: [socRocAuthGuard] },
-    { path: 'reports/consolidated-rejection-report', component: ConsolidatedRejectionReport, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/file-formation-upload', component: FileFormationUpload, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/extract-rejected-items', component: ExtractRejectedItems, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/retrieval-old-records', component: RetrievalOldRecords, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/download-soc-roc-excel', component: DownloadSocRocExcel, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/download-multiple-se', component: DownloadMultipleSe, canActivate: [socRocAuthGuard] },
-    { path: 'utilities/capture-multiple-se', component: CaptureMultipleSe, canActivate: [socRocAuthGuard] },
-    { path: 'retrieval', component: Retrieval, canActivate: [socRocAuthGuard] },
-    { path: 'algeria-payment', component: AlgeriaPayment, canActivate: [socRocAuthGuard] },
-    { path: 'payment-register', component: PaymentRegister, canActivate: [socRocAuthGuard] },
+
+     // OLD:
+    // { path: '', redirectTo: 'login', pathMatch: 'full' },
+    // NEW — default lands on the guarded dashboard; guard bounces to auth app if needed
+    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+
+    // Protected routes
+    { path: 'dashboard', component: Dashboard, canActivate: [authGuard] },
+
+    { path: 'masters/country-master', component: CountryMaster, canActivate: [authGuard] },
+    { path: 'masters/currency-master', component: CurrencyMaster, canActivate: [authGuard] },
+
+    { path: 'merchant-data', component: MerchantDataComponent, canActivate: [authGuard] },
+
+    { path: 'soc-roc-transactions', component: SocRocTransactionsComponent, canActivate: [authGuard] },
+
+    { path: 'reports/details-by-currency', component: DetailsByCurrency, canActivate: [authGuard] },
+    { path: 'reports/soc-control-report', component: SocControlReport, canActivate: [authGuard] },
+    { path: 'reports/rejection-letter', component: RejectionLetter, canActivate: [authGuard] },
+    { path: 'reports/rejection-letter-details', component: RejectionLetterDetails, canActivate: [authGuard] },
+    { path: 'reports/consolidated-rejection-report', component: ConsolidatedRejectionReport, canActivate: [authGuard] },
+
+    { path: 'utilities/file-formation-upload', component: FileFormationUpload, canActivate: [authGuard] },
+    { path: 'utilities/extract-rejected-items', component: ExtractRejectedItems, canActivate: [authGuard] },
+    { path: 'utilities/retrieval-old-records', component: RetrievalOldRecords, canActivate: [authGuard] },
+    { path: 'utilities/download-soc-roc-excel', component: DownloadSocRocExcel, canActivate: [authGuard] },
+    { path: 'utilities/download-multiple-se', component: DownloadMultipleSe, canActivate: [authGuard] },
+    { path: 'utilities/capture-multiple-se', component: CaptureMultipleSe, canActivate: [authGuard] },
+
+    { path: 'retrieval', component: Retrieval, canActivate: [authGuard] },
+    { path: 'algeria-payment', component: AlgeriaPayment, canActivate: [authGuard] },
+    { path: 'payment-register', component: PaymentRegister, canActivate: [authGuard] },
 ];
