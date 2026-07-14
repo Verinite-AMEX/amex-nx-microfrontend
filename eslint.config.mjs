@@ -23,19 +23,44 @@ export default [
         'error',
         {
           enforceBuildableLibDependency: true,
+
           allow: [],
+
           depConstraints: [
+            // Applications
             {
               sourceTag: 'type:app',
-              onlyDependOnLibsWithTags: ['type:lib'],
+              onlyDependOnLibsWithTags: [
+                'type:lib',
+                'scope:shared',
+              ],
             },
+
+            // Shared Libraries
             {
               sourceTag: 'type:lib',
-              onlyDependOnLibsWithTags: ['type:lib'],
+              onlyDependOnLibsWithTags: [
+                'type:lib',
+                'scope:shared',
+              ],
             },
+
+            // Shared Scope
+            {
+              sourceTag: 'scope:shared',
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'type:lib',
+              ],
+            },
+
+            // Shell
             {
               sourceTag: 'scope:shell',
-              onlyDependOnLibsWithTags: ['scope:shared'],
+              onlyDependOnLibsWithTags: [
+                'scope:shared',
+                'type:lib',
+              ],
             },
           ],
         },

@@ -4,6 +4,14 @@
   "description": "AEME AMEX UI Component Library — Angular standalone components matching all 17 AEME portal designs.",
   "author": "AEME Dev Team",
   "license": "MIT",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "exports": {
+    ".": {
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
+    }
+  },
   "peerDependencies": {
     "@angular/common": ">=21.0.0",
     "@angular/core": ">=21.0.0",
@@ -14,11 +22,5 @@
     "type": "git",
     "url": "https://github.com/Verinite-AMEX/amex-nx-microfrontend"
   },
-  "keywords": [
-    "angular",
-    "amex",
-    "aeme",
-    "ui-components",
-    "component-library"
-  ]
+  "keywords": ["angular", "amex", "aeme", "ui-components", "component-library"]
 }

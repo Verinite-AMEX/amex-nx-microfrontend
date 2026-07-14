@@ -6,9 +6,13 @@ import com.example.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,28 +34,40 @@ public class AuthController {
     public ResponseEntity<ApiResponse<AuthResponse>> login(
             @Valid @RequestBody LoginRequest request) {
         AuthResponse response = authService.login(request);
-        return ResponseEntity.ok(ApiResponse.success("Login successful", response));
+        ResponseCookie accessCookie = buildAuthCookie(
+                "access_token", response.getAccessToken(), response.getExpiresIn() / 1000);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
+                .body(ApiResponse.success("Login successful", response));
     }
 
     @PostMapping("/refresh")
     public ResponseEntity<ApiResponse<AuthResponse>> refresh(
             @Valid @RequestBody RefreshRequest request) {
         AuthResponse response = authService.refresh(request);
-        return ResponseEntity.ok(ApiResponse.success("Token refreshed", response));
+        ResponseCookie accessCookie = buildAuthCookie(
+                "access_token", response.getAccessToken(), response.getExpiresIn() / 1000);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, accessCookie.toString())
+                .body(ApiResponse.success("Token refreshed", response));
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<ApiResponse<Void>> logout(HttpServletRequest request) {
-        // Parse username directly from the Authorization header
-        String authHeader = request.getHeader("Authorization");
-        if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+    public ResponseEntity<ApiResponse<Void>> logout() {
+        // JwtAuthenticationFilter already resolved the token (Authorization header
+        // OR the access_token cookie) and populated the SecurityContext — reuse
+        // that instead of re-parsing the header, so cookie-only clients work too.
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(ApiResponse.error("Missing token"));
         }
-        String token    = authHeader.substring(7);
-        String username = authService.extractUsernameFromToken(token);
+        String username = authentication.getName();
         authService.logout(username);
-        return ResponseEntity.ok(ApiResponse.success("Logged out successfully", null));
+        ResponseCookie expiredCookie = buildAuthCookie("access_token", "", 0);
+        return ResponseEntity.ok()
+                .header(HttpHeaders.SET_COOKIE, expiredCookie.toString())
+                .body(ApiResponse.success("Logged out successfully", null));
     }
 
     /**
@@ -65,6 +81,26 @@ public class AuthController {
         return response.isValid()
                 ? ResponseEntity.ok(response)
                 : ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(response);
+    }
+
+    /**
+     * Returns the currently logged-in user's profile using the
+     * HTTP-only "access_token" cookie (resolved by JwtAuthenticationFilter,
+     * same as /logout). Called by the frontend on app bootstrap to
+     * hydrate SessionService after a cross-origin redirect from
+     * Login-Logout-auth-app, since localStorage doesn't carry over
+     * across origins.
+     */
+    @GetMapping("/session")
+    public ResponseEntity<ApiResponse<CurrentUserResponse>> me() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated()) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(ApiResponse.error("Not authenticated"));
+        }
+        String username = authentication.getName();
+        CurrentUserResponse response = authService.getCurrentUser(username);
+        return ResponseEntity.ok(ApiResponse.success("Current user", response));
     }
 
     @PostMapping("/forgot-password")
@@ -94,5 +130,23 @@ public class AuthController {
         String authHeader = request.getHeader("Authorization");
         authService.changePassword(authHeader, body);
         return ResponseEntity.ok(ApiResponse.success("Password changed successfully", null));
+    }
+
+    /**
+     * Builds the HTTP-only auth cookie shared by login/refresh/logout.
+     * secure(false) here for local http://localhost dev — MUST be true once
+     * served over HTTPS (UAT/Prod), otherwise browsers will drop the cookie.
+     * sameSite("Lax") allows the cookie on top-level redirect navigations
+     * between portals (needed for the bta-portal <-> Login-Logout-auth-app
+     * redirect flow) while still blocking it on cross-site requests.
+     */
+    private ResponseCookie buildAuthCookie(String name, String value, long maxAgeSeconds) {
+        return ResponseCookie.from(name, value)
+                .httpOnly(true)
+                .secure(false) // TODO: set true for UAT/Prod (HTTPS)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(maxAgeSeconds)
+                .build();
     }
 }

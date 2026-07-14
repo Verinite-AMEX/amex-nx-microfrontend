@@ -2,6 +2,9 @@
   "name": "amex-ui-monorepo",
   "version": "0.0.0",
   "license": "MIT",
+  "workspaces": [
+    "apps/ui-components/libs/*"
+  ],
   "scripts": {
     "start:shell": "nx serve shell",
     "start:oms": "nx serve oms",
@@ -70,11 +73,15 @@
     "@nx/web": "22.6.5",
     "@nx/webpack": "22.6.5",
     "@nx/workspace": "22.6.5",
+    "@schematics/angular": "21.2.15",
     "@swc-node/register": "^1.11.1",
     "@swc/core": "^1.15.41",
+    "@swc/helpers": "~0.5.18",
     "@types/jasmine": "5.1.0",
     "@typescript-eslint/eslint-plugin": "^8.40.0",
     "@typescript-eslint/parser": "^8.40.0",
+    "@typescript-eslint/utils": "^8.40.0",
+    "angular-eslint": "^21.2.0",
     "eslint": "^9.39.4",
     "jasmine-core": "5.1.0",
     "json5": "2.2.3",
@@ -84,6 +91,7 @@
     "karma-jasmine": "5.1.0",
     "karma-jasmine-html-reporter": "2.1.0",
     "nx": "22.6.5",
+    "prettier": "~3.6.2",
     "typescript": "5.9.2",
     "typescript-eslint": "8.40.0",
     "webpack": "5.88.2"

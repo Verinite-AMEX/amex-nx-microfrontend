@@ -5,24 +5,24 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
-import { AuthService } from '../services/auth.service';
 
+/**
+ * AuthInterceptor
+ * Cookie-based auth: the HTTP-only "access_token" cookie is sent
+ * automatically by the browser — no manual Authorization header needed.
+ * NOTE: shell's own AuthService (../services/auth.service.ts) still stores
+ * its own copy of the token in localStorage independently of
+ * AmexPortalAuthUtil — that's a separate, larger fix (shell was never wired
+ * to the shared lib to begin with). This interceptor change is safe on its
+ * own either way, since withCredentials just adds the cookie alongside
+ * whatever header logic remains.
+ */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: AuthService) {}
-
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
   ): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
-
-    const authReq = token
-      ? req.clone({
-          setHeaders: { Authorization: `Bearer ${token}` },
-        })
-      : req;
-
-    return next.handle(authReq);
+    return next.handle(req.clone({ withCredentials: true }));
   }
 }
