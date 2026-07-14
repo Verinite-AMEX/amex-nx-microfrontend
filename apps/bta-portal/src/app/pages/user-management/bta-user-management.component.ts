@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { BtaAuthService } from '../../core/services/auth.service';
+import { SessionService } from '@amex/shared-services';
 import {
   AmexPageHeaderComponent,
   AmexBreadcrumbTrailComponent,
@@ -758,7 +758,7 @@ const ALL_USER_RIGHTS         = ['Payment Allocation', 'Audit Trail', 'Memo Stat
 export class BtaUserManagementComponent implements OnInit {
 
     constructor(
-    private auth: BtaAuthService
+    private auth: SessionService
   ) {}
 
   private setActiveTab(): void {
@@ -775,11 +775,11 @@ export class BtaUserManagementComponent implements OnInit {
   }
 
   get showCorpTab(): boolean {
-    return this.auth.isAemeAdmin() || this.auth.isCorpAdmin();
+    return this.auth.hasRole('ROLE_AEME_INTERNAL_ADMIN') || this.auth.hasAnyRole(['ROLE_CORP_MASTER_ADMIN', 'ROLE_CORP_SUB_ADMIN']);
   }
 
   get showTmcTab(): boolean {
-    return this.auth.isAemeAdmin() || this.auth.isTaAdmin();
+    return this.auth.hasRole('ROLE_AEME_INTERNAL_ADMIN') || this.auth.hasAnyRole(['ROLE_TA_MASTER_ADMIN', 'ROLE_TA_SUB_ADMIN']);
   }
 
   breadcrumbItems = [

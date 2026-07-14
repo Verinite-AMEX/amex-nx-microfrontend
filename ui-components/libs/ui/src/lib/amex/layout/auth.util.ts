@@ -5,21 +5,25 @@ import { Router, CanActivateFn } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Observable, catchError, map, of } from 'rxjs';
 
-export const AMEX_TOKEN_KEY   = 'mfe_access_token';
-export const AMEX_REFRESH_KEY = 'mfe_refresh_token';
-export const AMEX_USER_KEY    = 'mfe_user';
+/**
+ * AMEX_USER_KEY — localStorage.
+ * Holds ONLY non-sensitive UI data (username, roles) for synchronous
+ * client-side checks (hasRole(), menu show/hide, guards).
+ *
+ * The actual JWT access token is NEVER stored client-side anymore.
+ * The backend sets it as an HTTP-only "access_token" cookie on
+ * login/refresh (see AuthController) — JS cannot read it, and the
+ * browser sends it automatically on every request. Real enforcement
+ * happens server-side (auth-service + gateway JWT filters); the
+ * isAuthenticated()/hasRole() checks below are a UI hint only — a
+ * missing/expired cookie will surface as a 401 from the backend,
+ * which is the actual source of truth.
+ */
+export const AMEX_USER_KEY = 'mfe_user';
 
 export class AmexPortalAuthUtil {
 
-  readonly authenticated = signal(this._checkToken());
-
-  getToken(): string | null {
-    return localStorage.getItem(AMEX_TOKEN_KEY);
-  }
-
-  getRefreshToken(): string | null {
-    return localStorage.getItem(AMEX_REFRESH_KEY);
-  }
+  readonly authenticated = signal(this._checkAuth());
 
   getUser(): { userId?: string; username: string; roles: string[] } | null {
     const raw = localStorage.getItem(AMEX_USER_KEY);
@@ -32,11 +36,13 @@ export class AmexPortalAuthUtil {
   }
 
   /**
-   * Called by AmexPageComponent on every ngOnChanges + ngOnInit.
-   * Also wired to window 'storage' event so cross-tab logout is instant.
+   * UI hint only — true if we have locally-cached user info from a prior
+   * login. This does NOT re-verify the cookie is still valid; that check
+   * happens server-side on the next API call (a 401 means "not actually
+   * authenticated" even if this returns true, e.g. after cookie expiry).
    */
   isAuthenticated(): boolean {
-    const result = this._checkToken();
+    const result = this._checkAuth();
     this.authenticated.set(result);
     return result;
   }
@@ -48,20 +54,26 @@ export class AmexPortalAuthUtil {
     return user.roles?.includes(normalised) || user.roles?.includes(role);
   }
 
-  onLoginSuccess(
-    accessToken: string,
-    refreshToken?: string,
-    userPayload?: { userId?: string; username: string; roles: string[] }
-  ): void {
-    localStorage.setItem(AMEX_TOKEN_KEY, accessToken);
-    if (refreshToken) localStorage.setItem(AMEX_REFRESH_KEY, refreshToken);
-    if (userPayload)  localStorage.setItem(AMEX_USER_KEY, JSON.stringify(userPayload));
+  /**
+   * Call this after a successful login/refresh API response.
+   * The backend has ALREADY set the HTTP-only access_token cookie via
+   * Set-Cookie on that same response — this method only caches
+   * non-sensitive user info locally for synchronous UI checks.
+   * It intentionally does not accept or store any token.
+   */
+  onLoginSuccess(userPayload: { userId?: string; username: string; roles: string[] }): void {
+    localStorage.setItem(AMEX_USER_KEY, JSON.stringify(userPayload));
     this.authenticated.set(true);
   }
 
+  /**
+   * Clears local UI state (username/roles cache).
+   * IMPORTANT: this does NOT clear the HTTP-only cookie — only the backend
+   * can do that. Callers must first hit /api/auth/logout (which responds
+   * with an expired Set-Cookie) and call this afterwards to clear the
+   * local UI cache. Calling this alone leaves the cookie active.
+   */
   logout(): void {
-    localStorage.removeItem(AMEX_TOKEN_KEY);
-    localStorage.removeItem(AMEX_REFRESH_KEY);
     localStorage.removeItem(AMEX_USER_KEY);
     this.authenticated.set(false);
   }
@@ -72,27 +84,16 @@ export class AmexPortalAuthUtil {
    */
   listenToStorageEvents(destroyRef?: DestroyRef): void {
     const handler = (e: StorageEvent) => {
-      if (e.key === AMEX_TOKEN_KEY) {
-        this.authenticated.set(this._checkToken());
+      if (e.key === AMEX_USER_KEY) {
+        this.authenticated.set(this._checkAuth());
       }
     };
     window.addEventListener('storage', handler);
     destroyRef?.onDestroy(() => window.removeEventListener('storage', handler));
   }
 
-  private _checkToken(): boolean {
-    const token = localStorage.getItem(AMEX_TOKEN_KEY);
-    if (!token) return false;
-    try {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      if (payload.exp && payload.exp * 1000 < Date.now()) {
-        this.logout();
-        return false;
-      }
-      return true;
-    } catch {
-      return !!token;
-    }
+  private _checkAuth(): boolean {
+    return !!this.getUser();
   }
 }
 

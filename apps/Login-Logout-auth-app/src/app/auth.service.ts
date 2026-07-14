@@ -1,94 +1,38 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { AmexPortalAuthUtil } from '@ui-components/ui';
-import { Observable, map } from 'rxjs';
+import { Observable } from 'rxjs';
+import { AuthApiService, AuthResponse } from '@amex/shared-services';
 
-export interface ApiResponse<T> {
-  success: boolean;
-  message: string;
-  data: T;
-}
-
-export interface AuthResponse {
-  accessToken: string;
-  refreshToken?: string;
-  userId?: string;
-  username: string;
-  roles: string[];
-}
-
-export interface LoginResult {
-  accessToken: string;
-  refreshToken?: string;
-  userId?: string;
-  username: string;
-  roles: string[];
-}
-
-export interface ForgotPasswordResponse {
-  message: string;
-}
-
-const API_BASE = 'http://localhost:8080/api/auth'; // update host/port to match your gateway
+export type LoginResult = AuthResponse;
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
-  private util = new AmexPortalAuthUtil();
-
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private authApi: AuthApiService, private router: Router) {}
 
   login(username: string, password: string): Observable<LoginResult> {
-    return this.http
-      .post<ApiResponse<AuthResponse>>(`${API_BASE}/login`, { username, password })
-      .pipe(map((res) => res.data));
+    return this.authApi.login({ username, password });
   }
 
-  onLoginSuccess(result: LoginResult): void {
-    this.util.onLoginSuccess(result.accessToken, result.refreshToken, {
-      userId: result.userId,
-      username: result.username,
-      roles: result.roles,
-    });
+  forgotPassword(userId: string, emailId: string): Observable<string> {
+    return this.authApi.forgotPassword(userId, emailId);
   }
 
   getUser() {
-    return this.util.getUser();
+    return this.authApi.getUser();
   }
 
   getUsername(): string {
-    return this.util.getUsername();
+    return this.authApi.getUsername();
   }
 
   isAuthenticated(): boolean {
-    return this.util.isAuthenticated();
+    return this.authApi.isAuthenticated();
   }
 
   logout(): void {
-    const token = this.util.getToken();
-
-    if (token) {
-      const headers = new HttpHeaders({ Authorization: `Bearer ${token}` });
-      this.http.post(`${API_BASE}/logout`, {}, { headers }).subscribe({
-        next: () => this.completeLogout(),
-        error: () => this.completeLogout(), // clear local session even if server call fails
-      });
-    } else {
-      this.completeLogout();
-    }
+    this.authApi.performLogout().subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login']),
+    });
   }
-
-  private completeLogout(): void {
-    this.util.logout();
-    this.router.navigate(['/login']);
-  }
-
-forgotPassword(userId: string, emailId: string): Observable<string> {
-  return this.http
-    .post<ApiResponse<void>>(`${API_BASE}/forgot-password`, {
-      username: userId,
-      email: emailId,
-    })
-    .pipe(map((res) => res.message));
-}
 }

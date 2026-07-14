@@ -1,0 +1,77 @@
+server:
+  port: 8081
+
+spring:
+  application:
+    name: auth-service
+
+  # ── Database ────────────────────────────────────────────────────────
+  datasource:
+    url: jdbc:mysql://localhost:3306/amex_auth?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: root
+
+  # ── JPA ─────────────────────────────────────────────────────────────
+  jpa:
+    hibernate:
+      ddl-auto: update        # change to 'validate' once schema is stable
+    show-sql: false
+    open-in-view: false       # ADDED: prevents lazy-loading anti-pattern
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: false
+
+  # ── Mail ────────────────────────────────────────────────────────────
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: bala.r@verinite.com     # set env var MAIL_USERNAME
+    password: hiwtrgvcnycoiorg        # set env var MAIL_PASSWORD
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        connectiontimeout: 5000
+        timeout: 5000
+        writetimeout: 5000
+
+# ── JWT ──────────────────────────────────────────────────────────────────
+jwt:
+  secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+  expiration: 86400000         # 24 hours in ms
+  refresh-expiration: 604800000 # 7 days in ms
+
+# ── Eureka ───────────────────────────────────────────────────────────────
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+  instance:
+    prefer-ip-address: false
+    hostname: localhost
+    lease-renewal-interval-in-seconds: 10
+    lease-expiration-duration-in-seconds: 30
+
+# ── Actuator ─────────────────────────────────────────────────────────────
+management:
+  endpoint:
+    health:
+      show-details: always
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+
+# ── Logging ──────────────────────────────────────────────────────────────
+logging:
+  level:
+    com.example: DEBUG
+    org.springframework.security: INFO   # change to DEBUG if you need to trace auth issues
+    org.hibernate.SQL: INFO

@@ -3,20 +3,18 @@ import {
   HttpRequest, HttpHandler, HttpEvent, HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { WearablesAuthService } from '../services/auth.service';
 
+/**
+ * AuthInterceptor
+ * Cookie-based auth: the HTTP-only "access_token" cookie is sent
+ * automatically by the browser. WearablesAuthService.getToken() no longer
+ * exists (AmexPortalAuthUtil doesn't expose the token to JS anymore), so
+ * this interceptor no longer depends on it — it just ensures
+ * withCredentials: true so the cookie is sent on cross-port gateway calls.
+ */
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-  constructor(private auth: WearablesAuthService) {}
-
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = this.auth.getToken();
-    if (token) {
-      const cloned = req.clone({
-        setHeaders: { Authorization: `Bearer ${token}` }
-      });
-      return next.handle(cloned);
-    }
-    return next.handle(req);
+    return next.handle(req.clone({ withCredentials: true }));
   }
 }

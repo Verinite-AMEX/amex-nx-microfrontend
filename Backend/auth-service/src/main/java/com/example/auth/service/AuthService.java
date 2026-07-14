@@ -188,6 +188,26 @@ public class AuthService {
                 .build();
     }
 
+    /**
+     * Returns the currently authenticated user's profile info
+     * (no tokens) — used by the /api/auth/me endpoint so the
+     * frontend can hydrate its session from the HTTP-only cookie
+     * without re-issuing/re-exposing the JWT.
+     */
+    public CurrentUserResponse getCurrentUser(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        return new CurrentUserResponse(
+                user.getId(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getFullName(),
+                user.getAvatarInitials(),
+                user.getRoles().stream().toList()
+        );
+    }
+
     private String deriveInitials(String fullName) {
         if (fullName == null || fullName.isBlank()) return "??";
         String[] parts = fullName.trim().split("\\s+");
