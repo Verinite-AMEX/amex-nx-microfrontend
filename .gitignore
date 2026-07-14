@@ -18,4 +18,8 @@ node_modules
 .DS_Store
 Thumbs.db
 
+
+# Package-lock
+package-lock.json
+
 */target/*

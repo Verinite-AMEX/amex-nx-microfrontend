@@ -45,7 +45,7 @@
                     ],
                     "outputHashing": "all",
                     "customWebpackConfig": {
-                        "path": "apps/soc-roc/webpack.prod.config.js"
+                        "path": "apps/soc-roc/webpack.prod.config.ts"
                     }
                 },
                 "development": {
