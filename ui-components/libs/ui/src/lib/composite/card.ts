@@ -1,14 +1,15 @@
 import { Component, Input, HostBinding } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ImageComponent } from '../primitives/image';
 
 @Component({
   selector: 'ui-card',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ImageComponent],
   template: `
     <div class="card" [class.hoverable]="hoverable" [class.flat]="variant === 'flat'">
       <div *ngIf="image" class="card-image">
-        <img [src]="image" [alt]="title" />
+        <ui-image [src]="image" [alt]="title" objectFit="cover"></ui-image>
       </div>
       <div class="card-body">
         <div *ngIf="title || subtitle" class="card-header">
@@ -28,7 +29,7 @@ import { CommonModule } from '@angular/common';
     .card.flat { box-shadow: none; border: 1px solid #e0e0e0; }
     .card.hoverable { transition: box-shadow 0.2s, transform 0.2s; cursor: pointer; }
     .card.hoverable:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.15); transform: translateY(-2px); }
-    .card-image img { width: 100%; display: block; max-height: 200px; object-fit: cover; }
+    .card-image { max-height: 200px; overflow: hidden; }
     .card-body { padding: 16px; }
     .card-header { margin-bottom: 8px; }
     .card-title { margin: 0 0 4px; font-size: 16px; font-weight: 600; color: #333; }
@@ -39,8 +40,7 @@ import { CommonModule } from '@angular/common';
 })
 export class CardComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `ui-card-${++CardComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `ui-card-${++CardComponent._idCounter}`;
 
   @Input() title = '';
   @Input() subtitle = '';

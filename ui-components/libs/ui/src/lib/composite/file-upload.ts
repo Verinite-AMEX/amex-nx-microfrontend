@@ -3,11 +3,13 @@ import { CommonModule } from '@angular/common';
 import { FileInputComponent } from '../primitives/file-input';
 import { IconComponent } from '../primitives/icon';
 import { IconButtonComponent } from '../primitives/icon-button';
+import { ListComponent } from '../primitives/list';
+import { ListItemComponent } from '../primitives/list-item';
 
 @Component({
   selector: 'ui-file-upload',
   standalone: true,
-  imports: [CommonModule, FileInputComponent, IconComponent, IconButtonComponent],
+  imports: [CommonModule, FileInputComponent, IconComponent, IconButtonComponent, ListComponent, ListItemComponent],
   template: `
     <div class="file-upload" role="button" tabindex="0" [attr.aria-disabled]="disabled" [class.dragover]="dragging" [class.disabled]="disabled"
       (dragover)="onDragOver($event)" (dragleave)="dragging=false" (drop)="onDrop($event)"
@@ -22,8 +24,8 @@ import { IconButtonComponent } from '../primitives/icon-button';
         <p class="file-upload-text">{{ dragging ? 'Drop files here' : 'Click or drag files to upload' }}</p>
         <p class="file-upload-hint" *ngIf="hint">{{ hint }}</p>
       </div>
-      <ul *ngIf="files.length" class="file-list">
-        <li *ngFor="let f of files; let i = index" class="file-item">
+      <ui-list *ngIf="files.length" class="file-list" [unstyled]="true" [compact]="true">
+        <ui-list-item *ngFor="let f of files; let i = index" class="file-item">
           <span>{{ f.name }}</span>
           <ui-icon-button icon="✕" size="sm" variant="ghost" ariaLabel="Remove {{f.name}}"
             [style.--icon-btn-size]="'22px'"
@@ -32,8 +34,8 @@ import { IconButtonComponent } from '../primitives/icon-button';
             (click)="$event.stopPropagation()"
             (clicked)="removeFile(i)">
           </ui-icon-button>
-        </li>
-      </ul>
+        </ui-list-item>
+      </ui-list>
     </div>
   `,
   styles: [`
@@ -49,8 +51,12 @@ import { IconButtonComponent } from '../primitives/icon-button';
     .file-upload-icon { display: block; margin: 0 auto 8px; }
     .file-upload-text { margin: 0 0 4px; font-size: 14px; color: #555; }
     .file-upload-hint { margin: 0; font-size: 12px; color: #999; }
-    .file-list { list-style: none; padding: 0; margin: 12px 0 0; text-align: left; display: flex; flex-direction: column; gap: 4px; }
-    .file-item { display: flex; justify-content: space-between; align-items: center; padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 13px; color: #333; }
+    .file-list { margin: 12px 0 0; text-align: left; display: flex; flex-direction: column; gap: 4px; }
+    .file-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 6px 10px; background: #f0f0f0; border-radius: 4px; font-size: 13px; color: #333;
+      margin-bottom: 0;
+    }
   `],
 })
 export class FileUploadComponent {

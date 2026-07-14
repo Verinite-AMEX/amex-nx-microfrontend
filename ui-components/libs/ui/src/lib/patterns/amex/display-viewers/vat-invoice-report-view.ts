@@ -11,6 +11,7 @@ import { TableHeaderCellComponent } from '../../../primitives/table-header-cell'
 import { TableBodyComponent } from '../../../primitives/table-body';
 import { TableRowComponent } from '../../../primitives/table-row';
 import { TableCellComponent } from '../../../primitives/table-cell';
+import { TableFootComponent } from '../../../primitives/table-foot';
 
 export interface VATLineItem {
   description: string;
@@ -25,6 +26,7 @@ export interface VATLineItem {
     CommonModule, FormsModule,
     FormFieldComponent, InputComponent, RadioGroupComponent, ButtonComponent,
     TableComponent, TableHeadComponent, TableHeaderCellComponent, TableBodyComponent, TableRowComponent, TableCellComponent,
+    TableFootComponent,
   ],
   template: `
     <div class="virv">
@@ -87,14 +89,13 @@ export interface VATLineItem {
                 <ui-table-cell align="right">{{ li.vatAmount | number:'1.2-2' }}</ui-table-cell>
               </ui-table-row>
             </ui-table-body>
-            <!-- no ui-table-foot primitive exists — same exception class as <fieldset>, kept raw -->
-            <tfoot>
-              <tr>
-                <td class="virv__total-label">Total VAT</td>
-                <td></td>
-                <td class="virv__td-num virv__total-value">{{ totalVAT | number:'1.2-2' }}</td>
-              </tr>
-            </tfoot>
+            <ui-table-foot>
+              <ui-table-row [hoverable]="false">
+                <ui-table-cell class="virv__total-label">Total VAT</ui-table-cell>
+                <ui-table-cell></ui-table-cell>
+                <ui-table-cell class="virv__td-num virv__total-value">{{ totalVAT | number:'1.2-2' }}</ui-table-cell>
+              </ui-table-row>
+            </ui-table-foot>
           </ui-table>
 
           <div class="virv__dl-row">

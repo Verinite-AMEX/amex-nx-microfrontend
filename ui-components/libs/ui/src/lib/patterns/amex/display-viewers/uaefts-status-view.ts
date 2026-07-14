@@ -223,8 +223,7 @@ export interface UAEFTSRecord {
 })
 export class AmexUAEFTSStatusViewComponent {
   private static _idCounter = 0;
-  @HostBinding('attr.id') readonly id = `uaefts-status-view-${++AmexUAEFTSStatusViewComponent._idCounter}`;
-
+  @HostBinding('attr.id') @Input() id = `uaefts-status-view-${++AmexUAEFTSStatusViewComponent._idCounter}`;
   @Input() mode: 'search' | 'request' = 'search';
   @Input() records: UAEFTSRecord[] = [];
   @Input() requestConfirmation: { referenceNo: string } | null = null;

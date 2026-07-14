@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CheckboxComponent } from '../../../primitives/checkbox';
 import { ButtonComponent } from '../../../primitives/button';
+import { ListComponent } from '../../../primitives/list';
+import { ListItemComponent } from '../../../primitives/list-item';
 
 /**
  * TermsAndConditionsViewer
@@ -15,7 +17,7 @@ import { ButtonComponent } from '../../../primitives/button';
 @Component({
   selector: 'amex-terms-and-conditions-viewer',
   standalone: true,
-  imports: [CommonModule, FormsModule, CheckboxComponent, ButtonComponent],
+  imports: [CommonModule, FormsModule, CheckboxComponent, ButtonComponent, ListComponent, ListItemComponent],
   template: `
     <div class="tcv">
 
@@ -30,9 +32,9 @@ import { ButtonComponent } from '../../../primitives/button';
         <!-- Bullet-list variant (Priority Pass style) -->
         <div *ngIf="bullets.length > 0" class="tcv__bullets">
           <p class="tcv__preamble" *ngIf="preamble">{{ preamble }}</p>
-          <ul class="tcv__list">
-            <li *ngFor="let b of bullets" class="tcv__list-item">{{ b }}</li>
-          </ul>
+          <ui-list class="tcv__list" [compact]="true">
+            <ui-list-item *ngFor="let b of bullets" class="tcv__list-item">{{ b }}</ui-list-item>
+          </ui-list>
         </div>
       </div>
 
@@ -81,8 +83,7 @@ import { ButtonComponent } from '../../../primitives/button';
 
     .tcv__bullets { font-size: 12px; color: #333; }
     .tcv__preamble { font-weight: bold; margin-bottom: 8px; }
-    .tcv__list { margin: 0; padding-left: 20px; }
-    .tcv__list-item { margin-bottom: 4px; }
+    .tcv__list { margin: 0; --list-indent: 20px; --list-item-gap: 4px; }
 
     .tcv__accept-row {
       margin-bottom: 12px;

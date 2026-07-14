@@ -6,6 +6,8 @@ import { SelectComponent, SelectOption } from '../../../primitives/select';
 import { CheckboxComponent } from '../../../primitives/checkbox';
 import { ButtonComponent } from '../../../primitives/button';
 import { ImageComponent } from '../../../primitives/image';
+import { ListComponent } from '../../../primitives/list';
+import { ListItemComponent } from '../../../primitives/list-item';
 
 export interface PriorityPassCard {
   cardNumber: string;
@@ -34,7 +36,7 @@ export interface PriorityPassCard {
 @Component({
   selector: 'amex-priority-pass-viewer',
   standalone: true,
-  imports: [NgIf, NgFor, FormsModule, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent, ImageComponent],
+  imports: [NgIf, NgFor, FormsModule, InputComponent, SelectComponent, CheckboxComponent, ButtonComponent, ImageComponent, ListComponent, ListItemComponent],
   template: `
     <div class="ppv">
       <!-- Navy header -->
@@ -101,9 +103,9 @@ export interface PriorityPassCard {
               </div>
               <div class="ppv__card-entitlements">
                 <p class="ppv__entitle-intro">As an American Express Corporate Cardmember you are entitled to:</p>
-                <ul class="ppv__entitle-list">
-                  <li *ngFor="let e of c.entitlements">{{ e }}</li>
-                </ul>
+                <ui-list class="ppv__entitle-list" [compact]="true">
+                  <ui-list-item *ngFor="let e of c.entitlements">{{ e }}</ui-list-item>
+                </ui-list>
                 <div class="ppv__card-status"
                      [class.ppv__card-status--enrolled]="c.enrolled"
                      [class.ppv__card-status--not]="!c.enrolled">
@@ -226,8 +228,10 @@ export interface PriorityPassCard {
 
     .ppv__card-entitlements { flex: 1; }
     .ppv__entitle-intro { font-size: 12px; color: #333; margin: 0 0 4px; }
-    .ppv__entitle-list  { margin: 0 0 6px; padding-left: 20px; }
-    .ppv__entitle-list li { font-size: 12px; color: #333; margin-bottom: 3px; }
+    .ppv__entitle-list {
+      margin: 0 0 6px; --list-indent: 20px; --list-item-gap: 3px;
+      font-size: 12px; color: #333;
+    }
 
     .ppv__card-status     { font-size: 11px; font-weight: bold; }
     .ppv__card-status--enrolled { color: #2e7d32; }
