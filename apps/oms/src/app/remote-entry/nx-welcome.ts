@@ -10,6 +10,8 @@ import {
 } from '@angular/common';
 
 import {
+  NavigationEnd,
+  Router,
   RouterOutlet
 } from '@angular/router';
 
@@ -67,7 +69,15 @@ import { SubUserManagementService } from '../services/sub-user-management.servic
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
 import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@ui-components/ui';
+import { OmsAuthService } from '../services/auth.service';
+import { filter, Subscription } from 'rxjs';
 
+interface NavItem { id: string; label: string; }
+
+interface AmexTabItem {
+    id: string;
+    label: string;
+}
 
 @Component({
   selector: 'app-nx-welcome',
@@ -113,6 +123,9 @@ import { AmexPageShellComponent } from '@ui-components/ui';
     OmsNewOutletApplicationFormComponent,
 
     RouterOutlet,
+
+    AmexPageShellComponent
+
   ],
 
   templateUrl: './remote-entry.html',
@@ -219,6 +232,7 @@ import { AmexPageShellComponent } from '@ui-components/ui';
 
   encapsulation: ViewEncapsulation.None,
 })
+
 export class NxWelcome
   implements OnInit {
 
@@ -282,30 +296,174 @@ export class NxWelcome
 
   showSettlementTable = false;
 
+  private routeSub!: Subscription;
+
+  navItems: NavItem[] = [];
+  activeId = '';
+  // tabs: AmexTabItem[] = [{ id: 'oms', label: 'OMS Portal' }];
+
 
   constructor(
     private secureForm: SecureFormService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private omsUserService: OmsUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private mrmUserService: MrmUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private cdr: ChangeDetectorRef,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private subUserService: SubUserManagementService,
-    // eslint-disable-next-line @angular-eslint/prefer-inject
-    private settlementService: OmsSettlementSubmissionService
 
+    private omsUserService: OmsUserManagementService,
+
+    private mrmUserService: MrmUserManagementService,
+
+    private cdr: ChangeDetectorRef,
+    
+    private subUserService: SubUserManagementService,
+    
+    private settlementService: OmsSettlementSubmissionService,
+
+    private auth: OmsAuthService,
+
+    private router: Router,
 
   ) {}
 
   ngOnInit() {
+    this.secureForm.enable(); 
+    this.updateNav(this.router.url);
+
+    this.routeSub = this.router.events.pipe(
+      filter(e => e instanceof NavigationEnd)
+    ).subscribe((e: any) => {
+      this.updateNav(e.urlAfterRedirects ?? e.url);
+    });
+
     this.secureForm.enable(); 
     this.loadOmsUsers();
     this.loadMrmUsers();
     this.loadSubUsers();
   }
 
+  private updateNav(url: string): void {
+    if (url.includes('/oms/login') || !this.auth.isLoggedIn()) {
+      this.navItems = [];
+      this.activeId = '';
+      return;
+    }
+
+    this.navItems = this.buildNav();
+    const seg = url.split('/').filter(Boolean).pop() ?? '';
+    this.activeId = this.navItems.find(i => i.id === seg)?.id
+      ?? this.navItems[0]?.id
+      ?? '';
+  }
+
+  private buildNav(): NavItem[] {
+    if (this.auth.isMerchant()) {
+
+  const merchantMenus = [
+
+    {
+      id: 'settlement',
+      label: 'Settlement & Submission'
+    },
+
+    {
+      id: 'merchantaccount',
+      label: 'Merchant Account'
+    },
+
+    {
+      id: 'subuseradministration',
+      label: 'Sub User Administration'
+    },
+
+    {
+      id: 'password',
+      label: 'Change Password'
+    },
+
+    {
+      id: 'termsandconditions',
+      label: 'Terms & Conditions'
+    },
+
+    {
+      id: 'customizedreports',
+      label: 'Customized Reports'
+    },
+
+    {
+      id: 'addnewoutlet',
+      label: 'Add New Outlet'
+    }
+
+  ];
+
+  console.log(
+    'Merchant Navigation:',
+    merchantMenus
+  );
+
+  return merchantMenus;
+}
+    if (this.auth.isOmsAdmin()) {
+      return [
+
+      { id: 'settlement', label: 'Settlement & Submission' },
+
+      { id: 'merchantaccount', label: 'Merchant Account' },
+
+      { id: 'subuseradministration', label: 'Sub User Administration' },
+
+      { id: 'password', label: 'Change Password' },
+
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
+
+      { id: 'customizedreports', label: 'Customized Reports' },
+
+      { id: 'addnewoutlet', label: 'Add New Outlet' }
+
+    ];
+    }
+    if (this.auth.isOmsSubUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'password', label: 'Change Password' },
+        { id: 'termsandconditions', label: 'Terms & Conditions' },
+        { id: 'addnewoutlet', label: 'Add New Outlet' }
+      
+      ];
+    }
+    if (this.auth.isMrmUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'omsusers', label: 'OMS Users' },
+        { id: 'mrmusers', label: 'MRM Users' },
+        { id: 'password', label: 'Change Password' },
+      
+      ];
+    }
+    if (this.auth.isOmsVatUser()) {
+      return [
+        { id: 'settlement',   label: 'Settlement & Submission'    },
+        { id: 'merchantaccount', label: 'Merchant Account' },
+        { id: 'password', label: 'Change Password' },
+        { id: 'termsandconditions', label: 'Terms & Conditions' },
+        { id: 'addnewoutlet', label: 'Add New Outlet' }
+      
+      ];
+    }
+    return [];
+  }
+
+  onNavClick(id: string): void {
+    this.activeId = id;
+    this.router.navigate([id]);
+  }
+
+  onLogout(): void {
+  // NEW — delegates to Login-Logout-auth-app
+  this.auth.logout();
+}
+
+  // LOAD OMS USERS
   loadOmsUsers() {
 
     this.omsUserService
@@ -408,92 +566,104 @@ onSettlementSubmit(
 
   onTabChanged(tabId: any) {
 
-    console.log(
-      'Selected Tab:',
-      tabId
-    );
+  console.log('Selected Tab:', tabId);
 
-    this.showSidebar = false;
+  this.router.navigate([ tabId]).then(result => {
+    console.log('Navigation Result:', result);
+    console.log('Current URL:', this.router.url);
+  });
 
-    this.showTermsConditions = false;
+  this.showSidebar = false;
 
-    this.showChangePassword = false;
+  this.showTermsConditions = false;
 
-    this.showCustomizedReport = false;
+  this.showChangePassword = false;
 
-    this.showSettlementSubmission = false;
+  this.showCustomizedReport = false;
 
-    this.showSubUserAdmin = false;
+  this.showSettlementSubmission = false;
 
-    this.showCreateSubUser = false;
+  this.showSubUserAdmin = false;
 
-    this.showMrmUserAdmin = false;
+  this.showCreateSubUser = false;
 
-    this.showOmsUsers = false;
+  this.showMrmUserAdmin = false;
 
-    this.showCreateOmsUser = false;
+  this.showOmsUsers = false;
 
-    this.showCreateMrmUser = false;
+  this.showCreateOmsUser = false;
 
-    this.showNewOutletPortal = false;
+  this.showCreateMrmUser = false;
 
-    this.showNewOutletApplicationForm = false;
+  this.showNewOutletPortal = false;
 
-    this.showTaxInvoiceDelivery = false;
+  this.showNewOutletApplicationForm = false;
 
-    this.showUploadCertificate = false;
+  this.showTaxInvoiceDelivery = false;
 
-    this.showTaxInvoiceReport = false;
+  this.showUploadCertificate = false;
 
-    this.selectedSidebarMenu = '';
+  this.showTaxInvoiceReport = false;
+
+  this.selectedSidebarMenu = '';
 
     this.closeEditPopup();
 
     if (tabId === 'merchantaccount') {
 
-      this.showSidebar = true;
-    }
+    this.showSidebar = true;
+
+  }
 
     if (tabId === 'termsandconditions') {
 
-      this.showTermsConditions = true;
-    }
+    this.showTermsConditions = true;
+
+  }
 
     if (tabId === 'password') {
 
-      this.showChangePassword = true;
-    }
+    this.showChangePassword = true;
+
+  }
 
     if (tabId === 'customizedreports') {
 
-      this.showCustomizedReport = true;
-    }
+    this.showCustomizedReport = true;
+
+  }
 
     if (tabId === 'settlement') {
 
-      this.showSettlementSubmission = true;
-    }
+    this.showSettlementSubmission = true;
+
+  }
 
     if (tabId === 'subuseradministration') {
 
-      this.showSubUserAdmin = true;
-    }
+    this.showSubUserAdmin = true;
+
+  }
 
     if (tabId === 'mrmusers') {
 
-      this.showMrmUserAdmin = true;
-    }
+    this.showMrmUserAdmin = true;
+
+  }
 
     if (tabId === 'omsusers') {
 
-      this.showOmsUsers = true;
-    }
+    this.showOmsUsers = true;
+
+  }
 
     if (tabId === 'addnewoutlet') {
 
-      this.showNewOutletPortal = true;
-    }
+    this.showNewOutletPortal = true;
+
   }
+
+}
 
   onMenuChanged(menuId: string) {
 
@@ -1039,4 +1209,5 @@ onBackToNewOutletPortal() {
   this.showNewOutletPortal =
     true;
 }
+
 }

@@ -7,9 +7,7 @@ import { AppComponent } from './app.component';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [],
   imports: [
     BrowserModule,
     HttpClientModule,
@@ -30,6 +28,8 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
         bindToComponentInputs: true,
       }
     ),
+    
+    AppComponent
   ],
   providers: [
     {

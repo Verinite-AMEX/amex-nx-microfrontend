@@ -10,17 +10,16 @@ import { Router } from '@angular/router';
 export class RemoteEntry {
 
   constructor(
-  // eslint-disable-next-line @angular-eslint/prefer-inject
   private router: Router
 ) {}
 
-onTabChanged(
-  tabId: string
-) {
+// onTabChanged(
+//   tabId: string
+// ) {
 
-  this.router.navigate([
-    '/oms',
-    tabId
-  ]);
-}
+//   this.router.navigate([
+//     '/oms',
+//     tabId
+//   ]);
+// }
 }

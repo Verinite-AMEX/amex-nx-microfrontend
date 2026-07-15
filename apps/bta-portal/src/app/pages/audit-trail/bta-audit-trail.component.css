@@ -1,0 +1,143 @@
+.bta-page {
+    padding: 0 16px 24px;
+    background: #fff;
+}
+.bta-panel {
+    border: 1px solid #b8d0e8;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+.bta-panel-hd {
+    background: #cfe2f3;
+    border-bottom: 1px solid #b8d0e8;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e3a6e;
+}
+.bta-panel-bd {
+    padding: 16px;
+}
+.audit-tabs {
+    display: flex;
+    border-bottom: 2px solid #006fcf;
+    gap: 0;
+}
+.audit-tab {
+    padding: 7px 18px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    border: 1px solid #b8d0e8;
+    border-bottom: none;
+    background: #f5f9ff;
+    color: #1e3a6e;
+    margin-right: 2px;
+    border-radius: 2px 2px 0 0;
+}
+.audit-tab.active {
+    background: #006fcf;
+    color: #fff;
+    font-weight: bold;
+    border-color: #006fcf;
+}
+.tab-content {
+    padding-top: 4px;
+}
+.bta-field-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.bta-field-row label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+}
+.bta-select-sm {
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    font-family: Arial, sans-serif;
+}
+.bta-date-input {
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    font-family: Arial, sans-serif;
+}
+.field-error {
+    border-color: #cc0000 !important;
+}
+.error-msg {
+    color: #cc0000;
+    font-size: 11px;
+}
+.checkbox-group {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.bta-btn {
+    padding: 4px 14px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.bta-btn-primary {
+    background: #1e3a6e;
+    color: #fff;
+    border: 1px solid #1e3a6e;
+}
+.bta-btn-primary:hover {
+    background: #2d5499;
+}
+.trail-result {
+    margin-top: 14px;
+}
+.trail-meta {
+    font-size: 12px;
+    color: #1e3a6e;
+    margin-bottom: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.no-records {
+    font-size: 12px;
+    color: #cc0000;
+    padding: 8px 0;
+}
+.bta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.bta-table th {
+    background: #cfe2f3;
+    border: 1px solid #b8d0e8;
+    padding: 7px 10px;
+    font-weight: bold;
+    color: #1e3a6e;
+    text-align: left;
+}
+.bta-table td {
+    border: 1px solid #dde4ed;
+    padding: 7px 10px;
+}
+.download-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}

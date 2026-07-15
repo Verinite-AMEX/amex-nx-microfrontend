@@ -1,0 +1,103 @@
+.bta-page {
+    padding: 0 16px 24px;
+    background: #fff;
+}
+.bta-panel {
+    border: 1px solid #b8d0e8;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+.bta-panel-hd {
+    background: #cfe2f3;
+    border-bottom: 1px solid #b8d0e8;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e3a6e;
+}
+.bta-panel-bd {
+    padding: 16px;
+}
+.filter-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.filter-row label {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    white-space: nowrap;
+    padding-top: 5px;
+}
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.bta-date-input {
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    font-family: Arial, sans-serif;
+}
+.bta-select-md {
+    padding: 3px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    font-family: Arial, sans-serif;
+    min-width: 200px;
+}
+.field-error {
+    border-color: #cc0000 !important;
+}
+.error-msg {
+    color: #cc0000;
+    font-size: 11px;
+}
+.req {
+    color: #cc0000;
+}
+.bta-btn {
+    padding: 4px 14px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    border-radius: 2px;
+    margin-top: 2px;
+}
+.bta-btn-secondary {
+    background: #fff;
+    color: #333;
+    border: 1px solid #aaa;
+}
+.bta-btn-secondary:hover {
+    background: #f5f5f5;
+}
+.no-records {
+    font-size: 12px;
+    color: #555;
+}
+.bta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.bta-table th {
+    background: #cfe2f3;
+    border: 1px solid #b8d0e8;
+    padding: 7px 10px;
+    font-weight: bold;
+    color: #1e3a6e;
+    text-align: left;
+}
+.bta-table td {
+    border: 1px solid #dde4ed;
+    padding: 7px 10px;
+}
+.amount {
+    text-align: right;
+    font-family: monospace;
+}

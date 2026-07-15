@@ -47,7 +47,6 @@ export class AuthApiService extends AmexPortalAuthUtil {
             username: user.username,
             roles: user.roles,
           });
-
           
           super.onLoginSuccess({
             userId: user.userId,
@@ -92,11 +91,7 @@ export class AuthApiService extends AmexPortalAuthUtil {
             roles: user.roles,
           });
 
-          super.onLoginSuccess({
-            userId: user.userId,
-            username: user.username,
-            roles: user.roles,
-          });
+          super.onLoginSuccess(user.username);
 
         }),
 

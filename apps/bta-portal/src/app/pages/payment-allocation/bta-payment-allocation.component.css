@@ -1,0 +1,119 @@
+.bta-page {
+    padding: 0 16px 24px;
+    background: #fff;
+}
+.bta-panel {
+    border: 1px solid #b8d0e8;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+.bta-panel-hd {
+    background: #cfe2f3;
+    border-bottom: 1px solid #b8d0e8;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e3a6e;
+}
+.bta-panel-bd {
+    padding: 16px;
+}
+.bta-field-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.field-label {
+    font-size: 12px;
+    color: #333;
+    line-height: 1.8;
+}
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.bta-select-wide {
+    padding: 4px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    min-width: 340px;
+    font-family: Arial, sans-serif;
+}
+.field-error {
+    border-color: #cc0000 !important;
+}
+.error-msg {
+    color: #cc0000;
+    font-size: 11px;
+}
+.success-msg {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #e6f9f0;
+    color: #1a7a4a;
+    border: 1px solid #b7e4ce;
+    font-size: 12px;
+    border-radius: 2px;
+}
+.req {
+    color: #cc0000;
+}
+.btn-row {
+    display: flex;
+    gap: 10px;
+}
+.bta-btn {
+    padding: 4px 14px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.bta-btn-primary {
+    background: #1e3a6e;
+    color: #fff;
+    border: 1px solid #1e3a6e;
+}
+.bta-btn-primary:hover {
+    background: #2d5499;
+}
+.bta-btn-secondary {
+    background: #fff;
+    color: #333;
+    border: 1px solid #aaa;
+}
+.bta-btn-secondary:hover {
+    background: #f5f5f5;
+}
+.bta-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12px;
+}
+.bta-table th {
+    background: #cfe2f3;
+    border: 1px solid #b8d0e8;
+    padding: 7px 10px;
+    font-weight: bold;
+    color: #1e3a6e;
+    text-align: left;
+}
+.bta-table td {
+    border: 1px solid #dde4ed;
+    padding: 7px 10px;
+}
+.amount {
+    text-align: right;
+    font-family: monospace;
+}
+.no-records {
+    font-size: 12px;
+    color: #555;
+    padding: 12px 0;
+}
+.bta-actions {
+    margin-top: 12px;
+}
