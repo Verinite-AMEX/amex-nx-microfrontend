@@ -1,0 +1,118 @@
+<amex-page-header portalStyle="onls" title="AUDIT TRAIL"></amex-page-header>
+<amex-breadcrumb-trail [items]="[{id:'home',label:'Home'},{id:'bta',label:'BTA Portal'},{id:'at',label:'Audit Trail'}]"
+    [showBack]="true" (backClick)="goBack()">
+</amex-breadcrumb-trail>
+
+<div class="bta-page">
+    <div class="bta-panel">
+        <div class="bta-panel-hd">Audit Trail</div>
+        <div class="bta-panel-bd">
+            <div class="audit-tabs">
+                <button class="audit-tab" [class.active]="activeTab==='detailed'"
+                    (click)="switchTab('detailed')">Detailed Report</button>
+                <button class="audit-tab" [class.active]="activeTab==='summary'" (click)="switchTab('summary')">Summary
+                    Report</button>
+            </div>
+            <div *ngIf="activeTab==='detailed'" class="tab-content">
+                <div class="bta-field-row" style="margin-top:14px;">
+                    <label>View Audit Trail For:</label>
+                    <select [(ngModel)]="detailYear" class="bta-select-sm"
+                        [class.field-error]="submitted && !detailYear">
+                        <option value="">-- Select Year --</option>
+                        <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                    </select>
+                    <span *ngIf="submitted && !detailYear" class="error-msg">Year is required.</span>
+                    <select [(ngModel)]="detailMonth" class="bta-select-sm"
+                        [class.field-error]="submitted && !detailMonth">
+                        <option value="">-- Select Month --</option>
+                        <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+                    </select>
+                    <span *ngIf="submitted && !detailMonth" class="error-msg">Month is required.</span>
+                    <button class="bta-btn bta-btn-primary" (click)="showDetailedTrail()">Show Trail</button>
+                </div>
+                <div *ngIf="detailShown" class="trail-result">
+                    <div class="trail-meta">
+                        <div>Audit Trail For {{ detailMonth }}/{{ detailYear }}</div>
+                        <div>Corporation Name: TEST BTA 9</div>
+                        <div>Corporation Account No: 10026800010</div>
+                    </div>
+                    <div *ngIf="detailedRows.length === 0" class="no-records">Audit entries are not found for this
+                        search criteria</div>
+                    <table *ngIf="detailedRows.length" class="bta-table">
+                        <thead>
+                            <tr>
+                                <th>Date/Time</th>
+                                <th>User ID</th>
+                                <th>Action</th>
+                                <th>Details</th>
+                                <th>IP Address</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let r of detailedRows">
+                                <td>{{ r.datetime }}</td>
+                                <td>{{ r.userId }}</td>
+                                <td>{{ r.action }}</td>
+                                <td>{{ r.details }}</td>
+                                <td>{{ r.ip }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="download-row" style="margin-top:12px;">
+                        <select class="bta-select-sm" [(ngModel)]="detailDownloadFormat">
+                            <option>PDF</option>
+                            <option>Excel</option>
+                            <option>CSV</option>
+                            <option>RTF</option>
+                        </select>
+                        <button class="bta-btn bta-btn-primary" (click)="downloadDetailed()">Download Report</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="activeTab==='summary'" class="tab-content">
+                <div class="bta-field-row" style="margin-top:14px;">
+                    <label>Date From:</label>
+                    <input type="date" [(ngModel)]="summaryFrom" class="bta-date-input"
+                        [class.field-error]="summarySubmitted && summaryErrors.from" [max]="today" />
+                    <label>Date To:</label>
+                    <input type="date" [(ngModel)]="summaryTo" class="bta-date-input"
+                        [class.field-error]="summarySubmitted && summaryErrors.to" [max]="today" />
+                </div>
+                <div *ngIf="summarySubmitted && summaryErrors.from" class="error-msg" style="margin-top:4px;">{{
+                    summaryErrors.from }}</div>
+                <div *ngIf="summarySubmitted && summaryErrors.to" class="error-msg" style="margin-top:4px;">{{
+                    summaryErrors.to }}</div>
+                <div *ngIf="summarySubmitted && summaryErrors.range" class="error-msg" style="margin-top:4px;">{{
+                    summaryErrors.range }}</div>
+
+                <div class="bta-field-row" style="margin-top:10px;">
+                    <label>Include Details:</label>
+                    <div class="checkbox-group">
+                        <label *ngFor="let opt of summaryOptions">
+                            <input type="checkbox" [(ngModel)]="opt.checked" /> {{ opt.label }}
+                        </label>
+                    </div>
+                </div>
+                <div *ngIf="summarySubmitted && !atLeastOneChecked()" class="error-msg" style="margin-top:4px;">
+                    Please select at least one detail to include.
+                </div>
+
+                <div class="bta-actions" style="margin-top:14px;">
+                    <button class="bta-btn bta-btn-primary" (click)="showSummaryTrail()">Show Trail</button>
+                </div>
+                <div *ngIf="summaryShown" class="trail-result">
+                    <div class="no-records">Audit entries are not found for the selected date range.</div>
+                    <div class="download-row" style="margin-top:12px;">
+                        <select class="bta-select-sm" [(ngModel)]="summaryDownloadFormat">
+                            <option>PDF</option>
+                            <option>Excel</option>
+                            <option>CSV</option>
+                            <option>RTF</option>
+                        </select>
+                        <button class="bta-btn bta-btn-primary" (click)="downloadSummary()">Download Report</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,129 @@
+.bta-page {
+    padding: 0 16px 24px;
+    background: #fff;
+}
+.bta-panel {
+    border: 1px solid #b8d0e8;
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 12px;
+}
+.bta-panel-hd {
+    background: #cfe2f3;
+    border-bottom: 1px solid #b8d0e8;
+    padding: 8px 14px;
+    font-size: 13px;
+    font-weight: bold;
+    color: #1e3a6e;
+}
+.bta-panel-bd {
+    padding: 16px;
+}
+.bta-form-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+}
+.bta-field-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.bta-field-row>label:first-child {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    min-width: 150px;
+    padding-top: 4px;
+}
+.field-wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+.bta-select-wide {
+    padding: 4px 8px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    min-width: 300px;
+    font-family: Arial, sans-serif;
+}
+.bta-select-sm {
+    padding: 3px 6px;
+    font-size: 12px;
+    border: 1px solid #aaa;
+    font-family: Arial, sans-serif;
+}
+.field-error {
+    border-color: #cc0000 !important;
+}
+.error-msg {
+    color: #cc0000;
+    font-size: 11px;
+}
+.global-error {
+    background: #fff0f0;
+    border: 1px solid #cc0000;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #cc0000;
+    margin-bottom: 14px;
+    border-radius: 2px;
+}
+.req {
+    color: #cc0000;
+}
+.radio-group-h {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+.radio-group-h label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.date-range-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 12px;
+}
+.bta-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+}
+.bta-btn {
+    padding: 5px 16px;
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+    cursor: pointer;
+    border-radius: 2px;
+}
+.bta-btn-primary {
+    background: #1e3a6e;
+    color: #fff;
+    border: 1px solid #1e3a6e;
+}
+.bta-btn-primary:hover {
+    background: #2d5499;
+}
+.bta-btn-secondary {
+    background: #fff;
+    color: #333;
+    border: 1px solid #aaa;
+}
+.success-msg {
+    margin-top: 14px;
+    padding: 10px 14px;
+    background: #e6f9f0;
+    color: #1a7a4a;
+    border: 1px solid #b7e4ce;
+    font-size: 12px;
+    border-radius: 2px;
+}

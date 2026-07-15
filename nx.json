@@ -12,14 +12,7 @@
     ],
     "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json"]
   },
-  "plugins": [
-    {
-      "plugin": "@nx/eslint/plugin",
-      "options": {
-        "targetName": "lint"
-      }
-    }
-  ],
+ 
   "targetDefaults": {
     "build": {
       "dependsOn": ["^build"],

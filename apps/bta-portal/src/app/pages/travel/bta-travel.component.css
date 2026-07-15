@@ -1,0 +1,92 @@
+.req {
+    color: #cc0000;
+}
+.field-error {
+    border-color: #cc0000 !important;
+}
+.error-msg {
+    color: #cc0000;
+    font-size: 11px;
+    margin-top: 3px;
+    display: block;
+}
+.global-error {
+    background: #fff0f0;
+    border: 1px solid #cc0000;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #cc0000;
+    margin-bottom: 12px;
+    border-radius: 4px;
+}
+.success-msg {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #e6f9f0;
+    color: #1a7a4a;
+    border: 1px solid #b7e4ce;
+    font-size: 12px;
+    border-radius: 4px;
+}
+.filter-btn {
+    padding: 5px 14px;
+    font-size: 12px;
+    font-weight: 600;
+    border: 1.5px solid #ddd;
+    border-radius: 20px;
+    cursor: pointer;
+    background: #fff;
+    color: #777;
+    transition: all .15s;
+}
+.filter-btn:hover,
+.filter-btn.active {
+    background: var(--color-primary);
+    color: #fff;
+    border-color: var(--color-primary);
+}
+.search-input {
+    margin-left: auto;
+    padding: 6px 12px;
+    border: 1.5px solid #ddd;
+    border-radius: 6px;
+    font-size: 13px;
+    width: 240px;
+    outline: none;
+}
+.search-input:focus {
+    border-color: var(--color-primary);
+}
+.action-btn {
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    margin-right: 4px;
+    transition: all .15s;
+}
+.action-btn.approve {
+    background: #e6f9f0;
+    color: #1a7a4a;
+}
+.action-btn.approve:hover {
+    background: #1a7a4a;
+    color: #fff;
+}
+.action-btn.reject {
+    background: #ffeaea;
+    color: #cc0000;
+}
+.action-btn.reject:hover {
+    background: #cc0000;
+    color: #fff;
+}
+.action-btn.view {
+    background: #f0f0f0;
+    color: #555;
+}
+.action-btn.view:hover {
+    background: #ddd;
+}

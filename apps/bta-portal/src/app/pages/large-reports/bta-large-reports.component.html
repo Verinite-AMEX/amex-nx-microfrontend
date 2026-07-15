@@ -1,0 +1,89 @@
+<amex-page-header portalStyle="onls" title="LARGE REPORTS"></amex-page-header>
+<amex-breadcrumb-trail
+    [items]="[{id:'home',label:'Home'},{id:'bta',label:'BTA Portal'},{id:'lr',label:'Large Reports'}]" [showBack]="true"
+    (backClick)="goBack()">
+</amex-breadcrumb-trail>
+
+<div class="bta-page">
+    <div class="bta-panel">
+        <div class="bta-panel-hd">Large Reports</div>
+        <div class="bta-panel-bd">
+            <div *ngIf="submitted && hasErrors()" class="global-error">
+                Please correct the highlighted errors before submitting.
+            </div>
+            <div class="bta-form-section">
+                <div class="bta-field-row">
+                    <label>Select the BTA Number: <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <select [(ngModel)]="selectedAccount" class="bta-select-wide"
+                            [class.field-error]="submitted && errors.selectedAccount">
+                            <option value="">-- Select BTA Account --</option>
+                            <option *ngFor="let a of accounts" [value]="a.value">{{ a.label }}</option>
+                        </select>
+                        <span *ngIf="submitted && errors.selectedAccount" class="error-msg">{{ errors.selectedAccount
+                            }}</span>
+                    </div>
+                </div>
+                <div class="bta-field-row" style="margin-top:12px;">
+                    <label>Report Type: <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <div class="radio-group-h">
+                            <label *ngFor="let rt of reportTypes">
+                                <input type="radio" [(ngModel)]="reportType" [value]="rt.value" /> {{ rt.label }}
+                            </label>
+                        </div>
+                        <span *ngIf="submitted && errors.reportType" class="error-msg">{{ errors.reportType }}</span>
+                    </div>
+                </div>
+                <div class="bta-field-row" style="margin-top:12px;">
+                    <label>Date Range: <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <div class="date-range-row">
+                            <label>From:</label>
+                            <select [(ngModel)]="fromMonth" class="bta-select-sm"
+                                [class.field-error]="submitted && errors.dateRange">
+                                <option value="">Month</option>
+                                <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+                            </select>
+                            <select [(ngModel)]="fromYear" class="bta-select-sm"
+                                [class.field-error]="submitted && errors.dateRange">
+                                <option value="">Year</option>
+                                <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                            </select>
+                            <label>To:</label>
+                            <select [(ngModel)]="toMonth" class="bta-select-sm"
+                                [class.field-error]="submitted && errors.dateRange">
+                                <option value="">Month</option>
+                                <option *ngFor="let m of months" [value]="m">{{ m }}</option>
+                            </select>
+                            <select [(ngModel)]="toYear" class="bta-select-sm"
+                                [class.field-error]="submitted && errors.dateRange">
+                                <option value="">Year</option>
+                                <option *ngFor="let y of years" [value]="y">{{ y }}</option>
+                            </select>
+                        </div>
+                        <span *ngIf="submitted && errors.dateRange" class="error-msg">{{ errors.dateRange }}</span>
+                    </div>
+                </div>
+                <div class="bta-field-row" style="margin-top:12px;">
+                    <label>Report Format: <span class="req">*</span></label>
+                    <div class="field-wrap">
+                        <div class="radio-group-h">
+                            <label *ngFor="let f of formats">
+                                <input type="radio" [(ngModel)]="format" [value]="f" /> {{ f }}
+                            </label>
+                        </div>
+                        <span *ngIf="submitted && errors.format" class="error-msg">{{ errors.format }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="bta-actions">
+                <button class="bta-btn bta-btn-secondary" (click)="reset()">Reset</button>
+                <button class="bta-btn bta-btn-primary" (click)="generate()">Generate Report</button>
+            </div>
+            <div *ngIf="generated" class="success-msg">
+                ✓ Report queued for generation. You will be notified when it is ready for download.
+            </div>
+        </div>
+    </div>
+</div>

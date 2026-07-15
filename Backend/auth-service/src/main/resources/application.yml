@@ -10,7 +10,7 @@ spring:
     url: jdbc:mysql://localhost:3306/amex_auth?createDatabaseIfNotExist=true&useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
-    password: root
+    password: Verinite@123
 
   # ── JPA ─────────────────────────────────────────────────────────────
   jpa:
