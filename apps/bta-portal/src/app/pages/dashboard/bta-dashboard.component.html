@@ -1,0 +1,101 @@
+<div class="bta-dashboard">
+    <div class="sub-nav">
+        <div class="sub-nav-item active" (click)="navigate('')">Dashboard</div>
+        <div class="sub-nav-item" (click)="navigate('travel')">Travel Requests</div>
+        <div class="sub-nav-item" (click)="navigate('reports')">Expense Reports</div>
+        <div class="sub-nav-item" (click)="navigate('settings')">Settings</div>
+    </div>
+    <div class="page-title">BTA Portal</div>
+    <div class="page-subtitle">Business Travel & Expense Management</div>
+    <div class="grid-4">
+        <div class="stat-card accent">
+            <div class="label">Active Travel Requests</div>
+            <div class="value">24</div>
+            <div class="sub">↑ 3 this week</div>
+        </div>
+        <div class="stat-card success">
+            <div class="label">Approved This Month</div>
+            <div class="value">142</div>
+            <div class="sub">$284,500 total</div>
+        </div>
+        <div class="stat-card warning">
+            <div class="label">Pending Approval</div>
+            <div class="value">18</div>
+            <div class="sub">Awaiting manager sign-off</div>
+        </div>
+        <div class="stat-card danger">
+            <div class="label">Policy Exceptions</div>
+            <div class="value">5</div>
+            <div class="sub">Require review</div>
+        </div>
+    </div>
+    <div class="grid-2">
+        <div class="card">
+            <div class="card-header">
+                Recent Travel Requests
+                <button class="btn-secondary" style="font-size:12px;padding:5px 12px;" (click)="navigate('travel')">View
+                    All</button>
+            </div>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Traveler</th>
+                        <th>Destination</th>
+                        <th>Dates</th>
+                        <th>Amount</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let req of recentRequests">
+                        <td>{{ req.traveler }}</td>
+                        <td>{{ req.destination }}</td>
+                        <td style="font-size:11px;color:#aaa;">{{ req.dates }}</td>
+                        <td><strong>\${{ req.amount.toLocaleString() }}</strong></td>
+                        <td>
+                            <span class="badge" [class.badge-success]="req.status === 'approved'"
+                                [class.badge-warning]="req.status === 'pending'"
+                                [class.badge-danger]="req.status === 'rejected'">
+                                {{ req.status | titlecase }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="card">
+            <div class="card-header">Expense Breakdown — June 2025</div>
+            <div class="card-body">
+                <div *ngFor="let item of expenseBreakdown" class="expense-bar-row">
+                    <div class="expense-bar-label">
+                        <span>{{ item.category }}</span>
+                        <span class="expense-bar-amount">\${{ item.amount.toLocaleString() }}</span>
+                    </div>
+                    <div class="expense-bar-track">
+                        <div class="expense-bar-fill" [style.width.%]="item.percent" [style.background]="item.color">
+                        </div>
+                    </div>
+                </div>
+                <div class="expense-total">
+                    <span>Total Spend</span>
+                    <strong>\$284,500</strong>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">Recent Activity</div>
+        <div class="card-body">
+            <div class="timeline">
+                <div class="timeline-item" *ngFor="let item of activityLog">
+                    <div class="timeline-dot" [ngClass]="item.dotClass">{{ item.icon }}</div>
+                    <div class="timeline-content">
+                        <div class="timeline-title">{{ item.title }}</div>
+                        <div class="timeline-meta">{{ item.meta }}</div>
+                    </div>
+                    <div class="timeline-amount" *ngIf="item.amount">\${{ item.amount.toLocaleString() }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
