@@ -1,0 +1,41 @@
+.bta-dashboard {
+    padding: 0;
+}
+.expense-bar-row {
+    margin-bottom: 16px;
+}
+.expense-bar-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: #555;
+    margin-bottom: 6px;
+}
+.expense-bar-amount {
+    font-weight: 600;
+    color: #333;
+}
+.expense-bar-track {
+    background: #f0f0f0;
+    border-radius: 4px;
+    height: 8px;
+}
+.expense-bar-fill {
+    height: 8px;
+    border-radius: 4px;
+    transition: width .4s;
+}
+.expense-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+    padding-top: 16px;
+    border-top: 1px solid #f0f0f0;
+    font-size: 14px;
+    color: #555;
+}
+.expense-total strong {
+    font-size: 18px;
+    color: var(--color-primary);
+}
