@@ -14,10 +14,6 @@
   box-sizing: border-box;
 }
 
-/*====================================================
- Header
-====================================================*/
-
 .vat-report__header {
   background: #a8c6e4;
   border-bottom: 1px solid #9db9d5;
@@ -30,10 +26,6 @@
 .vat-report__body {
   padding: 18px 24px 16px;
 }
-
-/*====================================================
- Invoice Details
-====================================================*/
 
 .vat-report__details {
   display: flex;
@@ -62,29 +54,19 @@
   color: #111;
 }
 
-/*====================================================
- Amex Paginated Table Override
-====================================================*/
-
-/* Remove the default pagination */
 ::ng-deep .pt__pager {
   display: none !important;
 }
 
-/* Remove outer border */
 ::ng-deep .pt {
   border: none;
   box-shadow: none;
 }
 
-/* Table */
-
 ::ng-deep .pt__table {
   width: 100%;
   border-collapse: collapse;
 }
-
-/* Header */
 
 ::ng-deep .pt__head-row {
   background: #a8c6e4 !important;
@@ -99,15 +81,11 @@
   padding: 8px 14px;
 }
 
-/* Body */
-
 ::ng-deep .pt__td {
   border: 1px solid #d5dee8;
   padding: 6px 14px;
   font-size: 13px;
 }
-
-/* Alternate rows */
 
 ::ng-deep .pt__row:nth-child(even) .pt__td {
   background: #eef5fc;
@@ -116,8 +94,6 @@
 ::ng-deep .pt__row:nth-child(odd) .pt__td {
   background: #ffffff;
 }
-
-/* Column widths */
 
 ::ng-deep .pt__th:first-child,
 ::ng-deep .pt__td:first-child {
@@ -135,10 +111,6 @@
   width: 24%;
   text-align: right;
 }
-
-/*====================================================
- Total Row
-====================================================*/
 
 .vat-report__total {
   display: flex;
@@ -160,10 +132,6 @@
   min-width: 120px;
   text-align: right;
 }
-
-/*====================================================
- Download Button
-====================================================*/
 
 .vat-report__actions {
   margin-top: 18px;
@@ -187,10 +155,6 @@
 ::ng-deep ui-button button:hover {
   background: linear-gradient(#4298e5, #005eb6);
 }
-
-/*====================================================
- Responsive
-====================================================*/
 
 @media (max-width: 900px) {
   .vat-report__details {

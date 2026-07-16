@@ -39,10 +39,6 @@ import { VatInvoiceReport } from '../vat-invoice-report/vat-invoice-report';
   styleUrl: './vat-cust-home-component.css',
 })
 export class VatCustHomeComponent {
-  // =====================================================
-  // Customer Type Radio
-  // =====================================================
-
   customerTypeOptions: RadioOption[] = [
     {
       label: 'Corporate',
@@ -53,10 +49,6 @@ export class VatCustHomeComponent {
       value: 'Consumer',
     },
   ];
-
-  // =====================================================
-  // Search Type Radio
-  // =====================================================
 
   searchTypeOptions: RadioOption[] = [
     {
@@ -72,10 +64,6 @@ export class VatCustHomeComponent {
       value: 'control',
     },
   ];
-
-  // =====================================================
-  // Selected Values
-  // =====================================================
 
   selectedCustomerType = 'Corporate';
 
@@ -98,10 +86,6 @@ export class VatCustHomeComponent {
   invoice: VatInvoice | null = null;
 
   hasSearched = false;
-
-  // =====================================================
-  // Dropdown Data
-  // =====================================================
 
   countries = [
     'United Arab Emirates',
@@ -129,10 +113,6 @@ export class VatCustHomeComponent {
 
   years: string[] = [];
 
-  // =====================================================
-  // Constructor
-  // =====================================================
-
   constructor(
     private vatInvoiceMockService: VatInvoiceMockService,
     private cdr: ChangeDetectorRef,
@@ -153,7 +133,6 @@ export class VatCustHomeComponent {
       this.invoice = invoice;
       console.log('Received Invoice in component:', invoice);
 
-      // Ignore the initial BehaviorSubject(null)
       if (!this.hasSearched) {
         return;
       }
@@ -169,10 +148,6 @@ export class VatCustHomeComponent {
     });
   }
 
-  // =====================================================
-  // Customer Type Changed
-  // =====================================================
-
   onCustomerTypeChange(value: string): void {
     this.selectedCustomerType = value;
 
@@ -182,10 +157,6 @@ export class VatCustHomeComponent {
 
     this.clearValidation();
   }
-
-  // =====================================================
-  // Search Type Changed
-  // =====================================================
 
   onSearchTypeChange(value: 'vat' | 'invoice' | 'control'): void {
     this.selectedSearchType = value;
@@ -198,10 +169,6 @@ export class VatCustHomeComponent {
 
     this.clearValidation();
   }
-
-  // =====================================================
-  // Generate Report
-  // =====================================================
 
   generateReport(): void {
     this.invoice = null;
@@ -231,14 +198,9 @@ export class VatCustHomeComponent {
     }
   }
 
-  // =====================================================
-  // Validation
-  // =====================================================
-
   private validate(): boolean {
     const value = this.searchValue.trim();
 
-    // Required validation
     if (!value) {
       this.showError = true;
       this.errorMessage = 'Please enter a value.';
@@ -246,10 +208,6 @@ export class VatCustHomeComponent {
     }
 
     switch (this.selectedSearchType) {
-      // ==========================================
-      // VAT Registration Number
-      // ==========================================
-
       case 'vat':
         if (!/^\d{15}$/.test(value)) {
           this.showError = true;
@@ -266,10 +224,6 @@ export class VatCustHomeComponent {
 
         break;
 
-      // ==========================================
-      // Invoice Number
-      // ==========================================
-
       case 'invoice':
         if (!/^INV-\d{4}-\d{5}$/i.test(value)) {
           this.showError = true;
@@ -279,10 +233,6 @@ export class VatCustHomeComponent {
         }
 
         break;
-
-      // ==========================================
-      // Basic Control Account
-      // ==========================================
 
       case 'control':
         if (!/^\d{4}$/.test(value)) {
@@ -297,18 +247,10 @@ export class VatCustHomeComponent {
     return true;
   }
 
-  // =====================================================
-  // Reset Validation
-  // =====================================================
-
   private clearValidation(): void {
     this.showError = false;
     this.errorMessage = '';
   }
-
-  // =====================================================
-  // Download PDF
-  // =====================================================
 
   downloadPdf(): void {
     console.log('Download PDF');

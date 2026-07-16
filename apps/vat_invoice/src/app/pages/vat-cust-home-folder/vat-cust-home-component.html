@@ -5,11 +5,9 @@
     <div class="vat-home__header"></div>
 
     <div class="vat-home__body">
-      <!-- Error -->
       @if (showError) {
       <div class="vat-home__error">{{ errorMessage }}</div>
       }
-      <!-- Customer Type -->
 
       <div class="vat-home__section">
         <ui-radio-group
@@ -22,8 +20,6 @@
         </ui-radio-group>
       </div>
 
-      <!-- Search By -->
-
       <div class="vat-home__section">
         <ui-radio-group
           name="searchType"
@@ -34,8 +30,6 @@
         >
         </ui-radio-group>
       </div>
-
-      <!-- VAT Registration Layout -->
 
       @if(selectedSearchType === 'vat'){
 
@@ -104,11 +98,7 @@
         </div>
       </div>
 
-      }
-
-      <!-- Invoice Number Layout -->
-
-      @if(selectedSearchType === 'invoice'){
+      } @if(selectedSearchType === 'invoice'){
 
       <div class="vat-home__grid">
         <div class="vat-home__field">
@@ -122,11 +112,7 @@
         </div>
       </div>
 
-      }
-
-      <!-- Basic Control Account -->
-
-      @if(selectedSearchType === 'control'){
+      } @if(selectedSearchType === 'control'){
 
       <div class="vat-home__grid">
         <div class="vat-home__field">
@@ -142,8 +128,6 @@
 
       }
 
-      <!-- Button -->
-
       <div class="vat-home__button-row">
         <ui-button label="Generate Report" (click)="generateReport()">
         </ui-button>
@@ -151,7 +135,6 @@
     </div>
   </div>
 
-  <!-- <p>Invoice is null: {{ invoice === null }}</p> -->
   @if (invoice) {
 
   <app-vat-invoice-report [invoice]="invoice" (downloadPDF)="downloadPdf()">
@@ -159,5 +142,3 @@
 
   }
 </div>
-<!-- <amex-paginated-table [columns]="invoiceColumns" [rows]="invoiceRows">
-</amex-paginated-table> -->

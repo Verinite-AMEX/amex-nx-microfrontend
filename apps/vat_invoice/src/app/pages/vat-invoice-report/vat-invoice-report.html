@@ -1,5 +1,4 @@
 <div class="vat-report" *ngIf="invoice">
-  <!-- Header -->
   <div class="vat-report__header">Tax Invoice</div>
 
   <div class="vat-report__body">
@@ -32,8 +31,6 @@
       </div>
     </div>
 
-    <!-- Invoice Table -->
-
     <amex-paginated-table
       [columns]="invoiceColumns"
       [rows]="invoiceRows"
@@ -43,16 +40,12 @@
     >
     </amex-paginated-table>
 
-    <!-- Total VAT -->
-
     <div class="vat-report__total">
       <span class="vat-report__total-label">Total VAT</span>
       <span class="vat-report__total-value">
         {{ totalVat | number:'1.2-2' }}
       </span>
     </div>
-
-    <!-- Download -->
 
     <div class="vat-report__actions">
       <ui-button label="Download PDF" (clicked)="downloadPdf()"> </ui-button>
