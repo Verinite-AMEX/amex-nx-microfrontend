@@ -104,46 +104,46 @@
   align-items: stretch;
 }
 .wp__input {
-  border: 1px solid #ccc;
-  border-right: none;
-  padding: 8px 12px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
+  --input-border: 1px solid #ccc;
+  --input-padding: 8px 12px;
+  --input-radius: 0;
+  --input-focus-border-color: #1a6cb8;
+  --input-focus-shadow: none;
   width: 340px;
-  outline: none;
-  box-sizing: border-box;
+  display: inline-block;
 }
-.wp__input:focus {
-  border-color: #1a6cb8;
+/* --input-border has no per-side variant; the right border is dropped so the
+   input sits flush against the Enter button, same as the original layout. */
+.wp__input ::ng-deep .input {
+  border-right: none;
 }
+
 .wp__enter-btn {
-  padding: 8px 24px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  border: 1px solid #ccc;
-  background: #f5f5f5;
-  color: #777;
+  --btn-bg: #f5f5f5;
+  --btn-bg-hover: #f5f5f5;
+  --btn-color: #777;
+  --btn-border: 1px solid #ccc;
+  --btn-radius: 0;
+  --btn-padding: 8px 24px;
+  --btn-font-size: 14px;
+  --btn-font-weight: normal;
   white-space: nowrap;
+  display: inline-flex;
 }
 .wp__enter-btn--filled {
-  background: #1a6cb8;
-  color: #fff;
-  border-color: #1a6cb8;
-}
-.wp__enter-btn--filled:hover {
-  background: #155a9e;
+  --btn-bg: #1a6cb8;
+  --btn-bg-hover: #155a9e;
+  --btn-color: #fff;
+  --btn-border: 1px solid #1a6cb8;
 }
 
 .wp__select {
-  border: 1px solid #ccc;
-  padding: 7px 10px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
+  --select-border: 1px solid #ccc;
+  --select-padding: 7px 10px;
+  --select-radius: 0;
+  --select-font-size: 14px;
   width: 420px;
-  outline: none;
-  background: #fff;
-  cursor: pointer;
+  display: block;
 }
 
 .wp__card-art-row {
@@ -214,17 +214,15 @@
   color: #222;
 }
 .wp__apply-btn {
-  background: #1a6cb8;
-  color: #fff;
-  border: none;
-  padding: 7px 26px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.wp__apply-btn:hover {
-  background: #155a9e;
+  --btn-bg: #1a6cb8;
+  --btn-bg-hover: #155a9e;
+  --btn-color: #fff;
+  --btn-border: none;
+  --btn-radius: 2px;
+  --btn-padding: 7px 26px;
+  --btn-font-size: 14px;
+  --btn-font-weight: normal;
+  display: inline-flex;
 }
 
 .wp__type-tabs {
@@ -235,24 +233,26 @@
   margin-bottom: 20px;
 }
 .wp__type-tab {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 6px;
-  cursor: pointer;
-  padding-bottom: 12px;
+  --btn-bg: transparent;
+  --btn-bg-hover: transparent;
+  --btn-border: none;
+  --btn-color: #666;
+  --btn-flex-direction: column;
+  --btn-gap: 6px;
+  --btn-padding: 0 0 12px;
+  --btn-font-size: 13px;
+  --btn-font-weight: bold;
   border-bottom: 3px solid transparent;
-  color: #666;
   min-width: 64px;
   transition:
     color 0.15s,
     border-color 0.15s;
 }
 .wp__type-tab:hover {
-  color: #1a6cb8;
+  --btn-color: #1a6cb8;
 }
 .wp__type-tab--active {
-  color: #1a6cb8;
+  --btn-color: #1a6cb8;
   border-bottom-color: #1a6cb8;
 }
 .wp__type-icon {
@@ -261,10 +261,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-.wp__type-label {
-  font-size: 13px;
-  font-weight: bold;
 }
 
 .wp__issue-layout {
@@ -300,27 +296,29 @@
   flex: 1;
 }
 .wp__faq-btn {
-  background: none;
-  border: 2px solid #006fcf;
-  color: #006fcf;
+  --btn-bg: transparent;
+  --btn-bg-hover: transparent;
+  --btn-border: 2px solid #006fcf;
+  --btn-color: #006fcf;
+  --btn-radius: 50%;
+  --btn-padding: 0;
+  --btn-flex-direction: column;
+  --btn-gap: 1px;
+  --btn-align-items: center;
+  --btn-justify-content: center;
   width: 36px;
   height: 36px;
-  border-radius: 50%;
-  cursor: pointer;
+  flex-shrink: 0;
+}
+.wp__faq-icon {
   font-size: 13px;
   font-weight: bold;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 0;
-  flex-shrink: 0;
   line-height: 1;
-  gap: 1px;
 }
-.wp__faq-label {
+.wp__faq-btn ::ng-deep .btn-label {
   font-size: 8px;
   font-weight: normal;
+  line-height: 1;
 }
 .wp__product-name {
   font-size: 15px;
@@ -337,26 +335,18 @@
   min-height: 200px;
 }
 .wp__carousel-arrow {
-  background: #555;
-  border: none;
-  color: #fff;
-  width: 36px;
-  height: 36px;
-  cursor: pointer;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 2px;
+  --icon-btn-bg: #555;
+  --icon-btn-hover-bg: #333;
+  --icon-btn-color: #fff;
+  --icon-btn-size: 36px;
   flex-shrink: 0;
-  font-family: Arial, sans-serif;
 }
-.wp__carousel-arrow:disabled {
+.wp__carousel-arrow ::ng-deep .icon-btn {
+  border-radius: 2px;
+  font-size: 16px;
+}
+.wp__carousel-arrow ::ng-deep .icon-btn:disabled {
   opacity: 0.25;
-  cursor: not-allowed;
-}
-.wp__carousel-arrow:not(:disabled):hover {
-  background: #333;
 }
 .wp__product-img-area {
   flex: 1;
@@ -372,16 +362,12 @@
   align-items: center;
   justify-content: center;
 }
-.wp__product-img {
+/* ui-image fills 100%/100% of its parent, so it needs an explicit-height box
+   the way the raw <img>'s own height:180px used to provide directly. */
+.wp__product-img-box {
   width: 100%;
   max-width: 260px;
   height: 180px;
-  object-fit: contain;
-  display: block;
-}
-.wp__product-svg {
-  width: 100%;
-  height: auto;
 }
 
 .wp__dots {
@@ -434,17 +420,19 @@
   border-color: #999;
 }
 .wp__name-input {
-  border: none;
+  --input-border: none;
+  --input-radius: 0;
+  --input-padding: 2px 4px;
+  --input-focus-border-color: transparent;
+  --input-focus-shadow: none;
   border-bottom: 1px solid #ccc;
-  outline: none;
   font-size: 13px;
   color: #006fcf;
-  font-family: Arial, sans-serif;
-  padding: 2px 4px;
   background: transparent;
   width: 120px;
+  display: inline-block;
 }
-.wp__name-input:focus {
+.wp__name-input:focus-within {
   border-bottom-color: #1a6cb8;
 }
 
@@ -455,32 +443,27 @@
   align-items: center;
 }
 .wp__create-btn {
-  background: #1a6cb8;
-  color: #fff;
-  border: none;
-  padding: 10px 22px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  font-weight: normal;
-  border-radius: 2px;
+  --btn-bg: #1a6cb8;
+  --btn-bg-hover: #155a9e;
+  --btn-color: #fff;
+  --btn-border: none;
+  --btn-radius: 2px;
+  --btn-padding: 10px 22px;
+  --btn-font-size: 14px;
+  --btn-font-weight: normal;
   white-space: nowrap;
-}
-.wp__create-btn:hover {
-  background: #155a9e;
+  display: inline-flex;
 }
 .wp__goback-btn {
-  background: #fff;
-  color: #333;
-  border: 1px solid #aaa;
-  padding: 10px 28px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.wp__goback-btn:hover {
-  background: #f5f5f5;
+  --btn-bg: #fff;
+  --btn-bg-hover: #f5f5f5;
+  --btn-color: #333;
+  --btn-border: 1px solid #aaa;
+  --btn-radius: 2px;
+  --btn-padding: 10px 28px;
+  --btn-font-size: 14px;
+  --btn-font-weight: normal;
+  display: inline-flex;
 }
 
 .wp__right-panel {
@@ -505,19 +488,13 @@
   line-height: 1.4;
 }
 .wp__rp-table {
-  border-collapse: collapse;
+  --table-cell-padding: 8px 0;
   width: 100%;
   margin: 4px 0;
-}
-.wp__rp-table tr td {
-  padding: 8px 0;
-  vertical-align: middle;
 }
 .wp__rp-label {
   font-size: 13px;
   color: #555;
-  width: 130px;
-  vertical-align: middle;
 }
 .wp__rp-value {
   font-size: 13px;
@@ -556,8 +533,12 @@
   gap: 8px;
   font-size: 13px;
 }
-.wp__rp-tc-row input[type="checkbox"] {
-  accent-color: #1a6cb8;
+/* ui-checkbox doesn't expose its checked-state color as a CSS var yet, so this
+   is the one spot that needs ::ng-deep to keep the original accent (#1a6cb8
+   vs the component's built-in #1976d2). */
+.wp__rp-tc-row ::ng-deep .checkbox-input:checked + .checkbox-box {
+  background: #1a6cb8;
+  border-color: #1a6cb8;
 }
 .wp__rp-tc-link {
   color: #006fcf;
@@ -565,25 +546,23 @@
   cursor: pointer;
 }
 .wp__rp-submit-btn {
-  display: block;
-  width: 100%;
-  background: #1a3a6b;
-  color: #fff;
-  border: none;
-  padding: 13px 0;
-  font-size: 15px;
-  font-weight: bold;
-  cursor: pointer;
-  font-family: Arial, sans-serif;
-  border-radius: 2px;
+  --btn-bg: #1a3a6b;
+  --btn-bg-hover: #16304f;
+  --btn-color: #fff;
+  --btn-border: none;
+  --btn-radius: 2px;
+  --btn-padding: 13px 0;
+  --btn-font-size: 15px;
+  --btn-font-weight: bold;
   margin-top: 4px;
+  display: block;
 }
-.wp__rp-submit-btn:hover:not(:disabled) {
-  background: #16304f;
+.wp__rp-submit-btn ::ng-deep .btn-label {
+  width: 100%;
+  text-align: center;
 }
-.wp__rp-submit-btn:disabled {
+.wp__rp-submit-btn ::ng-deep button:disabled {
   opacity: 0.4;
-  cursor: not-allowed;
 }
 
 .wp__right-inner--success {
@@ -607,29 +586,29 @@
   font-weight: normal;
 }
 .wp__view-summary-btn {
+  --btn-bg: #1a6cb8;
+  --btn-bg-hover: #155a9e;
+  --btn-color: #fff;
+  --btn-border: none;
+  --btn-radius: 2px;
+  --btn-padding: 10px 28px;
+  --btn-font-size: 14px;
+  --btn-font-weight: normal;
   margin-top: 16px;
-  background: #1a6cb8;
-  color: #fff;
-  border: none;
-  padding: 10px 28px;
-  font-size: 14px;
-  font-family: Arial, sans-serif;
-  cursor: pointer;
-  border-radius: 2px;
-}
-.wp__view-summary-btn:hover {
-  background: #155a9e;
+  display: inline-flex;
 }
 
 .wp__back-link {
-  background: none;
-  border: none;
-  color: #006fcf;
-  font-size: 13px;
-  cursor: pointer;
+  --btn-bg: transparent;
+  --btn-bg-hover: transparent;
+  --btn-color: #006fcf;
+  --btn-border: none;
+  --btn-radius: 0;
+  --btn-padding: 0;
+  --btn-font-size: 13px;
+  --btn-font-weight: normal;
   text-decoration: underline;
-  font-family: Arial, sans-serif;
-  padding: 0;
+  display: inline-flex;
 }
 
 .wp__summary {
@@ -643,19 +622,17 @@
   margin-bottom: 18px;
 }
 .wp__summary-table {
-  border-collapse: collapse;
   margin-bottom: 16px;
 }
 .wp__sl {
-  padding: 8px 24px 8px 0;
+  --table-cell-padding: 8px 24px 8px 0;
   font-size: 13px;
   font-weight: bold;
   color: #333;
   white-space: nowrap;
-  vertical-align: top;
 }
 .wp__sv {
-  padding: 8px 0;
+  --table-cell-padding: 8px 0;
   font-size: 13px;
   color: #006fcf;
 }

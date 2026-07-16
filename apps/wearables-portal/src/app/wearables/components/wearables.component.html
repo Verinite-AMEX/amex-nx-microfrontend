@@ -24,19 +24,18 @@
       <div class="wp__title">Enter Client Number</div>
       <div class="wp__divider"></div>
       <div class="wp__input-row">
-        <input
+        <ui-input
           class="wp__input"
           [(ngModel)]="clientCode"
           placeholder="eg. 12345"
           (keyup.enter)="onEnterClient()"
-        />
-        <button
+        ></ui-input>
+        <ui-button
           class="wp__enter-btn"
           [class.wp__enter-btn--filled]="clientCode.trim()"
+          label="Enter"
           (click)="onEnterClient()"
-        >
-          Enter
-        </button>
+        ></ui-button>
       </div>
     </div>
 
@@ -51,12 +50,13 @@
       <div class="wp__section">
         <div class="wp__title">Please Select Basic Card</div>
         <div class="wp__divider"></div>
-        <select class="wp__select" [(ngModel)]="selectedCard">
-          <option [ngValue]="null" disabled>-- Select a Card --</option>
-          <option *ngFor="let c of cards" [ngValue]="c">
-            {{ c.cardNumber }} - {{ c.cardType }}
-          </option>
-        </select>
+        <ui-select
+          class="wp__select"
+          [options]="cardSelectOptions"
+          placeholder="-- Select a Card --"
+          [nativeAppearance]="true"
+          [(ngModel)]="selectedCardValue"
+        ></ui-select>
       </div>
 
       <div class="wp__section" *ngIf="selectedCard">
@@ -79,7 +79,7 @@
 
       <div class="wp__apply-row">
         <span class="wp__apply-text">Want to apply for a new wearable?</span>
-        <button class="wp__apply-btn" (click)="onApply()">Apply</button>
+        <ui-button class="wp__apply-btn" label="Apply" (click)="onApply()"></ui-button>
       </div>
     </ng-container>
   </ng-container>
@@ -92,15 +92,16 @@
 
     <!-- Type icon tabs -->
     <div class="wp__type-tabs">
-      <div
+      <ui-button
         *ngFor="let t of wearableTypes"
         class="wp__type-tab"
         [class.wp__type-tab--active]="selectedWearableType === t.id"
+        variant="ghost"
+        [label]="t.label"
         (click)="selectType(t.id)"
       >
-        <div class="wp__type-icon" [innerHTML]="t.svg"></div>
-        <span class="wp__type-label">{{ t.label }}</span>
-      </div>
+        <span slot="icon-start" class="wp__type-icon" [innerHTML]="t.svg"></span>
+      </ui-button>
     </div>
 
     <div
@@ -114,54 +115,58 @@
             The American Express {{ selectedCard?.cardType }} Credit Card
             &ndash; Card Ending {{ selectedCard?.cardNumber | slice: -4 }}
           </span>
-          <button class="wp__faq-btn" title="FAQ">
-            <span>?</span>
-            <span class="wp__faq-label">FAQ</span>
-          </button>
+          <ui-button class="wp__faq-btn" variant="ghost" label="FAQ" [attr.title]="'FAQ'">
+            <span slot="icon-start" class="wp__faq-icon">?</span>
+          </ui-button>
         </div>
 
         <div class="wp__product-name">{{ currentProduct.name }}</div>
 
         <!-- Carousel -->
         <div class="wp__carousel">
-          <button
+          <ui-icon-button
             class="wp__carousel-arrow"
-            (click)="prevProduct()"
+            icon="←"
+            ariaLabel="Previous product"
             [disabled]="selectedWearableIndex === 0"
-          >
-            &#8592;
-          </button>
+            (clicked)="prevProduct()"
+          ></ui-icon-button>
 
           <div class="wp__product-img-area">
             <div class="wp__product-img-shell">
-              <img
-                *ngIf="selectedWearableType === 'Watch'"
-                src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw46845574/images/Titan/Catalog/2649WL04_3.jpg?sw=600&sh=600"
-                alt="Amex Leather Watch"
-                class="wp__product-img"
-              />
-              <img
-                *ngIf="selectedWearableType === 'band'"
-                src="https://i.dailymail.co.uk/i/pix/2014/09/16/1410878725038_wps_7_Black_jpg.jpg"
-                alt="Amex Sport Band"
-                class="wp__product-img"
-              />
-              <img
-                *ngIf="selectedWearableType === 'ring'"
-                src="https://th.bing.com/th/id/OIP.0-DKtEkXttYBSqhPb0ParQHaHa?w=192&h=192&c=7&r=0&o=7&pid=1.7&rm=3"
-                alt="Amex Ring"
-                class="wp__product-img"
-              />
+              <div class="wp__product-img-box">
+                <ui-image
+                  *ngIf="selectedWearableType === 'Watch'"
+                  src="https://www.titan.co.in/dw/image/v2/BKDD_PRD/on/demandware.static/-/Sites-titan-master-catalog/default/dw46845574/images/Titan/Catalog/2649WL04_3.jpg?sw=600&sh=600"
+                  alt="Amex Leather Watch"
+                  class="wp__product-img"
+                  objectFit="contain"
+                ></ui-image>
+                <ui-image
+                  *ngIf="selectedWearableType === 'band'"
+                  src="https://i.dailymail.co.uk/i/pix/2014/09/16/1410878725038_wps_7_Black_jpg.jpg"
+                  alt="Amex Sport Band"
+                  class="wp__product-img"
+                  objectFit="contain"
+                ></ui-image>
+                <ui-image
+                  *ngIf="selectedWearableType === 'ring'"
+                  src="https://th.bing.com/th/id/OIP.0-DKtEkXttYBSqhPb0ParQHaHa?w=192&h=192&c=7&r=0&o=7&pid=1.7&rm=3"
+                  alt="Amex Ring"
+                  class="wp__product-img"
+                  objectFit="contain"
+                ></ui-image>
+              </div>
             </div>
           </div>
 
-          <button
+          <ui-icon-button
             class="wp__carousel-arrow"
-            (click)="nextProduct()"
+            icon="→"
+            ariaLabel="Next product"
             [disabled]="selectedWearableIndex >= currentProducts.length - 1"
-          >
-            &#8594;
-          </button>
+            (clicked)="nextProduct()"
+          ></ui-icon-button>
         </div>
 
         <div class="wp__dots">
@@ -188,20 +193,16 @@
         </div>
         <div class="wp__attr-row">
           <span class="wp__attr-label">Wearable Name</span>
-          <input
+          <ui-input
             class="wp__name-input"
-            [(ngModel)]="wearableName"
-            maxlength="20"
-          />
+            [ngModel]="wearableName"
+            (ngModelChange)="onWearableNameChange($event)"
+          ></ui-input>
         </div>
 
         <div class="wp__action-btns">
-          <button class="wp__create-btn" (click)="onCreateWearable()">
-            Create My Amex Wearable
-          </button>
-          <button class="wp__goback-btn" (click)="step = 'cards'">
-            Go Back
-          </button>
+          <ui-button class="wp__create-btn" label="Create My Amex Wearable" (click)="onCreateWearable()"></ui-button>
+          <ui-button class="wp__goback-btn" label="Go Back" (click)="step = 'cards'"></ui-button>
         </div>
       </div>
 
@@ -215,42 +216,44 @@
               &ndash; Card Ending {{ selectedCard?.cardNumber | slice: -4 }}
             </div>
 
-            <table class="wp__rp-table">
-              <tr>
-                <td class="wp__rp-label">Wearable Type</td>
-                <td class="wp__rp-value">{{ currentProduct?.type }}</td>
-              </tr>
-              <tr>
-                <td class="wp__rp-label">Color Selected</td>
-                <td class="wp__rp-value">
-                  <div
-                    class="wp__rp-color-swatch"
-                    [style.background]="currentSelectedColor.hex"
-                  ></div>
-                </td>
-              </tr>
-              <tr>
-                <td class="wp__rp-label">Wearable Name</td>
-                <td class="wp__rp-value wp__rp-value--blue">
-                  {{ wearableName }}
-                </td>
-              </tr>
-            </table>
+            <ui-table class="wp__rp-table">
+              <ui-table-body>
+                <ui-table-row [hoverable]="false">
+                  <ui-table-cell class="wp__rp-label" [width]="'130px'">Wearable Type</ui-table-cell>
+                  <ui-table-cell class="wp__rp-value">{{ currentProduct?.type }}</ui-table-cell>
+                </ui-table-row>
+                <ui-table-row [hoverable]="false">
+                  <ui-table-cell class="wp__rp-label" [width]="'130px'">Color Selected</ui-table-cell>
+                  <ui-table-cell class="wp__rp-value">
+                    <div
+                      class="wp__rp-color-swatch"
+                      [style.background]="currentSelectedColor.hex"
+                    ></div>
+                  </ui-table-cell>
+                </ui-table-row>
+                <ui-table-row [hoverable]="false">
+                  <ui-table-cell class="wp__rp-label" [width]="'130px'">Wearable Name</ui-table-cell>
+                  <ui-table-cell class="wp__rp-value wp__rp-value--blue">
+                    {{ wearableName }}
+                  </ui-table-cell>
+                </ui-table-row>
+              </ui-table-body>
+            </ui-table>
 
             <div class="wp__rp-thumb-row">
               <div class="wp__rp-thumb">
-                <img
+                <ui-image
                   *ngIf="selectedWearableType === 'Watch'"
                   src="https://images.unsplash.com/photo-1573408301185-9519f94977f1?auto=format&w=120&q=80"
                   alt="Watch thumbnail"
                   class="wp__rp-thumb-img"
-                />
-                <img
+                ></ui-image>
+                <ui-image
                   *ngIf="selectedWearableType === 'band'"
                   src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&w=120&q=80"
                   alt="Band thumbnail"
                   class="wp__rp-thumb-img"
-                />
+                ></ui-image>
                 <ng-container *ngIf="selectedWearableType === 'ring'">
                   <svg viewBox="0 0 120 100" xmlns="http://www.w3.org/2000/svg">
                     <ellipse
@@ -275,21 +278,18 @@
             </p>
 
             <div class="wp__rp-tc-row">
-              <input type="checkbox" id="rp-tc" [(ngModel)]="tcAccepted" />
-              <label for="rp-tc"
-                ><span class="wp__rp-tc-link"
-                  >Terms &amp; Conditions apply</span
-                ></label
-              >
+              <ui-checkbox [(ngModel)]="tcAccepted">
+                <span class="wp__rp-tc-link">Terms &amp; Conditions apply</span>
+              </ui-checkbox>
             </div>
 
-            <button
+            <ui-button
               class="wp__rp-submit-btn"
+              [fullWidth]="true"
               [disabled]="!tcAccepted || submitting"
+              [label]="submitting ? 'Submitting...' : 'Submit'"
               (click)="onSubmit()"
-            >
-              {{ submitting ? "Submitting..." : "Submit" }}
-            </button>
+            ></ui-button>
           </div>
         </ng-container>
 
@@ -318,10 +318,7 @@
               </svg>
             </div>
             <div class="wp__success-text">Wearable requested successfully</div>
-            <!-- FIX: step=done was unreachable before — this button connects it -->
-            <button class="wp__view-summary-btn" (click)="step = 'done'">
-              View Summary
-            </button>
+            <ui-button class="wp__view-summary-btn" label="View Summary" (click)="step = 'done'"></ui-button>
           </div>
         </ng-container>
       </div>
@@ -333,50 +330,49 @@
       <div class="wp__title">Enter Client Number</div>
       <div class="wp__divider"></div>
       <div class="wp__input-row">
-        <input class="wp__input" [(ngModel)]="clientCode" />
-        <button
+        <ui-input class="wp__input" [(ngModel)]="clientCode"></ui-input>
+        <ui-button
           class="wp__enter-btn wp__enter-btn--filled"
+          label="Enter"
           (click)="onEnterClient()"
-        >
-          Enter
-        </button>
+        ></ui-button>
       </div>
     </div>
 
     <div class="wp__summary">
       <div class="wp__summary-title">YOUR AMEX WEARABLES</div>
-      <table class="wp__summary-table">
-        <tr>
-          <td class="wp__sl">Selected Card UCI</td>
-          <td class="wp__sv">{{ issuedDevice.selectedCardUci }}</td>
-        </tr>
-        <tr>
-          <td class="wp__sl">Wearable UCI</td>
-          <td class="wp__sv">{{ issuedDevice.wearableUci }}</td>
-        </tr>
-        <tr>
-          <td class="wp__sl">Wearable Type</td>
-          <td class="wp__sv">{{ issuedDevice.wearableType }}</td>
-        </tr>
-        <tr>
-          <td class="wp__sl">Color Selected</td>
-          <td class="wp__sv">{{ issuedDevice.colorSelected }}</td>
-        </tr>
-        <tr>
-          <td class="wp__sl">Wearable Name</td>
-          <td class="wp__sv">{{ issuedDevice.wearableName }}</td>
-        </tr>
-        <tr>
-          <td class="wp__sl">Order Date</td>
-          <td class="wp__sv">{{ issuedDevice.orderDate }}</td>
-        </tr>
-      </table>
+      <ui-table class="wp__summary-table">
+        <ui-table-body>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Selected Card UCI</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.selectedCardUci }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Wearable UCI</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.wearableUci }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Wearable Type</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.wearableType }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Color Selected</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.colorSelected }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Wearable Name</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.wearableName }}</ui-table-cell>
+          </ui-table-row>
+          <ui-table-row [hoverable]="false">
+            <ui-table-cell class="wp__sl">Order Date</ui-table-cell>
+            <ui-table-cell class="wp__sv">{{ issuedDevice.orderDate }}</ui-table-cell>
+          </ui-table-row>
+        </ui-table-body>
+      </ui-table>
     </div>
 
     <div style="padding: 12px 0">
-      <button class="wp__back-link" (click)="reset()">
-        Search Another Client
-      </button>
+      <ui-button class="wp__back-link" label="Search Another Client" (click)="reset()"></ui-button>
     </div>
   </ng-container>
 </div>
