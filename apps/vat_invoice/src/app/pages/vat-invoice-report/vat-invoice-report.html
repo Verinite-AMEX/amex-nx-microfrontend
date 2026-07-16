@@ -1,0 +1,61 @@
+<div class="vat-report" *ngIf="invoice">
+  <!-- Header -->
+  <div class="vat-report__header">Tax Invoice</div>
+
+  <div class="vat-report__body">
+    <!-- Invoice Details -->
+    <div class="vat-report__details">
+      <div class="vat-report__column">
+        <div class="vat-report__row">
+          <span class="vat-report__label">Company Name</span>
+          <span class="vat-report__value">{{ invoice.companyName }}</span>
+        </div>
+
+        <div class="vat-report__row">
+          <span class="vat-report__label">VAT Registration No</span>
+          <span class="vat-report__value">
+            {{ invoice.vatRegistrationNo }}
+          </span>
+        </div>
+      </div>
+
+      <div class="vat-report__column">
+        <div class="vat-report__row">
+          <span class="vat-report__label">Invoice Number</span>
+          <span class="vat-report__value">{{ invoice.invoiceNumber }}</span>
+        </div>
+
+        <div class="vat-report__row">
+          <span class="vat-report__label">Period</span>
+          <span class="vat-report__value">{{ invoice.period }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Invoice Table -->
+
+    <amex-paginated-table
+      [columns]="invoiceColumns"
+      [rows]="invoiceRows"
+      [actions]="[]"
+      [pageSize]="10"
+      [initialPageSize]="10"
+    >
+    </amex-paginated-table>
+
+    <!-- Total VAT -->
+
+    <div class="vat-report__total">
+      <span class="vat-report__total-label">Total VAT</span>
+      <span class="vat-report__total-value">
+        {{ totalVat | number:'1.2-2' }}
+      </span>
+    </div>
+
+    <!-- Download -->
+
+    <div class="vat-report__actions">
+      <ui-button label="Download PDF" (clicked)="downloadPdf()"> </ui-button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,209 @@
+:host {
+  display: block;
+  width: 100%;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: #333;
+}
+
+.vat-report {
+  width: 100%;
+  border: 1px solid #9db9d5;
+  background: #fff;
+  margin-top: 20px;
+  box-sizing: border-box;
+}
+
+/*====================================================
+ Header
+====================================================*/
+
+.vat-report__header {
+  background: #a8c6e4;
+  border-bottom: 1px solid #9db9d5;
+  color: #173f6d;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 11px 20px;
+}
+
+.vat-report__body {
+  padding: 18px 24px 16px;
+}
+
+/*====================================================
+ Invoice Details
+====================================================*/
+
+.vat-report__details {
+  display: flex;
+  justify-content: space-between;
+  gap: 70px;
+  margin-bottom: 18px;
+}
+
+.vat-report__column {
+  flex: 1;
+}
+
+.vat-report__row {
+  display: flex;
+  margin-bottom: 12px;
+}
+
+.vat-report__label {
+  width: 220px;
+  font-weight: bold;
+  color: #444;
+}
+
+.vat-report__value {
+  flex: 1;
+  color: #111;
+}
+
+/*====================================================
+ Amex Paginated Table Override
+====================================================*/
+
+/* Remove the default pagination */
+::ng-deep .pt__pager {
+  display: none !important;
+}
+
+/* Remove outer border */
+::ng-deep .pt {
+  border: none;
+  box-shadow: none;
+}
+
+/* Table */
+
+::ng-deep .pt__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* Header */
+
+::ng-deep .pt__head-row {
+  background: #a8c6e4 !important;
+}
+
+::ng-deep .pt__th {
+  background: #a8c6e4 !important;
+  color: #173f6d;
+  border: 1px solid #b2c6db;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 8px 14px;
+}
+
+/* Body */
+
+::ng-deep .pt__td {
+  border: 1px solid #d5dee8;
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+/* Alternate rows */
+
+::ng-deep .pt__row:nth-child(even) .pt__td {
+  background: #eef5fc;
+}
+
+::ng-deep .pt__row:nth-child(odd) .pt__td {
+  background: #ffffff;
+}
+
+/* Column widths */
+
+::ng-deep .pt__th:first-child,
+::ng-deep .pt__td:first-child {
+  width: 52%;
+}
+
+::ng-deep .pt__th:nth-child(2),
+::ng-deep .pt__td:nth-child(2) {
+  width: 24%;
+  text-align: right;
+}
+
+::ng-deep .pt__th:nth-child(3),
+::ng-deep .pt__td:nth-child(3) {
+  width: 24%;
+  text-align: right;
+}
+
+/*====================================================
+ Total Row
+====================================================*/
+
+.vat-report__total {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 40px;
+  padding: 10px 16px;
+  border: 1px solid #d5dee8;
+  border-top: none;
+  background: #eef5fc;
+  font-weight: bold;
+}
+
+.vat-report__total-label {
+  color: #173f6d;
+}
+
+.vat-report__total-value {
+  min-width: 120px;
+  text-align: right;
+}
+
+/*====================================================
+ Download Button
+====================================================*/
+
+.vat-report__actions {
+  margin-top: 18px;
+}
+
+.vat-report__button {
+  min-width: 185px;
+  height: 44px;
+  border: 1px solid #0b63b3;
+  background: linear-gradient(#4fa4ef, #006fcf);
+  color: #fff;
+  font-size: 15px;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.vat-report__button:hover {
+  background: linear-gradient(#4298e5, #005eb6);
+}
+
+::ng-deep ui-button button:hover {
+  background: linear-gradient(#4298e5, #005eb6);
+}
+
+/*====================================================
+ Responsive
+====================================================*/
+
+@media (max-width: 900px) {
+  .vat-report__details {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .vat-report__label {
+    width: 180px;
+  }
+
+  ::ng-deep .pt__table {
+    display: block;
+    overflow-x: auto;
+  }
+}

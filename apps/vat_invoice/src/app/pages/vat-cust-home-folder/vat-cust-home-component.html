@@ -1,0 +1,163 @@
+<div class="vat-home">
+  <h2 class="vat-home__title">Tax Invoice</h2>
+
+  <div class="vat-home__container">
+    <div class="vat-home__header"></div>
+
+    <div class="vat-home__body">
+      <!-- Error -->
+      @if (showError) {
+      <div class="vat-home__error">{{ errorMessage }}</div>
+      }
+      <!-- Customer Type -->
+
+      <div class="vat-home__section">
+        <ui-radio-group
+          name="customerType"
+          orientation="horizontal"
+          [options]="customerTypeOptions"
+          [(ngModel)]="selectedCustomerType"
+          (ngModelChange)="onCustomerTypeChange($event)"
+        >
+        </ui-radio-group>
+      </div>
+
+      <!-- Search By -->
+
+      <div class="vat-home__section">
+        <ui-radio-group
+          name="searchType"
+          orientation="horizontal"
+          [options]="searchTypeOptions"
+          [(ngModel)]="selectedSearchType"
+          (ngModelChange)="onSearchTypeChange($event)"
+        >
+        </ui-radio-group>
+      </div>
+
+      <!-- VAT Registration Layout -->
+
+      @if(selectedSearchType === 'vat'){
+
+      <div class="vat-home__grid">
+        <div class="vat-home__field">
+          <label class="vat-home__label"> Impersonation </label>
+
+          <ui-input
+            [(ngModel)]="impersonation"
+            type="text"
+            placeholder=""
+          ></ui-input>
+        </div>
+      </div>
+
+      <div class="vat-home__grid two-column">
+        <div class="vat-home__field">
+          <label class="vat-home__label">
+            VAT Registration Number
+            <span>*</span>
+          </label>
+
+          <ui-input
+            [(ngModel)]="searchValue"
+            type="text"
+            placeholder=""
+          ></ui-input>
+        </div>
+
+        <div class="vat-home__field">
+          <label class="vat-home__label"> VAT Registered Country </label>
+
+          <select class="vat-home__select" [(ngModel)]="selectedCountry">
+            @for(country of countries; track country){
+
+            <option [value]="country">{{country}}</option>
+
+            }
+          </select>
+        </div>
+      </div>
+
+      <div class="vat-home__grid two-column">
+        <div class="vat-home__field">
+          <label class="vat-home__label"> Report for month </label>
+
+          <select class="vat-home__select" [(ngModel)]="selectedMonth">
+            @for(month of months; track month){
+
+            <option [value]="month">{{month}}</option>
+
+            }
+          </select>
+        </div>
+
+        <div class="vat-home__field">
+          <label class="vat-home__label"> Report for year </label>
+
+          <select class="vat-home__select" [(ngModel)]="selectedYear">
+            @for(year of years; track year){
+
+            <option [value]="year">{{year}}</option>
+
+            }
+          </select>
+        </div>
+      </div>
+
+      }
+
+      <!-- Invoice Number Layout -->
+
+      @if(selectedSearchType === 'invoice'){
+
+      <div class="vat-home__grid">
+        <div class="vat-home__field">
+          <label class="vat-home__label"> Invoice Number </label>
+
+          <ui-input
+            [(ngModel)]="searchValue"
+            type="text"
+            placeholder=""
+          ></ui-input>
+        </div>
+      </div>
+
+      }
+
+      <!-- Basic Control Account -->
+
+      @if(selectedSearchType === 'control'){
+
+      <div class="vat-home__grid">
+        <div class="vat-home__field">
+          <label class="vat-home__label"> Basic Control Account </label>
+
+          <ui-input
+            [(ngModel)]="searchValue"
+            type="text"
+            placeholder=""
+          ></ui-input>
+        </div>
+      </div>
+
+      }
+
+      <!-- Button -->
+
+      <div class="vat-home__button-row">
+        <ui-button label="Generate Report" (click)="generateReport()">
+        </ui-button>
+      </div>
+    </div>
+  </div>
+
+  <!-- <p>Invoice is null: {{ invoice === null }}</p> -->
+  @if (invoice) {
+
+  <app-vat-invoice-report [invoice]="invoice" (downloadPDF)="downloadPdf()">
+  </app-vat-invoice-report>
+
+  }
+</div>
+<!-- <amex-paginated-table [columns]="invoiceColumns" [rows]="invoiceRows">
+</amex-paginated-table> -->

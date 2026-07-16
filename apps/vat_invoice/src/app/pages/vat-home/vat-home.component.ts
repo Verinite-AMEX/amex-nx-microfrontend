@@ -1,17 +1,14 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {
-  AmexTabBarComponent,
-  AmexTabItem
-} from '@ui-components/ui';
+import { AmexTabBarComponent, AmexTabItem } from '@ui-components/ui';
+
+import { VatCustHomeComponent } from '../vat-cust-home-folder/vat-cust-home-component';
 
 @Component({
+  // eslint-disable-next-line @angular-eslint/component-selector
   selector: 'vat-home',
   standalone: true,
-  imports: [
-    CommonModule,
-    AmexTabBarComponent
-  ],
+  imports: [CommonModule, AmexTabBarComponent, VatCustHomeComponent],
   templateUrl: './vat-home.component.html',
 })
 export class VatHomeComponent {
@@ -24,12 +21,16 @@ export class VatHomeComponent {
     { id: 'cp', label: 'CHANGE PASSWORD' },
     { id: 'bureau', label: 'BUREAU' },
     { id: 'centurion', label: 'CENTURION' },
-    { id: 'vat', label: 'VAT INVOICE' }
+    { id: 'vat', label: 'VAT INVOICE' },
   ];
+
   activeTabId = 'misc';
+
   onTabClick(tabId: string) {
     this.activeTabId = tabId;
+
     console.log('Clicked Tab:', tabId);
+
     this.tabChanged.emit(tabId);
   }
 }
