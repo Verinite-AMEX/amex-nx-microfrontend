@@ -16,8 +16,8 @@ export interface ChangePasswordData {
   standalone: true,
   imports: [CommonModule, FormsModule, FormFieldComponent, InputComponent, ButtonComponent],
   template: `
-    <div class="amex-shell" [class.onls-style]="portalStyle === 'onls'" [class.oms-style]="portalStyle === 'oms'" role="main" aria-label="Change password form">
-
+    <div class="amex-shell" [class.onls-style]="portalStyle === 'onls'" [class.oms-style]="portalStyle === 'oms'" [class.chromeless]="!showChrome" role="main" aria-label="Change password form">
+  <ng-container *ngIf="showChrome">
       <!-- ONLS top bar -->
       <div class="top-bar" *ngIf="portalStyle === 'onls'">
         <span class="global-sites">Global Sites</span>
@@ -64,10 +64,10 @@ export interface ChangePasswordData {
         <span class="nav-item-oms active">Change Your Password</span>
         <span class="nav-item-oms">Customized Reports</span>
       </div>
-
+  </ng-container>
       <!-- Content -->
       <div class="content-wrapper">
-        <div class="hatched-sidebar" *ngIf="portalStyle === 'onls'"></div>
+        <div class="hatched-sidebar" *ngIf="showChrome && portalStyle === 'onls'"></div>
         <div class="main-content">
 
           <!-- ONLS Panel - exact match from screenshot -->
@@ -209,7 +209,7 @@ export interface ChangePasswordData {
       </div>
 
       <!-- Footer -->
-      <div class="footer-links" role="contentinfo" aria-label="Footer links">
+      <div class="footer-links" *ngIf="showChrome" role="contentinfo" aria-label="Footer links">
         <a class="footer-link" href="#" aria-label="American Express Web Site Rules and Regulations">American Express Web Site Rules and Regulations</a> |
         <a class="footer-link" href="#" aria-label="News Centre">News Centre</a> |
         <a class="footer-link" href="#" aria-label="Fraud Protection Centre">Fraud Protection Centre</a> |
@@ -223,6 +223,10 @@ export interface ChangePasswordData {
     .amex-shell { font-family: Arial, sans-serif; font-size: 12px; min-height: 440px; display: flex; flex-direction: column; border: 1px solid #ccc; }
     .onls-style { background: #f0f0f0; }
     .oms-style { background: #e8e8e8; }
+
+    .amex-shell.chromeless { min-height: 0; border: none; background: transparent; }
+    .amex-shell.chromeless .content-wrapper { display: block; }
+    .amex-shell.chromeless .main-content { padding: 0; }
 
     /* ONLS top bar */
     .top-bar { background: #1a3a6b; padding: 2px 10px; font-size: 11px; display: flex; justify-content: flex-end; gap: 14px; }
@@ -334,7 +338,7 @@ export class AmexChangePasswordFormComponent implements AfterViewChecked {
   @Input() portalTitle = '';
   @Input() errorMessage = '';
   @Input() successMessage = '';
-
+  @Input() showChrome = false;
   @Output() passwordSubmit = new EventEmitter<ChangePasswordData>();
   @Output() cancel = new EventEmitter<void>();
 
