@@ -53,7 +53,7 @@ public class DataInitializer implements CommandLineRunner {
                     .roles(Set.of(Roles.RISK_USER))
                     .build());
 
-            // MRM User — Online Merchant Service
+        // MRM User — Online Merchant Service
             userRepository.save(User.builder()
                     .username("mrm.user")
                     .email("mrm@aeme.com")
@@ -61,6 +61,46 @@ public class DataInitializer implements CommandLineRunner {
                     .fullName("Priya Nair")
                     .avatarInitials("PN")
                     .roles(Set.of(Roles.MRM_USER))
+                    .build());
+
+            // OMS Admin — Online Merchant Service (OMS Portal)
+            userRepository.save(User.builder()
+                    .username("omsadmin.user")
+                    .email("omsadmin.user@aeme.com")
+                    .password(passwordEncoder.encode("Omsadmin@1234"))
+                    .fullName("Farida Al Zaabi")
+                    .avatarInitials("FZ")
+                    .roles(Set.of(Roles.OMS_ADMIN))
+                    .build());
+
+            // OMS Sub User — Online Merchant Service (OMS Portal)
+            userRepository.save(User.builder()
+                    .username("omssub.user")
+                    .email("omssub.user@aeme.com")
+                    .password(passwordEncoder.encode("Omssub@1234"))
+                    .fullName("Rahul Menon")
+                    .avatarInitials("RM")
+                    .roles(Set.of(Roles.OMS_SUB_USER))
+                    .build());
+
+            // Merchant User — Online Merchant Service (OMS Portal)
+            userRepository.save(User.builder()
+                    .username("merchant.user")
+                    .email("merchant.user@aeme.com")
+                    .password(passwordEncoder.encode("Merchant@1234"))
+                    .fullName("Yusuf Al Blooshi")
+                    .avatarInitials("YB")
+                    .roles(Set.of(Roles.MERCHANT_USER))
+                    .build());
+
+            // OMS VAT User — Online Merchant Service (OMS Portal)
+            userRepository.save(User.builder()
+                    .username("omsvat.user")
+                    .email("omsvat.user@aeme.com")
+                    .password(passwordEncoder.encode("Omsvat@1234"))
+                    .fullName("Meera Suresh")
+                    .avatarInitials("MS")
+                    .roles(Set.of(Roles.OMS_VAT_USER))
                     .build());
 
             // Corporate Master Admin — BTA Portal
@@ -153,53 +193,6 @@ public class DataInitializer implements CommandLineRunner {
                     .roles(Set.of(Roles.ONLS_ADMIN) )
                     .build());
 
-             // Merchant user — OMS Portal
-            userRepository.save(User.builder()
-                    .username("merchant.user")
-                    .email("merchant.user@aeme.com")
-                    .password(passwordEncoder.encode("Merchant@1234"))
-                    .fullName("John Doe")
-                    .avatarInitials("JD")
-                    .roles(Set.of(Roles.MERCHANT_USER))
-                    .build());
-
-            userRepository.save(User.builder()
-                    .username("omsmrm.user")
-                    .email("mrm.user@aeme.com")
-                    .password(passwordEncoder.encode("Mrm@1234"))
-                    .fullName("John Doe")
-                    .avatarInitials("JD")
-                    .roles(Set.of(Roles.MRM_USER))
-                    .build());
-
-            userRepository.save(User.builder()
-                    .username("omsadmin.user")
-                    .email("omsadmin.user@aeme.com")
-                    .password(passwordEncoder.encode("Omsadmin@1234"))
-                    .fullName("John Doe")
-                    .avatarInitials("JD")
-                    .roles(Set.of(Roles.OMS_ADMIN))
-                    .build());
-
-            userRepository.save(User.builder()
-                    .username("omssub.user")
-                    .email("omssub.user@aeme.com")
-                    .password(passwordEncoder.encode("Omssub@1234"))
-                    .fullName("John Doe")
-                    .avatarInitials("JD")
-                    .roles(Set.of(Roles.OMS_SUB_USER))
-                    .build());
-
-            userRepository.save(User.builder()
-                    .username("omsvat.user")
-                    .email("omsvat.user@aeme.com")
-                    .password(passwordEncoder.encode("Omsvat@1234"))
-                    .fullName("John Doe")
-                    .avatarInitials("JD")
-                    .roles(Set.of(Roles.OMS_VAT_USER))
-                    .build());
-
-            log.info("Seeded 9 AEME users: sys.admin / csa.agent / onls.admin / risk.user / mrm.user / corp.admin / ta.admin / soc.user / cma.admin");
-        }
+            log.info("Seeded 13 AEME users: sys.admin / csa.agent / onls.admin / risk.user / mrm.user / omsadmin.user / omssub.user / merchant.user / omsvat.user / corp.admin / ta.admin / soc.user / cma.admin");        }
     }
 }
