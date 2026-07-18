@@ -1,0 +1,185 @@
+{/* usage-guide.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Usage Guide" />
+
+<div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '860px', lineHeight: '1.7', color: '#333' }}>
+
+# 🚀 Usage Guide
+
+This guide explains how to install and use **VN Core UI Components** in your Angular project.
+
+---
+
+# 📦 Prerequisites
+
+- Node.js (v18+ recommended)
+- npm or yarn
+- Angular CLI installed (standalone components)
+- TypeScript (v5.0+)
+
+---
+
+# ⚡ Quick Start
+
+```bash
+# 1. Install the library
+npm install @ui-components/ui @ui-components/ui-styles
+
+# 2. Import the components you need — everything is standalone
+import { ButtonComponent } from '@ui-components/ui';
+
+# 3. Use components in your templates
+<ui-button label="Hello World"></ui-button>
+```
+
+---
+
+# 📥 Installation
+
+```bash
+npm install @ui-components/ui @ui-components/ui-styles
+npm install @angular/core @angular/common rxjs
+```
+
+---
+
+# 🧩 Using Components
+
+## Example: Button Component
+
+```html
+<ui-button label="Click Me"></ui-button>
+<ui-button label="Primary" variant="primary"></ui-button>
+<ui-button label="Disabled" [disabled]="true"></ui-button>
+```
+
+## Example: Input Component
+
+```html
+<ui-input placeholder="Enter your name"></ui-input>
+<ui-input type="email" placeholder="Enter email"></ui-input>
+<ui-input [disabled]="true" placeholder="Disabled input"></ui-input>
+```
+
+## Example: Form with Validation
+
+```html
+<form>
+  <ui-input
+    label="Email"
+    type="email"
+    placeholder="Enter your email"
+    required>
+  </ui-input>
+  <ui-button label="Submit" variant="primary" type="submit"></ui-button>
+</form>
+```
+
+---
+
+# 📋 Available Components
+
+| Component | Description | Example |
+|-----------|-------------|---------|
+| `ui-button` | Action buttons with variants | `<ui-button label="Click" variant="primary"></ui-button>` |
+| `ui-input` | Text input fields | `<ui-input placeholder="Type here"></ui-input>` |
+| `ui-card` | Content containers | `<ui-card title="Card Title">Content</ui-card>` |
+| `ui-modal` | Dialog overlays | `<ui-modal [open]="showModal">Content</ui-modal>` |
+| `ui-badge` | Status indicators | `<ui-badge label="New" variant="success"></ui-badge>` |
+| `ui-tabs` | Tabbed navigation | `<ui-tabs [tabs]="tabData"></ui-tabs>` |
+| `ui-notification-toast` | Notification messages | `<ui-notification-toast message="Success!" variant="success"></ui-notification-toast>` |
+
+---
+
+# 🎨 Styling
+
+## Global Styles
+
+```json
+{
+  "styles": [
+    "src/styles.scss"
+  ]
+}
+```
+
+**`src/styles.scss`**
+```scss
+@use '@ui-components/ui-styles/src/lib/styles/index' as *;
+```
+
+## Dark Theme
+
+```html
+<body data-theme="dark">
+  <app-root></app-root>
+</body>
+```
+
+---
+
+# 🚨 Troubleshooting
+
+### Module not found error
+**Solution:** Make sure the package is installed:
+```bash
+npm install @ui-components/ui
+```
+
+### Styles not loading
+**Solution:** Check `src/styles.scss` imports the ui-styles index and is registered in `angular.json`/`project.json`.
+
+### TypeScript errors
+**Solution:** Add to `tsconfig.json`:
+```json
+"skipLibCheck": true
+```
+
+---
+
+# 📚 Advanced Usage — Reactive Forms
+
+```typescript
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { InputComponent, ButtonComponent } from '@ui-components/ui';
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, InputComponent, ButtonComponent],
+  template: `
+    <form [formGroup]="form">
+      <ui-input formControlName="email" type="email"></ui-input>
+      <ui-button label="Submit" type="submit"></ui-button>
+    </form>
+  `
+})
+export class ContactFormComponent {
+  form = this.fb.group({
+    email: ['']
+  });
+
+  constructor(private fb: FormBuilder) {}
+}
+```
+
+---
+
+# 📞 Support & Contributing
+
+- 📖 **Documentation**: Check this usage guide
+- 🐛 **Bug Reports**: Open issues on GitHub
+- 💬 **Discussions**: Join our internal team channel
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Submit a pull request
+
+---
+
+Happy coding with VN Core UI Components! 🎉
+
+</div>
