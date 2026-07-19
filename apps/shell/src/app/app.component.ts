@@ -170,7 +170,7 @@ export class AppComponent implements OnInit, OnDestroy {
     { id: "centurion", label: "Centurion" },
     { id: "change-password", label: "Change Password" },
     { id: "statement", label: "Statement" },
-    { id: "bcrb", label: "BCRB" },
+    { id: "bcrb", label: "BUREAU" },
     { id: "vat-invoice", label: "VAT Invoice" },
   ];
 

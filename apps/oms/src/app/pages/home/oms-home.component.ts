@@ -51,205 +51,176 @@ implements OnInit {
 
   ngOnInit(): void {
 
+    // -------------------------------------------------------
     // MERCHANT USER
+    // -------------------------------------------------------
+
     if (
-      this.auth.isMerchant() || this.auth.isOmsAdmin()
+      this.auth.isMerchant()
     ) {
-
       this.tabs = [
-
         {
           id: 'settlement',
           label: 'Settlement and Submissions'
         },
-
         {
           id: 'merchantaccount',
           label: 'Merchant Account'
         },
-
         {
           id: 'subuseradministration',
           label: 'Sub User Administration'
         },
-
         {
           id: 'password',
           label: 'Change Your Password'
         },
-
         {
           id: 'termsandconditions',
           label: 'Terms & Conditions'
         },
-
         {
           id: 'customizedreports',
           label: 'Customized Reports'
         },
-
         {
           id: 'addnewoutlet',
           label: 'Add New Outlet'
         }
-
       ];
-
     }
 
-    // OMS ADMIN
-    // else if (
-    //   this.auth.isOmsAdmin()
-    // ) {
-
-    //   this.tabs = [
-
-    //     {
-    //       id: 'settlement',
-    //       label: 'Settlement and Submissions'
-    //     },
-
-    //     {
-    //       id: 'merchantaccount',
-    //       label: 'Merchant Account'
-    //     },
-
-    //     {
-    //       id: 'subuseradministration',
-    //       label: 'Sub User Administration'
-    //     },
-
-    //     {
-    //       id: 'password',
-    //       label: 'Change Your Password'
-    //     },
-
-    //     {
-    //       id: 'termsandconditions',
-    //       label: 'Terms & Conditions'
-    //     },
-
-    //     {
-    //       id: 'customizedreports',
-    //       label: 'Customized Reports'
-    //     },
-
-    //     {
-    //       id: 'addnewoutlet',
-    //       label: 'Add New Outlet'
-    //     }
-
-    //   ];
-
-    // }
-
+    // -------------------------------------------------------
     // MRM USER
+    // -------------------------------------------------------
+
     else if (
       this.auth.isMrmUser()
     ) {
-
       this.tabs = [
-
         {
           id: 'settlement',
           label: 'Settlement and Submissions'
         },
-
-        {
-          id: 'merchantaccount',
-          label: 'Merchant Account'
-        },
-
         {
           id: 'omsusers',
           label: 'OMS Users'
         },
-
         {
           id: 'mrmusers',
           label: 'MRM Users'
         },
-
         {
           id: 'password',
           label: 'Change Your Password'
         }
-
       ];
-
     }
 
+    // -------------------------------------------------------
     // OMS SUB USER
+    // -------------------------------------------------------
+
     else if (
-      this.auth.isOmsSubUser() || this.auth.isOmsVatUser()
+      this.auth.isOmsSubUser()
     ) {
-
       this.tabs = [
-
         {
           id: 'settlement',
           label: 'Settlement and Submissions'
         },
-
         {
           id: 'merchantaccount',
           label: 'Merchant Account'
         },
-
         {
           id: 'password',
           label: 'Change Your Password'
         },
-
         {
           id: 'termsandconditions',
           label: 'Terms & Conditions'
         },
-
+        {
+          id: 'customizedreports',
+          label: 'Customized Reports'
+        },
         {
           id: 'addnewoutlet',
           label: 'Add New Outlet'
         }
-
       ];
-
     }
 
-      // // VAT USER
-      // else if (
-      //   this.auth.isOmsVatUser()
-      // ) {
+    // -------------------------------------------------------
+    // VAT USER
+    // -------------------------------------------------------
 
-      //   this.tabs = [
+    else if (
+      this.auth.isOmsVatUser()
+    ) {
+      this.tabs = [
+        {
+          id: 'settlement',
+          label: 'Settlement and Submissions'
+        },
+        {
+          id: 'merchantaccount',
+          label: 'Merchant Account'
+        },
+        {
+          id: 'subuseradministration',
+          label: 'Sub User Administration'
+        },
+        {
+          id: 'password',
+          label: 'Change Your Password'
+        },
+        {
+          id: 'termsandconditions',
+          label: 'Terms & Conditions'
+        },
+        {
+          id: 'customizedreports',
+          label: 'Customized Reports'
+        }
+      ];
+    }
 
-      //     {
-      //       id: 'settlement',
-      //       label: 'Settlement and Submissions'
-      //     },
+    // -------------------------------------------------------
+    // OMS ADMIN
+    // -------------------------------------------------------
 
-      //     {
-      //       id: 'merchantaccount',
-      //       label: 'Merchant Account'
-      //     },
-
-      //     {
-      //       id: 'password',
-      //       label: 'Change Your Password'
-      //     },
-
-      //     {
-      //       id: 'termsandconditions',
-      //       label: 'Terms & Conditions'
-      //     },
-
-      //     {
-      //       id: 'addnewoutlet',
-      //       label: 'Add New Outlet'
-      //     }
-
-      //   ];
-
-      // }
+    else if (
+      this.auth.isOmsAdmin()
+    ) {
+      this.tabs = [
+        {
+          id: 'settlement',
+          label: 'Settlement and Submissions'
+        },
+        {
+          id: 'merchantaccount',
+          label: 'Merchant Account'
+        },
+        {
+          id: 'subuseradministration',
+          label: 'Sub User Administration'
+        },
+        {
+          id: 'password',
+          label: 'Change Your Password'
+        },
+        {
+          id: 'termsandconditions',
+          label: 'Terms & Conditions'
+        },
+        {
+          id: 'customizedreports',
+          label: 'Customized Reports'
+        }
+      ];
+    }
 
     console.log(
       'User Tabs:',
@@ -259,12 +230,9 @@ implements OnInit {
     if (
       this.tabs.length > 0
     ) {
-
       this.activeTabId =
         this.tabs[0].id;
-
     }
-
   }
 
   onTabClick(
