@@ -1,0 +1,241 @@
+{/* page-component.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Page Component Guide" />
+
+<div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '860px', lineHeight: '1.7' }}>
+
+# AmexPageComponent — Integration Guide
+
+A reusable, configurable page layout shell for all AEME AMEX portals. Composes navigation, tabs, sidebar, dashboard bar, and an optional built-in auth guard + health check.
+
+> **Note:** this was previously named `AmexPageShellComponent` / `<amex-page-shell>`. It has been renamed — the selector is now `<amex-page-component>` and the class is `AmexPageComponent`.
+
+---
+
+## Selector
+
+```html
+<amex-page-component>...</amex-page-component>
+```
+
+---
+
+## Portal Styles
+
+| `portalStyle` | Portal |
+|---|---|
+| `onls` | ONLS Helper / Hub Login / Supp Access / Lounge / Pay-with-Points / Wearables |
+| `oms` | Online Merchant Services |
+| `bcrb` | BCRB Reports portal |
+
+---
+
+## Customization Approaches
+
+### Approach 1 — Input-Based (quick)
+
+```html
+<amex-page-component
+  portalStyle="onls"
+  portalTitle="ONLS Helper Tool"
+  pageTitle="PRIORITY PASS™ ENROLLMENT"
+  [tabs]="tabs"
+  activeTabId="misc">
+  Page content here
+</amex-page-component>
+```
+
+### Approach 2 — Content Projection (maximum flexibility)
+
+```html
+<amex-page-component portalStyle="onls">
+  <div header>
+    <img src="custom-logo.png" />
+    <h2>Custom Header</h2>
+  </div>
+
+  Page content here
+
+  <div footer>
+    Custom Footer
+  </div>
+</amex-page-component>
+```
+
+### Approach 3 — Config-Driven (centralized control)
+
+```typescript
+pageConfig: AmexPortalLayoutConfig = {
+  header: { title: 'Dashboard', visible: true },
+  footer: { visible: true, text: '© American Express' },
+};
+```
+
+```html
+<amex-page-component [config]="pageConfig" portalStyle="oms">
+  Page content here
+</amex-page-component>
+```
+
+### Approach 4 — Template Injection (advanced/dynamic)
+
+```html
+<amex-page-component
+  [headerTemplate]="myHdr"
+  [sidebarTemplate]="mySidebar"
+  portalStyle="bcrb">
+  Page content here
+</amex-page-component>
+
+<ng-template #myHdr>
+  <app-custom-header></app-custom-header>
+</ng-template>
+<ng-template #mySidebar>
+  <app-custom-sidebar></app-custom-sidebar>
+</ng-template>
+```
+
+### Approach 5 — Built-in Auth Guard + Health Check (new)
+
+The component can gate its own content behind an auth check and optionally poll a health endpoint before rendering:
+
+```html
+<amex-page-component
+  portalStyle="onls"
+  [requireAuth]="true"
+  loginRedirectUrl="/login"
+  healthCheckUrl="/api/health"
+  [showHealthStatus]="true"
+  (loginRedirect)="onRedirect($event)"
+  (healthCheck)="onHealthResult($event)">
+  Page content here
+</amex-page-component>
+```
+
+### Approach 6 — Combined (Recommended for production)
+
+```html
+<amex-page-component
+  [config]="config"
+  portalStyle="onls"
+  [tabs]="tabs"
+  activeTabId="misc">
+
+  <app-custom-header header></app-custom-header>
+  <router-outlet></router-outlet>
+  <app-custom-footer footer></app-custom-footer>
+
+</amex-page-component>
+```
+
+---
+
+## All `@Input()` properties
+
+### Identity
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `id` | `string` | auto-generated | Unique element id, bound via `HostBinding` |
+
+### Auth guard & health check
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `requireAuth` | `boolean` | `false` | Gate content behind auth check |
+| `loginRedirectUrl` | `string` | `undefined` | Where to redirect if unauthenticated |
+| `loginUrl` | `string` | `''` | Login endpoint |
+| `simulateRedirect` | `boolean` | `false` | Simulate redirect in Storybook/dev instead of navigating |
+| `healthCheckUrl` | `string` | `''` | Endpoint polled for health status |
+| `showHealthStatus` | `boolean` | `false` | Display health check result in UI |
+
+### Core layout
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `config` | `AmexPortalLayoutConfig` | `undefined` | Centralized config object |
+| `showHeader` | `boolean` | `undefined` | Show/hide header region |
+| `showFooter` | `boolean` | `undefined` | Show/hide footer region |
+| `portalStyle` | `AmexNavPortalStyle` (`'onls' \| 'oms' \| 'bcrb'`) | `'onls'` | Portal visual style |
+| `portalTitle` | `string` | `undefined` | Title in top nav bar |
+| `username` | `string` | `''` | Shown in nav bar |
+| `omsServiceName` | `string` | `'Merchant Services'` | OMS branding subtitle |
+| `footerText` | `string` | `undefined` | Default footer text |
+| `showCustomHeader` | `boolean` | `false` | Use projected header content |
+| `showCustomFooter` | `boolean` | `false` | Use projected footer content |
+| `showCustomSidebar` | `boolean` | `false` | Use projected sidebar content |
+| `headerTemplate` | `TemplateRef<unknown>` | `undefined` | Custom header template (Approach 4) |
+| `footerTemplate` | `TemplateRef<unknown>` | `undefined` | Custom footer template (Approach 4) |
+| `sidebarTemplate` | `TemplateRef<unknown>` | `undefined` | Custom sidebar template (Approach 4) |
+
+### Tab Bar
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `tabs` | `AmexTabItem[]` | `[]` | Primary tabs |
+| `activeTabId` | `string` | `''` | Active tab id |
+| `subItems` | `AmexTabItem[]` | `[]` | ONLS sub-nav row |
+| `activeSubId` | `string` | `''` | Active sub-nav id |
+
+### Sidebar
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `showSidebar` | `boolean` | `true` | Show/hide sidebar |
+| `sidebarItems` | `AmexSidebarMenuItem[]` | `[]` | Sidebar items (OMS/BCRB) |
+| `activeSidebarId` | `string` | `''` | Active sidebar item id |
+
+### Page Header
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `pageTitle` | `string` | `''` | Section banner title |
+| `pageSubtitle` | `string` | `''` | Optional subtitle |
+| `pageCtaLabel` | `string` | `''` | Optional CTA button label |
+
+### BCRB Dashboard Bar
+| Input | Type | Default | Description |
+|---|---|---|---|
+| `showDashboardBar` | `boolean` | `true` | Show BCRB bureau bar |
+| `showBureauDropdown` | `boolean` | `true` | Show bureau selector |
+| `bureauLabel` | `string` | `'Bureau'` | Label for bureau dropdown |
+| `bureauOptions` | `AmexMenuBarLink[]` | `[]` | Bureau options |
+| `activeBureauId` | `string` | `''` | Active bureau id |
+| `dashboardLinks` | `AmexMenuBarLink[]` | `[]` | Sub-nav links |
+| `activeDashboardLinkId` | `string` | `''` | Active link id |
+
+---
+
+## All `@Output()` events
+
+| Output | Payload | Description |
+|---|---|---|
+| `loginRedirect` | `string` | Emitted when an unauthenticated user would be redirected |
+| `logout` | `void` | Log Out button clicked |
+| `menuToggle` | `void` | BCRB hamburger clicked |
+| `tabClick` | `string` | Tab id |
+| `subClick` | `string` | Sub-nav item id |
+| `sidebarItemClick` | `string` | Sidebar item id |
+| `pageCtaClick` | `void` | Page header CTA clicked |
+| `bureauChange` | `string` | Bureau id |
+| `dashboardLinkClick` | `string` | Dashboard link id |
+| `healthCheck` | `AmexPortalHealthStatus` | Result of the health check poll |
+
+---
+
+## Related exports
+
+This component's module also re-exports adapter types, DI tokens, and a bootstrap helper — importing `AmexPageComponent` from `@ui-components/ui` pulls these in as well:
+
+```typescript
+import {
+  AmexPageComponent,
+  bootstrapPortal,
+  providePortalRuntimeConfig,
+  AMEX_PORTAL_AUTH_ADAPTER,
+  AMEX_PORTAL_NAVIGATION_ADAPTER,
+  AMEX_PORTAL_THEME_ADAPTER,
+  AMEX_PORTAL_ANALYTICS_ADAPTER,
+  AMEX_PORTAL_USER_CONTEXT_ADAPTER,
+  AMEX_PORTAL_FEATURE_FLAG_ADAPTER,
+} from '@ui-components/ui';
+```
+
+> **Heads up:** `AmexPageComponent` is a large orchestrator component (900+ lines, 38 inputs, 10 outputs) that combines layout, navigation, auth guarding, and health-check polling in one place. If you only need layout, consider whether your use case actually needs the auth/health-check inputs, or whether that logic belongs in a route guard/service instead.
+
+</div>

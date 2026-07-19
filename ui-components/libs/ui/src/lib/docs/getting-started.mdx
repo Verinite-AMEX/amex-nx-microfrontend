@@ -1,0 +1,514 @@
+{/* getting-started.mdx */}
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/Getting Started" />
+
+<div style={{ fontFamily: 'Arial, sans-serif', maxWidth: '860px', lineHeight: '1.7', color: '#333' }}>
+
+# Getting Started
+
+Step-by-step guide to integrating **VN Core UI Components** into any Angular application.
+
+---
+
+## Prerequisites
+
+| Requirement | Version |
+|-------------|---------|
+| Node.js | ≥ 18 |
+| Angular | ≥ 17 (standalone components) |
+| TypeScript | ≥ 5.0 |
+
+---
+
+## Step 1 — Install the packages
+
+If consuming from a local monorepo path or a published npm registry:
+
+```bash
+# From npm (once published)
+npm install @ui-components/ui @ui-components/ui-styles
+
+# From a local monorepo (Nx path mapping already handles this)
+# No install needed — path aliases in tsconfig.base.json resolve it automatically
+```
+
+---
+
+## Step 2 — Configure path aliases (non-Nx projects)
+
+If your consuming app is **outside** this Nx workspace, add the path aliases manually to your `tsconfig.json`:
+
+```json
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@ui-components/ui": ["node_modules/@ui-components/ui/src/index.ts"],
+      "@ui-components/ui-styles": ["node_modules/@ui-components/ui-styles/src/index.ts"]
+    }
+  }
+}
+```
+
+> **Nx workspace consumers** — the `tsconfig.base.json` at the root already has these paths configured. No extra steps needed.
+
+---
+
+## Step 3 — Import global styles
+
+Add the design token stylesheet to your application's global styles file.
+
+**`src/styles.scss`**
+```scss
+@use '@ui-components/ui-styles/src/lib/styles/index' as *;
+
+// Optional: apply base reset and typography globally
+body {
+  font-family: $font-family-base;
+  color: $color-text;
+  margin: 0;
+}
+```
+
+**`angular.json` / `project.json`** — make sure the styles file is registered:
+```json
+{
+  "build": {
+    "options": {
+      "styles": ["src/styles.scss"],
+      "inlineStyleLanguage": "scss"
+    }
+  }
+}
+```
+
+---
+
+## Step 4 — Use components in your module or standalone component
+
+All components are **standalone** — import only what you need.
+
+### Standalone component (recommended)
+
+```ts
+import { Component } from '@angular/core';
+import {
+  ButtonComponent,
+  InputComponent,
+  BadgeComponent
+} from '@ui-components/ui';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [ButtonComponent, InputComponent, BadgeComponent],
+  template: `
+    <ui-badge label="New" variant="success"></ui-badge>
+    <ui-input type="email" placeholder="Enter email"></ui-input>
+    <ui-button label="Submit" variant="primary"></ui-button>
+  `
+})
+export class ExampleComponent {}
+```
+
+### NgModule-based app
+
+```ts
+import { NgModule } from '@angular/core';
+import { ButtonComponent, InputComponent } from '@ui-components/ui';
+
+@NgModule({
+  imports: [ButtonComponent, InputComponent],
+  declarations: [YourComponent],
+})
+export class YourModule {}
+```
+
+---
+
+## Step 5 — Configure SCSS preprocessor options (if needed)
+
+If you get `Can't find stylesheet` errors for SCSS imports, add `stylePreprocessorOptions` to your build config:
+
+**`angular.json` / `project.json`**
+```json
+{
+  "build": {
+    "options": {
+      "stylePreprocessorOptions": {
+        "includePaths": ["node_modules"]
+      }
+    }
+  }
+}
+```
+
+---
+
+## Step 6 — Reactive Forms integration
+
+All form controls implement `ControlValueAccessor`. Use them directly with `ReactiveFormsModule` or `FormsModule`.
+
+```ts
+import { Component } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormGroupComponent,
+  FormFieldComponent,
+  InputComponent,
+  SelectComponent,
+  TextareaComponent,
+  CheckboxComponent,
+  ButtonComponent
+} from '@ui-components/ui';
+
+@Component({
+  selector: 'app-contact-form',
+  standalone: true,
+  imports: [
+    ReactiveFormsModule,
+    FormGroupComponent, FormFieldComponent,
+    InputComponent, SelectComponent,
+    TextareaComponent, CheckboxComponent, ButtonComponent
+  ],
+  template: `
+    <form [formGroup]="form" (ngSubmit)="submit()">
+      <ui-form-group legend="Contact Us">
+
+        <ui-form-field label="Full Name" [required]="true"
+          [error]="getError('name')">
+          <ui-input formControlName="name" placeholder="John Doe"
+            [error]="getError('name')">
+          </ui-input>
+        </ui-form-field>
+
+        <ui-form-field label="Email" [required]="true"
+          [error]="getError('email')">
+          <ui-input formControlName="email" type="email"
+            placeholder="john@example.com" [error]="getError('email')">
+          </ui-input>
+        </ui-form-field>
+
+        <ui-form-field label="Subject">
+          <ui-select formControlName="subject"
+            [options]="subjects" placeholder="Select subject">
+          </ui-select>
+        </ui-form-field>
+
+        <ui-form-field label="Message" [required]="true">
+          <ui-textarea formControlName="message"
+            placeholder="Your message..." [rows]="5">
+          </ui-textarea>
+        </ui-form-field>
+
+        <ui-form-field>
+          <ui-checkbox formControlName="agreed"
+            label="I agree to the terms and conditions">
+          </ui-checkbox>
+        </ui-form-field>
+
+        <ui-button label="Send Message" variant="primary"
+          [disabled]="form.invalid">
+        </ui-button>
+
+      </ui-form-group>
+    </form>
+  `
+})
+export class ContactFormComponent {
+  form = this.fb.group({
+    name:    ['', Validators.required],
+    email:   ['', [Validators.required, Validators.email]],
+    subject: [''],
+    message: ['', Validators.required],
+    agreed:  [false],
+  });
+
+  subjects = [
+    { label: 'General Inquiry', value: 'general' },
+    { label: 'Support',         value: 'support' },
+    { label: 'Billing',         value: 'billing' },
+  ];
+
+  constructor(private fb: FormBuilder) {}
+
+  getError(field: string): string {
+    const ctrl = this.form.get(field);
+    if (!ctrl?.touched || !ctrl.errors) return '';
+    if (ctrl.errors['required']) return `${field} is required`;
+    if (ctrl.errors['email'])    return 'Invalid email address';
+    return '';
+  }
+
+  submit() {
+    if (this.form.valid) console.log(this.form.value);
+  }
+}
+```
+
+---
+
+## Step 7 — Using display components (non-form)
+
+Components like `Card`, `Modal`, `Tabs`, `Accordion`, `Badge`, `Alert` etc. are purely presentational.
+
+### Card with dynamic data
+
+```ts
+@Component({
+  standalone: true,
+  imports: [CardComponent, BadgeComponent, ButtonComponent, NgFor],
+  template: `
+    <ui-card *ngFor="let product of products"
+      [title]="product.name"
+      [subtitle]="product.category"
+      [hoverable]="true"
+      [hasFooter]="true">
+      <ui-badge [label]="product.stock > 0 ? 'In Stock' : 'Out of Stock'"
+        [variant]="product.stock > 0 ? 'success' : 'error'">
+      </ui-badge>
+      <div slot="footer">
+        <ui-button label="Buy Now" variant="primary" size="sm"></ui-button>
+      </div>
+    </ui-card>
+  `
+})
+export class ProductListComponent {
+  products = [
+    { name: 'Laptop', category: 'Electronics', stock: 5 },
+    { name: 'Headphones', category: 'Audio', stock: 0 },
+  ];
+}
+```
+
+### Modal with open/close state
+
+```ts
+@Component({
+  standalone: true,
+  imports: [ModalComponent, ButtonComponent],
+  template: `
+    <ui-button label="Open Dialog" variant="primary"
+      (click)="isOpen = true">
+    </ui-button>
+
+    <ui-modal
+      [open]="isOpen"
+      title="Confirm Action"
+      size="sm"
+      [hasFooter]="true"
+      (closed)="isOpen = false">
+
+      Are you sure you want to proceed?
+
+      <div slot="footer">
+        <ui-button label="Cancel" variant="secondary" size="sm"
+          (click)="isOpen = false">
+        </ui-button>
+        <ui-button label="Confirm" variant="primary" size="sm"
+          (click)="confirm()">
+        </ui-button>
+      </div>
+    </ui-modal>
+  `
+})
+export class ConfirmDialogComponent {
+  isOpen = false;
+  confirm() { console.log('confirmed'); this.isOpen = false; }
+}
+```
+
+### Notification Toasts
+
+```ts
+@Component({
+  standalone: true,
+  imports: [NotificationToastComponent, NgFor],
+  template: `
+    <div style="position:fixed; bottom:24px; right:24px; display:flex; flex-direction:column; gap:8px; z-index:9999">
+      <ui-notification-toast
+        *ngFor="let toast of toasts"
+        [variant]="toast.variant"
+        [title]="toast.title"
+        [message]="toast.message"
+        [duration]="4000"
+        (dismissed)="remove(toast.id)">
+      </ui-notification-toast>
+    </div>
+  `
+})
+export class ToastHostComponent {
+  toasts: Array<{ id: number; variant: 'info'|'success'|'warning'|'error'; title: string; message: string }> = [];
+  private counter = 0;
+
+  show(variant: 'info'|'success'|'warning'|'error', title: string, message: string) {
+    this.toasts.push({ id: ++this.counter, variant, title, message });
+  }
+
+  remove(id: number) {
+    this.toasts = this.toasts.filter(t => t.id !== id);
+  }
+}
+```
+
+---
+
+## Step 8 — Using design tokens in your own styles
+
+You can use the token variables in any SCSS file within your app after importing the index:
+
+```scss
+// In any component .scss file
+@use 'path/to/ui-styles/src/lib/styles/index' as *;
+
+.my-component {
+  background: $color-primary;
+  padding: $spacing-md $spacing-lg;
+  font-size: $font-size-md;
+  font-weight: $font-weight-bold;
+  border: 1px solid $color-border;
+  border-radius: 4px;
+  color: $color-text;
+
+  &:hover {
+    background: darken($color-primary, 10%);
+  }
+
+  &.error {
+    border-color: $color-error;
+    color: $color-error;
+  }
+}
+```
+
+### Available tokens
+
+**Colors**
+```scss
+$color-primary:   #1976d2;
+$color-secondary: #ff4081;
+$color-text:      #333;
+$color-border:    #e0e0e0;
+$color-success:   #4caf50;
+$color-error:     #f44336;
+$color-warning:   #ff9800;
+```
+
+**Spacing**
+```scss
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+```
+
+**Typography**
+```scss
+$font-family-base:   'Arial', sans-serif;
+$font-size-sm:       12px;
+$font-size-md:       14px;
+$font-size-lg:       16px;
+$font-weight-normal: 400;
+$font-weight-bold:   600;
+```
+
+---
+
+## Step 9 — Theming (light / dark)
+
+The library ships light and dark CSS variable themes. Apply the dark theme by setting `data-theme="dark"` on any ancestor element:
+
+```html
+<!-- Light (default) -->
+<body>...</body>
+
+<!-- Dark mode -->
+<body data-theme="dark">...</body>
+```
+
+Toggle programmatically:
+
+```ts
+toggleDark(enabled: boolean) {
+  document.body.setAttribute('data-theme', enabled ? 'dark' : 'light');
+}
+```
+
+---
+
+## Component API Quick Reference
+
+### Button `ui-button`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `label` | `string` | `'Button'` | Button text |
+| `variant` | `'primary' \| 'secondary'` | `'primary'` | Visual style |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+| `disabled` | `boolean` | `false` | Disabled state |
+
+### Input `ui-input`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `type` | `'text' \| 'email' \| 'password' \| 'number'` | `'text'` | Input type |
+| `placeholder` | `string` | `''` | Placeholder text |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `error` | `string` | `''` | Error message |
+
+### Select `ui-select`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `options` | `SelectOption[]` | `[]` | `{ label, value }` array |
+| `placeholder` | `string` | `''` | Placeholder option |
+| `disabled` | `boolean` | `false` | Disabled state |
+| `error` | `string` | `''` | Error message |
+
+### Badge `ui-badge`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `label` | `string` | `''` | Badge text |
+| `variant` | `'primary' \| 'secondary' \| 'success' \| 'warning' \| 'error' \| 'neutral'` | `'primary'` | Color |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Size |
+
+### Modal `ui-modal`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `open` | `boolean` | `false` | Visibility |
+| `title` | `string` | `''` | Header title |
+| `size` | `'sm' \| 'md' \| 'lg'` | `'md'` | Width |
+| `closeOnBackdrop` | `boolean` | `true` | Close on backdrop click |
+| `hasFooter` | `boolean` | `false` | Show footer slot |
+| **Output** | | | |
+| `closed` | `EventEmitter` | — | Emits when closed |
+
+### NotificationToast `ui-notification-toast`
+| Input | Type | Default | Description |
+|-------|------|---------|-------------|
+| `variant` | `'info' \| 'success' \| 'warning' \| 'error'` | `'info'` | Color |
+| `title` | `string` | `''` | Bold heading |
+| `message` | `string` | `''` | Body text |
+| `duration` | `number` | `4000` | Auto-dismiss ms (0 = never) |
+| **Output** | | | |
+| `dismissed` | `EventEmitter` | — | Emits when closed |
+
+---
+
+## Troubleshooting
+
+**`Can't resolve '@ui-components/ui'`**
+→ Check `tsconfig.json` paths are set correctly (Step 2)
+
+**SCSS variables undefined (`$color-primary` not found)**
+→ Make sure `@use '...index' as *` is at the top of the SCSS file before any usage
+
+**Component renders but has no styles**
+→ Ensure `src/styles.scss` imports the ui-styles index and is listed in `angular.json` styles array
+
+**`NG0303: Can't bind to 'formControlName'`**
+→ Import `ReactiveFormsModule` in your component's `imports` array
+
+**Storybook shows blank canvas**
+→ Clear the Storybook cache: `npx storybook@latest cache clean` then restart
+
+</div>
