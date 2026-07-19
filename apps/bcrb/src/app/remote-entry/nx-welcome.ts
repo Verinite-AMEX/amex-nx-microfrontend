@@ -1,27 +1,14 @@
-import {
-  Component,
-  ViewEncapsulation
-} from '@angular/core';
+import { Component,ViewEncapsulation } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
-import {
-  BcrbDashboardComponent
-} from '../pages/dashboard/bcrb-dashboard.component';
+import { BcrbDashboardComponent } from '../pages/dashboard/bcrb-dashboard.component';
 
-import {
-  BcrbReportsComponent
-} from '../pages/report/bcrb-reports.component';
+import { BcrbReportsComponent } from '../pages/report/bcrb-reports.component';
 
-import {
-  BcrbSidebarComponent
-} from '../pages/sidebar/bcrb-sidebar.component';
+import { BcrbSidebarComponent } from '../pages/sidebar/bcrb-sidebar.component';
 
-import {
-  BcrbHeaderComponent
-} from '../pages/header/bcrb-header.component';
+import { BcrbHeaderComponent } from '../pages/header/bcrb-header.component';
 
 @Component({
   selector: 'app-nx-welcome',
