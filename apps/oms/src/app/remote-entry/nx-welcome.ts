@@ -60,16 +60,14 @@ import { NewOutletPortalComponent } from '../pages/new-outlet/new-outlet-portal.
 
 import { OmsNewOutletApplicationFormComponent } from '../pages/new-outlet-application-form/oms-new-outlet-application-form.component';
 
-import {
-  OmsUserManagementService
-} from '../services/oms-user-management.service';
+import { OmsUserManagementService } from '../services/oms-user-management.service';
 
 import { MrmUserManagementService } from '../services/mrm-user-management.service';
 import { SubUserManagementService } from '../services/sub-user-management.service';
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
 import { SecureFormService } from '../services/secure-form.service'; 
 import { AmexPageShellComponent } from '@ui-components/ui';
-import { OmsAuthService } from '../services/auth.service';
+import { SessionService, EnvironmentService, AuthApiService } from '@amex/shared-services';
 import { filter, Subscription } from 'rxjs';
 
 interface NavItem { id: string; label: string; }
@@ -300,8 +298,6 @@ export class NxWelcome
 
   navItems: NavItem[] = [];
   activeId = '';
-  // tabs: AmexTabItem[] = [{ id: 'oms', label: 'OMS Portal' }];
-
 
   constructor(
     private secureForm: SecureFormService,
@@ -316,9 +312,13 @@ export class NxWelcome
     
     private settlementService: OmsSettlementSubmissionService,
 
-    private auth: OmsAuthService,
+    private sessionService: SessionService,
 
     private router: Router,
+
+    private authApiService: AuthApiService,
+
+    private environmentService: EnvironmentService,
 
   ) {}
 
@@ -339,119 +339,127 @@ export class NxWelcome
   }
 
   private updateNav(url: string): void {
-    if (url.includes('/oms/login') || !this.auth.isLoggedIn()) {
+
+    if (!this.sessionService.isLoggedIn()) {
       this.navItems = [];
       this.activeId = '';
       return;
     }
 
     this.navItems = this.buildNav();
-    const seg = url.split('/').filter(Boolean).pop() ?? '';
-    this.activeId = this.navItems.find(i => i.id === seg)?.id
-      ?? this.navItems[0]?.id
-      ?? '';
+
+    const seg = url
+      .split('/')
+      .filter(Boolean)
+      .pop() ?? '';
+
+    this.activeId =
+      this.navItems.find(item => item.id === seg)?.id ??
+      this.navItems[0]?.id ??
+      '';
+
+    console.log('Current roles:', this.sessionService.getRoles());
+    console.log('Navigation items:', this.navItems);
   }
 
   private buildNav(): NavItem[] {
-    if (this.auth.isMerchant()) {
 
-  const merchantMenus = [
+  // -------------------------------------------------------
+  // MERCHANT USER
+  // -------------------------------------------------------
 
-    {
-      id: 'settlement',
-      label: 'Settlement & Submission'
-    },
-
-    {
-      id: 'merchantaccount',
-      label: 'Merchant Account'
-    },
-
-    {
-      id: 'subuseradministration',
-      label: 'Sub User Administration'
-    },
-
-    {
-      id: 'password',
-      label: 'Change Password'
-    },
-
-    {
-      id: 'termsandconditions',
-      label: 'Terms & Conditions'
-    },
-
-    {
-      id: 'customizedreports',
-      label: 'Customized Reports'
-    },
-
-    {
-      id: 'addnewoutlet',
-      label: 'Add New Outlet'
-    }
-
-  ];
-
-  console.log(
-    'Merchant Navigation:',
-    merchantMenus
-  );
-
-  return merchantMenus;
-}
-    if (this.auth.isOmsAdmin()) {
-      return [
-
+  if (
+    this.sessionService.hasRole(
+      'ROLE_MERCHANT_USER'
+    )
+  ) {
+    return [
       { id: 'settlement', label: 'Settlement & Submission' },
-
       { id: 'merchantaccount', label: 'Merchant Account' },
-
       { id: 'subuseradministration', label: 'Sub User Administration' },
-
       { id: 'password', label: 'Change Password' },
-
       { id: 'termsandconditions', label: 'Terms & Conditions' },
-
       { id: 'customizedreports', label: 'Customized Reports' },
-
       { id: 'addnewoutlet', label: 'Add New Outlet' }
-
     ];
-    }
-    if (this.auth.isOmsSubUser()) {
-      return [
-        { id: 'settlement',   label: 'Settlement & Submission'    },
-        { id: 'merchantaccount', label: 'Merchant Account' },
-        { id: 'password', label: 'Change Password' },
-        { id: 'termsandconditions', label: 'Terms & Conditions' },
-        { id: 'addnewoutlet', label: 'Add New Outlet' }
-      
-      ];
-    }
-    if (this.auth.isMrmUser()) {
-      return [
-        { id: 'settlement',   label: 'Settlement & Submission'    },
-        { id: 'merchantaccount', label: 'Merchant Account' },
-        { id: 'omsusers', label: 'OMS Users' },
-        { id: 'mrmusers', label: 'MRM Users' },
-        { id: 'password', label: 'Change Password' },
-      
-      ];
-    }
-    if (this.auth.isOmsVatUser()) {
-      return [
-        { id: 'settlement',   label: 'Settlement & Submission'    },
-        { id: 'merchantaccount', label: 'Merchant Account' },
-        { id: 'password', label: 'Change Password' },
-        { id: 'termsandconditions', label: 'Terms & Conditions' },
-        { id: 'addnewoutlet', label: 'Add New Outlet' }
-      
-      ];
-    }
-    return [];
   }
+
+  // -------------------------------------------------------
+  // MRM USER
+  // -------------------------------------------------------
+
+  if (
+    this.sessionService.hasRole(
+      'ROLE_MRM_USER'
+    )
+  ) {
+    return [
+      { id: 'settlement', label: 'Settlement & Submission' },
+      { id: 'omsusers', label: 'OMS Users' },
+      { id: 'mrmusers', label: 'MRM Users' },
+      { id: 'password', label: 'Change Password' }
+    ];
+  }
+
+  // -------------------------------------------------------
+  // OMS SUB USER
+  // -------------------------------------------------------
+
+  if (
+    this.sessionService.hasRole(
+      'ROLE_OMS_SUB_USER'
+    )
+  ) {
+    return [
+      { id: 'settlement', label: 'Settlement & Submission' },
+      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'password', label: 'Change Password' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
+      { id: 'customizedreports', label: 'Customized Reports' },
+      { id: 'addnewoutlet', label: 'Add New Outlet' }
+    ];
+  }
+
+  // -------------------------------------------------------
+  // VAT USER
+  // -------------------------------------------------------
+
+  if (
+    this.sessionService.hasRole(
+      'ROLE_OMS_VAT_USER'
+    )
+  ) {
+    return [
+      { id: 'settlement', label: 'Settlement & Submission' },
+      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'subuseradministration', label: 'Sub User Administration' },
+      { id: 'password', label: 'Change Password' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
+      { id: 'customizedreports', label: 'Customized Reports' }
+    ];
+  }
+
+  // -------------------------------------------------------
+  // OMS ADMIN
+  // -------------------------------------------------------
+
+  if (
+    this.sessionService.hasRole(
+      'ROLE_OMS_ADMIN'
+    )
+  ) {
+    return [
+      { id: 'settlement', label: 'Settlement & Submission' },
+      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'subuseradministration', label: 'Sub User Administration' },
+      { id: 'password', label: 'Change Password' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
+      { id: 'customizedreports', label: 'Customized Reports' }
+    ];
+  }
+
+  return [];
+}
 
   onNavClick(id: string): void {
     this.activeId = id;
@@ -459,11 +467,21 @@ export class NxWelcome
   }
 
   onLogout(): void {
-  // NEW — delegates to Login-Logout-auth-app
-  this.auth.logout();
-}
+    this.authApiService.performLogout().subscribe({
+      next: () => this.redirectToLogin(),
+      error: () => this.redirectToLogin(),
+    });
+  }
 
-  // LOAD OMS USERS
+  private redirectToLogin(): void {
+    const returnUrl = encodeURIComponent(
+      window.location.origin + '/'
+    );
+
+    window.location.href =
+      `${this.environmentService.getLoginAppUrl()}?returnUrl=${returnUrl}`;
+  }
+
   loadOmsUsers() {
 
     this.omsUserService

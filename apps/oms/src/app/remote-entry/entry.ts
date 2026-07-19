@@ -10,16 +10,7 @@ import { Router } from '@angular/router';
 export class RemoteEntry {
 
   constructor(
-  private router: Router
-) {}
+    private router: Router
+  ) {}
 
-// onTabChanged(
-//   tabId: string
-// ) {
-
-//   this.router.navigate([
-//     '/oms',
-//     tabId
-//   ]);
-// }
 }
