@@ -143,8 +143,8 @@ public class AuthController {
     private ResponseCookie buildAuthCookie(String name, String value, long maxAgeSeconds) {
         return ResponseCookie.from(name, value)
                 .httpOnly(true)
-                .secure(false) // TODO: set true for UAT/Prod (HTTPS)
-                .sameSite("Lax")
+                .secure(true) // TODO: set true for UAT/Prod (HTTPS)
+                .sameSite("None")
                 .path("/")
                 .maxAge(maxAgeSeconds)
                 .build();
