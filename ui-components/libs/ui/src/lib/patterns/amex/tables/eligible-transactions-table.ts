@@ -43,17 +43,18 @@ export interface PointsHistoryRow {
 
       <!-- Teal/gray tab switcher — matches screenshot exactly -->
       <div class="ett__tabs">
-        <ui-button class="ett__tab"
-          [class.ett__tab--active]="activeTab === 'eligible'"
-          label="Eligible Transactions"
-          (click)="activeTab='eligible'">
-        </ui-button>
-        <ui-button class="ett__tab"
-          [class.ett__tab--inactive]="activeTab === 'eligible'"
-          [class.ett__tab--active]="activeTab === 'history'"
-          label="History"
-          (click)="activeTab='history'">
-        </ui-button>
+      <ui-button class="ett__tab"
+         [class.ett__tab--active]="activeTab === 'eligible'"
+         [class.ett__tab--inactive]="activeTab === 'history'"
+         label="Eligible Transactions"
+        (click)="activeTab='eligible'">
+      </ui-button>
+      <ui-button class="ett__tab"
+         [class.ett__tab--active]="activeTab === 'history'"
+        [class.ett__tab--inactive]="activeTab === 'eligible'"
+        label="History"
+        (click)="activeTab='history'">
+      </ui-button>
       </div>
 
       <!-- Eligible Transactions tab -->
@@ -119,40 +120,36 @@ export interface PointsHistoryRow {
         <div class="ett__history-title">History Summary</div>
         <div class="ett__history-summary">
           <div class="ett__history-stats">
-            <div><strong>Total Statement Credit:</strong>
-              <span [class.ett__null]="!totalCredit">{{ totalCredit || 'null' }}</span>
-            </div>
-            <div><strong>Total Points Redeemed:</strong>
-              <span [class.ett__null]="!totalPointsRedeemed">{{ totalPointsRedeemed || 'null' }}</span>
-            </div>
+           <div><strong>Total Statement Credit:</strong>&nbsp;<span [class.ett__null]="!totalCredit">{{ totalCredit || 'null' }}</span></div>
+           <div><strong>Total Points Redeemed:</strong>&nbsp;<span [class.ett__null]="!totalPointsRedeemed">{{ totalPointsRedeemed || 'null' }}</span></div>
           </div>
         </div>
 
         <div class="ett__history-detail-title">History Details (Past 1 year)</div>
-
-        <ui-table class="ett__table ett__table--history" [bordered]="false">
-          <ui-table-head>
-            <ui-table-row [header]="true" [hoverable]="false">
-              <ui-table-header-cell style="width: 20%;">Transaction Date</ui-table-header-cell>
-              <ui-table-header-cell style="width: 35%;">Description</ui-table-header-cell>
-              <ui-table-header-cell style="width: 22%;">Transaction Amount</ui-table-header-cell>
-              <ui-table-header-cell style="width: 23%;">Redemption Date</ui-table-header-cell>
-            </ui-table-row>
-          </ui-table-head>
-          <ui-table-body>
-            <ui-table-row *ngFor="let row of historyRows" [hoverable]="true">
-              <ui-table-cell>{{ row.transactionDate }}</ui-table-cell>
-              <ui-table-cell>{{ row.description }}</ui-table-cell>
-              <ui-table-cell>{{ row.amountOffset }}</ui-table-cell>
-              <ui-table-cell>{{ row.redemptionDate }}</ui-table-cell>
-            </ui-table-row>
-            <ui-table-row *ngIf="!historyRows.length" [hoverable]="false">
-              <ui-table-cell [colspan]="4" [align]="'center'" class="ett__empty-history">
-                It appears that you have not placed any redemption order(s) on this Card.
-                Please click on the 'Eligible Transactions' tab on the top left and place your first redemption.
-              </ui-table-cell>
-            </ui-table-row>
-          </ui-table-body>
+        
+          <ui-table class="ett__table ett__table--history" [bordered]="false">
+       <ui-table-head>
+    <ui-table-row [header]="true" [hoverable]="false">
+      <ui-table-header-cell style="width: 20%;" [align]="'center'">Transaction Date</ui-table-header-cell>
+      <ui-table-header-cell style="width: 35%;" [align]="'center'">Description</ui-table-header-cell>
+      <ui-table-header-cell style="width: 22%;" [align]="'center'">Transaction Amount</ui-table-header-cell>
+      <ui-table-header-cell style="width: 23%;" [align]="'center'">Redemption Date</ui-table-header-cell>
+    </ui-table-row>
+   </ui-table-head>
+   <ui-table-body>
+    <ui-table-row *ngFor="let row of historyRows" [hoverable]="true">
+      <ui-table-cell [align]="'center'">{{ row.transactionDate }}</ui-table-cell>
+      <ui-table-cell [align]="'center'">{{ row.description }}</ui-table-cell>
+      <ui-table-cell [align]="'center'">{{ row.amountOffset }}</ui-table-cell>
+      <ui-table-cell [align]="'center'">{{ row.redemptionDate }}</ui-table-cell>
+    </ui-table-row>
+    <ui-table-row *ngIf="!historyRows.length" [hoverable]="false">
+      <ui-table-cell [colspan]="4" [align]="'center'" class="ett__empty-history">
+        It appears that you have not placed any redemption order(s) on this Card.
+        Please click on the 'Eligible Transactions' tab on the top left and place your first redemption.
+      </ui-table-cell>
+    </ui-table-row>
+   </ui-table-body>
         </ui-table>
 
         <div class="ett__showing" *ngIf="historyRows.length">
@@ -204,7 +201,18 @@ export interface PointsHistoryRow {
     .ett__points-aed   { color: #888; }
 
     .ett__table { table-layout: fixed; }
-    .ett__table--history { margin-top: 12px; }
+    .ett__table--history {
+      margin-top: 12px;
+      width: 100%;
+      table-layout: fixed;
+      --table-head-bg: transparent;
+    }
+  .ett__table--history ::ng-deep .ui-th {
+       border-bottom: 1px solid #ccc;
+    }
+  .ett__table--history ::ng-deep .ui-td {
+      border-bottom: 1px solid #ddd;
+    }
 
     .ett__th--check { width: 30px; }
     .ett__row--selected { background: #eaf4fb; }
@@ -223,7 +231,7 @@ export interface PointsHistoryRow {
       padding-bottom: 6px; border-bottom: 2px solid #1a3a6b; margin-bottom: 10px;
     }
     .ett__history-summary { padding: 4px 0 14px; text-align: center; }
-    .ett__history-stats { font-size: 13px; color: #333; }
+    .ett__history-stats { font-size: 13px; color: #333; display: inline-block; text-align: left; }
     .ett__history-stats div { margin-bottom: 4px; }
     .ett__null { color: #666; margin-left: 4px; }
     .ett__history-detail-title {

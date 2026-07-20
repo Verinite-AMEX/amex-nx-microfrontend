@@ -26,6 +26,7 @@ import { Component, Input, HostBinding } from '@angular/core';
         border: var(--table-cell-border, none);
       }
     .ui-td--truncate { max-width: 1px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    :host { display: contents; }
   `],
 })
 export class TableCellComponent {

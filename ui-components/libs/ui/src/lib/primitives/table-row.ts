@@ -26,6 +26,7 @@ import { Component, Input, Output, EventEmitter, HostBinding, HostListener } fro
     .ui-table-row--hoverable:hover { background: var(--table-row-hover-bg, #f5f9ff); }
     .ui-table-row--selected { background: var(--table-row-selected-bg, #e3f2fd); }
     .ui-table-row--clickable { cursor: pointer; }
+    :host { display: contents; }
   `],
 })
 export class TableRowComponent {

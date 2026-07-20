@@ -7,6 +7,7 @@ import { Component, Input, HostBinding } from '@angular/core';
   styles: [`
     .ui-table-head { background: var(--table-head-bg, #f5f5f5); }
     .ui-table-head--sticky { position: sticky; top: 0; z-index: 1; }
+    :host { display: contents; }
   `],
 })
 export class TableHeadComponent {

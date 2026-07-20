@@ -41,6 +41,7 @@ export type SortDirection = 'asc' | 'desc' | null;
     .ui-th--sortable { cursor: pointer; user-select: none; }
     .ui-th__content { display: inline-flex; align-items: center; gap: 4px; }
     .ui-th__sort-icon { font-size: 10px; opacity: 0.6; }
+    :host { display: contents; }
   `],
 })
 export class TableHeaderCellComponent {

@@ -27,6 +27,7 @@ import { NgIf } from '@angular/common';
     .ui-table--bordered th, .ui-table--bordered td { border: 1px solid var(--table-border-color, #e0e0e0); }
     .ui-table--striped tbody tr:nth-child(even) { background: var(--table-stripe-bg, #fafafa); }
     .ui-table--compact th, .ui-table--compact td { padding: 4px 8px; }
+    :host { display: block; width: 100%; }
   `],
 })
 export class TableComponent {

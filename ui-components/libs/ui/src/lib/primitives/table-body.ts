@@ -4,7 +4,7 @@ import { Component, Input, HostBinding } from '@angular/core';
   selector: 'ui-table-body',
   standalone: true,
   template: `<tbody [id]="id"><ng-content></ng-content></tbody>`,
-  styles: [``],
+  styles: [`:host { display: contents; }`],
 })
 export class TableBodyComponent {
   private static _idCounter = 0;
