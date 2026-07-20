@@ -141,7 +141,7 @@ function installDeps() {
   }
   if (!needsInstall()) return;
   log('Running npm install at workspace root...');
-  runInherit(`npm install`);
+  runInherit(`npm install --legacy-peer-deps`);
 }
 function build() {
   log(`Building project "${PROJECT}" (target: ${BUILD_TARGET})...`);

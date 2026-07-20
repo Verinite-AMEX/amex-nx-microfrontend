@@ -166,7 +166,7 @@ export interface ChangePasswordData {
 
     /* ONLS panel - exact match from screenshot */
     .panel-onls {
-      background: #fff; border: 1px solid #b0c8e8; width: 460px; box-sizing: border-box;
+      background: #fff; border: 1px solid #b0c8e8; width: 700px; box-sizing: border-box;
     }
     .panel-header-onls { background: #d4e8f8; color: #006fcf; font-weight: bold; font-size: 14px; padding: 10px 16px; border-bottom: 1px solid #b0c8e8; box-sizing: border-box; }
 
@@ -216,7 +216,7 @@ export interface ChangePasswordData {
 
     .btn-row-onls { display: flex; justify-content: flex-end; margin-top: 6px; }
     .btn-change-onls {
-      --btn-bg: linear-gradient(to bottom, #1a7fe8, #005baa); --btn-color: #fff;
+      --btn-bg: linear-gradient(to bottom, #d4e8f8, #3c9aed); --btn-color: #fff;
       --btn-border: 1px solid #004a99; --btn-padding: 5px 18px; --btn-font-size: 12px; --btn-radius: 3px;
     }
 

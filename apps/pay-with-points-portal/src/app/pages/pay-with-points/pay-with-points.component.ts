@@ -6,14 +6,23 @@ import {
   AmexEligibleTransactionsTableComponent,
   EligibleTransaction,
   PointsHistoryRow,
+  AmexCardRow,
+  FormFieldComponent,
+  InputComponent,
+  ButtonComponent,
 } from "@ui-components/ui";
-
-import { AmexCardRow } from "@ui-components/ui";
 
 @Component({
   selector: "app-pay-with-points",
   standalone: true,
-  imports: [CommonModule, FormsModule, AmexEligibleTransactionsTableComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    AmexEligibleTransactionsTableComponent,
+    FormFieldComponent,
+    InputComponent,
+    ButtonComponent,
+  ],
   templateUrl: "./pay-with-points.component.html",
   styleUrls: ["./pay-with-points.component.css"],
 })

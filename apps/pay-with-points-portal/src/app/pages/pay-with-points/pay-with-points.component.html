@@ -2,24 +2,38 @@
   <div class="pwp-page-header">Pay with Points - Agent Portal</div>
 
   <div class="pwp-form-section">
-    <div class="pwp-form-row">
-      <label class="pwp-label">
-        Enter Client Code
-        <span class="pwp-required">*</span>
-      </label>
+    <ui-form-field
+      class="pwp-field"
+      layout="horizontal"
+      label="Enter Client Code"
+      [required]="true"
+      forId="client-code-input"
+    >
+      <div class="pwp-field-row">
+        <ui-input
+          id="client-code-input"
+          class="pwp-input"
+          type="text"
+          [(ngModel)]="clientCode"
+          placeholder="e.g. 20473521"
+          [required]="true"
+          (keydown.enter)="onSubmit()"
+        >
+        </ui-input>
 
-      <input
-        class="pwp-input"
-        type="text"
-        [(ngModel)]="clientCode"
-        placeholder="e.g. 20473521"
-        (keyup.enter)="onSubmit()"
-      />
+        <ui-button
+          class="pwp-submit-btn"
+          variant="primary"
+          type="button"
+          label="SUBMIT"
+          ariaLabel="Submit client code"
+          (click)="onSubmit()"
+        >
+        </ui-button>
+      </div>
+    </ui-form-field>
 
-      <button class="pwp-submit-btn" (click)="onSubmit()">SUBMIT</button>
-    </div>
-
-    <div class="pwp-form-error" *ngIf="formError">
+    <div class="pwp-form-error" *ngIf="formError" role="alert" aria-live="assertive">
       {{ formError }}
     </div>
   </div>

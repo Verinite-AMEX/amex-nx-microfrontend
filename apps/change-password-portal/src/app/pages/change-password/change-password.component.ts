@@ -85,7 +85,7 @@ export class ChangePasswordComponent {
           this.successMsg = res?.message || "Password changed successfully.";
            setTimeout(() => {
         window.location.reload();
-      }, 1500);
+      }, 1000);
         },
         error: (err) => {
           this.loading = false;

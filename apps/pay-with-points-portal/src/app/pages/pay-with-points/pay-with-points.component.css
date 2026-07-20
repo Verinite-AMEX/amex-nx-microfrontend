@@ -17,51 +17,36 @@
   padding: 16px 12px;
 }
 
-.pwp-form-row {
+.pwp-field {
+  --label-font-size: 12px;
+  --label-color: #333333;
+}
+
+.pwp-field-row {
   display: flex;
   align-items: center;
   gap: 10px;
   flex-wrap: wrap;
 }
 
-.pwp-label {
-  font-size: 12px;
-  color: #333333;
-  white-space: nowrap;
-}
-
-.pwp-required {
-  color: red;
-}
-
 .pwp-input {
   width: 200px;
-  height: 24px;
-  padding: 4px 6px;
-  border: 1px solid #aaaaaa;
-  outline: none;
-  font-size: 12px;
-  color: #333333;
-  background: #ffffff;
-}
-
-.pwp-input:focus {
-  border-color: #006fcf;
+  --input-padding: 4px 6px;
+  --input-border: 1px solid #aaaaaa;
+  --input-focus-border-color: #006fcf;
+  --input-focus-shadow: none;
 }
 
 .pwp-submit-btn {
-  height: 26px;
-  padding: 4px 16px;
-  border: none;
-  background: #1c3f72;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: bold;
-  cursor: pointer;
+  --btn-bg: #1c3f72;
+  --btn-color: #ffffff;
+  --btn-padding: 4px 16px;
+  --btn-radius: 0px;
+  --btn-font-size: 12px;
 }
 
 .pwp-submit-btn:hover {
-  background: #003087;
+  --btn-bg-hover: #003087;
 }
 
 .pwp-form-error {
