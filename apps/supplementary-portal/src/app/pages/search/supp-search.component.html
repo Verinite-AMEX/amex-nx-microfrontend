@@ -1,23 +1,28 @@
 <div class="supp-page">
   <div class="search-section">
     <div class="section-title">Supplementary Access Administration</div>
+
     <div class="search-row">
-      <label class="search-label">Please enter a UCI</label>
-      <div class="input-wrap">
-        <input class="search-input" type="text" [(ngModel)]="uciValue" />
-        <span class="field-error" *ngIf="uciError">{{ uciError }}</span>
-      </div>
-      <span class="or-text">or a User Id</span>
-      <div class="input-wrap">
-        <input class="search-input" type="text" [(ngModel)]="userIdValue" />
-        <span class="field-error" *ngIf="userIdError">{{ userIdError }}</span>
-      </div>
-      <button class="btn-search" (click)="onSearch()">Search</button>
-      <button class="btn-reset" (click)="onReset()">Reset</button>
+      <ui-form-field label="Please enter a UCI" layout="horizontal" [error]="uciError">
+        <ui-input type="text" [(ngModel)]="uciValue"></ui-input>
+      </ui-form-field>
+
+      <ui-form-field label="or a User Id" layout="horizontal" [error]="userIdError">
+        <ui-input type="text" [(ngModel)]="userIdValue"></ui-input>
+      </ui-form-field>
+
+      <ui-button label="Search" (click)="onSearch()"
+        style="--btn-bg:#006fcf; --btn-bg-hover:#0057a3; --btn-radius:2px;">
+      </ui-button>
+      <ui-button label="Reset" variant="ghost" (click)="onReset()"
+        style="--btn-color:#1e2a35; --btn-border:1px solid #a9b6c3; --btn-radius:2px;">
+      </ui-button>
     </div>
   </div>
 
-  <div class="lock-success" *ngIf="lockMessage">{{ lockMessage }}</div>
+  <div class="lock-success" *ngIf="lockMessage">
+    {{ lockMessage }}
+  </div>
 
   <ng-container *ngIf="searched && accessGroup.length > 0">
     <div class="section-header">Access Group: Family - {{ accessGroupId }}</div>
@@ -54,26 +59,33 @@
       <tbody>
         <tr>
           <td>{{ userInfo.userId }}</td>
-          <td>{{ userInfo.accountStatus }}</td>
           <td>
-            <button class="btn-action" (click)="onLockUser()">
-              {{
-                userInfo.accountStatus === "Locked"
-                  ? "Unlock User"
-                  : "Lock User"
-              }}
-            </button>
-            <button class="btn-action" (click)="onDeleteUser()">
-              Delete User
-            </button>
-            <button class="btn-action" (click)="goToOffers()">Offers</button>
-            <button class="btn-action" (click)="goToBenefits()">
-              Benefits
-            </button>
+            <amex-status-badge
+              [status]="userInfo.accountStatus === 'Locked' ? 'locked' : 'active'"
+              [label]="userInfo.accountStatus">
+            </amex-status-badge>
+          </td>
+          <td>
+            <ui-button
+              [label]="userInfo.accountStatus === 'Locked' ? 'Unlock User' : 'Lock User'"
+              size="sm"
+              (click)="onLockUser()"
+              style="--btn-bg:#006fcf; --btn-bg-hover:#0057a3; --btn-radius:2px; margin-right:6px;">
+            </ui-button>
+            <ui-button label="Delete User" size="sm" (click)="onDeleteUser()"
+              style="--btn-bg:#006fcf; --btn-bg-hover:#0057a3; --btn-radius:2px; margin-right:6px;">
+            </ui-button>
+            <ui-button label="Offers" size="sm" (click)="goToOffers()"
+              style="--btn-bg:#006fcf; --btn-bg-hover:#0057a3; --btn-radius:2px; margin-right:6px;">
+            </ui-button>
+            <ui-button label="Benefits" size="sm" (click)="goToBenefits()"
+              style="--btn-bg:#006fcf; --btn-bg-hover:#0057a3; --btn-radius:2px;">
+            </ui-button>
           </td>
         </tr>
       </tbody>
     </table>
+
     <div class="user-details">
       <div class="detail-row">
         <span class="detail-label">User Status</span>
@@ -122,7 +134,7 @@
     </div>
   </ng-container>
 
-  <div *ngIf="searched && !userInfo" class="no-results">
+  <div class="no-results" *ngIf="searched && !userInfo">
     No supplementary card member found for the given search criteria.
   </div>
 </div>

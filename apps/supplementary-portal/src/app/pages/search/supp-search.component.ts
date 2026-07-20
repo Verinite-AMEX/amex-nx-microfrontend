@@ -2,11 +2,24 @@ import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { Router } from "@angular/router";
+import {
+  InputComponent,
+  FormFieldComponent,
+  ButtonComponent,
+  AmexStatusBadgeComponent,
+} from "@ui-components/ui";
 
 @Component({
   selector: "app-supp-search",
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    InputComponent,
+    FormFieldComponent,
+    ButtonComponent,
+    AmexStatusBadgeComponent,
+  ],
   templateUrl: "./supp-search.component.html",
   styleUrls: ["./supp-search.component.css"],
 })
@@ -91,6 +104,7 @@ export class SuppSearchComponent {
   } | null = null;
 
   constructor(private router: Router) {}
+
   onSearch(): void {
     this.uciError = "";
     this.userIdError = "";
@@ -161,6 +175,7 @@ export class SuppSearchComponent {
       lastLogin: record.lastLogin,
     };
   }
+
   onReset(): void {
     this.uciValue = "";
     this.userIdValue = "";
@@ -171,6 +186,7 @@ export class SuppSearchComponent {
     this.uciError = "";
     this.userIdError = "";
   }
+
   onLockUser(): void {
     if (this.userInfo) {
       if (this.userInfo.accountStatus === "Locked") {
@@ -183,6 +199,7 @@ export class SuppSearchComponent {
       setTimeout(() => (this.lockMessage = ""), 4000);
     }
   }
+
   onDeleteUser(): void {
     this.searched = false;
     this.accessGroup = [];
@@ -193,6 +210,7 @@ export class SuppSearchComponent {
   goToOffers(): void {
     window.location.href = "/offers";
   }
+
   goToBenefits(): void {
     window.location.href = "/offers/benefits";
   }

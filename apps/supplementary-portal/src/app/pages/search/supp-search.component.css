@@ -1,109 +1,53 @@
 :host {
   display: block;
-  font-family: Arial, sans-serif;
-  font-size: 12px;
-  color: #333;
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  color: #1e2a35;
 }
 
 .supp-page {
   padding: 14px 16px;
+  background: #f4f7fa;
 }
 
 .search-section {
-  border: 1px solid #b0cce0;
+  border: 1px solid #cfd8e3;
+  border-radius: 2px;
   background: #fff;
   margin-bottom: 16px;
-}
-
-.section-title {
-  background: #d6e8f5;
-  border-bottom: 1px solid #7aaecf;
-  padding: 6px 12px;
-  font-size: 12px;
-  font-weight: bold;
-  color: #1a3a5c;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
 }
 
 .search-row {
   display: flex;
-  align-items: flex-start;
-  gap: 8px;
+  align-items: center;
+  gap: 16px;
   flex-wrap: wrap;
-  padding: 10px 12px;
-}
-
-.search-label {
-  font-size: 12px;
-  white-space: nowrap;
-  padding-top: 4px;
+  padding: 14px;
 }
 
 .or-text {
-  font-size: 12px;
+  font-size: 13px;
+  color: #5a6b7b;
   white-space: nowrap;
-  padding-top: 4px;
-}
-
-.input-wrap {
-  display: flex;
-  flex-direction: column;
-}
-
-.field-error {
-  color: #cc0000;
-  font-size: 11px;
-  margin-top: 2px;
-}
-
-.search-input {
-  width: 160px;
-  height: 24px;
-  padding: 3px 6px;
-  border: 1px solid #999;
-  font-size: 12px;
-}
-
-.btn-search {
-  height: 24px;
-  padding: 3px 12px;
-  background: #5b8db8;
-  border: 1px solid #4a7aa0;
-  color: #fff;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.btn-search:hover {
-  background: #4a7aa0;
-}
-
-.btn-reset {
-  height: 24px;
-  padding: 3px 12px;
-  background: #e8e8e8;
-  border: 1px solid #aaa;
-  color: #333;
-  font-size: 12px;
-  cursor: pointer;
-}
-
-.btn-reset:hover {
-  background: #d5d5d5;
 }
 
 .lock-success {
-  margin-bottom: 12px;
-  padding: 6px 12px;
-  background: #dff0d8;
-  border: 1px solid #a3c98a;
-  color: #3a6e28;
-  font-size: 12px;
+  margin-bottom: 14px;
+  padding: 10px 14px;
+  background: #eaf7ec;
+  border: 1px solid #8fd19e;
+  border-left: 4px solid #2e9e44;
+  color: #1e6b2c;
+  font-size: 13px;
+  border-radius: 2px;
 }
 
 .section-header {
   margin-bottom: 0;
-  padding: 5px 10px;
-  background: #c5dcee;
+  padding: 6px 12px;
+  background: #d6e8f5;
   border: 1px solid #7aaecf;
   color: #1a3a5c;
   font-size: 12px;
@@ -113,77 +57,87 @@
 .data-table {
   width: 100%;
   border-collapse: collapse;
-  border: 1px solid #7aaecf;
+  border: 1px solid #cfd8e3;
   border-top: none;
-  font-size: 12px;
+  font-size: 13px;
+  background: #fff;
 }
 
 .data-table th {
-  padding: 4px 8px;
-  background: #ddeeff;
-  border: 1px solid #a8c8e8;
-  color: #1a3a5c;
+  padding: 8px 12px;
+  background: #eef3f9;
+  border: 1px solid #d8e1eb;
+  color: #002663;
   text-align: left;
   font-weight: bold;
 }
 
 .data-table td {
-  padding: 4px 8px;
+  padding: 8px 12px;
   background: #fff;
-  border: 1px solid #c8dcea;
+  border: 1px solid #e4eaf1;
+}
+
+.data-table tbody tr:nth-child(even) td {
+  background: #f9fbfd;
 }
 
 .data-table tbody tr:hover td {
-  background: #f0f7ff;
-}
-
-.btn-action {
-  height: 22px;
-  margin-right: 4px;
-  padding: 2px 10px;
-  background: #5b8db8;
-  border: 1px solid #4a7aa0;
-  color: #fff;
-  font-size: 11px;
-  cursor: pointer;
-}
-
-.btn-action:hover {
-  background: #4a7aa0;
+  background: #e8f2fc;
 }
 
 .user-details {
-  margin-top: 12px;
-  font-size: 12px;
+  margin-top: 14px;
+  padding: 10px 14px;
+  background: #fff;
+  border: 1px solid #cfd8e3;
+  font-size: 13px;
 }
 
 .detail-row {
   display: flex;
-  padding: 2px 0;
+  padding: 4px 0;
+  border-bottom: 1px solid #f0f3f6;
+}
+
+.detail-row:last-child {
+  border-bottom: none;
 }
 
 .detail-label {
-  width: 160px;
+  width: 170px;
   flex-shrink: 0;
   padding-left: 4px;
-  color: #333;
+  color: #1e2a35;
   font-weight: bold;
 }
 
 .detail-label.indent {
-  padding-left: 20px;
+  padding-left: 24px;
   font-weight: normal;
+  color: #5a6b7b;
 }
 
 .detail-value {
-  color: #333;
+  color: #1e2a35;
 }
 
 .no-results {
-  max-width: 480px;
-  padding: 10px 14px;
-  background: #ffeaea;
-  border: 1px solid #f5c6c6;
-  color: #cc0000;
-  font-size: 12px;
+  max-width: 520px;
+  padding: 12px 16px;
+  background: #fdecec;
+  border: 1px solid #f3b4b4;
+  border-left: 4px solid #d0021b;
+  color: #a80115;
+  font-size: 13px;
+  border-radius: 2px;
+}
+
+.section-title {
+  background: #d6e8f5;
+  border-bottom: 1px solid #7aaecf;
+  padding: 8px 12px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #1a3a5c;
 }
