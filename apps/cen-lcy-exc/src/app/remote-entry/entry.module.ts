@@ -1,6 +1,7 @@
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '@amex/shared-services';
 import { SHELL_HOSTED } from '../core/tokens/shell.token';
 
 @Component({
@@ -17,6 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../pages/currency-exchange/cen-lcy-exc-shell-wrapper.component')
             .then(m => m.CenLcyExcShellWrapperComponent),

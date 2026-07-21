@@ -2,6 +2,7 @@ import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AmexPageComponent } from '@ui-components/ui';
+import { authGuard } from '@amex/shared-services';
 
 import { CentHomeComponent }        from '../pages/home/cent-home.component';
 import { CentLoadClientComponent }  from '../pages/load-client/cent-load-client.component';
@@ -34,10 +35,10 @@ const routes: Routes = [
     component: CentEntryComponent,
     children: [
       { path: '',            redirectTo: 'home',        pathMatch: 'full' },
-      { path: 'home',        component: CentHomeComponent        },
-      { path: 'load-client', component: CentLoadClientComponent  },
-      { path: 'personalize', component: CentPersonalizeComponent },
-      { path: 'confirm',     component: CentConfirmComponent     },
+      { path: 'home',        component: CentHomeComponent,        canActivate: [authGuard] },
+      { path: 'load-client', component: CentLoadClientComponent,  canActivate: [authGuard] },
+      { path: 'personalize', component: CentPersonalizeComponent, canActivate: [authGuard] },
+      { path: 'confirm',     component: CentConfirmComponent,     canActivate: [authGuard] },
     ],
   },
 ];
