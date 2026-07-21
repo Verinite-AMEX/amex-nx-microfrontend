@@ -15,6 +15,8 @@ import {
   AmexPaginatedTableComponent,
   AmexPaginatedColumn,
   LabelComponent,
+  SelectComponent,
+  SelectOption,
 } from '@ui-components/ui';
 
 import { VatInvoiceMockService } from '../../services/vat-invoice-mock.service';
@@ -36,11 +38,38 @@ import { VatInvoiceReport } from '../vat-invoice-report/vat-invoice-report';
     AmexMasterDataTableComponent,
     AmexPaginatedTableComponent,
     LabelComponent,
+    SelectComponent,
   ],
   templateUrl: './vat-cust-home-component.html',
   styleUrl: './vat-cust-home-component.css',
 })
 export class VatCustHomeComponent {
+  countryOptions: SelectOption[] = [
+    {
+      label: 'United Arab Emirates',
+      value: 'United Arab Emirates',
+    },
+    {
+      label: 'Saudi Arabia',
+      value: 'Saudi Arabia',
+    },
+    {
+      label: 'Bahrain',
+      value: 'Bahrain',
+    },
+    {
+      label: 'Qatar',
+      value: 'Qatar',
+    },
+    {
+      label: 'Kuwait',
+      value: 'Kuwait',
+    },
+    {
+      label: 'Oman',
+      value: 'Oman',
+    },
+  ];
   customerTypeOptions: RadioOption[] = [
     {
       label: 'Corporate',
@@ -113,7 +142,13 @@ export class VatCustHomeComponent {
     'DEC',
   ];
 
+  monthOptions: SelectOption[] = this.months.map((month) => ({
+    label: month,
+    value: month,
+  }));
+
   years: string[] = [];
+  yearOptions: SelectOption[] = [];
 
   constructor(
     private vatInvoiceMockService: VatInvoiceMockService,
@@ -124,6 +159,11 @@ export class VatCustHomeComponent {
     for (let year = currentYear; year >= 2020; year--) {
       this.years.push(year.toString());
     }
+
+    this.yearOptions = this.years.map((year) => ({
+      label: year,
+      value: year,
+    }));
 
     this.selectedCountry = this.countries[0];
     this.selectedMonth = this.months[new Date().getMonth()];
