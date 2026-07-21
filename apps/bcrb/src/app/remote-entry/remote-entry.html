@@ -1,3 +1,8 @@
-<bcrb-home (tabChanged)="onTabChanged($event)"></bcrb-home>
-<bcrb-dashboard *ngIf="showDashboard" (linkChanged)="onLinkChanged($event)"></bcrb-dashboard>
-<bcrb-reports *ngIf="showReports"></bcrb-reports>
+<bcrb-dashboard
+  *ngIf="!showReports"
+  (linkChanged)="onLinkChanged($event)">
+</bcrb-dashboard>
+
+<bcrb-reports
+  *ngIf="showReports">
+</bcrb-reports>

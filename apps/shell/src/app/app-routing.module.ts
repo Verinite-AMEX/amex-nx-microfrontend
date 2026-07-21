@@ -210,18 +210,7 @@ const routes: Routes = [
         .then((m: any) => m.ChangePasswordRemoteEntryModule)
         .catch(portalFallback),
   },
-  {
-    path: "bcrb",
-    canActivate: [AuthGuard],
-    loadChildren: () =>
-      loadRemoteModule({
-        type: "module",
-        remoteEntry: "http://localhost:4208/remoteEntry.js",
-        exposedModule: "./Routes",
-      })
-        .then((m) => m.remoteRoutes)
-        .catch(portalFallback),
-  },
+  
 ];
 
 @NgModule({

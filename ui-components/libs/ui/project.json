@@ -23,7 +23,6 @@
       "executor": "@storybook/angular:start-storybook",
       "options": {
         "configDir": "libs/ui/.storybook",
-        "browserTarget": "vn-core-ui-components:build:development",
         "styles": [
           "libs/ui-styles/src/lib/styles/index.scss"
         ],
@@ -36,7 +35,6 @@
       "executor": "@storybook/angular:build-storybook",
       "options": {
         "configDir": "libs/ui/.storybook",
-        "browserTarget": "vn-core-ui-components:build:development",
         "styles": [
           "libs/ui-styles/src/lib/styles/index.scss"
         ],

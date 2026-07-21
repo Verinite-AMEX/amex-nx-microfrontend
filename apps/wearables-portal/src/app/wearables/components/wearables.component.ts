@@ -3,6 +3,19 @@ import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../../environments/environment";
+import {
+  ButtonComponent,
+  InputComponent,
+  SelectComponent,
+  SelectOption,
+  CheckboxComponent,
+  ImageComponent,
+  IconButtonComponent,
+  TableComponent,
+  TableBodyComponent,
+  TableRowComponent,
+  TableCellComponent,
+} from "@ui-components/ui";
 
 type Step = "search" | "cards" | "issue" | "done";
 type IssueView = "select" | "review" | "success";
@@ -84,7 +97,20 @@ const MOCK_MEMBERS: Record<string, { name: string; cards: CardInfo[] }> = {
 @Component({
   selector: "app-wearables",
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    ButtonComponent,
+    InputComponent,
+    SelectComponent,
+    CheckboxComponent,
+    ImageComponent,
+    IconButtonComponent,
+    TableComponent,
+    TableBodyComponent,
+    TableRowComponent,
+    TableCellComponent,
+  ],
   templateUrl: "./wearables.component.html",
   styleUrls: ["./wearables.component.css"],
 })
@@ -99,9 +125,7 @@ export class WearablesComponent implements OnInit {
 
   step: Step = "search";
   issueView: IssueView = "select";
-  // FIX: was boolean | null (unused) — now 3-state so banner actually works
   backendStatus: "checking" | "online" | "offline" = "checking";
-  // FIX: new flag — shows Demo badge when falling back to mock data
   usingMockData = false;
   clientCode = "";
   memberName = "";
@@ -281,7 +305,6 @@ export class WearablesComponent implements OnInit {
           this.step = "cards";
         },
         error: () => {
-          // FIX: was only 3 hardcoded clients — now mirrors all 5 from V2__seed_data.sql
           this.usingMockData = true;
           const mock = MOCK_MEMBERS[this.clientCode.trim()];
           this.memberName = mock?.name ?? "Unknown Member";
@@ -386,5 +409,26 @@ export class WearablesComponent implements OnInit {
     this.selectedWearableIndex = 0;
     this.selectedColorIndex = 0;
     this.wearableName = "QARR";
+  }
+
+  // --- Added for ui-select adaptation (ui-select only binds string|number values,
+  // the original native <select> bound the whole CardInfo object via [ngValue]) ---
+  get cardSelectOptions(): SelectOption[] {
+    return this.cards.map((c) => ({
+      value: c.cardNumber,
+      label: `${c.cardNumber} - ${c.cardType}`,
+    }));
+  }
+  get selectedCardValue(): string {
+    return this.selectedCard?.cardNumber ?? "";
+  }
+  set selectedCardValue(val: string) {
+    this.selectedCard = this.cards.find((c) => c.cardNumber === val) ?? null;
+  }
+
+  // --- Added: ui-input has no built-in maxlength support, so enforce it here
+  // instead of touching the shared primitive. Preserves the original maxlength="20". ---
+  onWearableNameChange(val: string): void {
+    this.wearableName = (val ?? "").slice(0, 20);
   }
 }

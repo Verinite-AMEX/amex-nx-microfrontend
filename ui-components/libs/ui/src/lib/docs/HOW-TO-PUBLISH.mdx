@@ -1,3 +1,7 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Docs/How To Publish" />
+
 # How to Publish @ui-components/ui to npm
 
 ## Overview
@@ -244,9 +248,20 @@ npm update @ui-components/ui
 
 ---
 
-## Automatically Publish command
+## Automated publish scripts (recommended — this is what actually runs)
 
-```
+Three npm scripts wrap `tools/publish-ui.js` and handle the whole flow for you: dependency check, production build, registry lookup, and safe unpublish-then-republish of the current version.
+
+| Script | What it does |
+|---|---|
+| `npm run ui:publish` | Builds `ui` in production mode, unpublishes the current version from the registry if it already exists, then republishes it |
+| `npm run ui:publish:bump` | Same as above, but bumps the patch version first (`0.0.0` → `0.0.1`) before publishing |
+| `npm run ui:unpublish` | Unpublishes the current version only, no rebuild/republish |
+
+```bash
 npm run ui:publish
-
 ```
+
+**Registry:** defaults to `http://localhost:4873` (Verdaccio) — make sure Verdaccio is running locally first (`verdaccio` in a separate terminal, see Option A above), or the unpublish/publish steps will fail with `ECONNREFUSED`.
+
+**Note:** `npm run ui:publish` always attempts to unpublish the currently-published version first before republishing — this is expected, not an error, even on a fresh registry with nothing published yet (it'll just skip that step silently).
