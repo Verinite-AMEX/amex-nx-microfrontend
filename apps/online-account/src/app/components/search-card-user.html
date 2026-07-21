@@ -15,7 +15,6 @@
 </amex-dashboard-menu-bar>
 
 <div class="app-layout">
-
   <div class="content-area">
     <div class="main-content">
       @if(activeSection === 'onlineaccount') {
@@ -82,8 +81,8 @@
 
               <div class="action-links">
                 <a href="#">Unlock</a> | <a href="#">Delete</a> |
-                <a href="#">Offers</a> |
-                <a href="#">Benefits</a>
+                <a (click)="goToOffers()" style="cursor: pointer">Offers</a> |
+                <a (click)="goToBenefits()" style="cursor: pointer">Benefits</a>
               </div>
 
               <div class="info-row">

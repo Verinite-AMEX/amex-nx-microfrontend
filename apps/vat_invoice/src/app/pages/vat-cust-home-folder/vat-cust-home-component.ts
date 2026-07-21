@@ -14,6 +14,7 @@ import {
   MasterDataRow,
   AmexPaginatedTableComponent,
   AmexPaginatedColumn,
+  LabelComponent,
 } from '@ui-components/ui';
 
 import { VatInvoiceMockService } from '../../services/vat-invoice-mock.service';
@@ -34,6 +35,7 @@ import { VatInvoiceReport } from '../vat-invoice-report/vat-invoice-report';
     AmexReportTableComponent,
     AmexMasterDataTableComponent,
     AmexPaginatedTableComponent,
+    LabelComponent,
   ],
   templateUrl: './vat-cust-home-component.html',
   styleUrl: './vat-cust-home-component.css',

@@ -212,4 +212,11 @@ export class SearchCardUser {
   onUserAction(event: { action: string; row: any }): void {
     console.log(event);
   }
+
+  goToOffers(): void {
+    window.location.href = '/offers';
+  }
+  goToBenefits(): void {
+    window.location.href = '/offers/benefits';
+  }
 }
