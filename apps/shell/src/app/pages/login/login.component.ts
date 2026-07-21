@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { AuthService } from '../../core/services/auth.service';
+import { AuthApiService } from '@amex/shared-services';
 import { EventBusService } from '../../core/services/event-bus.service';
 import { LoginCredentials } from '@ui-components/ui';
 import { RegisterData }     from '@ui-components/ui';
@@ -8,6 +8,7 @@ import { RegisterData }     from '@ui-components/ui';
 @Component({
     selector: 'app-login',
     template: `
+    <!-- LOGIN VIEW -->
     @if (mode === 'login') {
       <amex-login-form
         portalTitle="ONLS Helper Tool"
@@ -20,6 +21,7 @@ import { RegisterData }     from '@ui-components/ui';
       </amex-login-form>
     }
     
+    <!-- REGISTER VIEW -->
     @if (mode === 'register') {
       <amex-register-form
         portalTitle="ONLS Helper Tool"
@@ -40,19 +42,22 @@ export class LoginComponent implements OnInit {
   private returnUrl = '/misc/priority-pass';
 
   constructor(
-    private auth:   AuthService,
+    private authApi: AuthApiService,
     private bus:    EventBusService,
     private router: Router,
     private route:  ActivatedRoute,
   ) {}
 
   ngOnInit(): void {
-    if (this.auth.hasToken()) {
+    // Already logged in → redirect away
+    if (this.authApi.isUserAuthenticated()) {
       this.router.navigate([this.returnUrl]);
       return;
     }
     this.returnUrl = this.route.snapshot.queryParamMap.get('returnUrl') ?? '/misc/priority-pass';
   }
+
+  // ── Mode toggle ───────────────────────────────────────────────────
 
   setMode(m: 'login' | 'register'): void {
     this.mode    = m;
@@ -60,11 +65,13 @@ export class LoginComponent implements OnInit {
     this.success = '';
   }
 
+  // ── Login ─────────────────────────────────────────────────────────
+
   onLogin(credentials: LoginCredentials): void {
     this.error   = '';
     this.success = '';
 
-    this.auth.login({ username: credentials.username, password: credentials.password })
+    this.authApi.login({ username: credentials.username, password: credentials.password })
       .subscribe({
         next: (data) => {
           this.bus.emit({
@@ -81,21 +88,25 @@ export class LoginComponent implements OnInit {
       });
   }
 
+  // ── Register ──────────────────────────────────────────────────────
+
   onRegister(data: RegisterData): void {
     this.error   = '';
     this.success = '';
 
+    // Validate passwords match
     if (data.password !== data.confirmPassword) {
       this.error = 'Passwords do not match.';
       return;
     }
 
+    // Map vn-core RegisterData → backend RegisterRequest
     const fullName = `${data.firstName} ${data.lastName}`.trim();
     const username = (data.firstName + data.lastName)
       .toLowerCase()
       .replace(/\s+/g, '');
 
-    this.auth.register({ username, email: data.email, password: data.password, fullName })
+    this.authApi.register({ username, email: data.email, password: data.password, fullName })
       .subscribe({
         next: (res) => {
           this.bus.emit({
@@ -112,6 +123,8 @@ export class LoginComponent implements OnInit {
         },
       });
   }
+
+  // ── Navigation ────────────────────────────────────────────────────
 
   goToForgotPassword(): void {
     this.router.navigate(['/forgot-password']);

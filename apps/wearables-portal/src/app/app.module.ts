@@ -1,20 +1,21 @@
+// apps/wearables-portal/src/app/app.module.ts
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { authTokenInterceptor, authGuard, LOGIN_APP_URL } from '@amex/shared-services';
 
 import { AppComponent } from './app.component';
-import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [],
   imports: [
     BrowserModule,
-    HttpClientModule,
     RouterModule.forRoot(
       [
         {
           path: '',
+          canActivate: [authGuard],
           loadComponent: () =>
             import('./wearables/wearables-shell-wrapper/wearables-shell-wrapper.component')
               .then(m => m.WearablesShellWrapperComponent),
@@ -28,15 +29,12 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
         bindToComponentInputs: true,
       }
     ),
-    
+
     AppComponent
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi: true,
-    },
+    provideHttpClient(withInterceptors([authTokenInterceptor])),
+    { provide: LOGIN_APP_URL, useValue: 'http://localhost:4200/login' },
   ],
   bootstrap: [AppComponent],
 })

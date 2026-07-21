@@ -10,6 +10,7 @@ import {
   ApiResponse,
   AuthResponse,
   LoginRequest,
+  RegisterRequest,
 } from '../models/auth.model';
 import { SessionService } from '../session/session.service';
 
@@ -32,6 +33,45 @@ export class AuthApiService extends AmexPortalAuthUtil {
     return this.http
       .post<ApiResponse<AuthResponse>>(
         this.buildUrl(API_ENDPOINTS.auth.login),
+        request,
+        {
+          withCredentials: true,
+        }
+      )
+      .pipe(
+        map((response) => response.data),
+
+        tap((user) => {
+
+          this.sessionService.setCurrentUser({
+            userId: user.userId,
+            username: user.username,
+            roles: user.roles,
+          });
+
+          super.onLoginSuccess({
+            userId: user.userId,
+            username: user.username,
+            roles: user.roles,
+          });
+
+        }),
+
+        catchError((error) => {
+          return throwError(() => error);
+        })
+      );
+  }
+
+  /**
+   * Registers a new user.
+   * Backend logs the user in immediately and sets the HTTP-only cookie
+   * (same response shape as login).
+   */
+  register(request: RegisterRequest): Observable<AuthResponse> {
+    return this.http
+      .post<ApiResponse<AuthResponse>>(
+        this.buildUrl(API_ENDPOINTS.auth.register),
         request,
         {
           withCredentials: true,
@@ -90,7 +130,7 @@ export class AuthApiService extends AmexPortalAuthUtil {
             username: user.username,
             roles: user.roles,
           });
-          
+
           super.onLoginSuccess({
             userId: user.userId,
             username: user.username,

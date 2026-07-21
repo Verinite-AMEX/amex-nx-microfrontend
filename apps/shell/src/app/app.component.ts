@@ -8,7 +8,10 @@ import {
 } from "@angular/router";
 import { filter } from "rxjs/operators";
 import { Subscription } from "rxjs";
-import { AuthService } from "./core/services/auth.service";
+// import { AuthService } from "./core/services/auth.service";
+import { SessionService, AuthApiService } from "@amex/shared-services";
+
+
 import { EventBusService } from "./core/services/event-bus.service";
 import { SecureFormService } from "./core/services/secure-form.service";
 import {
@@ -208,7 +211,8 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private auth: AuthService,
+    private sessionService: SessionService,
+    private authApi: AuthApiService,
     private secureForm: SecureFormService,
     private bus: EventBusService,
   ) { }
@@ -216,7 +220,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.secureForm.enable();
     this.isAuthPage = this.checkIsAuthRoute(this.router.url);
-    this.username = this.auth.getUser()?.username ?? "";
+    this.username = this.sessionService.getCurrentUser()?.username ?? "";
     this.subs.add(
       this.router.events
         .pipe(
@@ -389,6 +393,14 @@ export class AppComponent implements OnInit, OnDestroy {
   onLogoutConfirm(): void {
     this.showLogoutDialog = false;
     this.bus.emit({ type: "USER_LOGGED_OUT" });
-    this.auth.logout();
+
+    // NEW — cookie-based logout via shared AuthApiService.
+    // Same as before: navigate to local /login even if the call fails,
+    // since AuthApiService.performLogout() clears the shared session
+    // (SessionService + AmexPortalAuthUtil) in both the next and error paths.
+    this.authApi.performLogout().subscribe({
+      next: () => this.router.navigate(['/login']),
+      error: () => this.router.navigate(['/login']),
+    });
   }
 }

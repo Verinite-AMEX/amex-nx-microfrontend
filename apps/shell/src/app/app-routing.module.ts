@@ -4,7 +4,7 @@ import { loadRemoteModule } from "@angular-architects/module-federation";
 
 import { LoginComponent } from "./pages/login/login.component";
 import { ForgotPasswordComponent } from "./pages/forgot-password/forgot-password.component";
-import { AuthGuard } from "./core/guards/auth.guard";
+import { authGuard } from "@amex/shared-services";
 
 const portalFallback = () =>
   import("./pages/portal-error/portal-error.module").then(
@@ -18,7 +18,7 @@ const routes: Routes = [
 
   {
     path: "account",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -31,7 +31,7 @@ const routes: Routes = [
 
   {
     path: "bcrb",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -44,7 +44,7 @@ const routes: Routes = [
 
   {
     path: "statement",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -57,7 +57,7 @@ const routes: Routes = [
 
   {
     path: "vat-invoice",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -70,7 +70,7 @@ const routes: Routes = [
 
   {
     path: "bta",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -83,7 +83,7 @@ const routes: Routes = [
 
   {
     path: "offers",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -96,7 +96,7 @@ const routes: Routes = [
 
   {
     path: "supp",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -109,7 +109,7 @@ const routes: Routes = [
 
   {
     path: "wearables",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -122,7 +122,7 @@ const routes: Routes = [
 
   {
     path: "pay-with-points",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -135,7 +135,7 @@ const routes: Routes = [
 
   {
     path: "misc/priority-pass",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -148,7 +148,7 @@ const routes: Routes = [
 
   {
     path: "misc/digital-wallet",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -161,7 +161,7 @@ const routes: Routes = [
 
   {
     path: "misc/wearables",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -174,7 +174,7 @@ const routes: Routes = [
 
   {
     path: "centurion/centurion-2.0",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -187,7 +187,7 @@ const routes: Routes = [
 
   {
     path: "centurion/cen-lcy-exc",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",
@@ -200,7 +200,7 @@ const routes: Routes = [
 
   {
     path: "change-password",
-    canActivate: [AuthGuard],
+    canActivate: [authGuard],
     loadChildren: () =>
       loadRemoteModule({
         type: "module",

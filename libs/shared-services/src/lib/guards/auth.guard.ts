@@ -13,8 +13,7 @@ export const authGuard: CanActivateFn = (_, state) => {
   const authUtil = inject(AmexPortalAuthUtil);
 
   const environmentService = inject(EnvironmentService);
-
-  // Already authenticated
+    // Already authenticated
   if (sessionService.isLoggedIn()) {
     return true;
   }

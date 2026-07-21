@@ -1,5 +1,7 @@
+// apps/pay-with-points-portal/src/app/remote-entry/entry.module.ts
 import { NgModule, Component } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '@amex/shared-services';
 
 @Component({
   selector: 'pay-with-points-entry',
@@ -15,6 +17,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadChildren: () =>
           import('../pages/pay-with-points/pay-with-points.module')
             .then(m => m.PayWithPointsModule),
