@@ -5,6 +5,7 @@ const meta: Meta<AmexChangePasswordFormComponent> = {
   title: 'Patterns/Amex/Authentication/ChangePasswordForm',
   component: AmexChangePasswordFormComponent,
   argTypes: {
+    // Shared
     portalStyle: { control: 'select', options: ['onls', 'oms'] },
     formTitle: { control: 'text' },
     currentPasswordLabel: { control: 'text' },
@@ -13,6 +14,19 @@ const meta: Meta<AmexChangePasswordFormComponent> = {
     submitButtonLabel: { control: 'text' },
     errorMessage: { control: 'text' },
     successMessage: { control: 'text' },
+
+    // ONLS-only
+    showHeader: { control: 'boolean' },
+    panelBackground: { control: 'color' },
+
+    // OMS-only
+    cardAccentColor: { control: 'color' },
+    cardMaxWidth: { control: 'text' },
+    cardPadding: { control: 'text' },
+    showNewPasswordHint: { control: 'boolean' },
+    newPasswordHintText: { control: 'text' },
+
+    // Events
     passwordSubmit: { action: 'passwordSubmit' },
     cancel: { action: 'cancel' },
   },
@@ -30,7 +44,10 @@ const meta: Meta<AmexChangePasswordFormComponent> = {
 export default meta;
 type Story = StoryObj<AmexChangePasswordFormComponent>;
 
+// ===================== ONLS =====================
+
 export const ONLSStyle: Story = {
+  name: 'ONLS - Default',
   args: {
     portalStyle: 'onls',
     formTitle: 'Change Password',
@@ -43,29 +60,18 @@ export const ONLSStyle: Story = {
   },
 };
 
-export const OMSStyle: Story = {
-  args: {
-    portalStyle: 'oms',
-    formTitle: 'Change Password',
-    currentPasswordLabel: 'Current Password',
-    newPasswordLabel: 'New Password',
-    confirmPasswordLabel: 'Confirm New Password',
-    submitButtonLabel: '',
-    errorMessage: '',
-    successMessage: '',
-  },
-};
-
 export const ONLSWithSuccess: Story = {
+  name: 'ONLS - Success message',
   args: {
     ...ONLSStyle.args,
     successMessage: 'Your password has been changed successfully.',
   },
 };
 
-export const OMSWithError: Story = {
+export const ONLSWithError: Story = {
+  name: 'ONLS - Error message',
   args: {
-    ...OMSStyle.args,
+    ...ONLSStyle.args,
     errorMessage: 'Current password is incorrect. Please try again.',
   },
 };
@@ -80,11 +86,81 @@ export const ONLSAsResetPassword: Story = {
   },
 };
 
+export const ONLSWithoutHeader: Story = {
+  name: 'ONLS - Header hidden (parent shell owns heading)',
+  args: {
+    ...ONLSStyle.args,
+    showHeader: false,
+  },
+};
+
+export const ONLSCustomPanelBackground: Story = {
+  name: 'ONLS - Custom panel background',
+  args: {
+    ...ONLSStyle.args,
+    panelBackground: '#eaeaea',
+  },
+};
+
+// ===================== OMS =====================
+
+export const OMSStyle: Story = {
+  name: 'OMS - Default',
+  args: {
+    portalStyle: 'oms',
+    formTitle: 'Change Password',
+    currentPasswordLabel: 'Current Password',
+    newPasswordLabel: 'Create New Password',
+    confirmPasswordLabel: 'Re-enter New Password',
+    submitButtonLabel: '',
+    errorMessage: '',
+    successMessage: '',
+    cardAccentColor: '#7b1fa2',
+    cardMaxWidth: '700px',
+    cardPadding: '24px 20px',
+    showNewPasswordHint: true,
+    newPasswordHintText: 'Choose a new password.',
+  },
+};
+
+export const OMSWithSuccess: Story = {
+  name: 'OMS - Success message',
+  args: {
+    ...OMSStyle.args,
+    successMessage: 'Your password has been changed successfully.',
+  },
+};
+
+export const OMSWithError: Story = {
+  name: 'OMS - Error message',
+  args: {
+    ...OMSStyle.args,
+    errorMessage: 'Current password is incorrect. Please try again.',
+  },
+};
+
 export const OMSCustomSubmitLabel: Story = {
   name: 'OMS - Title/button text diverge',
   args: {
     ...OMSStyle.args,
     formTitle: 'Update Your Password',
-    submitButtonLabel: 'Save Changes',
+    submitButtonLabel: 'Submit',
+  },
+};
+
+export const OMSCustomCardTheming: Story = {
+  name: 'OMS - Custom card theme (color/width)',
+  args: {
+    ...OMSStyle.args,
+    cardAccentColor: '#016fd0',
+    cardMaxWidth: '420px',
+  },
+};
+
+export const OMSWithoutHintIcon: Story = {
+  name: 'OMS - Hint icon hidden',
+  args: {
+    ...OMSStyle.args,
+    showNewPasswordHint: false,
   },
 };

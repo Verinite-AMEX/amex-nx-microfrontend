@@ -19,6 +19,10 @@ import { CommonModule } from '@angular/common';
     </div>
   `,
   styles: [`
+    :host {
+      display: block;
+      width: 100%;
+    }
     .accent-card {
       display: flex;
       flex-direction: column;
@@ -34,6 +38,11 @@ import { CommonModule } from '@angular/common';
 export class AccentCardComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') @Input() id = `ui-accent-card-${++AccentCardComponent._idCounter}`;
+
+  /** Mirrors [maxWidth] onto the host itself so the host's own box (not
+   * just the inner div) is actually constrained — needed for consumers
+   * that place this inside a flex/grid parent. */
+  @HostBinding('style.maxWidth') get hostMaxWidth() { return this.maxWidth; }
 
   /** Color of the top accent bar. Default matches the OMS brand purple. */
   @Input() accentColor = '#7b1f4b';
