@@ -140,6 +140,7 @@ export class SearchCardUser {
       this.accountService.getSupplementaryCardsByUserId(userId).subscribe({
         next: (response) => {
           this.supplementaryData = response;
+          this.updateUserActions();
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -157,6 +158,7 @@ export class SearchCardUser {
       this.accountService.getSupplementaryCardsByCardNo(cardNo).subscribe({
         next: (response) => {
           this.supplementaryData = response;
+          this.updateUserActions();
           this.cdr.detectChanges();
         },
         error: (err) => {
@@ -210,7 +212,34 @@ export class SearchCardUser {
   ];
 
   onUserAction(event: { action: string; row: any }): void {
-    console.log(event);
+    switch (event.action) {
+      case 'lock':
+        this.lockSupplementaryUser();
+        break;
+
+      case 'unlock':
+        this.unlockSupplementaryUser();
+        break;
+
+      case 'delete':
+        console.log('Delete user');
+        this.deleteSupplementaryUser();
+        break;
+
+      case 'offers':
+        this.goToOffers();
+        break;
+    }
+  }
+  goToDelete(): void {
+    console.log('Delete button clicked');
+    this.accountData = null;
+    this.userId = '';
+    this.cardNo = '';
+
+    this.cdr.detectChanges();
+
+    alert('User details cleared.');
   }
 
   goToOffers(): void {
@@ -218,5 +247,137 @@ export class SearchCardUser {
   }
   goToBenefits(): void {
     window.location.href = '/offers/benefits';
+  }
+
+  lockUser(): void {
+    if (!this.accountData?.userId) {
+      return;
+    }
+
+    this.accountService.lockUser(this.accountData.userId).subscribe({
+      next: (response) => {
+        this.accountData = response;
+
+        this.cdr.detectChanges();
+
+        alert('User locked successfully.');
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        alert(err.error?.message || 'Unable to lock user.');
+      },
+    });
+  }
+
+  deleteSupplementaryUser(): void {
+    this.supplementaryData = null;
+
+    this.suppUserId = '';
+    this.suppCardNo = '';
+
+    this.userRows = [];
+
+    this.rows = [];
+
+    this.cdr.detectChanges();
+
+    alert('User details cleared.');
+  }
+
+  unlockUser(): void {
+    if (!this.accountData?.userId) {
+      return;
+    }
+
+    this.accountService.unlockUser(this.accountData.userId).subscribe({
+      next: (response) => {
+        this.accountData = response;
+
+        this.cdr.detectChanges();
+
+        alert('User unlocked successfully.');
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        alert(err.error?.message || 'Unable to unlock user.');
+      },
+    });
+  }
+
+  lockSupplementaryUser(): void {
+    if (!this.supplementaryData?.userId) {
+      return;
+    }
+
+    this.accountService
+      .lockSupplementaryUser(this.supplementaryData.userId)
+      .subscribe({
+        next: (response) => {
+          this.supplementaryData = response;
+
+          this.updateUserActions();
+
+          this.cdr.detectChanges();
+
+          alert('User locked successfully.');
+        },
+        error: (err) => {
+          console.error(err);
+          alert(err.error?.message || 'Unable to lock user.');
+        },
+      });
+  }
+
+  unlockSupplementaryUser(): void {
+    if (!this.supplementaryData?.userId) {
+      return;
+    }
+
+    this.accountService
+      .unlockSupplementaryUser(this.supplementaryData.userId)
+      .subscribe({
+        next: (response) => {
+          this.supplementaryData = response;
+
+          this.updateUserActions();
+
+          this.cdr.detectChanges();
+
+          alert('User unlocked successfully.');
+        },
+        error: (err) => {
+          console.error(err);
+          alert(err.error?.message || 'Unable to unlock user.');
+        },
+      });
+  }
+
+  updateUserActions(): void {
+    const status =
+      this.supplementaryData?.userDetails?.userStatus?.toLowerCase() ?? '';
+
+    const isLocked = status === 'locked';
+
+    this.userActions = [
+      {
+        id: isLocked ? 'unlock' : 'lock',
+        label: isLocked ? 'Unlock User' : 'Lock User',
+        type: 'primary',
+      },
+      {
+        id: 'delete',
+        label: 'Delete User',
+        type: 'danger',
+      },
+      {
+        id: 'offers',
+        label: 'Offers',
+        type: 'secondary',
+      },
+    ];
   }
 }

@@ -1,8 +1,3 @@
-<!-- <amex-page-header
-  [portalStyle]="'onls'"
-  [title]="'Online Account'"
-></amex-page-header> -->
-
 <amex-dashboard-menu-bar
   [showBureauDropdown]="false"
   [links]="[
@@ -80,7 +75,16 @@
               </div>
 
               <div class="action-links">
-                <a href="#">Unlock</a> | <a href="#">Delete</a> |
+                @if(accountData?.accountStatus === 'Locked') {
+
+                <a (click)="unlockUser()" style="cursor: pointer"> Unlock </a>
+
+                } @else {
+
+                <a (click)="lockUser()" style="cursor: pointer"> Lock </a>
+
+                } |
+                <a (click)="goToDelete()" style="cursor: pointer">Delete</a> |
                 <a (click)="goToOffers()" style="cursor: pointer">Offers</a> |
                 <a (click)="goToBenefits()" style="cursor: pointer">Benefits</a>
               </div>
@@ -255,17 +259,6 @@
       </div>
 
       }
-      <!-- @if(activeSection === 'offers') {
-      <div class="content-box">
-        <h2>Offers</h2>
-        <p>Offers data will load here</p>
-      </div>
-      } @if(activeSection === 'benefits') {
-      <div class="content-box">
-        <h2>Benefits</h2>
-        <p>Benefits data will load here</p>
-      </div>
-      } -->
     </div>
   </div>
 </div>
