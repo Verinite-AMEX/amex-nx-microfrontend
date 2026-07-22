@@ -16,7 +16,15 @@ import {
 } from '@angular/forms';
 
 import {
-  AmexCustomizedReportsFormComponent
+  AmexCustomizedReportsFormComponent,
+  ButtonComponent,
+  InputComponent,
+  TableComponent,
+  TableHeadComponent,
+  TableBodyComponent,
+  TableRowComponent,
+  TableCellComponent,
+  TableHeaderCellComponent
 } from '@ui-components/ui';
 
 import {
@@ -37,7 +45,15 @@ import {
     CommonModule,
     FormsModule,
     AmexCustomizedReportsFormComponent,
-    OmsPaginationComponent
+    OmsPaginationComponent,
+    ButtonComponent,
+    InputComponent,
+    TableComponent,
+    TableHeadComponent,
+    TableBodyComponent,
+    TableRowComponent,
+    TableCellComponent,
+    TableHeaderCellComponent
   ],
 
   templateUrl:
@@ -78,34 +94,21 @@ import {
       align-items: center;
     }
 
-    .search-input {
+    /* Styling for the ui-input / ui-button instances below, applied via
+       the CSS custom properties those components already read. */
+    .search-container ui-input {
 
-      height: 38px;
-
-      padding: 0 12px;
+      display: block;
 
       width: 280px;
 
-      border: 1px solid #ccc;
-
-      border-radius: 4px;
+      --input-padding: 9px 12px;
     }
 
-    .search-btn {
+    .search-container ui-button {
 
-      height: 38px;
-
-      padding: 0 18px;
-
-      background: #6a1b9a;
-
-      color: white;
-
-      border: none;
-
-      border-radius: 4px;
-
-      cursor: pointer;
+      --btn-bg: #6a1b9a;
+      --btn-padding: 0 18px;
     }
 
     .reports-table-container {
@@ -118,116 +121,48 @@ import {
       margin-bottom: 16px;
 
       color: #333;
+
+      font-size: 20px;
+
+      font-weight: 600;
     }
 
-    .reports-table {
+    ui-table {
 
-      width: 100%;
+      background: white;
 
-      border-collapse: collapse;
+      --table-header-bg: #f4f6f9;
+      --table-header-padding: 14px;
+      --table-cell-padding: 14px;
+      --table-cell-color: #555;
+      --table-border-color: #ddd;
     }
 
-    .reports-table th {
+    .status-badge {
 
-      background: #f3f3f3;
+      background: #e8f5e9;
 
-      padding: 12px;
+      color: #2e7d32;
 
-      text-align: left;
+      padding: 4px 10px;
 
-      border: 1px solid #ddd;
-    }
+      border-radius: 12px;
 
-    .reports-table td {
+      font-size: 12px;
 
-      padding: 12px;
-
-      border: 1px solid #ddd;
+      font-weight: 600;
     }
 
     .no-data {
 
       text-align: center;
 
-      padding: 20px;
+      padding: 30px;
 
-      color: #777;
+      color: #888;
+
+      font-style: italic;
     }
-
-    .reports-table-container {
-
-  margin-top: 24px;
-}
-
-.reports-title {
-
-  margin-bottom: 16px;
-
-  color: #333;
-
-  font-size: 20px;
-
-  font-weight: 600;
-}
-
-.reports-table {
-
-  width: 100%;
-
-  border-collapse: collapse;
-
-  background: white;
-}
-
-.reports-table th {
-
-  background: #f4f6f9;
-
-  padding: 14px;
-
-  text-align: left;
-
-  border: 1px solid #ddd;
-
-  font-weight: 600;
-
-  color: #333;
-}
-
-.reports-table td {
-
-  padding: 14px;
-
-  border: 1px solid #ddd;
-
-  color: #555;
-}
-
-.status-badge {
-
-  background: #e8f5e9;
-
-  color: #2e7d32;
-
-  padding: 4px 10px;
-
-  border-radius: 12px;
-
-  font-size: 12px;
-
-  font-weight: 600;
-}
-
-.no-data {
-
-  text-align: center;
-
-  padding: 30px;
-
-  color: #888;
-
-  font-style: italic;
-}
 
   `]
 })

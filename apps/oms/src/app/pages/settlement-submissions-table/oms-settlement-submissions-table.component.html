@@ -1,3 +1,17 @@
+<h2 class="oms-settlement-page__title">MERCHANT DETAILS</h2>
+
+<amex-merchant-details-panel
+
+  [merchantAccounts]="merchantAccounts"
+
+  [selectedAccountId]="selectedAccountId"
+
+  (accountChange)="onAccountChange($event)"
+
+  (submitted)="onMerchantDetailsSubmitted($event)">
+
+</amex-merchant-details-panel>
+
 <div *ngIf="loading" class="loading">
 
   Loading settlement data...
@@ -6,7 +20,7 @@
 
 <amex-settlement-submissions-table
 
-  *ngIf="!loading"
+  *ngIf="!loading && hasSubmitted"
 
   [rows]="rows">
 

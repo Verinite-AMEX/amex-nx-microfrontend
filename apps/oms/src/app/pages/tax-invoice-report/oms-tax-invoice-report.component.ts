@@ -14,6 +14,17 @@ import {
 } from '@angular/forms';
 
 import {
+  ButtonComponent,
+  InputComponent,
+  SelectComponent,
+  SelectOption,
+  RadioGroupComponent,
+  RadioOption,
+  DateInputComponent,
+  LabelComponent
+} from '@ui-components/ui';
+
+import {
   OmsTaxInvoiceReportService
 } from '../../services/oms-tax-invoice-report.service';
 
@@ -25,7 +36,13 @@ import {
 
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ButtonComponent,
+    InputComponent,
+    SelectComponent,
+    RadioGroupComponent,
+    DateInputComponent,
+    LabelComponent
   ],
 
   templateUrl:
@@ -71,22 +88,7 @@ import {
 
   .radio-group {
 
-    display: flex;
-
-    gap: 32px;
-
     margin-bottom: 28px;
-  }
-
-  .radio-group label {
-
-    display: flex;
-
-    align-items: center;
-
-    gap: 8px;
-
-    font-size: 14px;
   }
 
   .form-grid {
@@ -105,25 +107,17 @@ import {
     flex-direction: column;
   }
 
-  .field label {
+  .field ui-label {
 
     margin-bottom: 8px;
-
-    font-size: 14px;
-
-    font-weight: 600;
   }
 
-  .field input,
-  .field select {
+  .field ui-input,
+  .field ui-select,
+  .field ui-date-input {
 
-    height: 42px;
-
-    border: 1px solid #ccc;
-
-    padding: 0 12px;
-
-    font-size: 14px;
+    --input-padding: 11px 12px;
+    --select-padding: 11px 32px 11px 12px;
   }
 
   .field small {
@@ -149,20 +143,10 @@ import {
     gap: 12px;
   }
 
-  .back-btn,
-  .generate-btn {
+  .button-group ui-button {
 
-    background: #1d3b8b;
-
-    color: white;
-
-    border: none;
-
-    height: 40px;
-
-    padding: 0 24px;
-
-    cursor: pointer;
+    --btn-bg: #1d3b8b;
+    --btn-padding: 0 24px;
   }
 
 `]
@@ -192,6 +176,20 @@ export class OmsTaxInvoiceReportComponent
     'UAE',
     'India',
     'USA'
+  ];
+
+  countryOptions: SelectOption[] = this.countries.map(
+    c => ({ label: c, value: c })
+  );
+
+  vatSearchTypeOptions: RadioOption[] = [
+    { label: 'VAT Registration Number', value: 'vat' },
+    { label: 'Merchant Number', value: 'merchant' }
+  ];
+
+  reportTypeOptions: RadioOption[] = [
+    { label: 'Summary', value: 'summary' },
+    { label: 'Detail', value: 'detail' }
   ];
 
   isGenerating = false;

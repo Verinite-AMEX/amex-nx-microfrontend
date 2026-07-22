@@ -32,7 +32,7 @@ export class OmsMerchantService {
     this.loadMerchants();
   }
 
-  private loadMerchants() {
+private loadMerchants() {
 
     const storedData =
       localStorage.getItem(
@@ -52,7 +52,29 @@ export class OmsMerchantService {
 
     } else {
 
-      this.merchantsSubject.next([]);
+      const mockMerchants: Merchant[] = [
+
+        {
+          merchantNo:
+            '1301526661',
+
+          ibanLast5Digits:
+            '00000'
+        }
+      ];
+
+      localStorage.setItem(
+
+        this.STORAGE_KEY,
+
+        JSON.stringify(
+          mockMerchants
+        )
+      );
+
+      this.merchantsSubject.next(
+        mockMerchants
+      );
     }
   }
 

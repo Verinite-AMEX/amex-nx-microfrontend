@@ -15,17 +15,23 @@
 
     </div>
 
-    <button
+    <div class="create-btn-wrap">
 
-      class="create-btn"
+      <ui-button
 
-      (click)="
-        onCreateApplication()
-      ">
+        variant="primary"
 
-      Create New Application
+        size="lg"
 
-    </button>
+        [label]="'Create New Application'"
+
+        (click)="
+          onCreateApplication()
+        ">
+
+      </ui-button>
+
+    </div>
 
     <div class="or-text">
 
@@ -46,33 +52,17 @@
 
     </div>
 
-    <select
+    <ui-select
 
-      class="dropdown"
+      [options]="applicationOptions"
+
+      placeholder="Application List"
 
       [(ngModel)]="
         selectedApplication
       ">
 
-      <option value="">
-
-        Application List
-
-      </option>
-
-      <option
-
-        *ngFor="
-          let app of applications
-        "
-
-        [value]="app">
-
-        {{ app }}
-
-      </option>
-
-    </select>
+    </ui-select>
 
   </div>
 

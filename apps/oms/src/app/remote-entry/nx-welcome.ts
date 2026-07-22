@@ -11,62 +11,33 @@ import {
 
 import {
   NavigationEnd,
-  Router,
-  RouterOutlet
+  Router
 } from '@angular/router';
-
-import { OmsHomeComponent } from '../pages/home/oms-home.component';
-import { OmsHeaderComponent } from '../pages/header/oms-header.component';
-
 import { OmsMerchantPanelComponent } from '../pages/merchant-panel/oms-merchant-panel.component';
-
 import { OmsMerchantDataFormComponent } from '../pages/merchant-data-form/oms-merchant-data-form.component';
-
 import { OmsContactInformationComponent } from '../pages/contact-information/oms-contact-information.component';
-
 import { OmsReportFormatComponent } from '../pages/report-format/oms-report-format.component';
-
 import { OmsVatRegistrationComponent } from '../pages/vat-registration/oms-vat-registration.component';
-
-import { OmsSidebarComponent } from '../pages/sidebar/oms-sidebar.component';
-
 import { OmsTaxInvoiceDeliveryComponent } from '../pages/tax-invoice-delivery/oms-tax-invoice-delivery.component';
-
 import { OmsUploadCertificateComponent } from '../pages/upload-certificate/oms-upload-certificate.component';
-
 import { OmsTaxInvoiceReportComponent } from '../pages/tax-invoice-report/oms-tax-invoice-report.component';
-
 import { OmsTermsAndConditionsComponent } from '../pages/terms-and-conditions/oms-terms-and-conditions.component';
-
 import { OmsChangePasswordComponent } from '../pages/change-password/oms-change-password.component';
-
 import { OmsCustomizedReportComponent } from '../pages/customized-reports/oms-customized-report.component';
-
-import { OmsCustomizedReportsFormComponent } from '../pages/customized-reports-form/oms-customized-reports-form.component';
-
 import { OmsMonthsDropdownFilterComponent } from '../pages/months-dropdown-filter/oms-months-dropdown-filter.component';
-
 import { OmsSettlementSubmissionsTableComponent } from '../pages/settlement-submissions-table/oms-settlement-submissions-table.component';
-
 import { OmsSubUserAdminTableComponent } from '../pages/sub-user-admin-table/oms-sub-user-admin-table.component';
-
 import { OmsUserManagementTableComponent } from '../pages/user-management-table/oms-user-management-table.component';
-
 import { OmsCreateEditUserFormComponent } from '../pages/create-edit-user-form/oms-create-edit-user-form.component';
-
 import { OmsEditUserFormComponent } from '../pages/edit-user-form/oms-edit-user-form.component';
-
 import { NewOutletPortalComponent } from '../pages/new-outlet/new-outlet-portal.component';
-
 import { OmsNewOutletApplicationFormComponent } from '../pages/new-outlet-application-form/oms-new-outlet-application-form.component';
-
 import { OmsUserManagementService } from '../services/oms-user-management.service';
-
 import { MrmUserManagementService } from '../services/mrm-user-management.service';
 import { SubUserManagementService } from '../services/sub-user-management.service';
 import { OmsSettlementSubmissionService } from '../services/oms-settlement-submission.service';
-import { SecureFormService } from '../services/secure-form.service'; 
-import { AmexPageShellComponent } from '@ui-components/ui';
+import { SecureFormService } from '../services/secure-form.service';
+import { AmexPageComponent, AmexSidebarMenuItem, IconButtonComponent } from '@ui-components/ui';
 import { SessionService, EnvironmentService, AuthApiService } from '@amex/shared-services';
 import { filter, Subscription } from 'rxjs';
 
@@ -82,11 +53,10 @@ interface AmexTabItem {
 
   standalone: true,
 
-  imports: [
+imports: [
     CommonModule,
 
-    OmsHeaderComponent,
-    OmsHomeComponent,
+    IconButtonComponent,
 
     OmsMerchantPanelComponent,
     OmsMerchantDataFormComponent,
@@ -95,7 +65,6 @@ interface AmexTabItem {
     OmsReportFormatComponent,
 
     OmsVatRegistrationComponent,
-    OmsSidebarComponent,
 
     OmsTaxInvoiceDeliveryComponent,
     OmsUploadCertificateComponent,
@@ -105,8 +74,6 @@ interface AmexTabItem {
 
     OmsChangePasswordComponent,
     OmsCustomizedReportComponent,
-
-    OmsCustomizedReportsFormComponent,
     OmsMonthsDropdownFilterComponent,
 
     OmsSettlementSubmissionsTableComponent,
@@ -120,10 +87,7 @@ interface AmexTabItem {
 
     OmsNewOutletApplicationFormComponent,
 
-    RouterOutlet,
-
-    AmexPageShellComponent
-
+    AmexPageComponent
   ],
 
   templateUrl: './remote-entry.html',
@@ -209,7 +173,7 @@ interface AmexTabItem {
       overflow-y: auto;
     }
 
-    .close-btn {
+  .popup-content ui-icon-button {
 
       position: absolute;
 
@@ -217,13 +181,8 @@ interface AmexTabItem {
 
       right: 12px;
 
-      border: none;
-
-      background: transparent;
-
-      font-size: 20px;
-
-      cursor: pointer;
+      --icon-btn-bg: transparent;
+      --icon-btn-color: #333;
     }
 
   `],
@@ -299,6 +258,18 @@ export class NxWelcome
   navItems: NavItem[] = [];
   activeId = '';
 
+  sidebarItems: AmexSidebarMenuItem[] = [
+  { id: 'merchantaccount', label: 'Merchant Account' },
+  { id: 'editprofile', label: 'Edit Profile' },
+  { id: 'contactinformation', label: 'Contact Information' },
+  { id: 'marketinginformation', label: 'Marketing Information' },
+  { id: 'financeinformation', label: 'Finance Information' },
+  { id: 'operations', label: 'Operations' },
+  { id: 'reportformat', label: 'Report Format' },
+  { id: 'vatregistration', label: 'VAT Registration' }
+];
+activeSidebarId = '';
+
   constructor(
     private secureForm: SecureFormService,
 
@@ -368,18 +339,15 @@ export class NxWelcome
   // MERCHANT USER
   // -------------------------------------------------------
 
-  if (
-    this.sessionService.hasRole(
-      'ROLE_MERCHANT_USER'
-    )
-  ) {
+if (this.sessionService.hasRole('ROLE_MERCHANT_USER')) {
     return [
       { id: 'settlement', label: 'Settlement & Submission' },
-      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'merchantaccount', label: 'Edit Your Profile' },
       { id: 'subuseradministration', label: 'Sub User Administration' },
       { id: 'password', label: 'Change Password' },
-      { id: 'termsandconditions', label: 'Terms & Conditions' },
       { id: 'customizedreports', label: 'Customized Reports' },
+      { id: 'searchreports', label: 'Search Reports' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
       { id: 'addnewoutlet', label: 'Add New Outlet' }
     ];
   }
@@ -405,17 +373,14 @@ export class NxWelcome
   // OMS SUB USER
   // -------------------------------------------------------
 
-  if (
-    this.sessionService.hasRole(
-      'ROLE_OMS_SUB_USER'
-    )
-  ) {
+if (this.sessionService.hasRole('ROLE_OMS_SUB_USER')) {
     return [
       { id: 'settlement', label: 'Settlement & Submission' },
-      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'merchantaccount', label: 'Edit Your Profile' },
       { id: 'password', label: 'Change Password' },
-      { id: 'termsandconditions', label: 'Terms & Conditions' },
       { id: 'customizedreports', label: 'Customized Reports' },
+      { id: 'searchreports', label: 'Search Reports' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' },
       { id: 'addnewoutlet', label: 'Add New Outlet' }
     ];
   }
@@ -424,18 +389,15 @@ export class NxWelcome
   // VAT USER
   // -------------------------------------------------------
 
-  if (
-    this.sessionService.hasRole(
-      'ROLE_OMS_VAT_USER'
-    )
-  ) {
+if (this.sessionService.hasRole('ROLE_OMS_VAT_USER')) {
     return [
       { id: 'settlement', label: 'Settlement & Submission' },
-      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'merchantaccount', label: 'Edit Your Profile' },
       { id: 'subuseradministration', label: 'Sub User Administration' },
       { id: 'password', label: 'Change Password' },
-      { id: 'termsandconditions', label: 'Terms & Conditions' },
-      { id: 'customizedreports', label: 'Customized Reports' }
+      { id: 'customizedreports', label: 'Customized Reports' },
+      { id: 'searchreports', label: 'Search Reports' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' }
     ];
   }
 
@@ -443,18 +405,15 @@ export class NxWelcome
   // OMS ADMIN
   // -------------------------------------------------------
 
-  if (
-    this.sessionService.hasRole(
-      'ROLE_OMS_ADMIN'
-    )
-  ) {
+if (this.sessionService.hasRole('ROLE_OMS_ADMIN')) {
     return [
       { id: 'settlement', label: 'Settlement & Submission' },
-      { id: 'merchantaccount', label: 'Merchant Account' },
+      { id: 'merchantaccount', label: 'Edit Your Profile' },
       { id: 'subuseradministration', label: 'Sub User Administration' },
       { id: 'password', label: 'Change Password' },
-      { id: 'termsandconditions', label: 'Terms & Conditions' },
-      { id: 'customizedreports', label: 'Customized Reports' }
+      { id: 'customizedreports', label: 'Customized Reports' },
+      { id: 'searchreports', label: 'Search Reports' },
+      { id: 'termsandconditions', label: 'Terms & Conditions' }
     ];
   }
 
@@ -586,7 +545,7 @@ onSettlementSubmit(
 
   console.log('Selected Tab:', tabId);
 
-  this.router.navigate([ tabId]).then(result => {
+  this.router.navigate([ tabId]).then((result: any) => {
     console.log('Navigation Result:', result);
     console.log('Current URL:', this.router.url);
   });
@@ -651,6 +610,12 @@ onSettlementSubmit(
 
   }
 
+    if (tabId === 'searchreports') {
+
+    this.showCustomizedReport = true;
+
+  }
+
     if (tabId === 'settlement') {
 
     this.showSettlementSubmission = true;
@@ -692,6 +657,8 @@ onSettlementSubmit(
 
     this.selectedSidebarMenu =
       menuId;
+
+    this.activeSidebarId = menuId; 
   }
 
   onTaxInvoiceDeliveryClicked() {

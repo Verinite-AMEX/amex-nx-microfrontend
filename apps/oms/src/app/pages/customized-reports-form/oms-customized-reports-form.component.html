@@ -28,16 +28,13 @@
 
 </div>
 
-<div
-  style="
-    margin-top: 20px;
-    display: flex;
-    gap: 12px;
-  ">
+<div class="search-container">
 
-  <input
+  <ui-input
 
     type="text"
+
+    class="search-input"
 
     [(ngModel)]="
       searchKeyword
@@ -45,32 +42,21 @@
 
     placeholder="
       Search Reports
-    "
+    ">
 
-    style="
-      height: 38px;
-      padding: 0 12px;
-      width: 280px;
-    " />
+  </ui-input>
 
-  <button
+  <ui-button
+
+    variant="primary"
+
+    [label]="'Search Reports'"
 
     (click)="
       onSearchReports()
-    "
-
-    style="
-      height: 38px;
-      padding: 0 18px;
-      background: #6a1b9a;
-      color: white;
-      border: none;
-      cursor: pointer;
     ">
 
-    Search Reports
-
-  </button>
+  </ui-button>
 
 </div>
 
@@ -83,75 +69,77 @@
 
   </h3>
 
-  <table class="reports-table">
+  <ui-table [bordered]="true">
 
-    <thead>
+    <ui-table-head>
 
-      <tr>
+      <ui-table-row [header]="true">
 
-        <th>
+        <ui-table-header-cell>
           Report Type
-        </th>
+        </ui-table-header-cell>
 
-        <th>
+        <ui-table-header-cell>
           From Date
-        </th>
+        </ui-table-header-cell>
 
-        <th>
+        <ui-table-header-cell>
           To Date
-        </th>
+        </ui-table-header-cell>
 
-        <th>
+        <ui-table-header-cell>
           Status
-        </th>
+        </ui-table-header-cell>
 
-        <th>
+        <ui-table-header-cell>
           Generated Date
-        </th>
+        </ui-table-header-cell>
 
-      </tr>
+      </ui-table-row>
 
-    </thead>
+    </ui-table-head>
 
-    <tbody>
+    <ui-table-body>
 
-      <tr
+      <ui-table-row
 
         *ngIf="
           paginatedReports.length === 0
         ">
 
-        <td
+        <ui-table-cell
 
-          colspan="5"
+          [colspan]="5"
+
+          align="center"
 
           class="no-data">
 
           No Reports Generated Yet
 
-        </td>
+        </ui-table-cell>
 
-      </tr>
+      </ui-table-row>
 
-      <tr
+      <ui-table-row
 
         *ngFor="
           let report of paginatedReports
         ">
 
-        <td>
+        <ui-table-cell>
           {{ report.reportType }}
-        </td>
+        </ui-table-cell>
 
-        <td>
+        <ui-table-cell>
           {{ report.fromDate }}
-        </td>
+        </ui-table-cell>
 
-        <td>
+        <ui-table-cell>
           {{ report.toDate }}
-        </td>
+        </ui-table-cell>
 
-        <td>
+        <ui-table-cell>
 
           <span class="status-badge">
 
@@ -159,17 +147,17 @@
 
           </span>
 
-        </td>
+        </ui-table-cell>
 
-        <td>
+        <ui-table-cell>
           {{ report.createdDate }}
-        </td>
+        </ui-table-cell>
 
-      </tr>
+      </ui-table-row>
 
-    </tbody>
+    </ui-table-body>
 
-  </table>
+  </ui-table>
 
   <oms-pagination
 

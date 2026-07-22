@@ -8,41 +8,32 @@
       Tax Invoice
     </h2>
 
-    <div class="radio-group">
+    <ui-radio-group
 
-      <label>
-        <input
-          type="radio"
-          value="vat"
-          [(ngModel)]="vatSearchType" />
+      name="vatSearchType"
 
-        VAT Registration Number
-      </label>
+      orientation="horizontal"
 
-      <label>
-        <input
-          type="radio"
-          value="merchant"
-          [(ngModel)]="vatSearchType" />
+      [options]="vatSearchTypeOptions"
 
-        Merchant Number
-      </label>
+      [(ngModel)]="vatSearchType">
 
-    </div>
+    </ui-radio-group>
 
     <div class="form-grid">
 
       <div class="field">
 
-        <label>
+        <ui-label>
           VAT Registration Number
-        </label>
+        </ui-label>
 
-        <input
+        <ui-input
           type="text"
           [(ngModel)]="
             vatRegistrationNumber
-          " />
+          ">
+        </ui-input>
 
         <small>
           There are no vat registration numbers.
@@ -52,102 +43,75 @@
 
       <div class="field">
 
-        <label>
+        <ui-label>
           VAT Registered Country
-        </label>
+        </ui-label>
 
-        <select
+        <ui-select
+          [options]="countryOptions"
+          placeholder="Select Country"
           [(ngModel)]="
             selectedCountry
           ">
-
-          <option value="">
-            Select Country
-          </option>
-
-          <option
-            *ngFor="
-              let country of countries
-            "
-            [value]="country">
-
-            {{ country }}
-
-          </option>
-
-        </select>
+        </ui-select>
 
       </div>
 
       <div class="field">
 
-        <label>
+        <ui-label>
           From Date
-        </label>
+        </ui-label>
 
-        <input
-          type="date"
-          [(ngModel)]="fromDate" />
+        <ui-date-input
+          [(ngModel)]="fromDate">
+        </ui-date-input>
 
       </div>
 
       <div class="field">
 
-        <label>
+        <ui-label>
           To Date
-        </label>
+        </ui-label>
 
-        <input
-          type="date"
-          [(ngModel)]="toDate" />
+        <ui-date-input
+          [(ngModel)]="toDate">
+        </ui-date-input>
 
       </div>
 
     </div>
 
-    <div class="radio-group bottom-radio">
+    <div class="bottom-radio">
 
-      <label>
+      <ui-radio-group
 
-        <input
-          type="radio"
-          value="summary"
-          [(ngModel)]="reportType" />
+        name="reportType"
 
-        Summary
+        orientation="horizontal"
 
-      </label>
+        [options]="reportTypeOptions"
 
-      <label>
+        [(ngModel)]="reportType">
 
-        <input
-          type="radio"
-          value="detail"
-          [(ngModel)]="reportType" />
-
-        Detail
-
-      </label>
+      </ui-radio-group>
 
     </div>
 
     <div class="button-group">
 
-      <button
-        class="back-btn"
+      <ui-button
+        variant="secondary"
+        [label]="'Back'"
         (click)="onBack()">
+      </ui-button>
 
-        Back
-
-      </button>
-
-      <button
-        class="generate-btn"
+      <ui-button
+        variant="primary"
+        [label]="'Generate Report'"
         (click)="generateReport()">
-
-        Generate Report
-
-      </button>
+      </ui-button>
 
     </div>
 

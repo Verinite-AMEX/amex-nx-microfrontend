@@ -1,0 +1,50 @@
+
+    <ui-accent-card
+      [id]="id"
+      [maxWidth]="cardMaxWidth"
+      [accentColor]="accentColor"
+      [accentHeight]="accentHeight"
+      [background]="cardBackground"
+      [padding]="cardPadding">
+
+      <amex-empty-state-message
+        *ngIf="!merchantAccounts.length"
+        variant="oms"
+        [message]="emptyMessage">
+      </amex-empty-state-message>
+
+      <ng-container *ngIf="merchantAccounts.length">
+        <ui-label class="mdp__section-label" *ngIf="accountSectionLabel">{{ accountSectionLabel }}</ui-label>
+        <div class="mdp__account-list" role="radiogroup" [attr.aria-label]="accountSectionLabel || null">
+          <ui-radio
+            *ngFor="let account of merchantAccounts"
+            [name]="id + '-merchant-account'"
+            [value]="account.id"
+            [label]="account.label"
+            [checked]="account.id === selectedAccountId"
+            (checkedChange)="onAccountChange($event)">
+          </ui-radio>
+        </div>
+
+        <ui-label class="mdp__section-label mdp__months-label" *ngIf="monthsSectionLabel">{{ monthsSectionLabel }}</ui-label>
+        <div class="mdp__months-row">
+          <ui-select
+            class="mdp__months-select"
+            [options]="monthSelectOptions"
+            [(ngModel)]="selectedMonths"
+            [ariaLabel]="monthsSectionLabel">
+          </ui-select>
+        </div>
+
+        <ng-container *ngIf="showDateRangeLink">
+          <a class="mdp__date-range-link" [style.color]="dateRangeLinkColor" href="javascript:void(0)" (click)="dateRangeClick.emit()">{{ dateRangeLinkLabel }}</a>
+        </ng-container>
+
+        <ui-button
+          class="mdp__submit-btn"
+          [label]="submitButtonLabel"
+          [disabled]="!selectedAccountId"
+          (click)="onSubmit()">
+        </ui-button>
+      </ng-container>
+    </ui-accent-card>

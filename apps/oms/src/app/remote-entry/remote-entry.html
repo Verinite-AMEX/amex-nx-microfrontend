@@ -1,50 +1,17 @@
 <amex-page-component
-      portalStyle="onls"
-      portalTitle="Online Merchant Services"
-      
-      activeTabId="oms"
-      [showCustomSidebar]="true"
-      (logout)="onLogout()">
+  portalStyle="oms"
+  portalTitle="Online Merchant Services"
 
-      <!-- left-nav slot: our nav when logged in, empty div on login page -->
-      <div left-nav>
-        <ng-container *ngIf="navItems.length > 0">
-          <oms-home
-            (tabChanged)="onTabChanged($event)">
-          </oms-home>
-          <a
-            *ngFor="let item of navItems"
-            class="bta-nav-item"
-            [class.active]="activeId === item.id"
-            (click)="onNavClick(item.id)">
-          </a>
-        </ng-container>
-      </div>
+  [tabs]="navItems"
+  [activeTabId]="activeId"
+  (tabClick)="onTabChanged($event)"
 
-      <!-- default slot: page content -->
-      <!-- <router-outlet></router-outlet> -->
+  [showSidebar]="showSidebar"
+  [sidebarItems]="sidebarItems"
+  [activeSidebarId]="activeSidebarId"
+  (sidebarItemClick)="onMenuChanged($event)"
 
-    </amex-page-component>
-
-<!-- HEADER -->
-<!-- <oms-header></oms-header> -->
-
-<!-- TAB BAR -->
-<!-- <oms-home
-  (tabChanged)="onTabChanged($event)">
-</oms-home> -->
-
-<div
-  *ngIf="showSidebar"
-  class="layout">
-
-  <div class="sidebar">
-
-    <oms-sidebar
-      (menuChanged)="onMenuChanged($event)">
-    </oms-sidebar>
-
-  </div>
+  (logout)="onLogout()">
 
   <div class="content">
 
@@ -171,7 +138,6 @@
 
     </oms-tax-invoice-report>
 
-  </div>
 
 </div>
 
@@ -192,37 +158,13 @@
 
 </oms-customized-report>
 
-<div
+<oms-settlement-submissions-table
 
   *ngIf="
     showSettlementSubmission
-  "
-
-  class="settlement-container">
-
-  <oms-months-dropdown-filter
-
-  (submitClicked)="
-    onSettlementSubmit($event)
-  ">
-
-</oms-months-dropdown-filter>
-
-  <oms-settlement-submissions-table
-
-  *ngIf="
-    showSettlementTable
-  "
-
-  [rows]="settlementRows"
-
-  [loading]="
-    settlementLoading
   ">
 
 </oms-settlement-submissions-table>
-
-</div>
 
 <oms-sub-user-admin-table
 
@@ -355,15 +297,19 @@
 
   <div class="popup-content">
 
-    <button
+  <ui-icon-button
 
-      class="close-btn"
+      icon="✕"
 
-      (click)="closeEditPopup()">
+      ariaLabel="Close"
 
-      ✕
+      variant="ghost"
 
-    </button>
+      size="sm"
+
+      (clicked)="closeEditPopup()">
+
+    </ui-icon-button>
 
     <oms-edit-user-form
 
@@ -427,3 +373,5 @@
   ">
 
 </oms-new-outlet-application-form>
+
+</amex-page-component>

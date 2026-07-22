@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { ButtonComponent, SelectComponent, SelectOption } from '@ui-components/ui';
 
 @Component({
   // eslint-disable-next-line @angular-eslint/component-selector
@@ -10,7 +11,9 @@ import { FormsModule } from '@angular/forms';
 
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    ButtonComponent,
+    SelectComponent
   ],
 
   templateUrl:
@@ -69,25 +72,19 @@ import { FormsModule } from '@angular/forms';
       margin-bottom: 20px;
     }
 
-    .create-btn {
-
-      background: #0070d2;
-
-      color: white;
-
-      border: none;
-
-      height: 48px;
-
-      padding: 0 32px;
-
-      border-radius: 4px;
-
-      font-size: 18px;
-
-      cursor: pointer;
+    .create-btn-wrap {
 
       margin-bottom: 40px;
+
+      /* size/spacing for the ui-button rendered inside, via its CSS vars */
+      --btn-bg: #0070d2;
+      --btn-padding: 0 32px;
+      --btn-font-size: 18px;
+    }
+
+    .create-btn-wrap ::ng-deep .btn {
+
+      height: 48px;
     }
 
     .or-text {
@@ -112,19 +109,13 @@ import { FormsModule } from '@angular/forms';
       margin-bottom: 12px;
     }
 
-    .dropdown {
+    ui-select {
 
-      width: 100%;
+      display: block;
 
-      height: 48px;
+      --select-padding: 14px 32px 14px 12px;
 
-      border: 1px solid #ccc;
-
-      border-radius: 4px;
-
-      padding: 0 12px;
-
-      font-size: 16px;
+      --select-font-size: 16px;
     }
 
   `]
@@ -136,10 +127,10 @@ export class NewOutletPortalComponent {
   @Output()
   createApplicationClicked = new EventEmitter<void>();
 
-  applications = [
-    'Application 1',
-    'Application 2',
-    'Application 3'
+  applicationOptions: SelectOption[] = [
+    { label: 'Application 1', value: 'Application 1' },
+    { label: 'Application 2', value: 'Application 2' },
+    { label: 'Application 3', value: 'Application 3' }
   ];
 
   onCreateApplication() {

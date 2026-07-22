@@ -22,7 +22,13 @@
 
   <div class="pagination-buttons">
 
-    <button
+    <ui-button
+
+      variant="ghost"
+
+      size="sm"
+
+      [label]="'Previous'"
 
       (click)="previousPage()"
 
@@ -30,30 +36,36 @@
         currentPage === 1
       ">
 
-      Previous
+    </ui-button>
 
-    </button>
-
-    <button
+    <ui-button
 
       *ngFor="
         let page
         of pages
       "
 
-      (click)="
-        goToPage(page)
+      [variant]="
+        currentPage === page ? 'primary' : 'ghost'
       "
 
-      [class.active]="
-        currentPage === page
+      size="sm"
+
+      [label]="page + ''"
+
+      (click)="
+        goToPage(page)
       ">
 
-      {{ page }}
+    </ui-button>
 
-    </button>
+    <ui-button
 
-    <button
+      variant="ghost"
+
+      size="sm"
+
+      [label]="'Next'"
 
       (click)="nextPage()"
 
@@ -61,9 +73,7 @@
         currentPage === totalPages
       ">
 
-      Next
-
-    </button>
+    </ui-button>
 
   </div>
 

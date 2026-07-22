@@ -11,13 +11,18 @@ import {
   CommonModule
 } from '@angular/common';
 
+import {
+  ButtonComponent
+} from '@ui-components/ui';
+
 @Component({
   selector: 'oms-pagination',
 
   standalone: true,
 
   imports: [
-    CommonModule
+    CommonModule,
+    ButtonComponent
   ],
 
   templateUrl:
