@@ -5,6 +5,14 @@ import { FormFieldComponent } from '../../../composite/form-field';
 import { InputComponent } from '../../../primitives/input';
 import { ButtonComponent } from '../../../primitives/button';
 
+export interface ForgotPasswordOmsRequest {
+  userId: string;
+  emailId: string;
+  merchantNumber: string;
+  ibanLast5: string;
+  tradeLicenseNumber: string;
+}
+
 @Component({
   selector: 'amex-forgot-password-form',
   standalone: true,
@@ -24,14 +32,6 @@ import { ButtonComponent } from '../../../primitives/button';
         <span class="log-out">Log Out</span>
       </div>
 
-      <!-- OMS TOP BAR -->
-      <div class="top-bar-oms" *ngIf="portalStyle === 'oms'">
-        <ui-button class="oms-logout-btn" variant="primary" label="LOG OUT"></ui-button>
-        <!-- FLAGGED (see task point 6 / migration notes): no click handler existed
-             on the original native <button> either. Preserved as dead markup rather
-             than guessing at intended logout logic. -->
-      </div>
-
       <!-- ONLS HEADER -->
       <div class="header-onls" *ngIf="portalStyle === 'onls'">
         <div class="logo-box">
@@ -42,25 +42,6 @@ import { ButtonComponent } from '../../../primitives/button';
         </div>
       </div>
 
-      <!-- OMS HEADER -->
-      <div class="header-oms" *ngIf="portalStyle === 'oms'">
-        <div class="logo-box">
-          <span class="logo-text">
-            AMERICAN<br />
-            EXPRESS
-          </span>
-        </div>
-
-        <div class="oms-title-wrap">
-          <span class="oms-title">
-            {{ portalTitle || 'Online Merchant Services' }}
-          </span>
-
-          <span class="oms-sub">
-            MANAGE YOUR ACCOUNT ONLINE
-          </span>
-        </div>
-      </div>
 
       <!-- NAV -->
       <div class="nav-onls" *ngIf="portalStyle === 'onls'">
@@ -69,11 +50,6 @@ import { ButtonComponent } from '../../../primitives/button';
         </span>
       </div>
 
-      <div class="nav-oms" *ngIf="portalStyle === 'oms'">
-        <span class="nav-item-oms active">
-          Forgot Password
-        </span>
-      </div>
 
       <!-- CONTENT -->
       <div class="content-wrapper">
@@ -85,7 +61,7 @@ import { ButtonComponent } from '../../../primitives/button';
 
         <div class="main-content">
 
-          <!-- ONLS PANEL -->
+          <!-- ONLS PANEL (unchanged) -->
           <div
             class="panel-onls"
             *ngIf="portalStyle === 'onls'"
@@ -142,39 +118,26 @@ import { ButtonComponent } from '../../../primitives/button';
 
             </ng-container>
 
-            <div
-              class="back-link"
-              *ngIf="success && !errorMessage"
-            >
-              <a
-                class="form-link"
-                (click)="backToLogin.emit()"
-                tabindex="0"
-              >
-                Back to Login
-              </a>
-            </div>
+ <div
+  class="back-link"
+  *ngIf="success && !errorMessage"
+>
+  <a
+    class="form-link"
+    (click)="backToLogin.emit()"
+    tabindex="0"
+  >
+    Back to Login
+  </a>
+</div>
 
           </div>
 
-          <!-- OMS PANEL -->
+          <!-- OMS PANEL (updated to match image 2) -->
           <div
             class="panel-oms"
             *ngIf="portalStyle === 'oms'"
           >
-
-            <div class="panel-title">
-              FORGOT PASSWORD
-            </div>
-
-            <div class="panel-accent"></div>
-
-            <div
-              class="success-box"
-              *ngIf="success && !errorMessage"
-            >
-              Your temporary password has been sent to your registered email address.
-            </div>
 
             <div
               class="error-box"
@@ -183,59 +146,93 @@ import { ButtonComponent } from '../../../primitives/button';
               {{ errorMessage }}
             </div>
 
+            <div
+              class="success-box"
+              *ngIf="success && !errorMessage"
+            >
+              Your temporary password has been sent to your registered email address.
+            </div>
+
             <ng-container *ngIf="!success || errorMessage">
 
-              <p class="help-text">
-                Please enter your User ID and registered Email Address.
-              </p>
+              <ui-input
+                #userIdInputOms
+                class="oms-input"
+                [id]="id + '-user-id-2'"
+                type="text"
+                placeholder="User ID"
+                [required]="true"
+                [(ngModel)]="userId"
+                ariaLabel="User ID"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
 
-              <!-- USER ID -->
-              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="User ID" [required]="true" [forId]="id + '-user-id-2'">
-                <ui-input
-                  #userIdInputOms
-                  class="field-input-oms"
-                  [id]="id + '-user-id-2'"
-                  type="text"
-                  [required]="true"
-                  [(ngModel)]="userId"
-                  (keydown.enter)="onEnterSubmit($event)">
-                </ui-input>
-              </ui-form-field>
+              <ui-input
+                class="oms-input"
+                [id]="id + '-email-id-2'"
+                type="email"
+                placeholder="Email Address"
+                [required]="true"
+                [(ngModel)]="emailId"
+                ariaLabel="Email Address"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
 
-              <!-- EMAIL -->
-              <ui-form-field class="field-row" layout="horizontal" labelWidth="160px" label="Email ID" [required]="true" [forId]="id + '-email-id-2'">
-                <ui-input
-                  class="field-input-oms"
-                  [id]="id + '-email-id-2'"
-                  type="email"
-                  [required]="true"
-                  [(ngModel)]="emailId"
-                  (keydown.enter)="onEnterSubmit($event)">
-                </ui-input>
-              </ui-form-field>
+              <ui-input
+                class="oms-input"
+                [id]="id + '-merchant-number'"
+                type="text"
+                placeholder="Merchant Number"
+                [required]="true"
+                [(ngModel)]="merchantNumber"
+                ariaLabel="Merchant Number"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
+
+              <ui-input
+                class="oms-input"
+                [id]="id + '-iban-last5'"
+                type="text"
+                placeholder="Last 5 Digits of IBAN/Bank Account Number"
+                [required]="true"
+                [(ngModel)]="ibanLast5"
+                ariaLabel="Last 5 Digits of IBAN/Bank Account Number"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
+
+              <ui-input
+                class="oms-input"
+                [id]="id + '-trade-license'"
+                type="text"
+                placeholder="Trade License/CR Number"
+                [required]="true"
+                [(ngModel)]="tradeLicenseNumber"
+                ariaLabel="Trade License/CR Number"
+                (keydown.enter)="onEnterSubmit($event)">
+              </ui-input>
 
               <div class="btn-row-oms">
 
-                <ui-button class="btn-back-oms" variant="primary" label="Back to Login" (click)="backToLogin.emit()"></ui-button>
+                <ui-button class="btn-back-oms" variant="primary" label="Back" (click)="backToLogin.emit()"></ui-button>
 
-                <ui-button class="btn-submit-oms" variant="primary" label="Submit" (click)="onSubmit()"></ui-button>
+                <ui-button class="btn-submit-oms" variant="primary" label="Submit" (click)="onSubmitOms()"></ui-button>
 
               </div>
 
             </ng-container>
 
-            <div
-              class="back-link"
-              *ngIf="success && !errorMessage"
-            >
-              <a
-                class="form-link"
-                (click)="backToLogin.emit()"
-                tabindex="0"
-              >
-                ← Back to Login
-              </a>
-            </div>
+<div
+  class="back-link"
+  *ngIf="success && !errorMessage"
+>
+  <a
+    class="form-link"
+    (click)="backToLogin.emit()"
+    tabindex="0"
+  >
+    ← Back to Login
+  </a>
+</div>
 
           </div>
 
@@ -243,7 +240,7 @@ import { ButtonComponent } from '../../../primitives/button';
       </div>
 
       <!-- FOOTER -->
-      <div class="footer-links">
+      <div class="footer-links" *ngIf="portalStyle === 'onls'">
 
         <a class="footer-link" href="#">
           American Express Web Site Rules and Regulations
@@ -420,23 +417,15 @@ import { ButtonComponent } from '../../../primitives/button';
       padding: 20px 30px;
     }
 
-    .panel-onls,
-    .panel-oms {
+    /* ===================== ONLS PANEL (unchanged) ===================== */
+
+    .panel-onls {
       background: #fff;
       padding: 20px;
       max-width: 480px;
       --input-focus-border-color: #006fcf;
-    }
-
-    .panel-onls {
       border: 1px solid #ccc;
       --input-border: 1px solid #999;
-      --input-padding: 2px 6px;
-      --input-radius: 0px;
-    }
-
-    .panel-oms {
-      --input-border: 1px solid #bbb;
       --input-padding: 2px 6px;
       --input-radius: 0px;
     }
@@ -483,12 +472,6 @@ import { ButtonComponent } from '../../../primitives/button';
       font-size: 12px;
     }
 
-    .field-input-oms {
-      width: 240px;
-      height: 28px;
-      font-size: 12px;
-    }
-
     .btn-row-onls {
       margin-top: 14px;
       display: flex;
@@ -500,19 +483,72 @@ import { ButtonComponent } from '../../../primitives/button';
       --btn-border: 1px solid #004a99; --btn-padding: 5px 18px; --btn-radius: 0px;
     }
 
+    /* ===================== OMS PANEL (updated per image 2) ===================== */
+
+    .panel-oms {
+      width: 370px;
+      box-sizing: border-box;
+
+      background: #fff;
+      border: 1px solid #ddd;
+      border-top: 4px solid #7b1fa2;
+
+      padding: 16px 14px 14px;
+
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .oms-input {
+      display: block;
+      width: 100%;
+      height: 30px;
+      font-size: 12px;
+
+      --input-border: 1px solid #bbb;
+      --input-padding: 6px 10px;
+      --input-radius: 2px;
+      --input-focus-border-color: #006fcf;
+      --input-focus-shadow: none;
+    }
+
     .btn-row-oms {
       display: flex;
-      gap: 12px;
-      margin-top: 16px;
+      gap: 16px;
+      margin-top: 4px;
+      width: 100%;
+    }
+
+    .btn-back-oms,
+    .btn-submit-oms {
+      flex: 1 1 0;
+      min-width: 0;
+      width: 100%;
+      display: block;
+      --btn-width: 100%;
+      --btn-justify-content: center;
     }
 
     .btn-back-oms {
-      --btn-bg: #1e3a5f; --btn-color: #fff; --btn-radius: 0px; --btn-padding: 7px 20px;
+      --btn-bg: #252d83;
+      --btn-color: #fff;
+      --btn-radius: 3px;
+      --btn-padding: 7px 0;
+      --btn-font-size: 12px;
+      --btn-font-weight: 600;
     }
 
     .btn-submit-oms {
-      --btn-bg: #7b1fa2; --btn-color: #fff; --btn-radius: 0px; --btn-padding: 7px 20px;
+      --btn-bg: #aa5aa5;
+      --btn-color: #fff;
+      --btn-radius: 3px;
+      --btn-padding: 7px 0;
+      --btn-font-size: 12px;
+      --btn-font-weight: 600;
     }
+
+    /* ===================== SHARED ===================== */
 
     .form-link {
       color: #006fcf;
@@ -544,10 +580,14 @@ export class AmexForgotPasswordFormComponent implements AfterViewChecked {
   @Input() errorMessage = '';
   @Input() success = false;
 
+  /** Emitted for the ONLS flow (User ID + Email ID only). Unchanged. */
   @Output() submitIdentifier = new EventEmitter<{
     userId: string;
     emailId: string;
   }>();
+
+  /** Emitted for the OMS flow (all 5 fields). */
+  @Output() submitOmsRequest = new EventEmitter<ForgotPasswordOmsRequest>();
 
   @Output() backToLogin = new EventEmitter<void>();
 
@@ -556,6 +596,11 @@ export class AmexForgotPasswordFormComponent implements AfterViewChecked {
 
   userId = '';
   emailId = '';
+
+  // OMS-only fields
+  merchantNumber = '';
+  ibanLast5 = '';
+  tradeLicenseNumber = '';
 
   // Tracks which portalStyle we've already autofocused, since only the active
   // panel's ui-input exists in the DOM (*ngIf) and it may not be present yet
@@ -581,9 +626,14 @@ export class AmexForgotPasswordFormComponent implements AfterViewChecked {
 
   onEnterSubmit(event: Event): void {
     event.preventDefault();
-    this.onSubmit();
+    if (this.portalStyle === 'oms') {
+      this.onSubmitOms();
+    } else {
+      this.onSubmit();
+    }
   }
 
+  /** ONLS submit — unchanged. */
   onSubmit(): void {
     if (!this.userId.trim() || !this.emailId.trim()) {
       this.errorMessage = 'User ID and Email ID are required';
@@ -593,6 +643,31 @@ export class AmexForgotPasswordFormComponent implements AfterViewChecked {
     this.submitIdentifier.emit({
       userId: this.userId,
       emailId: this.emailId
+    });
+  }
+
+  /** OMS submit — validates all 5 fields per image 2. */
+  onSubmitOms(): void {
+    if (
+      !this.userId.trim() ||
+      !this.emailId.trim() ||
+      !this.merchantNumber.trim() ||
+      !this.ibanLast5.trim() ||
+      !this.tradeLicenseNumber.trim()
+    ) {
+      this.errorMessage =
+        'User ID, Email Address, Merchant Number, IBAN/Bank Account digits, and Trade License/CR Number are all required.';
+      return;
+    }
+
+    this.errorMessage = '';
+
+    this.submitOmsRequest.emit({
+      userId: this.userId,
+      emailId: this.emailId,
+      merchantNumber: this.merchantNumber,
+      ibanLast5: this.ibanLast5,
+      tradeLicenseNumber: this.tradeLicenseNumber
     });
   }
 

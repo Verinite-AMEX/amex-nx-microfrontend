@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, HostBinding, ViewChild, AfterViewInit, AfterViewChecked } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, HostBinding, ViewChild, ElementRef, AfterViewInit, AfterViewChecked } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FormFieldComponent } from '../../../composite/form-field';
@@ -6,6 +6,7 @@ import { AccentCardComponent } from '../../../composite/amex/accent-card';
 import { LabelComponent } from '../../../primitives/label';
 import { InputComponent } from '../../../primitives/input';
 import { ButtonComponent } from '../../../primitives/button';
+
 
 export interface LoginCredentials {
   username: string;
@@ -142,10 +143,12 @@ export interface LoginCredentials {
 
       </ng-container>
 
-      <!-- ============ OMS (minimal: card + fields + login + forgot links only) ============ -->
+      <!-- ============ OMS (login card + optional register card below) ============ -->
       <ng-container *ngIf="portalStyle === 'oms'">
         <div class="oms-wrapper">
+
           <ui-accent-card
+            #omsCardRef
             class="oms-card"
             [accentColor]="cardAccentColor"
             [maxWidth]="cardMaxWidth"
@@ -205,6 +208,19 @@ export interface LoginCredentials {
             </div>
 
           </ui-accent-card>
+
+          <!-- Separate card below the login card — no accent bar, matches reference screenshot -->
+          <div class="oms-register-card" *ngIf="showRegister" [style.width.px]="registerCardWidth">
+            <span class="register-label">Not registered yet?</span>
+            <ui-button
+              class="btn-register-oms"
+              variant="primary"
+              label="REGISTER NOW"
+              ariaLabel="Register for a new account"
+              (click)="registerClick.emit()">
+            </ui-button>
+          </div>
+
         </div>
       </ng-container>
 
@@ -247,7 +263,7 @@ export interface LoginCredentials {
       --input-focus-shadow: none;
     }
 
-    /* Fields (onls) — gap between User Name and Password */
+    /* Fields (onls) */
     .field-row { margin-bottom: 16px; }
     .field-input { width: 200px; height: 22px; font-size: 12px; }
 
@@ -272,8 +288,8 @@ export interface LoginCredentials {
     .footer-link:hover, .footer-link:focus { color: #003087; text-decoration: underline; }
     .footer-copy { margin-left: auto; }
 
-    /* ===================== OMS (minimal) ===================== */
-    .oms-wrapper { display: flex; padding: 24px; }
+    /* ===================== OMS ===================== */
+    .oms-wrapper { display: flex; flex-direction: column; align-items: flex-start; gap: 16px; padding: 24px; }
     .oms-card {
       --input-border: 1px solid #ccc;
       --input-padding: 10px 12px;
@@ -282,7 +298,6 @@ export interface LoginCredentials {
       --input-focus-shadow: none;
     }
 
-    /* Fields (oms) — this rule was missing before, which is why there was no gap */
     .field-oms { display: block; width: 100%; height: 40px; font-size: 13px; margin-bottom: 16px; }
 
     .btn-login-oms {
@@ -292,6 +307,25 @@ export interface LoginCredentials {
     }
 
     .links-oms { display: flex; flex-direction: column; gap: 6px; margin-top: 14px; font-size: 13px; }
+
+    /* Separate register card — no accent bar, light-blue background, matches reference screenshot */
+.oms-register-card {
+  box-sizing: border-box;
+  background: linear-gradient(to bottom, #eaf4fb 0%, #eaf4fb 35%, #ffffff 35%, #ffffff 100%);
+  border: 1px solid #d6e4f2;
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+    .register-label { font-size: 13px; color: #444; }
+    .btn-register-oms {
+      --btn-bg: #2f9bd6; --btn-color: #fff; --btn-radius: 3px; --btn-padding: 10px 0;
+      --btn-justify-content: center; --btn-width: 100%; --btn-font-size: 13px; --btn-font-weight: 700;
+      display: block;
+    }
 
     /* Error / success (shared visual language) */
     .error-box { background: #f2dede; border: 1px solid #ebccd1; color: #a94442; padding: 8px 12px; margin-bottom: 14px; font-size: 12px; border-radius: 2px; }
@@ -323,7 +357,7 @@ export class AmexLoginFormComponent implements AfterViewInit, AfterViewChecked {
   @Input() portalTitle = '';
   @Input() errorMessage = '';
   @Input() successMessage = '';
-  /** ONLS-only: shows the "New user? Sign Up" row. */
+  /** Shows the register row (ONLS: inline "Sign Up" link) or register card (OMS: separate box below the login card). */
   @Input() showRegister = false;
 
   /** Which shell to render. Defaults to 'onls' so existing consumers are unaffected. */
@@ -331,12 +365,12 @@ export class AmexLoginFormComponent implements AfterViewInit, AfterViewChecked {
 
   /** OMS-only: top accent bar color on the login card. Consumer-configurable. */
   @Input() cardAccentColor = '#7b1f4b';
-  /** OMS-only: max width of the login card. Consumer-configurable. Narrowed from 360px to 300px. */
+  /** OMS-only: max width of the login card (and the register card below it, so their edges align). Consumer-configurable. */
   @Input() cardMaxWidth = '300px';
 
   @Output() loginSubmit = new EventEmitter<LoginCredentials>();
   @Output() forgotPassword = new EventEmitter<void>();
-  /** ONLS-only. */
+  /** Fires on "Sign Up" (ONLS) or "REGISTER NOW" (OMS). */
   @Output() registerClick = new EventEmitter<void>();
   /** OMS-only. */
   @Output() forgotUserId = new EventEmitter<void>();
@@ -346,6 +380,12 @@ export class AmexLoginFormComponent implements AfterViewInit, AfterViewChecked {
 
   @ViewChild('usernameInputOms') usernameInputOms?: InputComponent;
   @ViewChild('passwordInputOms') passwordInputOms?: InputComponent;
+
+  // add to existing ViewChild declarations
+@ViewChild('omsCardRef', { read: ElementRef }) omsCardRef?: ElementRef<HTMLElement>;
+
+// add this new property
+registerCardWidth: number | null = null;
 
   credentials: LoginCredentials = { username: '', password: '' };
 
@@ -357,12 +397,20 @@ export class AmexLoginFormComponent implements AfterViewInit, AfterViewChecked {
     }
   }
 
-  ngAfterViewChecked(): void {
-    if (this.portalStyle === 'oms' && !this.autofocusedOms && this.usernameInputOms) {
-      this.usernameInputOms.focus();
-      this.autofocusedOms = true;
+// update ngAfterViewChecked to measure the login card width once it's available
+ngAfterViewChecked(): void {
+  if (this.portalStyle === 'oms' && !this.autofocusedOms && this.usernameInputOms) {
+    this.usernameInputOms.focus();
+    this.autofocusedOms = true;
+  }
+
+  if (this.portalStyle === 'oms' && this.omsCardRef && this.registerCardWidth === null) {
+    const measuredWidth = this.omsCardRef.nativeElement.offsetWidth;
+    if (measuredWidth > 0) {
+      this.registerCardWidth = measuredWidth;
     }
   }
+}
 
   onEnterUsername(event: Event) {
     event.preventDefault();

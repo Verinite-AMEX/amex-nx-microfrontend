@@ -12,6 +12,10 @@ const meta: Meta<AmexLoginFormComponent> = {
     portalStyle: { control: 'select', options: ['onls', 'oms'] },
     cardAccentColor: { control: 'color' },
     cardMaxWidth: { control: 'text' },
+    loginSubmit: { action: 'loginSubmit' },
+    forgotPassword: { action: 'forgotPassword' },
+    registerClick: { action: 'registerClick' },
+    forgotUserId: { action: 'forgotUserId' },
   },
   tags: [
     'autodocs',
@@ -27,9 +31,11 @@ const meta: Meta<AmexLoginFormComponent> = {
 export default meta;
 type Story = StoryObj<AmexLoginFormComponent>;
 
+// ===================== ONLS =====================
+
 export const HubLogin: Story = {
   args: {
-    portalTitle: 'oms',
+    portalTitle: '',
     showRegister: true,
     errorMessage: '',
     successMessage: '',
@@ -39,7 +45,7 @@ export const HubLogin: Story = {
 
 export const WithPortalTitle: Story = {
   args: {
-    portalTitle: 'oms',
+    portalTitle: 'Employee Portal',
     showRegister: true,
     errorMessage: '',
     successMessage: '',
@@ -71,6 +77,7 @@ export const WithSuccess: Story = {
 
 export const OmsLogin: Story = {
   args: {
+    showRegister: false,
     errorMessage: '',
     successMessage: '',
     portalStyle: 'oms',
@@ -81,6 +88,7 @@ export const OmsLogin: Story = {
 
 export const OmsLoginWithError: Story = {
   args: {
+    showRegister: false,
     errorMessage: 'Invalid User ID or Password. Please try again.',
     successMessage: '',
     portalStyle: 'oms',
@@ -91,10 +99,22 @@ export const OmsLoginWithError: Story = {
 
 export const OmsLoginCustomAccent: Story = {
   args: {
+    showRegister: false,
     errorMessage: '',
     successMessage: '',
     portalStyle: 'oms',
     cardAccentColor: '#016fd0',
     cardMaxWidth: '400px',
+  },
+};
+
+export const OmsLoginWithRegister: Story = {
+  args: {
+    showRegister: true,
+    errorMessage: '',
+    successMessage: '',
+    portalStyle: 'oms',
+    cardAccentColor: '#7b1f4b',
+    cardMaxWidth: '360px',
   },
 };

@@ -26,3 +26,11 @@ export const OMSStyle: Story = {
 export const WithError: Story = {
   args: { portalStyle: 'onls', portalTitle: '', errorMessage: 'No account found for this username or email.' }
 };
+
+export const OMSWithError: Story = {
+  args: {
+    portalStyle: 'oms',
+    portalTitle: 'Online Merchant Services',
+    errorMessage: 'User ID, Email Address, Merchant Number, IBAN/Bank Account digits, and Trade License/CR Number are all required.'
+  }
+};
