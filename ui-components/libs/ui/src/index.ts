@@ -54,7 +54,6 @@ export * from './lib/composite/amex/offer-card';
 export * from './lib/composite/amex/wearable-tile';
 export * from './lib/composite/amex/user-row';
 export * from './lib/composite/amex/accent-card';
-export * from './lib/composite/amex/merchant-details-panel';
 
 export * from './lib/patterns/amex/feedback/success-toast';
 export * from './lib/patterns/amex/feedback/error-toast';
