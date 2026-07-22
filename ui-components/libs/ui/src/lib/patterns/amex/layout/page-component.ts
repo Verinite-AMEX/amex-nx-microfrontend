@@ -344,7 +344,7 @@ export interface AmexPortalLayoutConfig {
     }
 
     .shell[data-theme="onls"] .shell__content-body { background: #ffffff; }
-    .shell[data-theme="oms"]  .shell__content-body { background: #fafafa; }
+    .shell[data-theme="oms"]  .shell__content-body { background: #e8e5e5; }
     .shell[data-theme="bcrb"] .shell__content-body { background: #f6f6f6; }
 
     /* ── Health badge ── */
