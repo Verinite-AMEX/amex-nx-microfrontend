@@ -35,7 +35,7 @@
 
       <div class="vat-home__grid">
         <div class="vat-home__field">
-          <label class="vat-home__label"> Impersonation </label>
+          <ui-label class="vat-home__label"> Impersonation </ui-label>
 
           <ui-input
             [(ngModel)]="impersonation"
@@ -47,10 +47,10 @@
 
       <div class="vat-home__grid two-column">
         <div class="vat-home__field">
-          <label class="vat-home__label">
+          <ui-label class="vat-home__label">
             VAT Registration Number
             <span>*</span>
-          </label>
+          </ui-label>
 
           <ui-input
             [(ngModel)]="searchValue"
@@ -60,41 +60,37 @@
         </div>
 
         <div class="vat-home__field">
-          <label class="vat-home__label"> VAT Registered Country </label>
-
-          <select class="vat-home__select" [(ngModel)]="selectedCountry">
-            @for(country of countries; track country){
-
-            <option [value]="country">{{country}}</option>
-
-            }
-          </select>
+          <ui-label class="vat-home__label"> VAT Registered Country </ui-label>
+          <ui-select
+            [(ngModel)]="selectedCountry"
+            [options]="countryOptions"
+            placeholder="Select Country"
+          >
+          </ui-select>
         </div>
       </div>
 
       <div class="vat-home__grid two-column">
         <div class="vat-home__field">
-          <label class="vat-home__label"> Report for month </label>
+          <ui-label class="vat-home__label"> Report for month </ui-label>
 
-          <select class="vat-home__select" [(ngModel)]="selectedMonth">
-            @for(month of months; track month){
-
-            <option [value]="month">{{month}}</option>
-
-            }
-          </select>
+          <ui-select
+            [(ngModel)]="selectedMonth"
+            [options]="monthOptions"
+            placeholder="Select Month"
+          >
+          </ui-select>
         </div>
 
         <div class="vat-home__field">
-          <label class="vat-home__label"> Report for year </label>
+          <ui-label class="vat-home__label"> Report for year </ui-label>
 
-          <select class="vat-home__select" [(ngModel)]="selectedYear">
-            @for(year of years; track year){
-
-            <option [value]="year">{{year}}</option>
-
-            }
-          </select>
+          <ui-select
+            [(ngModel)]="selectedYear"
+            [options]="yearOptions"
+            placeholder="Select Year"
+          >
+          </ui-select>
         </div>
       </div>
 
@@ -102,7 +98,7 @@
 
       <div class="vat-home__grid">
         <div class="vat-home__field">
-          <label class="vat-home__label"> Invoice Number </label>
+          <ui-label class="vat-home__label"> Invoice Number </ui-label>
 
           <ui-input
             [(ngModel)]="searchValue"
@@ -116,7 +112,7 @@
 
       <div class="vat-home__grid">
         <div class="vat-home__field">
-          <label class="vat-home__label"> Basic Control Account </label>
+          <ui-label class="vat-home__label"> Basic Control Account </ui-label>
 
           <ui-input
             [(ngModel)]="searchValue"

@@ -1,5 +1,5 @@
-import { Component, inject, OnInit } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import {
   AmexDashboardMenuBarComponent,
   ButtonComponent,
@@ -8,14 +8,14 @@ import {
   AmexPaymentRegisterTableComponent,
   AmexCardMemberDetailsViewComponent,
   AmexSortableFilterableTableComponent,
-} from "@ui-components/ui";
-import { AmexCaseManagementListComponent } from "@ui-components/ui";
-import { AmexSidebarMenuComponent } from "@ui-components/ui";
-import { AmexPageHeaderComponent } from "@ui-components/ui";
-import { UserSearch } from "./service/user-search";
-import { Account, AccessGroupModel } from "../model/account.model";
+} from '@ui-components/ui';
+import { AmexCaseManagementListComponent } from '@ui-components/ui';
+import { AmexSidebarMenuComponent } from '@ui-components/ui';
+import { AmexPageHeaderComponent } from '@ui-components/ui';
+import { UserSearch } from './service/user-search';
+import { Account, AccessGroupModel } from '../model/account.model';
 @Component({
-  selector: "app-search-card-user",
+  selector: 'app-search-card-user',
   standalone: true,
 
   imports: [
@@ -32,8 +32,8 @@ import { Account, AccessGroupModel } from "../model/account.model";
     AmexPageHeaderComponent,
   ],
 
-  templateUrl: "./search-card-user.html",
-  styleUrls: ["./search-card-user.css"],
+  templateUrl: './search-card-user.html',
+  styleUrls: ['./search-card-user.css'],
 })
 export class SearchCardUser {
   accountService = inject(UserSearch);
@@ -41,49 +41,52 @@ export class SearchCardUser {
   accountData: Account | null = null;
   supplementaryData: AccessGroupModel | null = null;
 
-  userId = "";
-  cardNo = "";
+  private cdr = inject(ChangeDetectorRef);
 
-  suppUserId = "";
-  suppCardNo = "";
+  userId = '';
+  cardNo = '';
 
-  activeSection = "onlineaccount";
+  suppUserId = '';
+  suppCardNo = '';
+
+  activeSection = 'onlineaccount';
 
   changeSection(sectionId: string) {
-    console.log("Changing section to:", sectionId);
+    console.log('Changing section to:', sectionId);
     this.activeSection = sectionId;
   }
 
   onSearch(): void {
-    console.log("cardNo:", this.cardNo);
-    console.log("userId:", this.userId);
+    console.log('cardNo:', this.cardNo);
+    console.log('userId:', this.userId);
 
     const userId = this.userId?.trim();
     const cardNo = this.cardNo?.trim();
 
     if (!userId && !cardNo) {
-      alert("Please enter Card Number or User ID");
+      alert('Please enter Card Number or User ID');
       return;
     }
 
     if (userId && cardNo) {
-      alert("Please enter only one field: Card Number or User ID");
+      alert('Please enter only one field: Card Number or User ID');
       return;
     }
 
     if (userId) {
-      console.log("Searching by User ID:", userId);
+      console.log('Searching by User ID:', userId);
 
       this.accountService.getAccountByUserId(userId).subscribe({
         next: (response) => {
           this.accountData = response;
+          this.cdr.detectChanges();
           console.log(response);
         },
         error: (err) => {
           this.accountData = null;
           console.error(err);
 
-          alert(err.error?.message || "User not found");
+          alert(err.error?.message || 'User not found');
         },
       });
 
@@ -91,31 +94,32 @@ export class SearchCardUser {
     }
 
     if (cardNo) {
-      console.log("Searching by Card Number:", cardNo);
+      console.log('Searching by Card Number:', cardNo);
 
       this.accountService.getAccountByCardNo(cardNo).subscribe({
         next: (response) => {
           this.accountData = response;
+          this.cdr.detectChanges();
         },
         error: (err) => {
           this.accountData = null;
           console.error(err);
 
-          alert(err.error?.message || "Card not found");
+          alert(err.error?.message || 'Card not found');
         },
       });
     }
   }
 
   onReset(): void {
-    this.userId = "";
-    this.cardNo = "";
+    this.userId = '';
+    this.cardNo = '';
     this.accountData = null;
-    this.suppUserId = "";
-    this.suppCardNo = "";
+    this.suppUserId = '';
+    this.suppCardNo = '';
     this.supplementaryData = null;
 
-    console.log("Search form reset");
+    console.log('Search form reset');
   }
 
   onSuppSearch(): void {
@@ -123,12 +127,12 @@ export class SearchCardUser {
     const cardNo = this.suppCardNo?.trim();
 
     if (!userId && !cardNo) {
-      alert("Please enter Card Number or User ID");
+      alert('Please enter Card Number or User ID');
       return;
     }
 
     if (userId && cardNo) {
-      alert("Please enter only one field: Card Number or User ID");
+      alert('Please enter only one field: Card Number or User ID');
       return;
     }
 
@@ -136,12 +140,14 @@ export class SearchCardUser {
       this.accountService.getSupplementaryCardsByUserId(userId).subscribe({
         next: (response) => {
           this.supplementaryData = response;
+          this.updateUserActions();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           this.supplementaryData = null;
           console.error(err);
 
-          alert(err.error?.message || "User not found");
+          alert(err.error?.message || 'User not found');
         },
       });
 
@@ -152,58 +158,226 @@ export class SearchCardUser {
       this.accountService.getSupplementaryCardsByCardNo(cardNo).subscribe({
         next: (response) => {
           this.supplementaryData = response;
+          this.updateUserActions();
+          this.cdr.detectChanges();
         },
         error: (err) => {
           this.supplementaryData = null;
           console.error(err);
 
-          alert(err.error?.message || "Card not found");
+          alert(err.error?.message || 'Card not found');
         },
       });
     }
   }
 
   columns = [
-    { key: "embossName", label: "Emboss Name" },
-    { key: "uci", label: "UCI" },
-    { key: "maskedCard", label: "Masked Card" },
-    { key: "isAdminUci", label: "Admin UCI" },
+    { key: 'embossName', label: 'Emboss Name' },
+    { key: 'uci', label: 'UCI' },
+    { key: 'maskedCard', label: 'Masked Card' },
+    { key: 'isAdminUci', label: 'Admin UCI' },
   ];
 
   rows = [
     {
-      embossName: "DEV ANAND",
-      uci: "DE8522VS",
-      maskedCard: "3744XXXXXXXX2263",
-      isAdminUci: "No",
+      embossName: 'DEV ANAND',
+      uci: 'DE8522VS',
+      maskedCard: '3744XXXXXXXX2263',
+      isAdminUci: 'No',
     },
     {
-      embossName: "MARY SMITH",
-      uci: "DE8528KS",
-      maskedCard: "3744XXXXXXXX2271",
-      isAdminUci: "Yes",
+      embossName: 'MARY SMITH',
+      uci: 'DE8528KS',
+      maskedCard: '3744XXXXXXXX2271',
+      isAdminUci: 'Yes',
     },
   ];
 
   userColumns = [
-    { key: "userId", label: "User Id" },
-    { key: "status", label: "Account Status" },
+    { key: 'userId', label: 'User Id' },
+    { key: 'status', label: 'Account Status' },
   ];
 
   userRows = [
     {
-      userId: "Supp15",
-      status: "Unlocked",
+      userId: 'Supp15',
+      status: 'Unlocked',
     },
   ];
 
   userActions = [
-    { id: "lock", label: "Lock User", type: "primary" },
-    { id: "delete", label: "Delete User", type: "danger" },
-    { id: "offers", label: "Offers", type: "secondary" },
+    { id: 'lock', label: 'Lock User', type: 'primary' },
+    { id: 'delete', label: 'Delete User', type: 'danger' },
+    { id: 'offers', label: 'Offers', type: 'secondary' },
   ];
 
   onUserAction(event: { action: string; row: any }): void {
-    console.log(event);
+    switch (event.action) {
+      case 'lock':
+        this.lockSupplementaryUser();
+        break;
+
+      case 'unlock':
+        this.unlockSupplementaryUser();
+        break;
+
+      case 'delete':
+        console.log('Delete user');
+        this.deleteSupplementaryUser();
+        break;
+
+      case 'offers':
+        this.goToOffers();
+        break;
+    }
+  }
+  goToDelete(): void {
+    console.log('Delete button clicked');
+    this.accountData = null;
+    this.userId = '';
+    this.cardNo = '';
+
+    this.cdr.detectChanges();
+
+    alert('User details cleared.');
+  }
+
+  goToOffers(): void {
+    window.location.href = '/offers';
+  }
+  goToBenefits(): void {
+    window.location.href = '/offers/benefits';
+  }
+
+  lockUser(): void {
+    if (!this.accountData?.userId) {
+      return;
+    }
+
+    this.accountService.lockUser(this.accountData.userId).subscribe({
+      next: (response) => {
+        this.accountData = response;
+
+        this.cdr.detectChanges();
+
+        alert('User locked successfully.');
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        alert(err.error?.message || 'Unable to lock user.');
+      },
+    });
+  }
+
+  deleteSupplementaryUser(): void {
+    this.supplementaryData = null;
+
+    this.suppUserId = '';
+    this.suppCardNo = '';
+
+    this.userRows = [];
+
+    this.rows = [];
+
+    this.cdr.detectChanges();
+
+    alert('User details cleared.');
+  }
+
+  unlockUser(): void {
+    if (!this.accountData?.userId) {
+      return;
+    }
+
+    this.accountService.unlockUser(this.accountData.userId).subscribe({
+      next: (response) => {
+        this.accountData = response;
+
+        this.cdr.detectChanges();
+
+        alert('User unlocked successfully.');
+      },
+
+      error: (err) => {
+        console.error(err);
+
+        alert(err.error?.message || 'Unable to unlock user.');
+      },
+    });
+  }
+
+  lockSupplementaryUser(): void {
+    if (!this.supplementaryData?.userId) {
+      return;
+    }
+
+    this.accountService
+      .lockSupplementaryUser(this.supplementaryData.userId)
+      .subscribe({
+        next: (response) => {
+          this.supplementaryData = response;
+
+          this.updateUserActions();
+
+          this.cdr.detectChanges();
+
+          alert('User locked successfully.');
+        },
+        error: (err) => {
+          console.error(err);
+          alert(err.error?.message || 'Unable to lock user.');
+        },
+      });
+  }
+
+  unlockSupplementaryUser(): void {
+    if (!this.supplementaryData?.userId) {
+      return;
+    }
+
+    this.accountService
+      .unlockSupplementaryUser(this.supplementaryData.userId)
+      .subscribe({
+        next: (response) => {
+          this.supplementaryData = response;
+
+          this.updateUserActions();
+
+          this.cdr.detectChanges();
+
+          alert('User unlocked successfully.');
+        },
+        error: (err) => {
+          console.error(err);
+          alert(err.error?.message || 'Unable to unlock user.');
+        },
+      });
+  }
+
+  updateUserActions(): void {
+    const status =
+      this.supplementaryData?.userDetails?.userStatus?.toLowerCase() ?? '';
+
+    const isLocked = status === 'locked';
+
+    this.userActions = [
+      {
+        id: isLocked ? 'unlock' : 'lock',
+        label: isLocked ? 'Unlock User' : 'Lock User',
+        type: 'primary',
+      },
+      {
+        id: 'delete',
+        label: 'Delete User',
+        type: 'danger',
+      },
+      {
+        id: 'offers',
+        label: 'Offers',
+        type: 'secondary',
+      },
+    ];
   }
 }
