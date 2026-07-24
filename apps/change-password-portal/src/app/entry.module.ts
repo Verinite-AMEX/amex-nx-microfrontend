@@ -1,6 +1,8 @@
+// apps/change-password-portal/src/app/entry.module.ts
 import { NgModule }     from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { authGuard }    from '@amex/shared-services';
 
 import { ChangePasswordComponent } from './pages/change-password/change-password.component';
 
@@ -12,6 +14,7 @@ import { ChangePasswordComponent } from './pages/change-password/change-password
       {
         path:      '',
         component: ChangePasswordComponent,
+        canActivate: [authGuard],
       },
     ]),
   ],

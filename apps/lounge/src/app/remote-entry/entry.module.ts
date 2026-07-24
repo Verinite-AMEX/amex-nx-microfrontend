@@ -1,6 +1,8 @@
+// apps/lounge/src/app/remote-entry/entry.module.ts
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
+import { authGuard } from '@amex/shared-services';
 import { SHELL_HOSTED } from '../core/tokens/shell.token';
 @Component({
   selector: 'lounge-entry',
@@ -15,6 +17,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../pages/priority-pass/lounge-shell-wrapper.component')
             .then(m => m.LoungeShellWrapperComponent),

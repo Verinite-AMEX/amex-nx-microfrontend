@@ -10,15 +10,14 @@ import {
 } from '@angular/common';
 
 import {
-  AmexSettlementSubmissionsTableComponent,
-  MerchantAccountOption
+  AmexSettlementSubmissionsTableComponent
 } from '@ui-components/ui';
 
 import {
   OmsMerchantService
 } from '../../services/oms-merchant.service';
 import {
-  AmexMerchantDetailsPanelComponent
+  AmexMerchantDetailsPanelComponent, MerchantAccountOption
 } from './merchant-details-panel';
 import {
   OmsSettlementSubmissionService

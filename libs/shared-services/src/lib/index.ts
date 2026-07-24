@@ -13,6 +13,7 @@ export * from './models/session.model';
  */
 export * from './config/api-config';
 export * from './config/api-base-url.token';
+export * from './config/login-app-url.token';
 export * from './config/environment.service';
 
 /**

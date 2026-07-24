@@ -2,6 +2,7 @@ import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import { AmexPageComponent } from '@ui-components/ui';
+import { authGuard } from '@amex/shared-services';
 import { SuppSearchComponent } from '../pages/search/supp-search.component';
 
 @Component({
@@ -24,7 +25,7 @@ const routes: Routes = [
     component: SuppEntryComponent,
     children: [
       { path: '',       redirectTo: 'search', pathMatch: 'full' },
-      { path: 'search', component: SuppSearchComponent },
+      { path: 'search', component: SuppSearchComponent, canActivate: [authGuard] },
     ],
   },
 ];

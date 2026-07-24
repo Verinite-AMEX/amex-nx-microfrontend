@@ -1,8 +1,8 @@
+// apps/wearables-portal/src/app/remote-entry/entry.module.ts
 import { NgModule, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from '../core/interceptors/auth.interceptor';
+import { authGuard } from '@amex/shared-services';
 import { SHELL_HOSTED } from '../core/tokens/shell.token';
 
 @Component({
@@ -18,6 +18,7 @@ const routes: Routes = [
     children: [
       {
         path: '',
+        canActivate: [authGuard],
         loadComponent: () =>
           import('../wearables/wearables-shell-wrapper/wearables-shell-wrapper.component').then(
             m => m.WearablesShellWrapperComponent
@@ -31,15 +32,7 @@ const routes: Routes = [
   declarations: [WearablesEntryComponent],
   imports: [
     CommonModule,
-    HttpClientModule,
     RouterModule.forChild(routes),
-  ],
-  providers: [
-    {
-      provide:  HTTP_INTERCEPTORS,
-      useClass: AuthInterceptor,
-      multi:    true,
-    },
   ],
 })
 export class WearablesRemoteEntryModule {}
