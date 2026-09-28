@@ -24,7 +24,8 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class JwtAuthFilter implements GlobalFilter, Ordered {
+public class
+JwtAuthFilter implements GlobalFilter, Ordered {
 
     @Value("${jwt.secret}")
     private String secret;

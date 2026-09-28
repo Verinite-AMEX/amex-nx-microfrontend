@@ -7,7 +7,7 @@ export const API_ENDPOINTS = {
     validate: '/api/auth/validate',
     session: '/api/auth/session',
     forgotPassword: '/api/auth/forgot-password',
-    registeroms: '/auth/register',           // add this
+    registeroms: '/api/auth/register',           // add this
     forgotUserId: '/auth/forgot-user-id', // add this
   },
 
