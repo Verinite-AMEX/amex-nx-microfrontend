@@ -126,16 +126,12 @@ export interface AmexSecondaryField {
     </div>
   `,
   styles: [
+    // --btn-* vars removed — confirmed dead now that button.ts uses DLS's
+    // real ngClass-based styling, not CSS variables. font-family removed so
+    // DLS's global typography cascades normally.
     `
       :host {
         display: block;
-        font-family: Arial, sans-serif;
-        --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
-        --btn-color: #fff;
-        --btn-border: 1px solid #1050a0;
-        --btn-radius: 2px;
-        --btn-padding: 5px 16px;
-        --btn-font-size: 12px;
       }
 
       .rts-wrap {
@@ -149,9 +145,9 @@ export interface AmexSecondaryField {
       .rts-secondary {
         margin-top: 10px;
         padding: 10px 14px;
-        background: #f9f9f9;
-        border: 1px solid #e0e0e0;
-        border-radius: 2px;
+        background: #f7f8f9;
+        border: 1px solid #ecedee;
+        border-radius: 4px;
         display: flex;
         flex-wrap: wrap;
         gap: 12px;

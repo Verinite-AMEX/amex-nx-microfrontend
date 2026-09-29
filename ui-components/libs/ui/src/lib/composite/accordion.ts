@@ -3,11 +3,10 @@ import {
   Input,
   ViewChildren,
   QueryList,
+  ElementRef,
   HostBinding,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../primitives/button';
-import { IconComponent } from '../primitives/icon';
 
 export interface AccordionItem {
   id: string;
@@ -18,34 +17,32 @@ export interface AccordionItem {
 @Component({
   selector: 'ui-accordion',
   standalone: true,
-  imports: [CommonModule, ButtonComponent, IconComponent],
+  imports: [CommonModule],
   template: `
-    <div class="accordion">
+    <div class="accordion" [style.border]="'1px solid ' + dividerColor" [style.borderRadius]="borderRadius">
       <div
         *ngFor="let item of items; let i = index"
         class="accordion-item"
+        [style.borderBottom]="i < items.length - 1 ? '1px solid ' + dividerColor : 'none'"
         [class.open]="isOpen(item.id)"
       >
-        <ui-button
-          class="accordion-header-btn"
-          variant="ghost"
-          [fullWidth]="true"
-          [label]="item.title"
-          [id]="item.id + '-header'"
-          [ariaControls]="item.id + '-panel'"
-          [ariaExpanded]="isOpen(item.id)"
-          (click)="toggle(item.id)"
-          (keydown)="onKeydown($event, i)"
-        >
-          <ui-icon
-            slot="icon-end"
-            [glyph]="isOpen(item.id) ? '▲' : '▼'"
-            size="sm"
-            [decorative]="true"
-          ></ui-icon>
-        </ui-button>
+        <div class="body1" role="heading" [attr.aria-level]="headingLevel">
+          <button
+            #headerBtn
+            type="button"
+            class="collapsible"
+            [id]="item.id + '-header'"
+            [attr.aria-controls]="item.id + '-panel'"
+            [attr.aria-expanded]="isOpen(item.id)"
+            (click)="toggle(item.id)"
+            (keydown)="onKeydown($event, i)"
+          >
+            <span class="collapsibleCaret" aria-hidden="true"></span>
+            <span>{{ item.title }}</span>
+          </button>
+        </div>
         <div
-          class="accordion-body"
+          class="accordionContent"
           *ngIf="isOpen(item.id)"
           id="{{ item.id }}-panel"
           role="region"
@@ -57,36 +54,29 @@ export interface AccordionItem {
     </div>
   `,
   styles: [
+    // Structural glue only — no hardcoded colors/branding here.
+    // DLS's accordion CSS (navAccordion) is built for nav-sidebar menus, not a
+    // standalone content accordion, so there's no DLS class for the outer list
+    // container/divider look. Since that's a real visual decision DLS doesn't
+    // make for us, it's exposed as `dividerColor`/`borderRadius` @Inputs below
+    // instead of being baked into this library — same pattern as AccentCard.
+    // The header button, caret icon, and content panel all come from DLS's
+    // real .collapsible / .collapsibleCaret / .accordionContent classes.
+    //
+    // The caret is an EMPTY element (no inline SVG needed) — DLS's real
+    // collapsible.css (the individual source partial, not the known-stale
+    // bundled dls.min.css) renders the chevron via a .collapsibleCaret::before
+    // background-image, and automatically rotates it 90deg when the parent
+    // .collapsible button has aria-expanded="true" — both confirmed present
+    // in css/collapsible.css directly. No manual transform binding needed;
+    // DLS already drives the rotation off the aria-expanded attribute this
+    // component sets on the button.
     `
       .accordion {
-        font-family: Arial, sans-serif;
-        border: 1px solid #e0e0e0;
-        border-radius: 6px;
         overflow: hidden;
       }
-      .accordion-item {
-        border-bottom: 1px solid #e0e0e0;
-      }
-      .accordion-item:last-child {
-        border-bottom: none;
-      }
-      .accordion-header-btn {
-        --btn-bg: #fff;
-        --btn-color: #333;
-        --btn-radius: 0;
-        --btn-padding: 14px 16px;
-        --btn-font-size: 14px;
-      }
-      .accordion-item.open .accordion-header-btn {
-        --btn-bg: #f5f9ff;
-        --btn-color: #1976d2;
-      }
-      .accordion-body {
-        padding: 12px 16px 16px;
-        font-size: 14px;
-        color: #555;
-        line-height: 1.6;
-        background: #fff;
+      .collapsible {
+        width: 100%;
       }
     `,
   ],
@@ -99,9 +89,23 @@ export class AccordionComponent {
   @Input() items: AccordionItem[] = [];
   @Input() multiple = false;
 
+  /**
+   * Semantic heading level wrapping each header button, matching DLS's
+   * real Accordion pattern (default h3, same default as the source component).
+   * Uses role="heading"/aria-level instead of a dynamic tag, since Angular
+   * templates can't swap element tag names the way React can — DLS's own
+   * docs site uses this same role="heading" technique in places too.
+   */
+  @Input() headingLevel: 1 | 2 | 3 | 4 | 5 | 6 = 3;
+
+  /** No DLS class covers this outer list divider — consumer-customizable, not hardcoded. */
+  @Input() dividerColor = '#e0e0e0';
+  @Input() borderRadius = '6px';
+
   openIds = new Set<string>();
 
-  @ViewChildren(ButtonComponent) headerButtons!: QueryList<ButtonComponent>;
+  @ViewChildren('headerBtn')
+  headerButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
   isOpen(id: string) {
     return this.openIds.has(id);
@@ -137,6 +141,6 @@ export class AccordionComponent {
   }
 
   private focusHeader(idx: number) {
-    this.headerButtons?.toArray()[idx]?.focus();
+    this.headerButtons?.toArray()[idx]?.nativeElement.focus();
   }
 }

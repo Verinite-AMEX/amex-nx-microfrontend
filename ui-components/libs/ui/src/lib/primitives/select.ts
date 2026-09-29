@@ -1,10 +1,21 @@
-import { Component, Input, forwardRef, HostBinding } from '@angular/core';
+// libs/ui/src/lib/primitives/select.ts
+import {
+  Component,
+  Input,
+  forwardRef,
+  HostBinding,
+  ViewChild,
+  ElementRef,
+  AfterViewInit,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 export interface SelectOption {
   label: string;
   value: string | number;
+  /** Optional shorter label DLS's two-lined variant shows once selected (falls back to `label`). */
+  twoLinedLabel?: string;
 }
 
 @Component({
@@ -19,152 +30,119 @@ export interface SelectOption {
     },
   ],
   template: `
+    <label *ngIf="label" [attr.for]="id" class="label3">{{ label }}</label>
+    <span *ngIf="hint" [id]="hintId" class="hint" tabindex="-1">{{
+      hint
+    }}</span>
     <div
-      class="select-wrapper"
-      [class.has-error]="invalid"
+      class="select"
+      [class.formControl]="formControl"
+      [class.formControlWarning]="showWarning"
+      [class.selectTwoLined]="twoLined"
       [class.disabled]="disabled"
-      [class.readonly]="readonly"
-      [class.native-appearance]="nativeAppearance"
+      [attr.disabled]="disabled ? '' : null"
     >
+      <label *ngIf="twoLined" class="label1">{{ twoLinedLabelText }}</label>
       <select
+        #selectEl
         [id]="id"
         [disabled]="disabled"
         [required]="required"
-        [attr.aria-invalid]="invalid ? 'true' : null"
-        [attr.aria-describedby]="ariaDescribedBy || null"
-        [attr.aria-required]="required"
-        [attr.aria-readonly]="readonly ? 'true' : null"
+        [attr.aria-describedby]="showWarning ? warningId : null"
         [attr.aria-label]="ariaLabel || null"
         [attr.aria-labelledby]="ariaLabelledBy || null"
-        (mousedown)="onMousedown($event)"
-        (keydown)="onKeydown($event)"
-        (change)="onChange($event)"
+        (change)="onSelectChange($event)"
         (blur)="onTouched()"
-        class="select"
       >
-        <option *ngIf="placeholder" value="" disabled [selected]="!value">
-          {{ placeholder }}
-        </option>
+        <option *ngIf="placeholder" value=""></option>
         <option
           *ngFor="let opt of options"
           [value]="opt.value"
+          [attr.data-label]="opt.twoLinedLabel || opt.label"
           [selected]="opt.value === value"
         >
           {{ opt.label }}
         </option>
       </select>
-      <span *ngIf="!nativeAppearance" class="select-arrow" aria-hidden="true"
-        >▾</span
-      >
+    </div>
+    <div *ngIf="showWarning" [id]="warningId" class="alertForm" role="alert">
+      <i class="icon margin-1-r" aria-hidden="true"></i>
+      {{ warningMessage }}
     </div>
   `,
-  styles: [
-    `
-      .select-wrapper {
-        position: relative;
-      }
-      .select {
-        padding: var(--select-padding, 8px 32px 8px 12px);
-        font-size: var(--select-font-size, 14px);
-        font-family: Arial, sans-serif;
-        border: var(--select-border, 1px solid #e0e0e0);
-        border-radius: var(--select-radius, 4px);
-        outline: none;
-        appearance: none;
-        width: 100%;
-        box-sizing: border-box;
-        color: var(--select-color, #333);
-        background: var(--select-bg, #fff);
-        cursor: pointer;
-        transition: border-color 0.2s;
-      }
-      .select:focus {
-        border-color: var(--select-focus-border-color, #1976d2);
-        box-shadow: var(
-          --select-focus-shadow,
-          0 0 0 2px rgba(25, 118, 210, 0.15)
-        );
-      }
-      .has-error .select {
-        border-color: #f44336;
-      }
-      .disabled .select {
-        background: #f5f5f5;
-        cursor: not-allowed;
-        color: #999;
-      }
-      .readonly .select {
-        background: #f5f5f5;
-        cursor: default;
-      }
-      .readonly .select:focus {
-        border-color: #e0e0e0;
-        box-shadow: none;
-      }
-      .select-arrow {
-        position: absolute;
-        right: 12px;
-        top: 10px;
-        pointer-events: none;
-        color: #666;
-        font-size: 12px;
-      }
-      .readonly .select-arrow {
-        opacity: 0.4;
-      }
-      .native-appearance .select {
-        appearance: auto;
-        -webkit-appearance: auto;
-        -moz-appearance: auto;
-      }
-    `,
-  ],
 })
-export class SelectComponent implements ControlValueAccessor {
-  @Input() options: SelectOption[] = [];
-  @Input() placeholder = '';
-  @Input() disabled = false;
-  @Input() invalid = false;
+export class SelectComponent implements ControlValueAccessor, AfterViewInit {
   private static _idCounter = 0;
   @HostBinding('attr.id') @Input() id =
     `ui-select-${++SelectComponent._idCounter}`;
+
+  @ViewChild('selectEl') selectEl!: ElementRef<HTMLSelectElement>;
+
+  @Input() options: SelectOption[] = [];
+  @Input() placeholder = '';
+  @Input() disabled = false;
   @Input() required = false;
-  @Input() readonly = false;
+  @Input() label = '';
+  @Input() hint = '';
+  /** DLS pairs `.select` with `.formControl` in every real example; default true to match. */
+  @Input() formControl = true;
+  /** Maps to DLS's `.selectTwoLined` variant (label above the current selection). */
+  @Input() twoLined = false;
+  @Input() warningMessage = 'A selection is required';
   @Input() ariaLabel = '';
   @Input() ariaLabelledBy = '';
-  @Input() ariaDescribedBy = '';
-  @Input() nativeAppearance = false;
+
+  readonly hintId = `${this.id}-hint`;
+  readonly warningId = `${this.id}-warning`;
 
   value: string | number = '';
+  twoLinedLabelText = '';
+  /** Mirrors DLS's own select.js: the warning only appears after a change, not on initial load. */
+  private hasInteracted = false;
+
   onChangeFn = (_: string | number) => {};
   onTouched = () => {};
 
-  onMousedown(event: MouseEvent) {
-    if (this.readonly) event.preventDefault();
+  get showWarning(): boolean {
+    return this.hasInteracted && this.required && !this.value;
   }
 
-  onKeydown(event: KeyboardEvent) {
-    if (this.readonly && event.key !== 'Tab') {
-      event.preventDefault();
+  ngAfterViewInit(): void {
+    // Sync the two-lined inner label to whatever the browser auto-selected
+    // on first render, instead of leaving it blank until the user interacts.
+    if (this.twoLined) {
+      this.updateTwoLinedLabel(this.selectEl.nativeElement);
     }
   }
 
-  onChange(event: Event) {
-    if (this.readonly) return;
-    this.value = (event.target as HTMLSelectElement).value;
+  onSelectChange(event: Event): void {
+    const select = event.target as HTMLSelectElement;
+    this.value = select.value;
+    this.hasInteracted = true;
+    this.updateTwoLinedLabel(select);
     this.onChangeFn(this.value);
   }
 
-  writeValue(val: string | number) {
-    this.value = val ?? '';
+  private updateTwoLinedLabel(select: HTMLSelectElement): void {
+    if (!this.twoLined) return;
+    const selectedOption = select.options[select.selectedIndex];
+    this.twoLinedLabelText = selectedOption?.dataset['label'] || '';
   }
-  registerOnChange(fn: (_: string | number) => void) {
+
+  writeValue(val: string | number): void {
+    this.value = val ?? '';
+    const match = this.options.find((o) => o.value === this.value);
+    this.twoLinedLabelText = match
+      ? match.twoLinedLabel || match.label
+      : '';
+  }
+  registerOnChange(fn: (_: string | number) => void): void {
     this.onChangeFn = fn;
   }
-  registerOnTouched(fn: () => void) {
+  registerOnTouched(fn: () => void): void {
     this.onTouched = fn;
   }
-  setDisabledState(disabled: boolean) {
+  setDisabledState(disabled: boolean): void {
     this.disabled = disabled;
   }
 }

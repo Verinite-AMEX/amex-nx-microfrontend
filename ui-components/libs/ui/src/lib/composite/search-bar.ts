@@ -11,21 +11,44 @@ import {
   NG_VALUE_ACCESSOR,
   FormsModule,
 } from '@angular/forms';
-import { NgIf } from '@angular/common';
-import { InputComponent } from '../primitives/input';
-import { IconButtonComponent } from '../primitives/icon-button';
-import { IconComponent } from '../primitives/icon';
+import { CommonModule } from '@angular/common';
 
+/**
+ * STRUCTURAL REWRITE — WORTH UNDERSTANDING WHY: DLS's search.css uses
+ * direct-CHILD combinators, not descendant selectors:
+ *   .search > input   (padding-right reserved for the button)
+ *   .search > button  (icon color, incl. focus-triggered color change)
+ * A direct-child selector only matches an element that is a LITERAL DOM
+ * child — and <ui-input>/<ui-icon-button> are themselves real custom
+ * element tags in the DOM. Nesting them here would produce
+ * `.search > ui-input > input` / `.search > ui-icon-button > button`,
+ * which `.search > input` / `.search > button` can never match, no matter
+ * how correct the classes inside those child components are. This is the
+ * same "wrong element" problem flagged on Buttons' icon-button and Tabs'
+ * tabLink, just one level deeper (a composite reusing components, not a
+ * primitive reusing a class). Fixed by rendering the real <input>/<button>
+ * natively here instead of through <ui-input>/<ui-icon-button>.
+ *
+ * The button itself uses DLS's real .btnForm (default state) / .btnFormClose
+ * (clear state) — an absolutely-positioned, transparent button that sits
+ * inside the input's reserved right-hand padding (confirmed in forms.css:
+ * position:absolute; top/right/bottom:0). .search's own `> button` rule
+ * layers the icon color (#53565a, turning #006fcf on input :focus) on top
+ * automatically — no JS needed for that part, DLS's CSS drives it.
+ *
+ * `.search > button.btnLoading` is real, documented DLS behavior — exposed
+ * here as an opt-in `loading` input (new; defaults off, doesn't change
+ * existing callers) so a consumer can show DLS's real loading spinner
+ * while a search request is in flight.
+ *
+ * ICON GAP: the icon glyph itself is a plain "🔍"/"✕" character, not DLS's
+ * real icon font — same known gap as Button/IconButton/Tag (icon.ts
+ * hasn't been upgraded to DLS's icon font yet).
+ */
 @Component({
   selector: 'ui-search-bar',
   standalone: true,
-  imports: [
-    NgIf,
-    FormsModule,
-    InputComponent,
-    IconButtonComponent,
-    IconComponent,
-  ],
+  imports: [CommonModule, FormsModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -34,70 +57,33 @@ import { IconComponent } from '../primitives/icon';
     },
   ],
   template: `
-    <div class="search-bar" [class.focused]="focused">
-      <ui-icon
-        glyph="🔍"
-        size="sm"
-        [decorative]="true"
-        class="search-icon"
-      ></ui-icon>
-      <ui-input
-        class="search-input"
+    <div class="search">
+      <input
+        class="formControl"
         type="search"
         [id]="id + '-input'"
         [placeholder]="placeholder"
         [disabled]="disabled"
-        [style.--input-border]="'none'"
-        [style.--input-bg]="'transparent'"
-        [style.--input-padding]="'0'"
-        [style.--input-focus-shadow]="'none'"
-        [(ngModel)]="value"
-        (ngModelChange)="onModelChange($event)"
-        (focus)="focused = true"
-        (blur)="focused = false; onTouched()"
-        (keyup.enter)="searched.emit(value)"
+        [value]="value"
+        [attr.aria-label]="placeholder"
+        (input)="onInput($event)"
+        (keyup.enter)="onEnter()"
+        (blur)="onTouched()"
+      />
+      <button
+        type="button"
+        [class]="value ? 'btnFormClose' : 'btnForm'"
+        [class.btnLoading]="loading"
+        [disabled]="disabled || loading"
+        [attr.aria-label]="value ? 'Clear search' : 'Search'"
+        (click)="onButtonClick()"
       >
-      </ui-input>
-      <ui-icon-button
-        *ngIf="value"
-        class="search-clear"
-        icon="✕"
-        size="sm"
-        variant="ghost"
-        ariaLabel="Clear search"
-        [style.--icon-btn-size]="'22px'"
-        [style.--icon-btn-bg]="'transparent'"
-        [style.--icon-btn-color]="'#999'"
-        (clicked)="clear()"
-      >
-      </ui-icon-button>
+        <span *ngIf="!loading" aria-hidden="true">{{
+          value ? '✕' : '🔍'
+        }}</span>
+      </button>
     </div>
   `,
-  styles: [
-    `
-      .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        border: 1px solid #e0e0e0;
-        border-radius: 999px;
-        padding: 8px 14px;
-        background: #fff;
-        transition: border-color 0.2s;
-      }
-      .search-bar.focused {
-        border-color: #1976d2;
-        box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.15);
-      }
-      .search-icon {
-        color: #999;
-        flex-shrink: 0;
-      }
-      .search-input {
-        flex: 1;
-      }
-    `,
-  ],
 })
 export class SearchBarComponent implements ControlValueAccessor {
   private static _idCounter = 0;
@@ -106,16 +92,29 @@ export class SearchBarComponent implements ControlValueAccessor {
 
   @Input() placeholder = 'Search...';
   @Input() disabled = false;
+  /** DLS's real .btnLoading state on the search button — new, opt-in. */
+  @Input() loading = false;
   @Output() searched = new EventEmitter<string>();
 
   value = '';
-  focused = false;
   onChange = (_: string) => {};
   onTouched = () => {};
 
-  onModelChange(v: string) {
-    this.value = v;
-    this.onChange(v);
+  onInput(event: Event) {
+    this.value = (event.target as HTMLInputElement).value;
+    this.onChange(this.value);
+  }
+
+  onEnter() {
+    this.searched.emit(this.value);
+  }
+
+  onButtonClick() {
+    if (this.value) {
+      this.clear();
+    } else {
+      this.searched.emit(this.value);
+    }
   }
 
   clear() {

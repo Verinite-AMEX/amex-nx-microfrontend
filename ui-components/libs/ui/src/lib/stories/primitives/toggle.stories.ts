@@ -15,6 +15,7 @@ const meta: Meta<ToggleComponent> = {
   ],
   argTypes: {
     label: { control: 'text' },
+    checked: { control: 'boolean' },
     disabled: { control: 'boolean' },
     ariaLabel: { control: 'text' },
     ariaDescribedBy: { control: 'text' },
@@ -26,13 +27,18 @@ export default meta;
 type Story = StoryObj<ToggleComponent>;
 
 export const Off: Story = { args: { label: 'Enable notifications' } };
+
+// Fixed: `checked` is now a real @Input (see toggle.ts) — this used to
+// bind to a property Angular had no way to actually set from outside,
+// so this story never rendered a checked toggle at all.
 export const On: Story = {
-  render: (args) => ({
-    props: { ...args, checked: true },
-    template: `<ui-toggle [label]="label" [checked]="checked"></ui-toggle>`,
-  }),
-  args: { label: 'Dark mode' },
+  args: { label: 'Dark mode', checked: true },
 };
+
 export const Disabled: Story = {
   args: { label: 'Disabled toggle', disabled: true },
+};
+
+export const DisabledOn: Story = {
+  args: { label: 'Disabled, on', disabled: true, checked: true },
 };

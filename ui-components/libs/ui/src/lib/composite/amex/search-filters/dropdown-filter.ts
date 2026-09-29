@@ -57,16 +57,26 @@ export interface AmexDropdownOption {
     </div>
   `,
   styles: [
+    // The --btn-* CSS custom properties here used to skin the inner
+    // <ui-button>, but button.ts has since been migrated to DLS's real
+    // classes (ngClass, not CSS variables) — verified these vars are now
+    // completely inert, so removed rather than leaving dead code that implies
+    // intended styling that isn't actually happening. <ui-button>'s own
+    // variant/size inputs already produce the correct DLS look on their own.
+    //
+    // font-family removed so DLS's global typography cascades in normally,
+    // same as every other migrated component.
+    //
+    // DLS does have a `.filter` component family (filter.css), but it's a
+    // full floating popover panel (open/close button, header with
+    // back/reset/close actions, scrollable menu) — a fundamentally different
+    // UX pattern from this component's always-visible inline select+buttons
+    // row. Forcing this into that popover pattern would change the actual
+    // behavior, not just the styling, so it wasn't used here. Flagging in
+    // case an actual popover-style filter is wanted elsewhere later.
     `
       :host {
         display: block;
-        font-family: Arial, sans-serif;
-        --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
-        --btn-color: #fff;
-        --btn-border: 1px solid #1050a0;
-        --btn-radius: 2px;
-        --btn-padding: 4px 14px;
-        --btn-font-size: 12px;
       }
 
       .df-wrap {
@@ -82,12 +92,6 @@ export interface AmexDropdownOption {
 
       .df-field {
         min-width: 160px;
-      }
-
-      .df-reset {
-        --btn-bg: none;
-        --btn-color: #555;
-        --btn-border: 1px solid #bbb;
       }
     `,
   ],

@@ -13,42 +13,37 @@ const meta: Meta<TagComponent> = {
     'screen-reader',
   ],
   argTypes: {
-    variant: {
-      control: 'select',
-      options: [
-        'primary',
-        'secondary',
-        'success',
-        'warning',
-        'error',
-        'neutral',
-      ],
-    },
+    // `variant` (6 pastel colors) removed — no DLS equivalent. Replaced
+    // with `style`, DLS's real two tag styles (see tag.ts for why).
+    style: { control: 'radio', options: ['inline', 'general'] },
     removable: { control: 'boolean' },
     removed: { action: 'removed' },
-
     label: { control: 'text' },
   },
 };
 export default meta;
 type Story = StoryObj<TagComponent>;
 
-export const Default: Story = {
-  args: { label: 'Angular', variant: 'primary' },
+export const Inline: Story = {
+  args: { label: 'Angular', style: 'inline' },
 };
-export const Removable: Story = {
-  args: { label: 'TypeScript', variant: 'success', removable: true },
+export const General: Story = {
+  args: { label: 'TypeScript', style: 'general' },
 };
-export const AllVariants: Story = {
+export const RemovableInline: Story = {
+  args: { label: 'Angular', style: 'inline', removable: true },
+};
+export const RemovableGeneral: Story = {
+  args: { label: 'TypeScript', style: 'general', removable: true },
+};
+export const AllStyles: Story = {
   render: () => ({
     template: `
       <div style="display:flex;gap:8px;flex-wrap:wrap">
-        <ui-tag label="Primary" variant="primary"></ui-tag>
-        <ui-tag label="Secondary" variant="secondary"></ui-tag>
-        <ui-tag label="Success" variant="success"></ui-tag>
-        <ui-tag label="Warning" variant="warning"></ui-tag>
-        <ui-tag label="Error" variant="error"></ui-tag>
-        <ui-tag label="Neutral" variant="neutral"></ui-tag>
+        <ui-tag label="Inline" style="inline"></ui-tag>
+        <ui-tag label="General" style="general"></ui-tag>
+        <ui-tag label="Inline, removable" style="inline" [removable]="true"></ui-tag>
+        <ui-tag label="General, removable" style="general" [removable]="true"></ui-tag>
       </div>`,
     moduleMetadata: { imports: [TagComponent] },
   }),

@@ -3,112 +3,92 @@ import {
   Input,
   Output,
   EventEmitter,
+  HostListener,
   HostBinding,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
-import { ButtonComponent } from './button';
+import { CommonModule } from '@angular/common';
 import { IconComponent } from './icon';
+
+/**
+ * Renders its own native <button> with DLS's real .btnIcon + .btnCircle
+ * classes, rather than wrapping <ui-button> and re-targeting its inner
+ * element with class="icon-btn-{{variant}}" + ::ng-deep. class="..." on a
+ * component host lands on the host tag (<ui-button>), never on the child
+ * template's inner <button>, so the previous approach could only ever work
+ * via ::ng-deep piercing into hand-rolled local CSS. Rendering natively
+ * here lets DLS's own classes apply directly and needs no ::ng-deep.
+ */
+export type IconButtonVariant = 'primary' | 'ghost' | 'danger';
+export type IconButtonSize = 'sm' | 'md' | 'lg';
 
 @Component({
   selector: 'ui-icon-button',
   standalone: true,
-  imports: [ButtonComponent, IconComponent],
+  imports: [CommonModule, IconComponent],
   template: `
-    <ui-button
-      class="icon-btn-{{ variant }} icon-btn-{{ size }}"
+    <button
+      #nativeButton
       type="button"
-      label=""
-      [ariaLabel]="ariaLabel || ariaLabelFallback"
-      [ariaDescribedBy]="ariaDescribedBy"
-      [ariaPressed]="ariaPressed"
-      [ariaExpanded]="ariaExpanded"
-      [ariaSelected]="ariaSelected"
-      [ariaControls]="ariaControls"
-      [role]="role"
-      [tabIndexOverride]="tabIndexOverride"
       [disabled]="disabled"
+      [ngClass]="['btn', 'btnIcon', 'btnCircle', variantClass, sizeClass]"
+      [attr.role]="role"
+      [attr.aria-label]="ariaLabel || ariaLabelFallback"
+      [attr.aria-describedby]="ariaDescribedBy"
+      [attr.aria-pressed]="ariaPressed"
+      [attr.aria-expanded]="ariaExpanded"
+      [attr.aria-selected]="ariaSelected"
+      [attr.aria-controls]="ariaControls || null"
+      [attr.tabindex]="tabIndexOverride"
       (click)="clicked.emit()"
     >
-      <ui-icon
-        slot="icon-start"
-        [glyph]="icon"
-        size="sm"
-        [decorative]="true"
-      ></ui-icon>
-    </ui-button>
+      <ui-icon [glyph]="icon" size="sm" [decorative]="true"></ui-icon>
+    </button>
   `,
-  styles: [
-    `
-      :host {
-        display: inline-flex;
-      }
-      .icon-btn-sm {
-        --btn-width: 28px;
-        --btn-padding: 0;
-        --btn-gap: 0;
-      }
-      .icon-btn-md {
-        --btn-width: 36px;
-        --btn-padding: 0;
-        --btn-gap: 0;
-      }
-      .icon-btn-lg {
-        --btn-width: 48px;
-        --btn-padding: 0;
-        --btn-gap: 0;
-      }
-
-      .icon-btn-sm ::ng-deep .btn,
-      .icon-btn-md ::ng-deep .btn,
-      .icon-btn-lg ::ng-deep .btn {
-        height: var(--btn-width);
-        border-radius: 50%;
-        justify-content: center;
-      }
-      .icon-btn-sm ::ng-deep .btn-label,
-      .icon-btn-md ::ng-deep .btn-label,
-      .icon-btn-lg ::ng-deep .btn-label {
-        display: none;
-      }
-
-      :host(.variant-primary) {
-        --btn-bg: #1976d2;
-        --btn-color: #fff;
-        --btn-bg-hover: #1565c0;
-      }
-      :host(.variant-ghost) {
-        --btn-bg: transparent;
-        --btn-color: #555;
-        --btn-bg-hover: #f0f0f0;
-      }
-      :host(.variant-danger) {
-        --btn-bg: #f44336;
-        --btn-color: #fff;
-        --btn-bg-hover: #d32f2f;
-      }
-    `,
-  ],
 })
 export class IconButtonComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') @Input() id =
     `ui-icon-button-${++IconButtonComponent._idCounter}`;
-  @HostBinding('class') get variantClass() {
-    return `variant-${this.variant}`;
-  }
 
   @Input() icon = '★';
   @Input() ariaLabel = '';
   @Input() ariaDescribedBy = '';
   @Input() ariaPressed: boolean | null = null;
   @Input() ariaExpanded: boolean | null = null;
-  @Input() variant: 'primary' | 'ghost' | 'danger' = 'ghost';
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
-  @Input() disabled = false;
-  @Input() role: string | null = null;
   @Input() ariaSelected: boolean | null = null;
   @Input() ariaControls = '';
+  @Input() role: string | null = null;
   @Input() tabIndexOverride: number | null = null;
+  @Input() variant: IconButtonVariant = 'ghost';
+  @Input() size: IconButtonSize = 'md';
+  @Input() disabled = false;
   @Output() clicked = new EventEmitter<void>();
+
+  @ViewChild('nativeButton', { static: true })
+  private nativeButton!: ElementRef<HTMLButtonElement>;
+
+  /** Same real DLS class names as ButtonComponent — kept in sync with btn.css. */
+  private readonly variantClassMap: Record<IconButtonVariant, string> = {
+    primary: 'btnPrimary',
+    ghost: 'btnTertiary',
+    danger: 'btnPrimary dlsRedBg dlsRedBgHvr dlsWhite',
+  };
+
+  private readonly sizeClassMap: Record<IconButtonSize, string> = {
+    sm: 'btnSm',
+    md: '', // DLS default size
+    lg: '', // DLS has no separate lg size
+  };
+
+  get variantClass(): string {
+    return this.variantClassMap[this.variant] ?? 'btnTertiary';
+  }
+
+  get sizeClass(): string {
+    return this.sizeClassMap[this.size] ?? '';
+  }
 
   get ariaLabelFallback(): string {
     const iconLabels: { [key: string]: string } = {
@@ -124,5 +104,18 @@ export class IconButtonComponent {
       '⚙': 'Settings',
     };
     return iconLabels[this.icon] || 'Icon button';
+  }
+
+  focus(): void {
+    this.nativeButton.nativeElement.focus();
+  }
+
+  @HostListener('keydown', ['$event'])
+  onKeydown(event: KeyboardEvent) {
+    if (this.disabled) return;
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      (event.target as HTMLButtonElement).click();
+    }
   }
 }

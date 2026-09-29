@@ -52,7 +52,8 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
     <div
       *ngIf="!detailMode"
       [id]="id + '-tile'"
-      class="amex-tile"
+      class="amex-tile card cardRounded"
+      [class.cardActionable]="true"
       [class.amex-tile--enrolled]="offer.enrolled"
       (click)="cardClick.emit(offer)"
     >
@@ -65,13 +66,13 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
           [fallbackText]="imageFallbackText"
         >
         </ui-image>
-        <span *ngIf="offer.enrolled" class="amex-tile__enrolled-badge">{{
+        <span *ngIf="offer.enrolled" class="badge dlsBrightBlueBg dlsWhite amex-tile__enrolled-badge">{{
           enrolledBadgeLabel
         }}</span>
       </div>
 
       <div class="amex-tile__body">
-        <h4 class="amex-tile__title">
+        <h4 class="body2 dlsBrightBlue amex-tile__title">
           {{ uppercaseTitle ? (offer.title | uppercase) : offer.title }}
           <span
             *ngIf="offer.hasFlash"
@@ -80,7 +81,7 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
             >{{ flashIcon }}</span
           >
         </h4>
-        <p class="amex-tile__desc">{{ offer.description }}</p>
+        <p class="body1 amex-tile__desc">{{ offer.description }}</p>
       </div>
 
       <div class="amex-tile__footer">
@@ -103,7 +104,7 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
     </div>
 
     <!-- ══ DETAIL / EXPANDED VIEW ═══════════════════════════════════ -->
-    <div *ngIf="detailMode" [id]="id + '-detail'" class="amex-detail">
+    <div *ngIf="detailMode" [id]="id + '-detail'" class="amex-detail card cardRounded">
       <!-- Hero image -->
       <div class="amex-detail__img-wrap" [style.height]="detailImageHeight">
         <ui-image
@@ -153,18 +154,18 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
       <!-- Info row -->
       <div class="amex-detail__info">
         <div class="amex-detail__left">
-          <p class="amex-detail__offer-name">{{ offer.title }}</p>
+          <p class="body2 dlsBrightBlue amex-detail__offer-name">{{ offer.title }}</p>
           <p
-            class="amex-detail__status"
-            [class.amex-detail__status--enrolled]="offer.enrolled"
-            [class.amex-detail__status--pending]="!offer.enrolled"
+            class="label1 amex-detail__status"
+            [class.dlsColorSuccess]="offer.enrolled"
+            [class.dlsColorNeutral]="!offer.enrolled"
           >
             {{ offer.enrolled ? enrolledStatusLabel : notEnrolledStatusLabel }}
           </p>
 
           <div class="amex-detail__row">
-            <span class="amex-detail__label">{{ descriptionLabel }}</span>
-            <p class="amex-detail__body-text">{{ offer.description }}</p>
+            <span class="body2 dlsBrightBlue amex-detail__label">{{ descriptionLabel }}</span>
+            <p class="body1 amex-detail__body-text">{{ offer.description }}</p>
           </div>
 
           <div *ngIf="offer.eligibleCards?.length" class="amex-detail__cards">
@@ -198,30 +199,48 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
           </ui-button>
 
           <div *ngIf="offer.termsAndConditions" class="amex-detail__tnc">
-            <span class="amex-detail__label">{{ tncLabel }}</span>
-            <p class="amex-detail__body-text">{{ offer.termsAndConditions }}</p>
+            <span class="body2 dlsBrightBlue amex-detail__label">{{ tncLabel }}</span>
+            <p class="body1 amex-detail__body-text">{{ offer.termsAndConditions }}</p>
           </div>
         </div>
       </div>
     </div>
   `,
   styles: [
+    // Both the grid tile and the detail panel now use DLS's real
+    // .card/.cardRounded (background, shadow, border, radius) instead of
+    // custom #fff/#ddd/4px values, and .cardActionable for the tile's hover
+    // lift (real DLS interaction, respects prefers-reduced-motion for free)
+    // in place of the custom box-shadow-only hover.
+    //
+    // Every color that was already deliberately DLS's own blue (#006fcf) is
+    // now the real DLS utility class instead of a hardcoded hex:
+    // .dlsBrightBlue / .dlsBrightBlueBg (title, labels, enrolled badge).
+    // The enrolled-status green (was an invented #2e7d32) is now DLS's real
+    // semantic .dlsColorSuccess (#008767); not-enrolled now uses
+    // .dlsColorNeutral instead of a hardcoded #333.
+    //
+    // Typography (title, description, labels, body text) now uses DLS's
+    // real type scale (.body1/.body2/.label1) instead of hand-picked
+    // 11-13px sizes, same principle as card.ts. This does shift a couple of
+    // sizes slightly (e.g. title 12.5px -> DLS's real 15px .body2) — flag if
+    // you want the original exact pixel sizes preserved instead.
+    //
+    // Kept custom, with no DLS equivalent: the enrolled-badge's absolute
+    // top-right placement over the image (DLS's .badge has no positioning
+    // opinion — that's this component's own overlay layout), the very small
+    // 10-11px expiry/flash text (DLS's smallest type scale is 13px), and all
+    // the detail view's layout-only flex/gap/positioning rules.
+    //
+    // overflow:hidden added on .amex-tile/.amex-detail themselves — neither
+    // DLS's .card nor .cardRounded clip content, and both have a full-width
+    // top image whose square corners would otherwise poke past the card's
+    // rounded corners (same fix applied to card.ts).
     `
       .amex-tile {
+        overflow: hidden;
         display: flex;
         flex-direction: column;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        overflow: hidden;
-        cursor: pointer;
-        transition: box-shadow 0.15s;
-      }
-      .amex-tile:hover {
-        box-shadow: 0 4px 16px rgba(0, 111, 207, 0.15);
-      }
-      .amex-tile--enrolled {
-        border-color: #006fcf;
       }
 
       .amex-tile__img-wrap {
@@ -234,12 +253,7 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
         position: absolute;
         top: 10px;
         right: 0;
-        background: #006fcf;
-        color: #fff;
-        font-size: 10px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        padding: 3px 10px 3px 8px;
+        border-radius: 0;
       }
 
       .amex-tile__body {
@@ -247,21 +261,14 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
         padding: 12px 14px 6px;
       }
       .amex-tile__title {
-        font-size: 12.5px;
-        font-weight: 700;
-        color: #006fcf;
         margin: 0 0 7px;
-        line-height: 1.4;
         text-align: center;
       }
       .amex-tile__flash {
         font-size: 11px;
       }
       .amex-tile__desc {
-        font-size: 12px;
-        color: #555;
         margin: 0;
-        line-height: 1.5;
         text-align: center;
       }
 
@@ -270,19 +277,16 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
         justify-content: space-between;
         align-items: center;
         padding: 8px 14px;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid #ecedee;
         margin-top: 6px;
       }
       .amex-tile__expiry {
         font-size: 11px;
-        color: #888;
+        color: #8e9092;
       }
 
       .amex-detail {
         position: relative;
-        background: #fff;
-        border: 1px solid #ddd;
-        border-radius: 4px;
         overflow: hidden;
       }
       .amex-detail__img-wrap {
@@ -323,21 +327,10 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
       }
 
       .amex-detail__offer-name {
-        font-size: 15px;
-        font-weight: 600;
-        color: #006fcf;
         margin: 0 0 4px;
       }
       .amex-detail__status {
-        font-size: 13px;
-        font-weight: 600;
         margin: 0 0 14px;
-      }
-      .amex-detail__status--enrolled {
-        color: #2e7d32;
-      }
-      .amex-detail__status--pending {
-        color: #333;
       }
 
       .amex-detail__row {
@@ -346,17 +339,11 @@ export type AmexOfferCardIconButtonVariant = 'primary' | 'ghost' | 'danger';
         align-items: flex-start;
       }
       .amex-detail__label {
-        font-size: 12px;
-        font-weight: 700;
-        color: #006fcf;
         white-space: nowrap;
         flex-shrink: 0;
       }
       .amex-detail__body-text {
-        font-size: 12px;
-        color: #444;
         margin: 0;
-        line-height: 1.6;
       }
       .amex-detail__cards {
         display: flex;
@@ -381,7 +368,7 @@ export class AmexOfferCardComponent {
   @Input() detailMode = false;
   @Input() offer!: AmexOffer;
 
- @Input() tileImageHeight = '158px';
+  @Input() tileImageHeight = '158px';
   @Input() detailImageHeight = '280px';
   @Input() imageFallbackText = 'AMERICAN EXPRESS';
   @Input() showNav = true;

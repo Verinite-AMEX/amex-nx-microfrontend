@@ -1,3 +1,4 @@
+// table-header-cell.ts
 import {
   Component,
   Input,
@@ -7,7 +8,7 @@ import {
 } from '@angular/core';
 import { NgIf } from '@angular/common';
 
-export type SortDirection = 'asc' | 'desc' | null;
+export type SortDirection = 'ascending' | 'descending' | null;
 
 @Component({
   selector: 'ui-table-header-cell',
@@ -15,59 +16,37 @@ export type SortDirection = 'asc' | 'desc' | null;
   imports: [NgIf],
   template: `
     <th
+      *ngIf="!expandColumn"
       [id]="id"
       [attr.scope]="scope"
       [attr.colspan]="colspan || null"
       [attr.rowspan]="rowspan || null"
-      [style.width]="width || null"
-      [style.textAlign]="align"
-      class="ui-th"
-      [class.ui-th--sortable]="sortable"
-      [attr.aria-sort]="
-        sortable
-          ? sortDirection === 'asc'
-            ? 'ascending'
-            : sortDirection === 'desc'
-              ? 'descending'
-              : 'none'
-          : null
-      "
-      (click)="sortable && sortClick.emit()"
-      (keydown.enter)="sortable && sortClick.emit()"
-      [attr.tabindex]="sortable ? 0 : null"
+      [class.text-align-right]="align === 'right'"
+      [class.text-align-center]="align === 'center'"
+      [class.th-sort]="sortable"
+      [class.active]="sortable && sortDirection !== null"
+      [attr.aria-sort]="sortable ? sortDirection || 'none' : null"
+      [attr.data-custom-sort]="customSortKey || null"
     >
-      <span class="ui-th__content">
+      <button
+        *ngIf="sortable"
+        type="button"
+        class="th-sort-button"
+        [class.active]="sortDirection !== null"
+        [class.text-align-right]="align === 'right'"
+        (click)="sortClick.emit()"
+      >
         <ng-content></ng-content>
-        <span *ngIf="sortable" class="ui-th__sort-icon" aria-hidden="true">
-          {{
-            sortDirection === 'asc' ? '▲' : sortDirection === 'desc' ? '▼' : '⇅'
-          }}
+        <span class="glyph glyph-sm th-sort-icon" aria-label="sort">
+          <i data-dls-glyph="sort-down" title="Sort icon"></i>
         </span>
-      </span>
+      </button>
+      <ng-content *ngIf="!sortable"></ng-content>
     </th>
+    <th *ngIf="expandColumn" class="expand" [id]="id"></th>
   `,
   styles: [
     `
-      .ui-th {
-        padding: var(--table-header-padding, 8px 12px);
-        font-weight: bold;
-        text-align: left;
-        background: var(--table-header-bg, transparent);
-        border: var(--table-header-border, none);
-      }
-      .ui-th--sortable {
-        cursor: pointer;
-        user-select: none;
-      }
-      .ui-th__content {
-        display: inline-flex;
-        align-items: center;
-        gap: 4px;
-      }
-      .ui-th__sort-icon {
-        font-size: 10px;
-        opacity: 0.6;
-      }
       :host {
         display: contents;
       }
@@ -82,8 +61,11 @@ export class TableHeaderCellComponent {
   @Input() align: 'left' | 'center' | 'right' = 'left';
   @Input() colspan?: number;
   @Input() rowspan?: number;
-  @Input() width = '';
   @Input() sortable = false;
   @Input() sortDirection: SortDirection = null;
+  /** Key the consumer's custom-sort config would look up — kept for markup parity with DLS's `data-custom-sort`. */
+  @Input() customSortKey = '';
+  /** Renders DLS's empty `<th class="expand">` spacer above the expand-toggle column. */
+  @Input() expandColumn = false;
   @Output() sortClick = new EventEmitter<void>();
 }

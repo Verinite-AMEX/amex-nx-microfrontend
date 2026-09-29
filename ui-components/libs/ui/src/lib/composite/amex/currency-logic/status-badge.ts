@@ -13,122 +13,48 @@ export type AmexStatus =
   | 'expired'
   | 'locked';
 
+/**
+ * DLS's .badgeStatus (css/badge.css) only ships 4 semantic colors
+ * (see site/components/badges → "Status Badges" → States):
+ *   Green  .dlsColorSuccessBg   -> Active
+ *   Yellow .dlsColorAttentionBg -> Suspended / Pending / In Progress
+ *   Grey   .dlsColorNeutralBg   -> Off / Inactive
+ *   Red    .dlsColorWarningBg   -> Error
+ * Every AmexStatus below is mapped onto one of these 4 DLS colors.
+ */
+const DLS_STATUS_COLOR_CLASS: Record<AmexStatus, string> = {
+  approved: 'dlsColorSuccessBg',
+  active: 'dlsColorSuccessBg',
+  completed: 'dlsColorSuccessBg',
+  pending: 'dlsColorAttentionBg',
+  processing: 'dlsColorAttentionBg',
+  draft: 'dlsColorNeutralBg',
+  inactive: 'dlsColorNeutralBg',
+  rejected: 'dlsColorWarningBg',
+  expired: 'dlsColorWarningBg',
+  locked: 'dlsColorWarningBg',
+};
+
 @Component({
   selector: 'amex-status-badge',
   standalone: true,
   imports: [CommonModule],
   template: `
     <span
-      [ngClass]="['amex-status', 'amex-status--' + status]"
+      class="flexInline focusDark"
+      role="status"
       [attr.aria-label]="getAriaLabel()"
-      [attr.role]="'status'"
       [attr.aria-live]="status === 'processing' ? 'polite' : null"
       tabindex="0"
     >
-      <span class="amex-status__dot" aria-hidden="true"></span>
-      <span class="amex-status__text">{{ label || statusLabel }}</span>
+      <span
+        class="badge badgeStatus"
+        [ngClass]="colorClass"
+        aria-hidden="true"
+      ></span>
+      <span class="body1 dlsGray06">{{ label || statusLabel }}</span>
     </span>
   `,
-  styles: [
-    `
-      .amex-status {
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        padding: 3px 10px;
-        border-radius: 12px;
-        font-size: 12px;
-        font-weight: 500;
-      }
-      .amex-status__dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        flex-shrink: 0;
-      }
-      .amex-status--approved {
-        background: #e8f5e9;
-        color: #1b5e20;
-      }
-      .amex-status--approved .amex-status__dot {
-        background: #2e7d32;
-      }
-      .amex-status--rejected {
-        background: #ffebee;
-        color: #b71c1c;
-      }
-      .amex-status--rejected .amex-status__dot {
-        background: #c62828;
-      }
-      .amex-status--pending {
-        background: #fff8e1;
-        color: #f57c00;
-      }
-      .amex-status--pending .amex-status__dot {
-        background: #f57f17;
-      }
-      .amex-status--draft {
-        background: #f3f4f6;
-        color: #4b5563;
-      }
-      .amex-status--draft .amex-status__dot {
-        background: #9ca3af;
-      }
-      .amex-status--active {
-        background: #e3f2fd;
-        color: #0d47a1;
-      }
-      .amex-status--active .amex-status__dot {
-        background: #1565c0;
-      }
-      .amex-status--inactive {
-        background: #f5f5f5;
-        color: #616161;
-      }
-      .amex-status--inactive .amex-status__dot {
-        background: #9e9e9e;
-      }
-      .amex-status--processing {
-        background: #e8eaf6;
-        color: #283593;
-      }
-      .amex-status--processing .amex-status__dot {
-        background: #3949ab;
-      }
-      .amex-status--completed {
-        background: #e0f2f1;
-        color: #004d40;
-      }
-      .amex-status--completed .amex-status__dot {
-        background: #00695c;
-      }
-      .amex-status--expired {
-        background: #fce4ec;
-        color: #880e4f;
-      }
-      .amex-status--expired .amex-status__dot {
-        background: #ad1457;
-      }
-      .amex-status--locked {
-        background: #efebe9;
-        color: #3e2723;
-      }
-      .amex-status--locked .amex-status__dot {
-        background: #6d4c41;
-      }
-
-      .amex-status:focus {
-        outline: 2px solid #006fcf;
-        outline-offset: 2px;
-      }
-
-      @media (prefers-contrast: high) {
-        .amex-status {
-          border: 1px solid currentColor;
-        }
-      }
-    `,
-  ],
 })
 export class AmexStatusBadgeComponent {
   private static _idCounter = 0;
@@ -137,6 +63,10 @@ export class AmexStatusBadgeComponent {
 
   @Input() status: AmexStatus = 'pending';
   @Input() label = '';
+
+  get colorClass(): string {
+    return DLS_STATUS_COLOR_CLASS[this.status];
+  }
 
   get statusLabel(): string {
     const map: Record<AmexStatus, string> = {

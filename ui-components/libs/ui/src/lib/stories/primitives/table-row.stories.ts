@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/table-row.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { TableRowComponent } from '../../primitives/table-row';
 import { TableComponent } from '../../primitives/table';
@@ -18,11 +19,12 @@ const meta: Meta<TableRowComponent> = {
     'screen-reader',
   ],
   argTypes: {
-    header: { control: 'boolean' },
     selected: { control: 'boolean' },
-    hoverable: { control: 'boolean' },
     clickable: { control: 'boolean' },
+    expandable: { control: 'boolean' },
+    expanded: { control: 'boolean' },
     rowClick: { action: 'rowClick' },
+    expandedChange: { action: 'expandedChange' },
   },
 };
 export default meta;
@@ -76,15 +78,21 @@ export const Clickable: Story = {
   }),
 };
 
-export const NotHoverable: Story = {
+export const Expandable: Story = {
   render: () => ({
     moduleMetadata: { imports: IMPORTS },
     template: `
       <ui-table [bordered]="true">
         <ui-table-body>
-          <ui-table-row [hoverable]="false">
-            <ui-table-cell>No hover highlight</ui-table-cell>
-            <ui-table-cell>Static row</ui-table-cell>
+          <ui-table-row
+            [expandable]="true"
+            [expanded]="true"
+            expandLabel="row details"
+            [expandColspan]="2"
+          >
+            <ui-table-cell>Jane Doe</ui-table-cell>
+            <ui-table-cell>Active</ui-table-cell>
+            <p expandedContent>Additional row detail shown when expanded.</p>
           </ui-table-row>
         </ui-table-body>
       </ui-table>`,

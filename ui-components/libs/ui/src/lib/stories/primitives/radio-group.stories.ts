@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/radio-group.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { RadioGroupComponent } from '../../primitives/radio-group';
 
@@ -20,30 +21,37 @@ const meta: Meta<RadioGroupComponent> = {
     'keyboard-navigation',
   ],
   argTypes: {
-    orientation: { control: 'radio', options: ['vertical', 'horizontal'] },
     disabled: { control: 'boolean' },
-
     options: { control: 'object' },
     name: { control: 'text' },
     legend: { control: 'text' },
-    ariaLabel: { control: 'text' },
     ariaDescribedBy: { control: 'text' },
     required: { control: 'boolean' },
-    variant: { control: 'select', options: ['styled', 'native'] },
+    invalid: { control: 'boolean' },
   },
 };
 
 export default meta;
 type Story = StoryObj<RadioGroupComponent>;
 
-export const Vertical: Story = {
-  args: { options: SIZES, name: 'size', orientation: 'vertical' },
+export const Default: Story = {
+  args: { options: SIZES, name: 'size', legend: 'Choose a size' },
 };
 
-export const Horizontal: Story = {
-  args: { options: SIZES, name: 'size-h', orientation: 'horizontal' },
+export const NoVisibleLegend: Story = {
+  name: 'No visible legend (screen-reader only)',
+  args: { options: SIZES, name: 'size-sr' },
 };
 
 export const Disabled: Story = {
-  args: { options: SIZES, name: 'size-d', disabled: true },
+  args: { options: SIZES, name: 'size-d', legend: 'Choose a size', disabled: true },
+};
+
+export const Invalid: Story = {
+  args: {
+    options: SIZES,
+    name: 'size-invalid',
+    legend: 'Choose a size',
+    invalid: true,
+  },
 };

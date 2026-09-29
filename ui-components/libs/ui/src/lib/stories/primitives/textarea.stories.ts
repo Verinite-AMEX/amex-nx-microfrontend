@@ -17,9 +17,8 @@ const meta: Meta<TextareaComponent> = {
     placeholder: { control: 'text' },
     rows: { control: 'number' },
     disabled: { control: 'boolean' },
-    error: { control: 'text' },
-
     invalid: { control: 'boolean' },
+    success: { control: 'boolean' },
     required: { control: 'boolean' },
     readonly: { control: 'boolean' },
     ariaLabel: { control: 'text' },
@@ -32,17 +31,25 @@ export default meta;
 type Story = StoryObj<TextareaComponent>;
 
 export const Default: Story = {
-  args: { placeholder: 'Enter your message...', rows: 4 },
+  args: { placeholder: 'Enter a longer message...', rows: 4 },
 };
 
-export const WithError: Story = {
-  args: { placeholder: 'Enter your message...', error: 'Message is required' },
+export const Invalid: Story = {
+  args: {
+    placeholder: 'Enter a longer message...',
+    invalid: true,
+    ariaDescribedBy: 'textarea-error-msg',
+  },
+};
+
+export const Success: Story = {
+  args: { placeholder: 'Enter a longer message...', success: true },
 };
 
 export const Disabled: Story = {
   args: { placeholder: 'Disabled textarea', disabled: true },
 };
 
-export const Tall: Story = {
-  args: { placeholder: 'Lots of room to write...', rows: 8 },
+export const Readonly: Story = {
+  args: { placeholder: 'Read-only textarea', readonly: true },
 };

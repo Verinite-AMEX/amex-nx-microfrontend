@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/table-foot.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { TableFootComponent } from '../../primitives/table-foot';
 import { TableComponent } from '../../primitives/table';
@@ -32,7 +33,7 @@ export const Default: Story = {
     template: `
       <ui-table [bordered]="true">
         <ui-table-head>
-          <ui-table-row [header]="true">
+          <ui-table-row>
             <ui-table-header-cell>Merchant</ui-table-header-cell>
             <ui-table-header-cell align="right">Amount</ui-table-header-cell>
           </ui-table-row>
