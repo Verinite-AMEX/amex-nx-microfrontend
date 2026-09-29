@@ -15,52 +15,10 @@ export type AmexCardType =
   standalone: true,
   imports: [CommonModule],
   template: `
-    <span [ngClass]="['amex-card-badge', 'amex-card-badge--' + type]">
+    <span [ngClass]="['badge', colorClass]">
       {{ label || typeLabel }}
     </span>
   `,
-  styles: [
-    `
-      .amex-card-badge {
-        display: inline-block;
-        padding: 2px 10px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 700;
-        letter-spacing: 0.04em;
-        text-transform: uppercase;
-      }
-      .amex-card-badge--centurion {
-        background: #1a1a1a;
-        color: #d4af37;
-      }
-      .amex-card-badge--platinum {
-        background: #e5e5e5;
-        color: #3a3a3a;
-      }
-      .amex-card-badge--gold {
-        background: #c9a84c;
-        color: #fff;
-      }
-      .amex-card-badge--green {
-        background: #2e7d32;
-        color: #fff;
-      }
-      .amex-card-badge--corporate {
-        background: #1565c0;
-        color: #fff;
-      }
-      .amex-card-badge--bta {
-        background: #6a1b9a;
-        color: #fff;
-      }
-      .amex-card-badge--supplementary {
-        background: #f5f5f5;
-        color: #555;
-        border: 1px solid #ccc;
-      }
-    `,
-  ],
 })
 export class AmexCardBadgeComponent {
   private static _idCounter = 0;
@@ -81,5 +39,39 @@ export class AmexCardBadgeComponent {
       supplementary: 'Supplementary',
     };
     return map[this.type];
+  }
+
+  /**
+   * NEEDS DESIGN/PRODUCT SIGN-OFF: DLS's colorsCard.css defines exact
+   * per-product background colors for Centurion, Platinum, Gold, and Green
+   * (used below as-is — these four are real, confirmed DLS card colors).
+   * It has NO defined color for 'corporate', 'bta', or 'supplementary' —
+   * those three card types don't exist in DLS's card-color palette at all.
+   * The mappings below for those three are my best guess standing in
+   * until someone on design confirms the intended color:
+   *   - corporate     -> dlsCardCobrandBg (closest conceptual match)
+   *   - bta           -> dlsCardBlueBg (Amex Business Travel Account is
+   *                       conventionally blue-branded)
+   *   - supplementary -> dlsCardGeneralBg (DLS's generic/lesser-tier grey)
+   * Flag this row for review before shipping.
+   *
+   * CONTRAST CAVEAT: .badge's text is always white. dlsCardPlatinumBg
+   * (#8e9da9) and dlsCardGeneralBg (#c8c9c7) are light/mid greys — white
+   * text on them may not meet contrast requirements. Check these two
+   * visually in Storybook before shipping; may need a dark-text override
+   * for just those two if accessibility review flags it.
+   */
+  private readonly colorClassMap: Record<AmexCardType, string> = {
+    centurion: 'dlsCardCenturionBg',
+    platinum: 'dlsCardPlatinumBg',
+    gold: 'dlsCardGoldBg',
+    green: 'dlsCardGreenBg',
+    corporate: 'dlsCardCobrandBg', // best-guess, confirm with design
+    bta: 'dlsCardBlueBg', // best-guess, confirm with design
+    supplementary: 'dlsCardGeneralBg', // best-guess, confirm with design
+  };
+
+  get colorClass(): string {
+    return this.colorClassMap[this.type] ?? 'dlsCardGeneralBg';
   }
 }

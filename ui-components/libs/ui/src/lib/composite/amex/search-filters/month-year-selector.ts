@@ -56,16 +56,12 @@ export interface AmexMonthYear {
     </div>
   `,
   styles: [
+    // --btn-* vars removed — confirmed dead now that button.ts uses DLS's
+    // real ngClass-based styling, not CSS variables. font-family removed so
+    // DLS's global typography cascades normally.
     `
       :host {
         display: block;
-        font-family: Arial, sans-serif;
-        --btn-bg: linear-gradient(to bottom, #2a84e0, #1462b8);
-        --btn-color: #fff;
-        --btn-border: 1px solid #1050a0;
-        --btn-radius: 2px;
-        --btn-padding: 5px 14px;
-        --btn-font-size: 12px;
       }
 
       .mys-wrap {

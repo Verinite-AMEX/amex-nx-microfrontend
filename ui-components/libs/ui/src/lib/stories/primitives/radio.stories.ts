@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/radio.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { RadioComponent } from '../../primitives/radio';
 
@@ -20,9 +21,9 @@ const meta: Meta<RadioComponent> = {
     disabled: { control: 'boolean' },
     required: { control: 'boolean' },
     label: { control: 'text' },
+    invalid: { control: 'boolean' },
     ariaLabel: { control: 'text' },
     ariaDescribedBy: { control: 'text' },
-    ariaInvalid: { control: 'boolean' },
     checkedChange: { action: 'checkedChange' },
   },
 };
@@ -39,6 +40,27 @@ export const Checked: Story = {
 
 export const Disabled: Story = {
   args: { name: 'demo', value: 'a', label: 'Disabled option', disabled: true },
+};
+
+export const CheckedDisabled: Story = {
+  name: 'Checked and disabled',
+  args: {
+    name: 'demo',
+    value: 'a',
+    label: 'Selected but locked',
+    checked: true,
+    disabled: true,
+  },
+};
+
+export const Invalid: Story = {
+  args: {
+    name: 'demo',
+    value: 'a',
+    label: 'Invalid selection',
+    checked: true,
+    invalid: true,
+  },
 };
 
 export const StandaloneGroup: Story = {

@@ -8,6 +8,21 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+/** Values ui-components has ever accepted for `variant`. 'ghost' and 'danger' are legacy — kept working, but new code should use the DLS-native names on the right. */
+export type ButtonVariant =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'contextual'
+  | 'white'
+  | 'white-secondary'
+  | 'white-tertiary'
+  | 'ghost' // legacy alias -> tertiary
+  | 'danger'; // legacy alias -> primary + DLS red utility classes
+
+/** Values ui-components has ever accepted for `size`. 'md' and 'lg' are legacy — kept working, both map to DLS's default (unclassed) size since DLS has no separate lg size. */
+export type ButtonSize = 'default' | 'sm' | 'utility' | 'md' | 'lg';
+
 @Component({
   selector: 'ui-button',
   standalone: true,
@@ -17,11 +32,14 @@ import { CommonModule } from '@angular/common';
       #nativeButton
       [type]="type"
       [disabled]="disabled"
+      [style.pointer-events]="loading ? 'none' : null"
       [ngClass]="[
         'btn',
-        'btn-' + variant,
-        'btn-' + size,
-        fullWidth ? 'btn-full' : '',
+        variantClass,
+        sizeClass,
+        fullWidth ? 'btnBlock' : '',
+        allowWrap ? 'btnOverflow' : '',
+        loading ? 'btnLoading' : '',
       ]"
       [attr.role]="role"
       [attr.aria-label]="ariaLabel || label"
@@ -30,100 +48,16 @@ import { CommonModule } from '@angular/common';
       [attr.aria-pressed]="ariaPressed"
       [attr.aria-selected]="ariaSelected"
       [attr.aria-controls]="ariaControls || null"
-      [attr.aria-disabled]="disabled"
+      [attr.aria-disabled]="disabled || loading"
+      [attr.aria-busy]="loading"
       [attr.tabindex]="tabIndexOverride"
       (keydown)="onKeydown($event)"
     >
       <ng-content select="[slot=icon-start]"></ng-content
-      ><span class="btn-label">{{ label }}</span
+      ><span [style.visibility]="loading ? 'hidden' : 'visible'">{{ label }}</span
       ><ng-content select="[slot=icon-end]"></ng-content>
     </button>
   `,
-  styles: [
-    `
-      .btn {
-        border: var(--btn-border, none);
-        border-bottom-color: var(--btn-border-bottom-color, inherit);
-        cursor: pointer;
-        font-family: Arial, sans-serif;
-        font-weight: var(--btn-font-weight, 600);
-        display: inline-flex;
-        flex-direction: var(--btn-flex-direction, row);
-        align-items: var(--btn-align-items, center);
-        justify-content: var(--btn-justify-content, flex-start);
-        gap: var(--btn-gap, 6px);
-        width: var(--btn-width, auto);
-      }
-      .btn-full {
-        width: 100%;
-        justify-content: space-between;
-      }
-      .btn-primary {
-        background: var(--btn-bg, #1976d2);
-        color: var(--btn-color, #fff);
-        border-radius: var(--btn-radius, 4px);
-      }
-      .btn-primary:hover:not(:disabled) {
-        background: var(--btn-bg-hover, var(--btn-bg, #1976d2));
-        color: var(--btn-color-hover, var(--btn-color, #fff));
-        opacity: var(--btn-hover-opacity, 1);
-      }
-      .btn-secondary {
-        background: var(--btn-bg, #ff4081);
-        color: var(--btn-color, #fff);
-        border-radius: var(--btn-radius, 4px);
-      }
-      .btn-secondary:hover:not(:disabled) {
-        background: var(--btn-bg-hover, var(--btn-bg, #ff4081));
-        color: var(--btn-color-hover, var(--btn-color, #fff));
-        opacity: var(--btn-hover-opacity, 1);
-      }
-      .btn-ghost {
-        background: var(--btn-bg, transparent);
-        color: var(--btn-color, #1976d2);
-        border: var(--btn-border, 1px solid #1976d2);
-        border-radius: var(--btn-radius, 4px);
-      }
-      .btn-ghost:hover:not(:disabled) {
-        background: var(--btn-bg-hover, var(--btn-bg, transparent));
-        color: var(--btn-color-hover, var(--btn-color, #1976d2));
-        opacity: var(--btn-hover-opacity, 1);
-      }
-      .btn-danger {
-        background: var(--btn-bg, #f44336);
-        color: var(--btn-color, #fff);
-        border-radius: var(--btn-radius, 4px);
-      }
-      .btn-danger:hover:not(:disabled) {
-        background: var(--btn-bg-hover, var(--btn-bg, #f44336));
-        color: var(--btn-color-hover, var(--btn-color, #fff));
-        opacity: var(--btn-hover-opacity, 1);
-      }
-      .btn:focus-visible {
-        outline: var(--btn-focus-outline, 2px solid #1976d2);
-        outline-offset: var(--btn-focus-outline-offset, 2px);
-      }
-      .btn:hover:not(:disabled) {
-        background: var(--btn-bg-hover, var(--btn-bg, inherit));
-      }
-      .btn-sm {
-        padding: var(--btn-padding, 4px 8px);
-        font-size: var(--btn-font-size, 12px);
-      }
-      .btn-md {
-        padding: var(--btn-padding, 8px 16px);
-        font-size: var(--btn-font-size, 14px);
-      }
-      .btn-lg {
-        padding: var(--btn-padding, 16px 24px);
-        font-size: var(--btn-font-size, 16px);
-      }
-      button:disabled {
-        opacity: 0.6;
-        cursor: not-allowed;
-      }
-    `,
-  ],
 })
 export class ButtonComponent {
   private static _idCounter = 0;
@@ -131,9 +65,16 @@ export class ButtonComponent {
     `ui-button-${++ButtonComponent._idCounter}`;
 
   @Input() label = 'Button';
-  @Input() variant: 'primary' | 'secondary' | 'ghost' | 'danger' = 'primary';
-  @Input() size: 'sm' | 'md' | 'lg' = 'md';
+  @Input() variant: ButtonVariant = 'primary';
+  @Input() size: ButtonSize = 'default';
   @Input() disabled = false;
+
+  /** Shows DLS's built-in spinner (.btnLoading) and disables the button while true */
+  @Input() loading = false;
+
+  /** Applies DLS's .btnOverflow so long labels wrap instead of ellipsis-truncating */
+  @Input() allowWrap = false;
+
   @Input() ariaLabel = '';
   @Input() ariaDescribedBy = '';
   @Input() ariaExpanded: boolean | null = null;
@@ -143,10 +84,46 @@ export class ButtonComponent {
   @Input() ariaSelected: boolean | null = null;
   @Input() ariaControls = '';
   @Input() tabIndexOverride: number | null = null;
+
   @Input() fullWidth = false;
 
   @ViewChild('nativeButton', { static: true })
   private nativeButton!: ElementRef<HTMLButtonElement>;
+
+  /**
+   * Maps to DLS's real button classes from btn.css. DLS classes are
+   * camelCase (btnPrimary, btnSecondary, ...) — NOT kebab-case
+   * (btn-primary, btn-secondary, ...). The previous version of this map
+   * emitted kebab-case class names that don't exist anywhere in DLS, so
+   * every variant except the bare .btn silently rendered unstyled.
+   */
+  private readonly variantClassMap: Record<ButtonVariant, string> = {
+    primary: 'btnPrimary',
+    secondary: 'btnSecondary',
+    tertiary: 'btnTertiary',
+    contextual: 'btnContextual',
+    white: 'btnWhite',
+    'white-secondary': 'btnWhiteSecondary',
+    'white-tertiary': 'btnWhiteTertiary',
+    ghost: 'btnTertiary',
+    danger: 'btnPrimary dlsRedBg dlsRedBgHvr dlsWhite',
+  };
+
+  private readonly sizeClassMap: Record<ButtonSize, string> = {
+    default: '',
+    sm: 'btnSm',
+    utility: 'btnUtility',
+    md: '', // legacy alias -> DLS default size
+    lg: '', // legacy alias -> DLS has no separate lg size
+  };
+
+  get variantClass(): string {
+    return this.variantClassMap[this.variant] ?? 'btnPrimary';
+  }
+
+  get sizeClass(): string {
+    return this.sizeClassMap[this.size] ?? '';
+  }
 
   focus(): void {
     this.nativeButton.nativeElement.focus();
@@ -154,6 +131,7 @@ export class ButtonComponent {
 
   @HostListener('keydown', ['$event'])
   onKeydown(event: KeyboardEvent) {
+    if (this.disabled || this.loading) return;
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
       (event.target as HTMLButtonElement).click();

@@ -6,10 +6,10 @@ import {
   OnChanges,
   ViewChildren,
   QueryList,
+  ElementRef,
   HostBinding,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ButtonComponent } from '../primitives/button';
 
 export interface TabItem {
   id: string;
@@ -20,35 +20,68 @@ export interface TabItem {
   ariaControls?: string;
 }
 
+/**
+ * STRUCTURAL CHANGE: DLS's real tab markup (tabs.css) is NOT built on top
+ * of .btn/<ui-button> at all — .tabLink is its own self-contained visual
+ * style (background/padding/border-right/underline-on-select), completely
+ * separate from the button system. Wrapping <ui-button> here (as the old
+ * version did) would apply BOTH .btn's styling and .tabLink's styling to
+ * the same element — they were never designed to combine. This version
+ * renders a plain native <button class="tabLink"> instead.
+ *
+ * DLS'S OWN CLASS-NAME INCONSISTENCY (real, not introduced here): checked
+ * dls.js directly — DLS ships an actual Tabs behavior class, but it looks
+ * up elements via getElementsByClassName('tab-menu') / ('tab-link')
+ * (kebab-case), while tabs.css styles .tabMenu / .tabLink (camelCase). DLS
+ * genuinely expects BOTH classes on the same elements — one pair for CSS,
+ * a different pair for their JS to find them. Both are applied below.
+ *
+ * DLS's own Tabs JS class is NOT used here — it does raw DOM manipulation
+ * (classList, imperative attribute writes) designed for non-framework
+ * pages, and would fight Angular's change detection if run inside an
+ * Angular component. Instead, the same end states DLS's JS would produce
+ * (aria-selected, tabindex, focus-on-arrow-key) are driven directly by
+ * Angular bindings below — DLS's CSS reacts to [aria-selected=true]
+ * automatically regardless of what set it.
+ *
+ * KNOWN DLS GAP: tabs.css has no :disabled styling for .tabLink at all —
+ * a disabled tab falls back to the browser's default disabled button
+ * look, not a DLS-specific one.
+ */
 @Component({
   selector: 'ui-tabs',
   standalone: true,
-  imports: [CommonModule, ButtonComponent],
+  imports: [CommonModule],
   template: `
     <div class="tabs">
-      <div class="tabs-nav" role="tablist" [attr.aria-label]="ariaLabel">
-        <ui-button
+      <div
+        class="tabMenu tab-menu"
+        role="tablist"
+        [attr.aria-label]="ariaLabel"
+      >
+        <button
+          #tabBtn
           *ngFor="let tab of tabs; let i = index"
-          class="tab-btn"
-          [class.active]="tab.id === activeTab"
-          variant="ghost"
-          [role]="'tab'"
-          [label]="tab.label"
-          [disabled]="!!tab.disabled"
-          [ariaSelected]="tab.id === activeTab"
-          [ariaControls]="tab.ariaControls || 'tabpanel-' + tab.id"
-          [ariaLabel]="tab.ariaLabel || tab.label"
-          [ariaDescribedBy]="tab.ariaDescribedBy || ''"
-          [tabIndexOverride]="tab.id === activeTab ? 0 : -1"
+          type="button"
+          class="tabLink tab-link"
+          role="tab"
           [id]="'tab-' + tab.id"
+          [disabled]="!!tab.disabled"
+          [attr.aria-selected]="tab.id === activeTab"
+          [attr.aria-controls]="tab.ariaControls || 'tabpanel-' + tab.id"
+          [attr.aria-label]="tab.ariaLabel || null"
+          [attr.aria-describedby]="tab.ariaDescribedBy || null"
+          [attr.tabindex]="tab.id === activeTab ? 0 : -1"
           (click)="select(tab.id)"
           (keydown)="onKeydown($event, i)"
         >
-        </ui-button>
+          {{ tab.label }}
+        </button>
       </div>
       <div
-        class="tabs-content"
+        class="tabContent"
         role="tabpanel"
+        tabindex="0"
         [attr.aria-labelledby]="'tab-' + activeTab"
         [attr.aria-live]="'polite'"
         [id]="'tabpanel-' + activeTab"
@@ -57,50 +90,19 @@ export interface TabItem {
       </div>
     </div>
   `,
-  styles: [
-    `
-      .tabs {
-        font-family: Arial, sans-serif;
-      }
-      .tabs-nav {
-        display: flex;
-        border-bottom: 2px solid #e0e0e0;
-        gap: 0;
-      }
-      .tab-btn {
-        --btn-bg: transparent;
-        --btn-color: #666;
-        --btn-radius: 0;
-        --btn-padding: 10px 20px;
-        --btn-font-size: 14px;
-        border-bottom: 2px solid transparent;
-        margin-bottom: -2px;
-        transition:
-          color 0.15s,
-          border-color 0.15s;
-      }
-      .tab-btn.active {
-        --btn-color: #1976d2;
-        border-bottom-color: #1976d2;
-        font-weight: 600;
-      }
-      .tabs-content {
-        padding: 16px 0;
-        font-size: 14px;
-        color: #555;
-      }
-    `,
-  ],
 })
 export class TabsComponent implements OnChanges {
   private static _idCounter = 0;
-  @HostBinding('attr.id') @Input() id = `ui-tabs-${++TabsComponent._idCounter}`;
+  @HostBinding('attr.id') @Input() id =
+    `ui-tabs-${++TabsComponent._idCounter}`;
 
   @Input() tabs: TabItem[] = [];
   @Input() activeTab = '';
   @Input() ariaLabel = 'Tabs';
   @Output() tabChange = new EventEmitter<string>();
-  @ViewChildren(ButtonComponent) tabButtons!: QueryList<ButtonComponent>;
+
+  @ViewChildren('tabBtn')
+  tabButtons!: QueryList<ElementRef<HTMLButtonElement>>;
 
   ngOnChanges() {
     if (!this.activeTab && this.tabs.length) this.activeTab = this.tabs[0].id;
@@ -133,6 +135,8 @@ export class TabsComponent implements OnChanges {
 
   private focusAndSelect(idx: number) {
     this.select(this.tabs[idx].id);
-    Promise.resolve().then(() => this.tabButtons?.toArray()[idx]?.focus());
+    Promise.resolve().then(() =>
+      this.tabButtons?.toArray()[idx]?.nativeElement.focus()
+    );
   }
 }

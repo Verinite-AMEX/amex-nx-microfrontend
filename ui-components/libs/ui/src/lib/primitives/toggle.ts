@@ -1,11 +1,40 @@
 import { Component, Input, forwardRef, HostBinding } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
+/**
+ * STRUCTURAL REWRITE: DLS's real switch (switches.css) is NOT built on a
+ * hidden <input type="checkbox"> at all — it's the ARIA "switch" pattern:
+ * a plain element carrying role="switch" + an [aria-checked] attribute
+ * that DLS's CSS reads directly (`.switch[aria-checked=true]`,
+ * `.switch[disabled]`). There's no checkbox anywhere in DLS's design.
+ * Confirmed against dls.js's own Switch class too — it works purely by
+ * reading/writing aria-checked on a click target, no hidden input
+ * involved.
+ *
+ * DLS actually ships two equivalent class patterns for this — a two-
+ * element `.toggleSwitch` (outer) + `.toggleSwitchStyles` (inner track)
+ * pair, and a simpler single-element `.switch` with the exact same visual
+ * rules applied directly. This version uses the single-element `.switch`
+ * pattern — no reason to add a wrapper element DLS doesn't require.
+ *
+ * A native <button role="switch"> is used as the interactive element
+ * rather than a <div> with manual keydown handling: real <button>
+ * elements already fire `click` on both Enter and Space natively, which
+ * is exactly what dls.js's own Switch class listens for (`onclick`) — so
+ * no custom keyboard handler is needed at all, unlike the old version's
+ * manual Space-key listener on a hidden checkbox.
+ *
+ * DLS's CSS also references `.switchHandle` in one disabled-state
+ * selector (`.toggleSwitch[disabled] .switchHandle`), but never defines a
+ * base `.switchHandle` rule anywhere in switches.css — looks like dead/
+ * vestigial CSS from an older markup version, not something this
+ * implementation needs to reproduce.
+ */
 @Component({
   selector: 'ui-toggle',
   standalone: true,
-  imports: [NgIf],
+  imports: [CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -14,72 +43,43 @@ import { NgIf } from '@angular/common';
     },
   ],
   template: `
-    <label class="toggle-label" [class.disabled]="disabled">
-      <input
-        type="checkbox"
-        class="toggle-input"
-        [checked]="checked"
-        [disabled]="disabled"
-        [required]="required"
+    <span class="toggle-wrap">
+      <button
+        type="button"
+        role="switch"
+        class="switch"
+        [attr.id]="id"
         [attr.aria-checked]="checked"
-        [attr.aria-label]="ariaLabel || label"
-        [attr.aria-describedby]="ariaDescribedBy"
-        [attr.aria-invalid]="ariaInvalid"
-        [attr.aria-required]="required"
-        (change)="onToggle($event)"
+        [disabled]="disabled"
+        [attr.aria-label]="ariaLabel || (label ? null : 'Toggle')"
+        [attr.aria-labelledby]="label ? id + '-label' : null"
+        [attr.aria-describedby]="ariaDescribedBy || null"
+        [attr.aria-invalid]="ariaInvalid || null"
+        [attr.aria-required]="required || null"
+        (click)="toggle()"
         (blur)="onTouched()"
-        (keydown)="onKeydown($event)"
-      />
-      <span class="toggle-track" aria-hidden="true">
-        <span class="toggle-thumb"></span>
-      </span>
-      <span *ngIf="label" class="toggle-text">{{ label }}</span>
-    </label>
+      ></button>
+      <label
+        *ngIf="label"
+        [id]="id + '-label'"
+        [attr.for]="id"
+        class="toggle-text"
+        >{{ label }}</label
+      >
+    </span>
   `,
   styles: [
+    // Layout-only glue for placing the label text next to the switch —
+    // not part of DLS's switch identity, which is purely the button
+    // itself.
     `
-      .toggle-label {
+      .toggle-wrap {
         display: inline-flex;
         align-items: center;
-        gap: 8px;
+        gap: 0.5rem;
+      }
+      .toggle-text {
         cursor: pointer;
-        user-select: none;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        color: #333;
-      }
-      .toggle-input {
-        display: none;
-      }
-      .toggle-track {
-        width: 40px;
-        height: 22px;
-        border-radius: 999px;
-        background: #e0e0e0;
-        position: relative;
-        transition: background 0.2s;
-        flex-shrink: 0;
-      }
-      .toggle-thumb {
-        position: absolute;
-        top: 3px;
-        left: 3px;
-        width: 16px;
-        height: 16px;
-        border-radius: 50%;
-        background: #fff;
-        transition: transform 0.2s;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
-      }
-      .toggle-input:checked ~ .toggle-track {
-        background: #1976d2;
-      }
-      .toggle-input:checked ~ .toggle-track .toggle-thumb {
-        transform: translateX(18px);
-      }
-      .disabled {
-        cursor: not-allowed;
-        opacity: 0.6;
       }
     `,
   ],
@@ -96,20 +96,22 @@ export class ToggleComponent implements ControlValueAccessor {
   @Input() ariaInvalid = false;
   @Input() required = false;
 
-  onKeydown(event: KeyboardEvent) {
-    if (event.key === ' ') {
-      event.preventDefault();
-      this.checked = !this.checked;
-      this.onChange(this.checked);
-    }
-  }
-
-  checked = false;
+  /**
+   * Pre-existing bug fix: this was a plain internal property, not an
+   * @Input — so `[checked]="true"` from an outside template (as the old
+   * "On" story tried to do) could never actually bind to it; Angular
+   * doesn't allow external template bindings to non-@Input properties on
+   * a component. Now a real @Input, while still fully compatible with
+   * ControlValueAccessor's writeValue() for reactive-forms usage — both
+   * paths write to the same field.
+   */
+  @Input() checked = false;
   onChange = (_: boolean) => {};
   onTouched = () => {};
 
-  onToggle(e: Event) {
-    this.checked = (e.target as HTMLInputElement).checked;
+  toggle() {
+    if (this.disabled) return;
+    this.checked = !this.checked;
     this.onChange(this.checked);
   }
 

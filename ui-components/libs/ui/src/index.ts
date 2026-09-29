@@ -43,6 +43,8 @@ export * from './lib/composite/amex/currency-logic/account-number';
 export * from './lib/composite/amex/currency-logic/points-display';
 export * from './lib/composite/amex/currency-logic/amount';
 export * from './lib/composite/amex/currency-logic/reference-id';
+export * from './lib/composite/amex/currency-logic/alert-badge';
+export * from './lib/composite/amex/currency-logic/outline-badge';
 
 export * from './lib/composite/amex/statement-row';
 export * from './lib/composite/amex/card-tile';

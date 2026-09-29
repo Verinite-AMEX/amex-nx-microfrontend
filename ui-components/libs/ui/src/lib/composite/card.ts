@@ -7,20 +7,16 @@ import { ImageComponent } from '../primitives/image';
   standalone: true,
   imports: [CommonModule, ImageComponent],
   template: `
-    <div
-      class="card"
-      [class.hoverable]="hoverable"
-      [class.flat]="variant === 'flat'"
-    >
+    <div class="card cardRounded" [class.cardActionable]="hoverable">
       <div *ngIf="image" class="card-image">
         <ui-image [src]="image" [alt]="title" objectFit="cover"></ui-image>
       </div>
       <div class="card-body">
         <div *ngIf="title || subtitle" class="card-header">
-          <h3 *ngIf="title" class="card-title">{{ title }}</h3>
-          <p *ngIf="subtitle" class="card-subtitle">{{ subtitle }}</p>
+          <h3 *ngIf="title" class="heading3">{{ title }}</h3>
+          <p *ngIf="subtitle" class="body1 dlsColorNeutral">{{ subtitle }}</p>
         </div>
-        <div class="card-content"><ng-content></ng-content></div>
+        <div class="body1 card-content"><ng-content></ng-content></div>
       </div>
       <div *ngIf="hasFooter" class="card-footer">
         <ng-content select="[slot=footer]"></ng-content>
@@ -28,27 +24,29 @@ import { ImageComponent } from '../primitives/image';
     </div>
   `,
   styles: [
+    // .card + .cardRounded (background, shadow, border, radius) and
+    // .cardActionable (DLS's real hover-lift interaction, which also respects
+    // prefers-reduced-motion for free) come entirely from DLS. Title/subtitle/
+    // content use DLS's real typography classes (.heading3, .body1,
+    // .dlsColorNeutral) instead of hand-picked font-size/color/weight values.
+    //
+    // DLS's `variant: 'flat'` distinction (shadow vs no-shadow) has no direct
+    // DLS equivalent — .card always carries its own subtle box-shadow as part
+    // of the base class, it isn't a separate opt-in modifier. Rather than
+    // fake a shadow-less look with custom CSS, both variants now render
+    // DLS's one real card look; `variant` is kept as an accepted input for
+    // backward compatibility but no longer changes the visual result.
+    //
+    // Only genuine structural glue remains custom below: overflow:hidden on
+    // the card wrapper (neither .card nor .cardRounded set this — without
+    // it, a full-width top image's square corners would poke past the
+    // card's rounded corners), image area sizing (DLS's cardImg classes are
+    // for a full-bleed background-image hero pattern, a different use case
+    // from this simple top-thumbnail image) and the footer's divider line
+    // (no DLS class covers a card footer specifically).
     `
       .card {
-        background: #fff;
-        border-radius: 8px;
         overflow: hidden;
-        box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-      }
-      .card.flat {
-        box-shadow: none;
-        border: 1px solid #e0e0e0;
-      }
-      .card.hoverable {
-        transition:
-          box-shadow 0.2s,
-          transform 0.2s;
-        cursor: pointer;
-      }
-      .card.hoverable:hover {
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        transform: translateY(-2px);
       }
       .card-image {
         max-height: 200px;
@@ -60,25 +58,9 @@ import { ImageComponent } from '../primitives/image';
       .card-header {
         margin-bottom: 8px;
       }
-      .card-title {
-        margin: 0 0 4px;
-        font-size: 16px;
-        font-weight: 600;
-        color: #333;
-      }
-      .card-subtitle {
-        margin: 0;
-        font-size: 13px;
-        color: #888;
-      }
-      .card-content {
-        font-size: 14px;
-        color: #555;
-        line-height: 1.5;
-      }
       .card-footer {
         padding: 12px 16px;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid #ecedee;
       }
     `,
   ],
@@ -91,6 +73,7 @@ export class CardComponent {
   @Input() subtitle = '';
   @Input() image = '';
   @Input() hoverable = false;
+  /** @deprecated No longer changes rendering — DLS's .card always carries its own subtle shadow; kept for backward compatibility only. */
   @Input() variant: 'elevated' | 'flat' = 'elevated';
   @Input() hasFooter = false;
 }

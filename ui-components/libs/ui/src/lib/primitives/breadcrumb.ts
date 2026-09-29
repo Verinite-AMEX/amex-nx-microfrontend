@@ -12,59 +12,22 @@ export interface BreadcrumbItem {
   imports: [CommonModule],
   template: `
     <nav aria-label="Breadcrumb">
-      <ol class="breadcrumb">
+      <ol class="breadcrumb" [class.nonInteractive]="!interactive">
         <li
           *ngFor="let item of items; let last = last"
-          class="breadcrumb-item"
-          [class.active]="last"
+          [attr.aria-current]="last ? 'page' : null"
         >
-          <a
-            *ngIf="item.href && !last"
-            [href]="item.href"
-            class="breadcrumb-link"
-            >{{ item.label }}</a
-          >
-          <span *ngIf="!item.href || last">{{ item.label }}</span>
-          <span *ngIf="!last" class="breadcrumb-sep">{{ separator }}</span>
+          @if (item.href && !last) {
+            <a [href]="item.href" class="linkUnderlined breadcrumbItem">
+              <span>{{ item.label }}</span>
+            </a>
+          } @else {
+            <span class="breadcrumbItem">{{ item.label }}</span>
+          }
         </li>
       </ol>
     </nav>
   `,
-  styles: [
-    `
-      .breadcrumb {
-        display: flex;
-        flex-wrap: wrap;
-        list-style: none;
-        padding: 0;
-        margin: 0;
-        gap: 4px;
-        align-items: center;
-      }
-      .breadcrumb-item {
-        display: flex;
-        align-items: center;
-        gap: 4px;
-        font-size: 14px;
-        font-family: Arial, sans-serif;
-        color: #666;
-      }
-      .breadcrumb-item.active {
-        color: #333;
-        font-weight: 600;
-      }
-      .breadcrumb-link {
-        color: #1976d2;
-        text-decoration: none;
-      }
-      .breadcrumb-link:hover {
-        text-decoration: underline;
-      }
-      .breadcrumb-sep {
-        color: #bbb;
-      }
-    `,
-  ],
 })
 export class BreadcrumbComponent {
   private static _idCounter = 0;
@@ -72,5 +35,7 @@ export class BreadcrumbComponent {
     `ui-breadcrumb-${++BreadcrumbComponent._idCounter}`;
 
   @Input() items: BreadcrumbItem[] = [];
-  @Input() separator = '/';
+
+  /** Set false to render DLS's real `.nonInteractive` variant — a plain trail with no links at all. */
+  @Input() interactive = true;
 }

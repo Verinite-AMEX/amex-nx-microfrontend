@@ -16,6 +16,25 @@ export interface AmexAutocompleteSuggestion {
   extra?: string;
 }
 
+/**
+ * The suggestion dropdown now uses DLS's real search-results classes from
+ * search.css: .searchResults (the listbox), .searchResultsItem (each row),
+ * .searchResultsItemLink + .textTruncate (the label text). All hand-rolled
+ * `.ac-suggestions`/`.ac-suggestion` CSS is removed.
+ *
+ * ONE NECESSARY LOCAL OVERRIDE, clearly scoped: the keyboard-active item
+ * needs the same highlight DLS gives on real :hover/:focus
+ * (background-color: #f7f8f9 per search.css), but this component uses the
+ * aria-activedescendant pattern — DOM focus deliberately stays on the
+ * <input> so screen readers announce the field correctly, meaning the
+ * browser's own :focus pseudo-class can never apply to the option itself.
+ * `.acActive` below reproduces DLS's own #f7f8f9 value exactly; it doesn't
+ * invent a new color.
+ *
+ * ui-input's own .formControl / .formControlWarning styling (from the
+ * Inputs upgrade) is inherited automatically since this component already
+ * uses <ui-input> internally — no separate input styling needed here.
+ */
 @Component({
   selector: 'amex-autocomplete-input',
   standalone: true,
@@ -44,24 +63,26 @@ export interface AmexAutocompleteSuggestion {
               (keydown)="onKeydown($event)"
             >
             </ui-input>
-            <div
-              class="ac-suggestions"
+            <ul
+              class="searchResults"
               *ngIf="filtered.length > 0 && showSuggestions"
               [id]="id + '-listbox'"
               role="listbox"
             >
-              <div
-                class="ac-suggestion"
+              <li
+                class="searchResultsItem"
+                [class.acActive]="i === activeIndex"
                 *ngFor="let s of filtered; let i = index"
                 [id]="id + '-option-' + i"
                 role="option"
                 [attr.aria-selected]="i === activeIndex"
-                [class.active]="i === activeIndex"
                 (mousedown)="onSelect(s)"
               >
-                {{ s.label }}
-              </div>
-            </div>
+                <span class="searchResultsItemLink textTruncate">{{
+                  s.label
+                }}</span>
+              </li>
+            </ul>
           </div>
         </ui-form-field>
 
@@ -99,56 +120,29 @@ export interface AmexAutocompleteSuggestion {
   `,
   styles: [
     `
-      :host {
-        display: block;
-        font-family: Arial, sans-serif;
-        --input-border: 1px solid #bbb;
-        --input-radius: 2px;
-        --input-padding: 4px 8px;
-      }
-
+      /* Layout-only glue — no DLS equivalent needed for a horizontal
+         field row; not part of any component's visual identity. */
       .ac-wrap {
         padding: 8px 0;
       }
-
       .ac-row {
         display: flex;
         align-items: flex-start;
         gap: 12px;
         flex-wrap: wrap;
       }
-
       .ac-field {
         width: 180px;
       }
-
       .ac-input-wrap {
         position: relative;
       }
 
-      .ac-suggestions {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 200px;
-        background: #fff;
-        border: 1px solid #bbb;
-        border-top: none;
-        z-index: 100;
-        max-height: 160px;
-        overflow-y: auto;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
-      }
-
-      .ac-suggestion {
-        padding: 6px 10px;
-        font-size: 12px;
-        color: #333;
-        cursor: pointer;
-      }
-      .ac-suggestion:hover,
-      .ac-suggestion.active {
-        background: #e8f0f8;
+      /* See class-level comment: reproduces DLS's own #f7f8f9
+         hover/focus color from search.css for the keyboard-active item,
+         since real :focus can't land on this element. */
+      .acActive {
+        background-color: #f7f8f9;
       }
     `,
   ],

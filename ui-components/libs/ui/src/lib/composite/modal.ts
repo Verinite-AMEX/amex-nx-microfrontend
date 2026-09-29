@@ -18,102 +18,126 @@ import { IconButtonComponent } from '../primitives/icon-button';
   standalone: true,
   imports: [CommonModule, IconButtonComponent],
   template: `
-    <div
-      *ngIf="open"
-      class="modal-backdrop"
-      (click)="onBackdropClick($event)"
-      role="presentation"
-    >
+    <div *ngIf="open" class="modal" role="presentation">
       <div
-        #dialog
-        class="modal modal-{{ size }}"
-        role="dialog"
-        aria-modal="true"
-        tabindex="-1"
-        [attr.aria-label]="ariaLabel || title"
-        [attr.aria-describedby]="ariaDescribedBy"
+        class="modalScreen"
+        (click)="onBackdropClick($event)"
       >
-        <div class="modal-header">
-          <h2 class="modal-title" id="modal-title-{{ uniqueId }}">
-            {{ title }}
-          </h2>
-          <ui-icon-button
-            icon="✕"
-            variant="ghost"
-            size="sm"
-            ariaLabel="Close modal"
-            [ariaDescribedBy]="title ? 'modal-title-' + uniqueId : ''"
-            (clicked)="closed.emit()"
-          >
-          </ui-icon-button>
-        </div>
         <div
-          class="modal-body"
-          [attr.aria-labelledby]="title ? 'modal-title-' + uniqueId : null"
+          #dialog
+          class="card cardRounded ui-modal-dialog ui-modal-dialog--{{ size }}"
+          role="dialog"
+          aria-modal="true"
+          tabindex="-1"
+          [attr.aria-label]="ariaLabel || title"
+          [attr.aria-describedby]="ariaDescribedBy"
         >
-          <ng-content></ng-content>
-        </div>
-        <div *ngIf="hasFooter" class="modal-footer">
-          <ng-content select="[slot=footer]"></ng-content>
+          <header class="ui-modal-header">
+            <h2 class="heading3 ui-modal-title" id="modal-title-{{ uniqueId }}">
+              {{ title }}
+            </h2>
+            <ui-icon-button
+              icon="✕"
+              variant="ghost"
+              size="sm"
+              ariaLabel="Close modal"
+              [ariaDescribedBy]="title ? 'modal-title-' + uniqueId : ''"
+              (clicked)="closed.emit()"
+            >
+            </ui-icon-button>
+          </header>
+          <div
+            class="body1 ui-modal-body"
+            [attr.aria-labelledby]="title ? 'modal-title-' + uniqueId : null"
+          >
+            <ng-content></ng-content>
+          </div>
+          <div *ngIf="hasFooter" class="ui-modal-footer">
+            <ng-content select="[slot=footer]"></ng-content>
+          </div>
         </div>
       </div>
     </div>
   `,
   styles: [
+    // .modal (full-viewport fixed wrapper) and .modalScreen (dark backdrop +
+    // centering) are DLS's real classes from modal.css — note DLS's naming
+    // is inverted from what you'd expect: .modal is NOT the visible box,
+    // it's the outer positioning layer; .modalScreen carries the dark tint.
+    //
+    // The dialog box itself has no dedicated DLS class — DLS styles
+    // div[role=dialog] directly and expects its visual look (background,
+    // shadow, radius) to come from .card/.cardRounded, the same real classes
+    // used everywhere else in this project. Also picks up DLS's real focus
+    // style for free: .modal div[role=dialog]:focus gets a white dashed
+    // outline (designed for the dark backdrop) — the previous version had no
+    // visible focus indicator on the dialog root at all when focus-trapping
+    // activated.
+    //
+    // Header padding (5px 5px 5px 20px, asymmetric to make room for the
+    // close button) is DLS's real value from ".modal header". DLS's own
+    // ".modal header button::before" close-icon glyph relies on an icon-font
+    // pseudo-element — given we've already found other icon-font/pseudo-
+    // element rules missing from this compiled bundle (collapsibleCaret),
+    // kept the existing ui-icon-button here instead of gambling on it, since
+    // it already provides a robust, properly-labeled close control.
+    //
+    // Title now uses DLS's real .heading3 (600 weight) instead of a
+    // hand-picked 18px/600/#333, and the body wrapper uses .body1 so
+    // projected content inherits DLS's real typography by default.
+    //
+    // Deliberately KEPT custom, not forced into DLS's exact spec:
+    // - Pinned header/footer with only the body scrolling (DLS's own spec
+    //   scrolls the whole dialog together) — this preserves existing
+    //   behavior, which is arguably better UX for modals with footer
+    //   actions. Flag if you'd rather match DLS's simpler behavior exactly.
+    // - sm/md/lg width tiers — DLS's real dialog has no width-tier system at
+    //   all, just a single max-height rule, so there's nothing to call here.
+    // - Backdrop tint now uses DLS's real rgba(0,0,0,.4) via .modalScreen
+    //   (was a custom .45 before — effectively unnoticeable difference, now
+    //   sourced from DLS instead of invented).
     `
-      .modal-backdrop {
-        position: fixed;
-        inset: 0;
-        background: rgba(0, 0, 0, 0.45);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 1000;
-        padding: 16px;
-      }
-      .modal {
-        background: #fff;
-        border-radius: 8px;
+      .ui-modal-dialog {
+        /* DLS's real .card class sets height:100% (correct for a regular
+           card sitting in a sized grid cell, wrong here) - since modalScreen
+           has a definite height (100% of the fixed full-viewport backdrop),
+           that 100% resolves to the ENTIRE screen height, stretching the
+           dialog box far past its actual content and pushing the footer to
+           the bottom with a large empty gap. Overriding back to auto so the
+           dialog sizes to its own content instead. */
+        height: auto;
         width: 100%;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        font-family: Arial, sans-serif;
         max-height: 90vh;
         display: flex;
         flex-direction: column;
+        margin: 16px;
       }
-      .modal-sm {
+      .ui-modal-dialog--sm {
         max-width: 400px;
       }
-      .modal-md {
+      .ui-modal-dialog--md {
         max-width: 560px;
       }
-      .modal-lg {
+      .ui-modal-dialog--lg {
         max-width: 800px;
       }
-      .modal-header {
+      .ui-modal-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 16px 20px;
-        border-bottom: 1px solid #f0f0f0;
+        border-bottom: 1px solid #ecedee;
       }
-      .modal-title {
+      .ui-modal-title {
         margin: 0;
-        font-size: 18px;
-        font-weight: 600;
-        color: #333;
       }
-      .modal-body {
+      .ui-modal-body {
         padding: 20px;
         overflow-y: auto;
         flex: 1;
-        font-size: 14px;
-        color: #555;
-        line-height: 1.6;
       }
-      .modal-footer {
+      .ui-modal-footer {
         padding: 12px 20px;
-        border-top: 1px solid #f0f0f0;
+        border-top: 1px solid #ecedee;
         display: flex;
         justify-content: flex-end;
         gap: 8px;
@@ -166,7 +190,7 @@ export class ModalComponent implements OnChanges, OnDestroy {
   onBackdropClick(e: MouseEvent) {
     if (
       this.closeOnBackdrop &&
-      (e.target as HTMLElement).classList.contains('modal-backdrop')
+      (e.target as HTMLElement).classList.contains('modalScreen')
     ) {
       this.closeInternal();
     }

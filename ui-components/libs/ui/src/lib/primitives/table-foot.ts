@@ -1,12 +1,17 @@
+// table-foot.ts
 import { Component, Input, HostBinding } from '@angular/core';
 
 @Component({
   selector: 'ui-table-foot',
   standalone: true,
-  template: `<tfoot [id]="id">
-    <ng-content></ng-content>
-  </tfoot>`,
-  styles: [``],
+  template: `<tfoot [id]="id"><ng-content></ng-content></tfoot>`,
+  styles: [
+    `
+      :host {
+        display: contents;
+      }
+    `,
+  ],
 })
 export class TableFootComponent {
   private static _idCounter = 0;

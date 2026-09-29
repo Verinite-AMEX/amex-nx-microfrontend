@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/progress-bar.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { ProgressBarComponent } from '../../primitives/progress-bar';
 
@@ -14,27 +15,28 @@ const meta: Meta<ProgressBarComponent> = {
   ],
   argTypes: {
     value: { control: { type: 'range', min: 0, max: 100 } },
-    variant: {
-      control: 'select',
-      options: ['primary', 'success', 'warning', 'error'],
-    },
-    height: { control: 'number' },
-
+    max: { control: 'number' },
     label: { control: 'text' },
-    showValue: { control: 'boolean' },
     indeterminate: { control: 'boolean' },
+    ariaLabel: { control: 'text' },
   },
 };
 export default meta;
 type Story = StoryObj<ProgressBarComponent>;
 
 export const Default: Story = {
-  args: { value: 60, label: 'Upload progress', showValue: true },
+  args: { value: 60, label: 'Upload progress' },
 };
-export const Success: Story = {
-  args: { value: 100, variant: 'success', label: 'Complete', showValue: true },
+
+export const Complete: Story = {
+  args: { value: 100, label: 'Complete' },
 };
+
 export const Indeterminate: Story = {
-  args: { indeterminate: true, label: 'Loading...' },
+  args: { indeterminate: true, ariaLabel: 'Loading' },
 };
-export const Thin: Story = { args: { value: 45, height: 4 } };
+
+export const CustomMax: Story = {
+  name: 'Custom max value',
+  args: { value: 6500, max: 20000, ariaLabel: 'Miles 6500 from 20000' },
+};

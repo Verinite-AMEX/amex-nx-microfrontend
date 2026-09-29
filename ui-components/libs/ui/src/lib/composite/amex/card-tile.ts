@@ -37,8 +37,8 @@ export interface AmexCardInfo {
   ],
   template: `
     <div
-      class="amex-card-tile"
-      [class.amex-card-tile--selectable]="selectable"
+      class="amex-card-tile cardRounded"
+      [class.cardActionable]="selectable"
       (click)="onSelect()"
     >
       <div class="amex-card-tile__header">
@@ -54,7 +54,7 @@ export interface AmexCardInfo {
       </div>
 
       <div class="amex-card-tile__footer">
-        <div class="amex-card-tile__name">{{ card.cardholderName }}</div>
+        <div class="label1 dlsWhite amex-card-tile__name">{{ card.cardholderName }}</div>
         <div *ngIf="card.expiryDate" class="amex-card-tile__expiry">
           <span class="amex-card-tile__expiry-label">VALID THRU</span>
           {{ card.expiryDate }}
@@ -76,26 +76,45 @@ export interface AmexCardInfo {
     </div>
   `,
   styles: [
+    // Checked all of DLS's card-family CSS (card.css, dlsCard.css,
+    // dlsCardField.css, dlsCardTilt.css) before writing this.
+    //
+    // dlsCardField/dlsCardTilt are a DIFFERENT feature entirely — an
+    // interactive 3D-tilt, flip-to-reveal-CVV card-art preview that requires
+    // an actual card-art image as a background. Wrong match for this
+    // component (a compact dashboard/list info tile), so not used here
+    // despite the similar naming.
+    //
+    // dlsCard/dlsCardXl etc. give a real credit-card aspect ratio, but at a
+    // FIXED height designed for simple card-art thumbnails — this tile has
+    // a header, number, name, expiry, and optional metadata rows, so a fixed
+    // height risks clipping content. Kept the flexible custom sizing rather
+    // than risk breaking existing layouts; `.cardRounded` still supplies a
+    // real DLS border/radius on top of it.
+    //
+    // `.cardActionable` (DLS's real hover-lift, respects
+    // prefers-reduced-motion for free) replaces the custom hover
+    // transform/shadow for the selectable state.
+    //
+    // Cardholder name now uses DLS's real `.label1` (bold, uppercase, correct
+    // letter-spacing/size) combined with DLS's real `.dlsWhite` color
+    // utility, instead of hand-picked font-size/weight/letter-spacing/color —
+    // dlsWhite exists specifically for text on dark surfaces like this one.
+    //
+    // The dark gradient card face itself, and the two very small (9-10px)
+    // expiry-label/meta text sizes, have no DLS equivalent at all — DLS's
+    // smallest type scale (.label1) is 13px, and there's no "branded card
+    // face background" class since that's meant to be an actual card-art
+    // image in DLS's real card components. Kept as custom, no invented
+    // colors beyond what was already a deliberate brand choice.
     `
       .amex-card-tile {
         background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-        border-radius: 12px;
         padding: 16px 20px;
         min-width: 280px;
         max-width: 320px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.18);
         color: #fff;
         position: relative;
-        transition:
-          transform 0.15s,
-          box-shadow 0.15s;
-      }
-      .amex-card-tile--selectable {
-        cursor: pointer;
-      }
-      .amex-card-tile--selectable:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
       }
       .amex-card-tile__header {
         display: flex;
@@ -110,12 +129,6 @@ export interface AmexCardInfo {
         display: flex;
         justify-content: space-between;
         align-items: flex-end;
-      }
-      .amex-card-tile__name {
-        font-size: 13px;
-        font-weight: 600;
-        letter-spacing: 0.08em;
-        text-transform: uppercase;
       }
       .amex-card-tile__expiry {
         text-align: right;

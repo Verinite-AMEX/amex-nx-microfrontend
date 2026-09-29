@@ -1,3 +1,4 @@
+// libs/ui/src/lib/stories/primitives/alert.stories.ts
 import type { Meta, StoryObj } from '@storybook/angular';
 import { AlertComponent } from '../../primitives/alert';
 
@@ -15,40 +16,61 @@ const meta: Meta<AlertComponent> = {
   argTypes: {
     variant: {
       control: 'select',
-      options: ['info', 'success', 'warning', 'error'],
+      options: ['neutral', 'positive', 'warn'],
     },
+    title: { control: 'text' },
     message: { control: 'text' },
     dismissible: { control: 'boolean' },
+    dialog: { control: 'boolean' },
+    dismissed: { action: 'dismissed' },
   },
 };
 export default meta;
 type Story = StoryObj<AlertComponent>;
 
-export const Info: Story = {
+export const Neutral: Story = {
   args: {
-    variant: 'info',
-    title: 'Heads up',
-    message: 'This is an informational message.',
+    variant: 'neutral',
+    message: 'This is a neutral alert message.',
   },
 };
-export const Success: Story = {
+
+export const Positive: Story = {
   args: {
-    variant: 'success',
-    title: 'Done!',
-    message: 'Your changes have been saved.',
+    variant: 'positive',
+    message: 'This is a positive alert message.',
   },
 };
-export const Warning: Story = {
+
+export const Warn: Story = {
   args: {
-    variant: 'warning',
-    message: 'Your session will expire in 5 minutes.',
+    variant: 'warn',
+    message: 'This is a warning alert message.',
   },
 };
-export const Error: Story = {
+
+export const Dismissible: Story = {
   args: {
-    variant: 'error',
-    title: 'Error',
-    message: 'Something went wrong. Please try again.',
+    variant: 'neutral',
+    message: 'This alert can be dismissed.',
     dismissible: true,
+  },
+};
+
+export const WithTitle: Story = {
+  args: {
+    variant: 'warn',
+    title: 'Heads up',
+    message: 'Your session will expire in 5 minutes.',
+    dismissible: true,
+  },
+};
+
+export const Dialog: Story = {
+  name: 'Alert Dialog',
+  args: {
+    variant: 'neutral',
+    dialog: true,
+    message: 'This variant renders as a centered, block-level dialog alert.',
   },
 };

@@ -12,7 +12,9 @@ const meta: Meta<BreadcrumbComponent> = {
     'screen-reader',
     'keyboard-navigation',
   ],
-  argTypes: { separator: { control: 'text' } },
+  argTypes: {
+    interactive: { control: 'boolean' },
+  },
 };
 export default meta;
 type Story = StoryObj<BreadcrumbComponent>;
@@ -21,18 +23,47 @@ export const Default: Story = {
   args: {
     items: [
       { label: 'Home', href: '/' },
-      { label: 'Products', href: '/products' },
-      { label: 'Shoes' },
+      { label: 'Library', href: '/library' },
+      { label: 'Data' },
     ],
   },
 };
-export const ChevronSeparator: Story = {
+
+export const SingleCrumb: Story = {
   args: {
-    separator: '>',
+    items: [{ label: 'Home' }],
+  },
+};
+
+export const LongBreadcrumbMobile: Story = {
+  parameters: {
+    layout: 'padded',
+  },
+  args: {
     items: [
-      { label: 'Dashboard', href: '/' },
-      { label: 'Settings', href: '/settings' },
-      { label: 'Profile' },
+      { label: 'Breadcrumb 1', href: '/1' },
+      { label: 'Breadcrumb 2', href: '/2' },
+      { label: 'Breadcrumb 3', href: '/3' },
+      { label: 'Breadcrumb 4' },
+    ],
+  },
+  decorators: [
+    (story) => ({
+      ...story(),
+      template: `<div style="max-width: 400px;">${
+        story().template ?? ''
+      }</div>`,
+    }),
+  ],
+};
+
+export const NonInteractive: Story = {
+  args: {
+    interactive: false,
+    items: [
+      { label: 'Home', href: '/' },
+      { label: 'Library', href: '/library' },
+      { label: 'Data' },
     ],
   },
 };

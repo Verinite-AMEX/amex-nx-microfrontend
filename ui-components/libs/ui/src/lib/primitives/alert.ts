@@ -1,3 +1,4 @@
+// libs/ui/src/lib/primitives/alert.ts
 import {
   Component,
   Input,
@@ -7,11 +8,12 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-const ICONS: Record<string, string> = {
-  info: 'ℹ',
-  success: '✓',
-  warning: '⚠',
-  error: '✕',
+export type AlertVariant = 'neutral' | 'positive' | 'warn';
+
+const ICON_CLASS_BY_VARIANT: Record<AlertVariant, string> = {
+  neutral: 'dlsIconInfo',
+  positive: 'dlsIconSuccess',
+  warn: 'dlsIconWarning',
 };
 
 @Component({
@@ -19,101 +21,61 @@ const ICONS: Record<string, string> = {
   standalone: true,
   imports: [CommonModule],
   template: `
-    <div *ngIf="visible" class="alert alert-{{ variant }}" role="alert">
-      <span class="alert-icon">{{ icon }}</span>
-      <div class="alert-body">
-        <strong *ngIf="title" class="alert-title">{{ title }}</strong>
-        <span class="alert-message">{{ message }}</span>
-      </div>
+    <div
+      *ngIf="visible"
+      class="alert"
+      [class.alertNeutral]="variant === 'neutral'"
+      [class.alertPositive]="variant === 'positive'"
+      [class.alertWarn]="variant === 'warn'"
+      [class.alertDismissible]="!dialog"
+      [class.alertDialog]="dialog"
+      [class.animFade]="!dialog"
+      [class.in]="!dialog && !closing"
+      role="alert"
+    >
+      <i class="icon" [class]="iconClass" aria-hidden="true"></i>
+      <span>
+        <strong *ngIf="title">{{ title }} </strong>{{ message }}
+      </span>
       <button
-        *ngIf="dismissible"
-        class="alert-close"
+        *ngIf="dismissible && !dialog"
+        type="button"
+        class="glyph glyphLg"
+        aria-label="Close"
         (click)="dismiss()"
-        aria-label="Dismiss"
       >
-        ✕
+        <i class="glyph glyphLg dlsIconClose"></i>
       </button>
     </div>
   `,
-  styles: [
-    `
-      .alert {
-        display: flex;
-        align-items: flex-start;
-        gap: 10px;
-        padding: 12px 16px;
-        border-radius: 6px;
-        font-family: Arial, sans-serif;
-        font-size: 14px;
-        border-left: 4px solid transparent;
-      }
-      .alert-info {
-        background: #e3f2fd;
-        border-color: #1976d2;
-        color: #0d47a1;
-      }
-      .alert-success {
-        background: #e8f5e9;
-        border-color: #4caf50;
-        color: #1b5e20;
-      }
-      .alert-warning {
-        background: #fff3e0;
-        border-color: #ff9800;
-        color: #e65100;
-      }
-      .alert-error {
-        background: #ffebee;
-        border-color: #f44336;
-        color: #b71c1c;
-      }
-      .alert-icon {
-        font-size: 16px;
-        flex-shrink: 0;
-        margin-top: 1px;
-      }
-      .alert-body {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 2px;
-      }
-      .alert-title {
-        font-weight: 600;
-      }
-      .alert-close {
-        background: none;
-        border: none;
-        cursor: pointer;
-        font-size: 14px;
-        color: inherit;
-        opacity: 0.6;
-        padding: 0;
-        margin-left: auto;
-      }
-      .alert-close:hover {
-        opacity: 1;
-      }
-    `,
-  ],
 })
 export class AlertComponent {
   private static _idCounter = 0;
   @HostBinding('attr.id') readonly id =
     `ui-alert-${++AlertComponent._idCounter}`;
 
-  @Input() variant: 'info' | 'success' | 'warning' | 'error' = 'info';
+  @Input() variant: AlertVariant = 'neutral';
   @Input() title = '';
   @Input() message = '';
+  /** Controls only whether the close button renders. DLS's base padding/layout (`alertDismissible`) applies to every non-dialog alert regardless of this. */
   @Input() dismissible = false;
+  /** Maps to DLS's `.alertDialog` variant — block layout, centered, used inside modals. No close button in this mode. */
+  @Input() dialog = false;
+  @Output() dismissed = new EventEmitter<void>();
 
   visible = true;
+  closing = false;
 
-  get icon() {
-    return ICONS[this.variant];
+  get iconClass(): string {
+    return ICON_CLASS_BY_VARIANT[this.variant];
   }
 
-  dismiss() {
-    this.visible = false;
+  /** Mirrors DLS's own dismissible.js: fades out (removing `.in`), then removes the element after the transition. */
+  dismiss(): void {
+    this.closing = true;
+    setTimeout(() => {
+      this.visible = false;
+      this.dismissed.emit();
+    }, 150);
   }
 }

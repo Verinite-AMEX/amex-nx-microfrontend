@@ -11,11 +11,30 @@ import {
   NG_VALUE_ACCESSOR,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
+/**
+ * DLS's real input class is .formControl (forms.css) — not a hand-rolled
+ * .input class with CSS custom-property theming. Two real DLS validation
+ * states exist and are used here:
+ *   .formControlWarning -> used for BOTH "invalid" and "warning" — DLS has
+ *     no separate red "error" input state, only this single amber/orange
+ *     (#b42c01) one. The `invalid` input keeps its name for backward
+ *     compatibility but now maps to this real class.
+ *   .formControlSuccess -> a real positive-validation state (green check
+ *     icon) that didn't exist in the old version at all. Added as an
+ *     opt-in `success` input; defaults to false so nothing changes for
+ *     existing callers who don't pass it.
+ * `readonly` and `disabled` no longer need class bindings — DLS styles
+ * :disabled natively via the real [disabled] attribute already bound
+ * below. NOTE: DLS's forms.css has no distinct :read-only visual state at
+ * all — a readonly .formControl looks identical to a normal enabled one.
+ * That's a real DLS gap, not something to invent styling for here.
+ */
 @Component({
   selector: 'ui-input',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, CommonModule],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -33,9 +52,11 @@ import {
       [value]="value"
       [required]="required"
       [readonly]="readonly"
-      [class.invalid]="invalid"
-      [class.disabled]="disabled"
-      [class.readonly]="readonly"
+      [ngClass]="[
+        'formControl',
+        invalid ? 'formControlWarning' : '',
+        success && !invalid ? 'formControlSuccess' : '',
+      ]"
       [attr.aria-invalid]="invalid ? 'true' : null"
       [attr.aria-describedby]="ariaDescribedBy || null"
       [attr.aria-required]="required"
@@ -44,53 +65,8 @@ import {
       [attr.aria-labelledby]="ariaLabelledBy || null"
       (input)="onInput($event)"
       (blur)="onTouched()"
-      class="input"
     />
   `,
-  styles: [
-    `
-      .input {
-        padding: var(--input-padding, 8px 12px);
-        font-size: 14px;
-        font-family: Arial, sans-serif;
-        border: var(--input-border, 1px solid #e0e0e0);
-        border-radius: var(--input-radius, 4px);
-        outline: none;
-        transition: border-color 0.2s;
-        width: 100%;
-        box-sizing: border-box;
-        color: #333;
-        background: var(--input-bg, #fff);
-      }
-      .input:focus {
-        border-color: var(--input-focus-border-color, #1976d2);
-        box-shadow: var(
-          --input-focus-shadow,
-          0 0 0 2px rgba(25, 118, 210, 0.15)
-        );
-      }
-      .input.invalid {
-        border-color: #f44336;
-      }
-      .input.invalid:focus {
-        box-shadow: 0 0 0 2px rgba(244, 67, 54, 0.15);
-      }
-      .input.disabled {
-        background: #f5f5f5;
-        cursor: not-allowed;
-        color: #999;
-      }
-      .input.readonly {
-        background: #f5f5f5;
-        cursor: default;
-        color: #666;
-      }
-      .input.readonly:focus {
-        border-color: var(--input-border, #e0e0e0);
-        box-shadow: none;
-      }
-    `,
-  ],
 })
 export class InputComponent implements ControlValueAccessor {
   @Input() type:
@@ -107,6 +83,8 @@ export class InputComponent implements ControlValueAccessor {
   @Input() placeholder = '';
   @Input() disabled = false;
   @Input() invalid = false;
+  /** DLS's real .formControlSuccess state (green check icon). New — opt-in, defaults off. */
+  @Input() success = false;
   @Input() required = false;
   @Input() readonly = false;
   @Input() ariaLabel = '';
